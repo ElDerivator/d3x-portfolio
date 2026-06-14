@@ -549,3 +549,25 @@ summary[data-en]:hover { color: #0c7c78; }
 
 /* === Diagnóstico: pregunta en su propia línea === */
 .diag-q { display: block; }
+
+/* === Móvil (≤640px, P40 ~360px): desamontonar — apilar grids y dar aire === */
+@media (max-width: 640px) {
+  .section { padding: clamp(30px, 9vw, 44px) 18px; }
+  .hero { grid-template-columns: 1fr; gap: 22px; }
+  .hero-aside { max-width: 100%; }
+  .model-viewer { height: clamp(300px, 78vw, 400px); }
+  /* tarjetas: apilar para que respiren */
+  .credential-map { grid-template-columns: 1fr !important; }
+  .profile-snapshot { grid-template-columns: 1fr !important; gap: 10px; }
+  .hero-proof { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
+  .kpi-grid { grid-template-columns: 1fr 1fr !important; gap: 10px; }
+  .experience-summary { grid-template-columns: 1fr !important; }
+  /* arco de carrera: vertical, sin conectores horizontales */
+  .career-arc { grid-template-columns: 1fr !important; gap: 8px; }
+  .career-arc i { display: none !important; }
+  /* títulos que no desborden */
+  .hero h1 { font-size: clamp(2rem, 10vw, 2.6rem); }
+  .hero-role { font-size: .92rem; }
+  #game .game-disclosure > summary { flex-direction: column; align-items: flex-start; gap: 12px; }
+  #game .game-disclosure > summary strong { font-size: 1.35rem !important; }
+}
