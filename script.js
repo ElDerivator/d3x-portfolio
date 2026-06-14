@@ -159,7 +159,7 @@ function validateLeadForm() {
   const consent = getLeadField("consent")?.checked === true;
   const emailField = getLeadField("email");
 
-  if (!name) return "Agrega tu nombre para solicitar el diagnostico.";
+  if (!name) return "Agrega tu nombre para solicitar el diagnóstico.";
   if (!email || !emailField?.checkValidity()) return "Agrega un email valido.";
   if (!processProblem) return "Describe brevemente el problema de proceso.";
   if (!consent) return "Confirma el consentimiento antes de enviar.";
@@ -232,7 +232,7 @@ workspaceLeadForm?.addEventListener("submit", async (event) => {
       body: JSON.stringify(buildWorkspaceLeadPayload()),
     });
     workspaceLeadForm.reset();
-    setLeadFormStatus("Solicitud recibida. Revisaremos tu diagnostico antes de cualquier accion externa.", "is-ok");
+    setLeadFormStatus("Solicitud recibida. Revisaremos tu diagnóstico antes de cualquier accion externa.", "is-ok");
   } catch (error) {
     setLeadFormStatus("No se pudo enviar. Puedes escribir a administracion@d3x.biz.", "is-error");
   } finally {
@@ -295,7 +295,7 @@ const game = {
 
 const signals = [
   {
-    type: "Automatizacion",
+    type: "Automatización",
     title: "El reporte semanal se copia a mano cada lunes",
     description: "La misma hoja, el mismo mensaje y los mismos destinatarios se repiten cada semana.",
     answer: "automate",
@@ -310,7 +310,7 @@ const signals = [
   },
   {
     type: "Escalacion",
-    title: "Un caso tecnico falla despues del diagnostico estandar",
+    title: "Un caso técnico falla después del diagnóstico estandar",
     description: "El procedimiento normal ya se completo, pero la causa sigue sin estar clara.",
     answer: "escalate",
     success: "Correcto. Los casos complejos necesitan una escalacion controlada.",
@@ -318,23 +318,23 @@ const signals = [
   {
     type: "Dashboard",
     title: "El equipo pide visibilidad diaria de nivel de servicio",
-    description: "La metrica se revisa seguido y debe ser facil de escanear.",
+    description: "La métrica se revisa seguido y debe ser facil de escanear.",
     answer: "dashboard",
-    success: "Exacto. Las metricas recurrentes deben estar visibles, no escondidas en archivos.",
+    success: "Exacto. Las métricas recurrentes deben estar visibles, no escondidas en archivos.",
   },
   {
     type: "Validacion",
-    title: "Un reporte muestra registros duplicados despues de exportar",
+    title: "Un reporte muestra registros duplicados después de exportar",
     description: "El volumen cambio, pero el responsable esperaba el mismo conteo.",
     answer: "validate",
-    success: "Bien. Los duplicados son una senal de calidad antes de ser problema de reporte.",
+    success: "Bien. Los duplicados son una señal de calidad antes de ser problema de reporte.",
   },
   {
-    type: "Automatizacion",
+    type: "Automatización",
     title: "Supervisores envian el mismo recordatorio cada turno",
     description: "Horario, audiencia y mensaje son predecibles.",
     answer: "automate",
-    success: "Muy bien. La comunicacion repetible es candidata clara para automatizar.",
+    success: "Muy bien. La comunicación repetible es candidata clara para automatizar.",
   },
   {
     type: "Dashboard",
@@ -367,25 +367,25 @@ const gameEls = {
 };
 
 const GAME_I18N = {
-  "Automatizacion": "Automation", "Validacion": "Validation", "Escalacion": "Escalation", "Dashboard": "Dashboard",
+  "Automatización": "Automation", "Validacion": "Validation", "Escalacion": "Escalation", "Dashboard": "Dashboard",
   "El reporte semanal se copia a mano cada lunes": "The weekly report is copied by hand every Monday",
   "La misma hoja, el mismo mensaje y los mismos destinatarios se repiten cada semana.": "Same sheet, same message, same recipients repeat every week.",
   "Bien visto. El trabajo manual recurrente pertenece a un flujo automatizado.": "Well spotted. Recurring manual work belongs in an automated flow.",
   "El CSV de asistencia no coincide con el archivo maestro": "The attendance CSV doesn't match the master file",
   "Dos fuentes no coinciden en IDs de empleados y fechas de turno.": "Two sources disagree on employee IDs and shift dates.",
   "Ruta correcta. Validar antes evita decisiones con datos rotos.": "Right call. Validating first avoids decisions on broken data.",
-  "Un caso tecnico falla despues del diagnostico estandar": "A technical case fails after standard diagnostics",
+  "Un caso técnico falla después del diagnóstico estandar": "A technical case fails after standard diagnostics",
   "El procedimiento normal ya se completo, pero la causa sigue sin estar clara.": "The normal procedure is done, but the cause is still unclear.",
   "Correcto. Los casos complejos necesitan una escalacion controlada.": "Correct. Complex cases need a controlled escalation.",
   "El equipo pide visibilidad diaria de nivel de servicio": "The team asks for daily service-level visibility",
-  "La metrica se revisa seguido y debe ser facil de escanear.": "The metric is checked often and must be easy to scan.",
-  "Exacto. Las metricas recurrentes deben estar visibles, no escondidas en archivos.": "Exactly. Recurring metrics should be visible, not hidden in files.",
-  "Un reporte muestra registros duplicados despues de exportar": "A report shows duplicate records after export",
+  "La métrica se revisa seguido y debe ser facil de escanear.": "The metric is checked often and must be easy to scan.",
+  "Exacto. Las métricas recurrentes deben estar visibles, no escondidas en archivos.": "Exactly. Recurring metrics should be visible, not hidden in files.",
+  "Un reporte muestra registros duplicados después de exportar": "A report shows duplicate records after export",
   "El volumen cambio, pero el responsable esperaba el mismo conteo.": "The volume changed, but the owner expected the same count.",
-  "Bien. Los duplicados son una senal de calidad antes de ser problema de reporte.": "Good. Duplicates are a data-quality signal before they become a reporting problem.",
+  "Bien. Los duplicados son una señal de calidad antes de ser problema de reporte.": "Good. Duplicates are a data-quality signal before they become a reporting problem.",
   "Supervisores envian el mismo recordatorio cada turno": "Supervisors send the same reminder every shift",
   "Horario, audiencia y mensaje son predecibles.": "Timing, audience and message are predictable.",
-  "Muy bien. La comunicacion repetible es candidata clara para automatizar.": "Great. Repeatable communication is a clear candidate for automation.",
+  "Muy bien. La comunicación repetible es candidata clara para automatizar.": "Great. Repeatable communication is a clear candidate for automation.",
   "Productividad se revisa en cada reunion operativa": "Productivity is reviewed in every operations meeting",
   "El equipo necesita ver tendencias, no abrir otra hoja estatica.": "The team needs to see trends, not open another static sheet.",
   "Buena ruta. Las tendencias que guian reuniones merecen dashboard.": "Good route. Trends that drive meetings deserve a dashboard.",
@@ -393,9 +393,9 @@ const GAME_I18N = {
   "El riesgo afecta calidad de servicio y necesita responsable claro.": "The risk affects service quality and needs a clear owner.",
   "Correcto. Un riesgo operativo necesita ownership antes de optimizarse.": "Correct. An operational risk needs ownership before optimization.",
   "Corriendo": "Running",
-  "Manda la senal a la capa correcta.": "Send the signal to the right layer.",
+  "Manda la señal a la capa correcta.": "Send the signal to the right layer.",
   "Jugar de nuevo": "Play again",
-  "Run terminado. La operacion quedo mas clara que al inicio.": "Run over. The operation ended clearer than it started.",
+  "Run terminado. La operación quedó más clara que al inicio.": "Run over. The operation ended clearer than it started.",
   "Run terminado. La friccion todavia pesa en el flujo.": "Run over. Friction still weighs on the flow.",
 };
 function GLANG() { return document.documentElement.lang === "en" ? "en" : "es"; }
@@ -443,7 +443,7 @@ function finishGame() {
   gameEls.start.textContent = tr("Jugar de nuevo");
   gameEls.feedback.textContent =
     game.score >= game.friction
-      ? tr("Run terminado. La operacion quedo mas clara que al inicio.")
+      ? tr("Run terminado. La operación quedó más clara que al inicio.")
       : tr("Run terminado. La friccion todavia pesa en el flujo.");
 }
 
@@ -455,7 +455,7 @@ function startGame() {
   game.streak = 0;
   game.active = true;
   gameEls.start.textContent = tr("Corriendo");
-  gameEls.feedback.textContent = tr("Manda la senal a la capa correcta.");
+  gameEls.feedback.textContent = tr("Manda la señal a la capa correcta.");
   setDecisionEnabled(true);
   nextSignal();
   renderGame();
@@ -482,7 +482,7 @@ function handleDecision(decision) {
     game.streak = 0;
     game.friction += 8;
     gameEls.card.classList.add("is-wrong");
-    gameEls.feedback.textContent = GLANG() === "en" ? `Close. That signal belonged to ${game.current.answer}.` : `Casi. Esta senal pertenecia a ${game.current.answer}.`;
+    gameEls.feedback.textContent = GLANG() === "en" ? `Close. That signal belonged to ${game.current.answer}.` : `Casi. Esta señal pertenecía a ${game.current.answer}.`;
     bumpScore(gameEls.friction);
   }
 
