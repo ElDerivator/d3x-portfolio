@@ -443,3 +443,22 @@ main > .section { border-top: 1px solid var(--line); }
   text-align: center;
   align-items: center;
 }
+
+/* === Hero quepa en la primera vista (above the fold) en desktop === */
+@media (min-width: 901px) {
+  .hero {
+    min-height: 100svh;
+    padding-top: clamp(12px, 2vh, 26px);
+    padding-bottom: clamp(12px, 2vh, 26px);
+    align-content: center;
+  }
+  .hero-summary { margin-block: 8px !important; font-size: .98rem; }
+  .hero-actions { margin-block: 8px !important; }
+  .profile-snapshot { margin-top: 6px !important; gap: 8px; }
+  .hero-proof { margin-top: 8px !important; gap: 8px; }
+  .profile-snapshot article, .hero-proof article { padding: 9px 12px !important; }
+  .model-viewer { height: clamp(300px, 42vh, 440px); }
+  .hero-aside { gap: 12px; }
+  .dashboard-visual { padding: 14px 16px !important; }
+  .kpi-grid { gap: 8px !important; }
+}
