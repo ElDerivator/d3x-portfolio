@@ -465,19 +465,15 @@ main > .section { border-top: 1px solid var(--line); }
 
 /* === "Ver más": summaries de details destacados (ya no pasan desapercibidos) === */
 summary[data-en] {
-  display: inline-flex; align-items: center; gap: 6px;
-  width: fit-content; margin-top: 12px;
-  padding: 9px 16px; border-radius: 999px;
-  border: 1px solid rgba(10,143,138,0.45);
-  background: rgba(10,143,138,0.10);
-  color: #0a8f8a; font-weight: 700; font-size: .92rem;
+  display: block; width: 100%; text-align: center;
+  margin-top: 16px; padding: 4px;
+  color: #0a8f8a; font-weight: 700; font-size: 1.05rem;
   cursor: pointer; list-style: none;
-  transition: background .2s ease, transform .15s ease;
+  text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px;
 }
 summary[data-en]::-webkit-details-marker { display: none; }
-summary[data-en]::after { content: "→"; transition: transform .2s ease; }
-summary[data-en]:hover { background: rgba(10,143,138,0.18); transform: translateY(-1px); }
-details[open] > summary[data-en]::after { transform: rotate(90deg); }
+summary[data-en]::after { content: " →"; }
+summary[data-en]:hover { color: #0c7c78; }
 
 /* === Mapa de credenciales: color por categoría === */
 .credential-map article { border-left: 3px solid #0a8f8a; padding-left: 14px; }
@@ -500,3 +496,13 @@ details[open] > summary[data-en]::after { transform: rotate(90deg); }
 /* === Sección Carrera con más presencia === */
 #work .section-heading .eyebrow { color: #0a8f8a; }
 .career-arc span { font-weight: 600; }
+
+
+/* === Fix tema: credenciales respetan Light/Dark (antes fondo oscuro fijo) === */
+.credential-map article { background: var(--panel) !important; color: var(--ink); }
+.credential-map article strong { color: var(--ink); }
+
+/* === Carrera con más presencia (antes 0.76rem, pasaba desapercibida) === */
+.career-arc span { font-size: .92rem !important; padding: 12px 16px !important; }
+.career-arc i { background: #0a8f8a !important; height: 3px !important; opacity: .55; }
+#work .section-heading .eyebrow { font-size: .92rem; }
