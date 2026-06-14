@@ -447,10 +447,10 @@ main > .section { border-top: 1px solid var(--line); }
 /* === Hero quepa en la primera vista (above the fold) en desktop === */
 @media (min-width: 901px) {
   .hero {
-    min-height: 100svh;
-    padding-top: clamp(12px, 2vh, 26px);
-    padding-bottom: clamp(12px, 2vh, 26px);
-    align-content: center;
+    min-height: auto;
+    padding-top: clamp(20px, 3vh, 36px);
+    padding-bottom: clamp(20px, 3vh, 36px);
+    align-content: start;
   }
   .hero-summary { margin-block: 8px !important; font-size: .98rem; }
   .hero-actions { margin-block: 8px !important; }
