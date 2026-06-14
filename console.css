@@ -606,3 +606,16 @@ summary[data-en]:hover { color: #0c7c78; }
 #credentials { order: 7; }
 #diagnostico { order: 8; }
 #contact { order: 9; }
+
+/* === Fix móvil: desplegables que se trababan (desborde horizontal + sticky) === */
+@media (max-width: 640px) {
+  /* grids internos de los <details> a 1 columna (el minmax(340px) desbordaba) */
+  .game-shell { grid-template-columns: 1fr !important; padding: 16px !important; }
+  .game-stage { min-width: 0 !important; }
+  .diagnostic-grid { grid-template-columns: 1fr !important; }
+  .credential-list { grid-template-columns: 1fr !important; }
+  /* el form sticky trababa el scroll dentro del details */
+  .diagnostic-copy { position: static !important; top: auto !important; }
+  /* cinturón: nada desborda a lo ancho (clip no rompe el header sticky) */
+  body { overflow-x: clip; }
+}
