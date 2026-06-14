@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 data/messages.jsonl
+node_modules/
+decimate_glb.py
+*.full.glb.bak
