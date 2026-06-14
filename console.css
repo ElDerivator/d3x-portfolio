@@ -371,3 +371,65 @@ main > .section { border-top: 1px solid var(--line); }
 @media (max-width: 760px) {
   .diag-disclosure .diagnostic-grid { grid-template-columns: 1fr; }
 }
+
+/* === Visor 3D en hero: modelo arriba, panel Impact abajo === */
+.hero-aside {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 22px);
+  width: 100%;
+  max-width: 560px;
+  justify-self: end;
+  align-self: stretch;
+}
+.hero-aside .dashboard-visual { max-width: none; justify-self: stretch; margin: 0; }
+
+.model-viewer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  min-height: 320px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(10,143,138,0.18), transparent 60%),
+    linear-gradient(180deg, rgba(var(--surf),0.85), rgba(var(--surf),0.55));
+  box-shadow: 0 18px 50px -28px rgba(0,0,0,0.6);
+}
+.model-stage { position: absolute; inset: 0; }
+.model-stage canvas { display: block; width: 100% !important; height: 100% !important; }
+
+.model-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; gap: 10px;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 18px;
+  transition: opacity .45s ease;
+}
+.model-viewer.is-ready .model-overlay { opacity: 0; pointer-events: none; }
+.model-viewer.is-loading .model-load { opacity: .5; pointer-events: none; }
+
+.model-load {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(var(--surf), 0.7);
+  color: var(--ink); font: inherit; font-weight: 600;
+  cursor: pointer; backdrop-filter: blur(4px);
+  transition: transform .2s ease, background .2s ease;
+}
+.model-load:hover { transform: translateY(-1px); background: rgba(10,143,138,0.22); }
+.model-load-ico { color: #0a8f8a; }
+.model-hint { margin: 0; font-size: .78rem; color: var(--muted); }
+.model-viewer.is-loading .model-hint::after { content: " · cargando…"; }
+.model-viewer.is-error .model-hint { color: #e0796b; }
+.model-viewer.is-error .model-hint::after { content: " · no se pudo cargar"; }
+
+@media (max-width: 900px) {
+  .hero-aside { max-width: none; }
+  .model-viewer { aspect-ratio: 1 / 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .dashboard-visual { animation: none; }
+}
