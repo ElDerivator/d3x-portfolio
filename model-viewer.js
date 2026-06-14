@@ -73,7 +73,7 @@ function initViewer(root) {
 
       const maxDim = Math.max(size.x, size.y, size.z);
       const dist = maxDim / (2 * Math.tan((Math.PI * camera.fov) / 360));
-      camera.position.set(0, size.y * 0.05, dist * 1.9);
+      camera.position.set(0, size.y * 0.05, dist * 1.55);
       controls.target.set(0, 0, 0);
       controls.minDistance = dist * 0.6;
       controls.maxDistance = dist * 3.5;
