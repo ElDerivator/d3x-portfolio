@@ -462,3 +462,41 @@ main > .section { border-top: 1px solid var(--line); }
   .dashboard-visual { padding: 14px 16px !important; }
   .kpi-grid { gap: 8px !important; }
 }
+
+/* === "Ver más": summaries de details destacados (ya no pasan desapercibidos) === */
+summary[data-en] {
+  display: inline-flex; align-items: center; gap: 6px;
+  width: fit-content; margin-top: 12px;
+  padding: 9px 16px; border-radius: 999px;
+  border: 1px solid rgba(10,143,138,0.45);
+  background: rgba(10,143,138,0.10);
+  color: #0a8f8a; font-weight: 700; font-size: .92rem;
+  cursor: pointer; list-style: none;
+  transition: background .2s ease, transform .15s ease;
+}
+summary[data-en]::-webkit-details-marker { display: none; }
+summary[data-en]::after { content: "→"; transition: transform .2s ease; }
+summary[data-en]:hover { background: rgba(10,143,138,0.18); transform: translateY(-1px); }
+details[open] > summary[data-en]::after { transform: rotate(90deg); }
+
+/* === Mapa de credenciales: color por categoría === */
+.credential-map article { border-left: 3px solid #0a8f8a; padding-left: 14px; }
+.credential-map article span { font-weight: 700; letter-spacing: .04em; }
+.credential-map article:nth-child(1) { border-left-color: #0a8f8a; }
+.credential-map article:nth-child(1) span { color: #0a8f8a; }
+.credential-map article:nth-child(2) { border-left-color: #3b82c4; }
+.credential-map article:nth-child(2) span { color: #3b82c4; }
+.credential-map article:nth-child(3) { border-left-color: #d9913a; }
+.credential-map article:nth-child(3) span { color: #d9913a; }
+.credential-map article:nth-child(4) { border-left-color: #3fb27f; }
+.credential-map article:nth-child(4) span { color: #3fb27f; }
+
+/* === Juego: invitación + cómo jugar === */
+.game-invite { font-weight: 700; color: var(--ink); margin: 12px 0 6px; }
+.game-howto { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.game-howto li { display: flex; gap: 8px; align-items: baseline; font-size: .9rem; color: var(--muted); }
+.game-howto strong { color: #0a8f8a; min-width: 92px; }
+
+/* === Sección Carrera con más presencia === */
+#work .section-heading .eyebrow { color: #0a8f8a; }
+.career-arc span { font-weight: 600; }
