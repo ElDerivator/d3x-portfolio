@@ -387,7 +387,7 @@ main > .section { border-top: 1px solid var(--line); }
 .model-viewer {
   position: relative;
   width: 100%;
-  height: clamp(460px, 56vh, 560px);
+  height: clamp(440px, 56vh, 540px);
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
