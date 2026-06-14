@@ -533,3 +533,12 @@ summary[data-en]:hover { color: #0c7c78; }
 }
 #game .game-disclosure > summary em::before { content: "▶"; font-size: .8em; }
 #game .game-disclosure[open] > summary em::before { content: "■"; }
+
+/* === Juego: título grande + botón Jugar prominente (más intuitivo) === */
+#game .game-disclosure > summary strong { font-size: 1.7rem !important; line-height: 1.15; }
+#game .game-disclosure > summary small { font-size: .82rem; }
+#game .game-disclosure > summary em {
+  font-size: 1.05rem !important; padding: 13px 28px !important;
+  box-shadow: 0 8px 22px -10px rgba(10,143,138,.7);
+}
+#game .game-disclosure > summary em::before { content: "▶ "; }
