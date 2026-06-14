@@ -96,3 +96,21 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
   else wire();
 })();
+
+/* Cintilla seamless: duplica el contenido hasta superar 2× el ancho visible
+   (mantiene mitades idénticas para que la animación -50% no muestre hueco). */
+(function () {
+  function fillMarquee() {
+    var track = document.querySelector('.stack-track');
+    if (!track) return;
+    var section = track.parentElement;
+    var guard = 0;
+    while (track.scrollWidth < section.clientWidth * 2 + 200 && guard < 5) {
+      var kids = Array.prototype.slice.call(track.children);
+      for (var i = 0; i < kids.length; i++) track.appendChild(kids[i].cloneNode(true));
+      guard++;
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fillMarquee);
+  else fillMarquee();
+})();
