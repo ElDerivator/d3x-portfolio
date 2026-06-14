@@ -87,13 +87,8 @@ function initViewer(root) {
   const btn = root.querySelector('[data-model-load]');
   if (btn) btn.addEventListener('click', start);
 
-  // Auto-carga diferida si la conexión no es lenta ni save-data (12MB).
-  const conn = navigator.connection || {};
-  const slow = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
-  if (!slow && THREE.WebGLRenderer) {
-    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1500));
-    idle(() => start());
-  }
+  // Auto-carga inmediata (el botón queda como fallback manual).
+  start();
 }
 
 document.querySelectorAll('[data-model-viewer]').forEach(initViewer);

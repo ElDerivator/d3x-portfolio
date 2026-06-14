@@ -60,7 +60,7 @@ xs=verts[0::3]; ys=verts[1::3]; zs=verts[2::3]
 pmin=[min(xs),min(ys),min(zs)]; pmax=[max(xs),max(ys),max(zs)]
 
 # --- ensamblar GLB ---
-def pad4(b): return b + b'\x00'*((4-len(b)%4)%4)
+def pad4(b, fill=b'\x00'): return b + fill*((4-len(b)%4)%4)
 pos_b = verts.tobytes()
 nrm_b = nrm.tobytes()
 idx_b = idx.tobytes()
@@ -85,7 +85,7 @@ gltf={
    {"bufferView":2,"componentType":5125,"count":len(idx),"type":"SCALAR"},
  ],
 }
-json_blob=pad4(json.dumps(gltf,separators=(',',':')).encode('utf-8'))
+json_blob=pad4(json.dumps(gltf,separators=(',',':')).encode('utf-8'), b'\x20')  # JSON chunk: padding con espacios (spec GLB)
 total=12+8+len(json_blob)+8+len(bin_blob)
 with open(OUT,'wb') as o:
     o.write(b'glTF'); o.write(struct.pack('<II',2,total))
