@@ -546,3 +546,6 @@ summary[data-en]:hover { color: #0c7c78; }
 /* === Cintilla seamless: gap como margin para que el loop -50% no brinque === */
 .stack-track { gap: 0 !important; }
 .stack-track span { margin-right: 10px; }
+
+/* === Diagnóstico: pregunta en su propia línea === */
+.diag-q { display: block; }
