@@ -450,8 +450,11 @@ main > .section { border-top: 1px solid var(--line); }
     min-height: auto;
     padding-top: clamp(20px, 3vh, 36px);
     padding-bottom: clamp(20px, 3vh, 36px);
-    align-content: start;
+    align-items: center;
   }
+  /* columnas del hero balanceadas en altura */
+  .hero-copy, .hero-aside { align-self: center; }
+  .model-viewer { height: clamp(300px, 38vh, 400px); }
   .hero-summary { margin-block: 8px !important; font-size: .98rem; }
   .hero-actions { margin-block: 8px !important; }
   .profile-snapshot { margin-top: 6px !important; gap: 8px; }
