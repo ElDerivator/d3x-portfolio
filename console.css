@@ -619,3 +619,15 @@ summary[data-en]:hover { color: #0c7c78; }
   /* cinturón: nada desborda a lo ancho (clip no rompe el header sticky) */
   body { overflow-x: clip; }
 }
+
+/* === Historia: números de etapa (01–04) para que se lea como recorrido === */
+.story-grid { counter-reset: story; }
+.story-grid article { counter-increment: story; }
+.story-grid article h3 { display: flex; align-items: baseline; gap: 10px; }
+.story-grid article h3::before {
+  content: "0" counter(story);
+  font-size: 1.5rem; font-weight: 800; color: #0a8f8a; opacity: .55;
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.story-quote::before { content: "“"; color: #0a8f8a; margin-right: 2px; }
+.story-quote::after { content: "”"; color: #0a8f8a; margin-left: 2px; }
