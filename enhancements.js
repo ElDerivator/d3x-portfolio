@@ -77,3 +77,22 @@
     }
   });
 })();
+
+/* "Ir al diagnóstico": abre el <details> colapsado + scroll suave */
+(function () {
+  function openDiag(e) {
+    var sec = document.getElementById('diagnostico');
+    if (!sec) return;
+    var det = sec.querySelector('details');
+    if (det) det.open = true;
+    if (e) { e.preventDefault(); sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }
+  function wire() {
+    document.querySelectorAll('a[href="#diagnostico"]').forEach(function (a) {
+      a.addEventListener('click', openDiag);
+    });
+    if (location.hash === '#diagnostico') openDiag();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+  else wire();
+})();
