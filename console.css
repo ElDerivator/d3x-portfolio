@@ -387,7 +387,7 @@ main > .section { border-top: 1px solid var(--line); }
 .model-viewer {
   position: relative;
   width: 100%;
-  height: clamp(230px, 30vh, 300px);
+  height: clamp(360px, 46vh, 460px);
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
@@ -427,7 +427,7 @@ main > .section { border-top: 1px solid var(--line); }
 
 @media (max-width: 900px) {
   .hero-aside { max-width: none; }
-  .model-viewer { height: clamp(220px, 42vw, 300px); }
+  .model-viewer { height: clamp(320px, 70vw, 440px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero .dashboard-visual { animation: none; }
