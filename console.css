@@ -542,3 +542,7 @@ summary[data-en]:hover { color: #0c7c78; }
   box-shadow: 0 8px 22px -10px rgba(10,143,138,.7);
 }
 #game .game-disclosure > summary em::before { content: "▶ "; }
+
+/* === Cintilla seamless: gap como margin para que el loop -50% no brinque === */
+.stack-track { gap: 0 !important; }
+.stack-track span { margin-right: 10px; }
