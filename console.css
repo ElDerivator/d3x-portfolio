@@ -597,8 +597,8 @@ summary[data-en]:hover { color: #0c7c78; }
 
 /* Orden: historia justo después del hero */
 .hero { order: 0; }
-#story { order: 1; }
-.stack-section { order: 2; }
+.stack-section { order: 1; }
+#story { order: 2; }
 #work { order: 3; }
 #projects { order: 4; }
 #game { order: 5; }
