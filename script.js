@@ -270,7 +270,8 @@ function showGalleryImage(index) {
   window.setTimeout(() => {
     galleryImage.src = button.dataset.gallerySrc;
     galleryImage.alt = button.dataset.galleryAlt;
-    galleryCaption.textContent = button.dataset.galleryText;
+    const galLangEn = document.documentElement.lang === "en";
+    galleryCaption.textContent = (galLangEn && button.dataset.galleryTextEn) || button.dataset.galleryText;
     galleryImage.classList.remove("is-switching");
   }, 160);
 }
