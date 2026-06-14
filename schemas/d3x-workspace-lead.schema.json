@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d3x.biz/schemas/d3x-workspace-lead.schema.json",
+  "title": "D3X Workspace Lead",
+  "description": "Canonical lead record absorbed from Google Workspace into governed D3X import workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lead_id",
+    "created_at",
+    "source",
+    "source_channel",
+    "name",
+    "email",
+    "process_problem",
+    "consent",
+    "status",
+    "import_status"
+  ],
+  "properties": {
+    "lead_id": {
+      "type": "string",
+      "pattern": "^lead_[a-z0-9][a-z0-9_-]{7,63}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "d3x.biz",
+        "manual_workspace_entry",
+        "manual_csv_import",
+        "google_forms",
+        "google_apps_script"
+      ]
+    },
+    "source_channel": {
+      "type": "string",
+      "enum": [
+        "public_website",
+        "google_form",
+        "workspace_sheet",
+        "manual_upload",
+        "referral"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "company": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 160
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 160
+    },
+    "phone": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 60
+    },
+    "business_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "local_business",
+        "professional_services",
+        "operations_team",
+        "ecommerce",
+        "startup",
+        "enterprise_team",
+        "individual",
+        "other",
+        null
+      ]
+    },
+    "process_problem": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 2000
+    },
+    "current_tools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "maxItems": 20,
+      "uniqueItems": true
+    },
+    "urgency": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent",
+        "unknown",
+        null
+      ]
+    },
+    "budget_range": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "unknown",
+        "under_500_usd",
+        "500_1500_usd",
+        "1500_5000_usd",
+        "5000_15000_usd",
+        "15000_plus_usd",
+        null
+      ]
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provided",
+        "text",
+        "provided_at"
+      ],
+      "properties": {
+        "provided": {
+          "type": "boolean",
+          "const": true
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "provided_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "received",
+        "validated",
+        "needs_review",
+        "classified",
+        "draft_created",
+        "human_review_required",
+        "approved_to_contact",
+        "contacted",
+        "closed",
+        "rejected",
+        "spam"
+      ]
+    },
+    "assigned_agent": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 120
+    },
+    "lead_score": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 4000
+    },
+    "workspace_row_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 120
+    },
+    "imported_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "import_status": {
+      "type": "string",
+      "enum": [
+        "not_imported",
+        "pending",
+        "imported",
+        "failed",
+        "skipped",
+        "duplicate"
+      ]
+    }
+  }
+}

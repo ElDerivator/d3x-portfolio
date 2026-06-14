@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d3x.biz/schemas/d3x-workspace-lead-event.schema.json",
+  "title": "D3X Workspace Lead Event",
+  "description": "Event emitted by the governed D3X Workspace lead absorption process.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "lead_id",
+    "event_type",
+    "created_at",
+    "source",
+    "actor",
+    "payload",
+    "policy_status",
+    "requires_human_approval",
+    "external_action"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^evt_[a-z0-9][a-z0-9_-]{7,63}$"
+    },
+    "lead_id": {
+      "type": "string",
+      "pattern": "^lead_[a-z0-9][a-z0-9_-]{7,63}$"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "lead_received",
+        "lead_validated",
+        "lead_rejected",
+        "lead_classified",
+        "lead_summary_created",
+        "draft_response_created",
+        "quote_draft_created",
+        "human_review_requested",
+        "human_approved",
+        "human_rejected",
+        "client_contacted",
+        "lead_archived"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "workspace_importer",
+        "policy_gate",
+        "agency_runtime",
+        "human_review",
+        "manual_workspace_entry"
+      ]
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "system",
+            "agent",
+            "human"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        }
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Structured event-specific payload. Must not contain secrets, tokens, internal URLs, or final outbound client content unless human approved."
+    },
+    "policy_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "allowed",
+        "blocked",
+        "needs_review"
+      ]
+    },
+    "requires_human_approval": {
+      "type": "boolean"
+    },
+    "external_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempted",
+        "type",
+        "approved_by_human"
+      ],
+      "properties": {
+        "attempted": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "email",
+            "phone_call",
+            "message",
+            "quote_sent",
+            "calendar_invite",
+            null
+          ]
+        },
+        "approved_by_human": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "external_action": {
+            "properties": {
+              "attempted": {
+                "const": true
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "requires_human_approval": {
+            "const": false
+          },
+          "external_action": {
+            "properties": {
+              "approved_by_human": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

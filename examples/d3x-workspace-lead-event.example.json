@@ -1,0 +1,27 @@
+{
+  "event_id": "evt_demo_0001",
+  "lead_id": "lead_demo_0001",
+  "event_type": "lead_received",
+  "created_at": "2026-05-06T15:31:00Z",
+  "source": "workspace_importer",
+  "actor": {
+    "type": "system",
+    "id": "workspace_importer_v0_1"
+  },
+  "payload": {
+    "workspace_row_id": "sheet_row_demo_42",
+    "summary": "Fake sample lead received from Workspace buffer.",
+    "memory_mapping": {
+      "L0": "Raw submitted lead and raw import event.",
+      "L1": "Current lead state, status, classification, recommended next action.",
+      "L2": "Reusable commercial insight after human-reviewed relevance."
+    }
+  },
+  "policy_status": "pending",
+  "requires_human_approval": true,
+  "external_action": {
+    "attempted": false,
+    "type": null,
+    "approved_by_human": false
+  }
+}

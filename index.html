@@ -1,0 +1,715 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Luis Rivero — Data Operations &amp; Technical Support Analyst. Process automation (Power Automate, ETL), SQL/Python, operational reporting and dashboards. Bilingual EN/ES, remote-ready."
+    />
+    <meta name="theme-color" content="#0a8f8a" />
+    <meta property="og:title" content="Luis Rivero — Data Operations &amp; Automation" />
+    <meta
+      property="og:description"
+      content="Data analyst &amp; automation: SQL/Python, ETL pipelines, Power Automate, operational reporting and dashboards. Bilingual EN/ES, remote-ready."
+    />
+    <meta property="og:type" content="website" />
+    <title>D3X | Luis Rivero</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23121418'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='22' font-weight='800' fill='white'%3ED3X%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="console.css" />
+    <script>
+      /* Pre-pintado del tema para evitar flash (FOUC) */
+      (function () {
+        try {
+          var t = localStorage.getItem("d3x-theme");
+          if (!t) t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#top">Saltar al contenido</a>
+    <div class="page-progress" aria-hidden="true"><i></i></div>
+    <header class="site-header" aria-label="Navegacion principal">
+      <a class="brand" href="#top" aria-label="D3X inicio">
+        <span class="brand-mark">D3X</span>
+        <span class="brand-text">Data &middot; Automation &middot; Operations</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+        Menu
+      </button>
+      <nav class="nav-links" id="site-nav" aria-label="Secciones">
+        <a href="#work" data-en="Experience">Trabajo</a>
+        <a href="#projects" data-en="Projects">Proyectos</a>
+        <a href="#game" data-en="Mini-game">Minijuego</a>
+        <a href="#education" data-en="Education">Educacion</a>
+        <a href="#credentials" data-en="Credentials">Credenciales</a>
+        <a href="#contact" data-en="Contact">Contacto</a>
+      </nav>
+      <div class="console-controls">
+        <button class="console-btn lang-btn" type="button" data-lang-toggle aria-label="Switch language">EN</button>
+        <button class="console-btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Cambiar a modo oscuro">
+          <span class="ico" aria-hidden="true">☾</span><span class="txt">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow" data-en="Mexico City &middot; Remote / Hybrid">Ciudad de México &middot; Remoto / Híbrido</p>
+          <div class="availability-pill"><span></span> <span data-en="Open to automation, data ops &amp; technical support roles">Abierto a roles de automatizacion, data ops y soporte tecnico</span></div>
+          <h1 id="hero-title">Luis Rivero</h1>
+          <p class="hero-role">Process Automation Analyst &middot; Data Operations &middot; Technical Support</p>
+          <p class="hero-summary" data-en="I turn repetitive work into measurable processes: automation, data validation, reporting and dashboards.">
+            Convierto trabajo repetitivo en procesos medibles: automatización, validación de datos, reporting y dashboards.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="assets/LGRA_CV.pdf" download data-en="Download CV">Descargar CV</a>
+            <a class="button secondary" href="#work" data-en="View experience">Ver experiencia</a>
+            <a class="button ghost" href="#projects" data-en="Projects">Proyectos</a>
+          </div>
+          <div class="profile-snapshot" aria-label="Resumen rapido del perfil">
+            <article>
+              <span data-en="Focus">Enfoque</span>
+              <strong data-en="Automation &amp; data operations">Automatización y operaciones de datos</strong>
+            </article>
+            <article>
+              <span data-en="Tools">Herramientas</span>
+              <strong>Excel, SQL, Power BI, Power Automate</strong>
+            </article>
+            <article>
+              <span data-en="Best fit">Mejor encaje</span>
+              <strong data-en="Process improvement, reporting, support systems">Mejora de procesos, reporting y sistemas de soporte</strong>
+            </article>
+          </div>
+          <div class="hero-proof" aria-label="Resumen de trayectoria">
+            <article>
+              <strong>5+</strong>
+              <span data-en="years in data, support &amp; operations">anos en datos, soporte y operaciones</span>
+            </article>
+            <article>
+              <strong>11</strong>
+              <span data-en="documented credentials">credenciales documentadas</span>
+            </article>
+            <article>
+              <strong>D3X</strong>
+              <span data-en="self-built automation architecture">arquitectura propia para automatizacion</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="dashboard-visual" aria-label="Impact metrics">
+          <div class="visual-topline">
+            <span data-en="Impact">Impacto</span>
+            <strong data-en="Numbers that matter">Números que importan</strong>
+          </div>
+          <div class="kpi-grid">
+            <article><strong>~<span data-count="90">90</span>%</strong><span data-en="resolution rate &middot; TTEC">tasa de resolución &middot; TTEC</span></article>
+            <article><strong><span data-count="500">500</span></strong><span data-en="agents &middot; Foundever WFM">agentes &middot; Foundever WFM</span></article>
+            <article><strong>3-4h&nbsp;&rarr;&nbsp;30m</strong><span data-en="manual task automated">tarea manual automatizada</span></article>
+            <article><strong><span data-count="5">5</span></strong><span data-en="person-team report replaced &middot; AT&amp;T">reporte de 5 personas reemplazado &middot; AT&amp;T</span></article>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="stack-section" aria-label="Herramientas y metodos">
+        <div class="stack-track">
+          <span>Power Automate</span>
+          <span>Office Scripts</span>
+          <span>Excel</span>
+          <span>Power Query</span>
+          <span>SQL</span>
+          <span>Power BI</span>
+          <span>CRM Documentation</span>
+          <span>Agile Practices</span>
+          <span>Workforce Operations</span>
+          <span>Process Mapping</span>
+        
+          <span aria-hidden="true" data-dup>Power Automate</span>
+          <span aria-hidden="true" data-dup>Office Scripts</span>
+          <span aria-hidden="true" data-dup>Excel</span>
+          <span aria-hidden="true" data-dup>Power Query</span>
+          <span aria-hidden="true" data-dup>SQL</span>
+          <span aria-hidden="true" data-dup>Power BI</span>
+          <span aria-hidden="true" data-dup>CRM Documentation</span>
+          <span aria-hidden="true" data-dup>Agile Practices</span>
+          <span aria-hidden="true" data-dup>Workforce Operations</span>
+          <span aria-hidden="true" data-dup>Process Mapping</span>
+        </div>
+      </section>
+
+      <section class="section" id="diagnostico">
+        <details class="game-disclosure diag-disclosure">
+          <summary>
+            <span><small data-en="Optional">Opcional</small><strong data-en="Need automation help? Request a diagnostic">¿Automatizamos algo? Solicita un diagnóstico</strong></span>
+            <em data-en="Open">Abrir</em>
+          </summary>
+          <div class="diagnostic-grid">
+        <div class="diagnostic-copy">
+          <p class="eyebrow" data-en="D3X Diagnostic">Diagnostico D3X</p>
+          <h2 id="diagnostic-title" data-en="Tell me where your operation gets stuck.">Cuentame donde se atora tu operacion.</h2>
+          <p data-en="This form lives at the end of the page. If you have manual reports, scattered data or repeated processes, here we can spot whether it's worth automating, tidying or measuring.">
+            El formulario va primero porque esta pagina debe convertir interes en una conversacion.
+            Si tienes reportes manuales, datos dispersos o procesos repetidos, aqui podemos detectar
+            si vale la pena automatizar, ordenar o medir.
+          </p>
+          <div class="contact-tags" aria-label="Tipos de diagnostico">
+            <span data-en="Manual processes">Procesos manuales</span>
+            <span data-en="Reporting">Reportes</span>
+            <span data-en="Scattered data">Datos dispersos</span>
+            <span data-en="Automation">Automatizacion</span>
+          </div>
+        </div>
+        <div class="contact-stack">
+          <form class="contact-form" data-workspace-lead-form novalidate>
+            <p data-en="Request an initial diagnostic.">Solicita un diagnostico inicial.</p>
+            <div class="form-grid">
+              <label>
+                <span data-en="Name">Nombre</span>
+                <input name="name" type="text" autocomplete="name" required />
+              </label>
+              <label>
+                <span data-en="Company or project">Empresa o proyecto</span>
+                <input name="company" type="text" autocomplete="organization" />
+              </label>
+              <label>
+                <span data-en="Email">Email</span>
+                <input name="email" type="email" autocomplete="email" required />
+              </label>
+              <label>
+                <span data-en="Phone">Telefono</span>
+                <input name="phone" type="tel" autocomplete="tel" />
+              </label>
+              <label>
+                <span data-en="Business type">Tipo de negocio</span>
+                <select name="business_type">
+                  <option value="" data-en="Select">Seleccionar</option>
+                  <option value="local_business" data-en="Local business">Negocio local</option>
+                  <option value="professional_services" data-en="Professional services">Servicios profesionales</option>
+                  <option value="operations_team" data-en="Operations team">Equipo operativo</option>
+                  <option value="ecommerce" data-en="E-commerce">Ecommerce</option>
+                  <option value="startup" data-en="Startup">Startup</option>
+                  <option value="enterprise_team" data-en="Enterprise team">Equipo empresarial</option>
+                  <option value="individual" data-en="Individual">Individual</option>
+                  <option value="other" data-en="Other">Otro</option>
+                </select>
+              </label>
+              <label>
+                <span data-en="Urgency">Urgencia</span>
+                <select name="urgency">
+                  <option value="unknown" data-en="Not sure">No estoy seguro</option>
+                  <option value="low" data-en="Low">Baja</option>
+                  <option value="medium" data-en="Medium">Media</option>
+                  <option value="high" data-en="High">Alta</option>
+                  <option value="urgent" data-en="Urgent">Urgente</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              <span data-en="Process problem">Problema de proceso</span>
+              <textarea name="process_problem" rows="4" required></textarea>
+            </label>
+            <div class="form-grid">
+              <label>
+                <span data-en="Current tools">Herramientas actuales</span>
+                <input name="current_tools" type="text" placeholder="Sheets, Excel, WhatsApp, CRM..." />
+              </label>
+              <label>
+                <span data-en="Budget range">Rango de presupuesto</span>
+                <select name="budget_range">
+                  <option value="unknown" data-en="Not defined">No definido</option>
+                  <option value="under_500_usd" data-en="Under 500 USD">Menos de 500 USD</option>
+                  <option value="500_1500_usd" data-en="500 to 1,500 USD">500 a 1,500 USD</option>
+                  <option value="1500_5000_usd" data-en="1,500 to 5,000 USD">1,500 a 5,000 USD</option>
+                  <option value="5000_15000_usd" data-en="5,000 to 15,000 USD">5,000 a 15,000 USD</option>
+                  <option value="15000_plus_usd" data-en="15,000+ USD">15,000+ USD</option>
+                </select>
+              </label>
+            </div>
+            <label class="checkbox-field">
+              <input name="consent" type="checkbox" value="true" required />
+              <span data-en="I agree that D3X may use this data to respond to my request.">Acepto que D3X use estos datos para responder mi solicitud.</span>
+            </label>
+            <label class="honeypot-field" aria-hidden="true">
+              Website
+              <input name="website" type="text" tabindex="-1" autocomplete="off" />
+            </label>
+            <button type="submit" data-en="Request a diagnostic">Solicitar diagnostico</button>
+            <span class="form-status" data-workspace-lead-status aria-live="polite" data-en="Form ready. For now you can write to administracion@d3x.biz.">
+              Formulario preparado. Por ahora puedes escribir a administracion@d3x.biz.
+            </span>
+            <small class="form-note" data-en="Your data is used only to respond to your diagnostic or quote request. D3X takes no external actions without human review.">
+              Tus datos se usan unicamente para responder tu solicitud de diagnostico o cotizacion. D3X no ejecuta acciones externas sin revision humana.
+            </small>
+          </form>
+        </div>
+      </div>
+        </details>
+      </section>
+      <section class="section client-value-section" id="projects" aria-labelledby="client-value-title">
+        <div class="client-value-shell">
+          <div class="client-value-copy">
+            <p class="eyebrow" data-en="Built projects">Proyectos construidos</p>
+            <h2 id="client-value-title" data-en="Systems I designed and built end to end.">Sistemas que diseñé y construí de punta a punta.</h2>
+            <p>
+              No solo analizo datos: diseño y opero los sistemas que los mueven.
+            </p>
+            <a class="button secondary" href="#work" data-en="View experience">Ver experiencia</a>
+          </div>
+          <div class="client-benefits" aria-label="Proyectos">
+            <article>
+              <span>01</span>
+              <h3 data-en="D3X — Multi-agent orchestration">D3X — Orquestación multi-agente</h3>
+              <p data-en="Multi-agent automation & orchestration: governed memory, pipelines, dashboards, coordinated agents.">Automatización y orquestación multi-agente: memoria gobernada, pipelines, dashboards y agentes coordinados.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3 data-en="SHORBULL — CommerceOps">SHORBULL — CommerceOps</h3>
+              <p data-en="E-commerce & ops: catalog, inventory, multi-channel and dashboard. Next.js, in production.">E-commerce y operación: catálogo, inventario, multicanal y dashboard. Next.js, en producción.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3 data-en="POS — Multi-unit management">POS — Gestión de unidades</h3>
+              <p data-en="Point-of-sale & management for local businesses: sales, inventory and multi-unit reporting.">Punto de venta y gestión para negocios locales: ventas, inventario y reporting multi-unidad.</p>
+            </article>
+          </div>
+        </div>
+        <div class="capability-strip" aria-label="Stack">
+          <span>Python</span>
+          <span>SQL / ETL</span>
+          <span>Power Automate</span>
+          <span>Next.js</span>
+          <span>Dashboards</span>
+        </div>
+      </section>
+      <section class="section game-section compact-section" id="game" aria-labelledby="game-title">
+        <details class="game-disclosure">
+          <summary>
+            <span>
+              <small>D3X Lab</small>
+              <strong id="game-title" data-en="D3X Signal Run">D3X Carrera de Senales</strong>
+            </span>
+            <em data-en="Play">Jugar</em>
+          </summary>
+          <div class="game-shell">
+            <div class="game-copy">
+              <p class="eyebrow">D3X Lab</p>
+              <h2 data-en="D3X Signal Run">D3X Carrera de Senales</h2>
+              <p data-en="Classify operational signals before they become manual work. Each correct decision increases clarity; each mistake adds friction to the system.">
+                Clasifica senales operativas antes de que se conviertan en trabajo manual. Cada
+                decision correcta aumenta la claridad; cada error agrega friccion al sistema.
+              </p>
+            </div>
+            <div class="game-stage" id="game-root" aria-label="Minijuego D3X Carrera de Senales">
+              <div class="game-hud">
+                <span data-en="D3X Signal Run">D3X Carrera de Senales</span>
+                <strong id="game-timer">45s</strong>
+              </div>
+              <div class="game-meter" aria-hidden="true">
+                <i id="game-meter-fill"></i>
+              </div>
+              <div class="game-scoreboard" aria-label="Marcadores del juego">
+                <article>
+                  <span data-en="Clarity">Claridad</span>
+                  <strong id="game-score">0</strong>
+                </article>
+                <article>
+                  <span data-en="Friction">Friccion</span>
+                  <strong id="game-friction">0</strong>
+                </article>
+                <article>
+                  <span data-en="Streak">Racha</span>
+                  <strong id="game-streak">0</strong>
+                </article>
+              </div>
+              <div class="signal-card" id="signal-card" aria-live="polite">
+                <span id="signal-type">Signal</span>
+                <h3 id="signal-title" data-en="Ready to organize the operation?">Listo para ordenar la operacion?</h3>
+                <p id="signal-description" data-en="Start the game and send each signal to the right layer.">
+                  Inicia el juego y manda cada senal a la capa correcta.
+                </p>
+              </div>
+              <div class="decision-grid" aria-label="Decisiones disponibles">
+                <button type="button" data-decision="automate" data-en="Automate">Automatizar</button>
+                <button type="button" data-decision="validate" data-en="Validate">Validar</button>
+                <button type="button" data-decision="escalate" data-en="Escalate">Escalar</button>
+                <button type="button" data-decision="dashboard">Dashboard</button>
+              </div>
+              <div class="game-footer">
+                <button class="game-start" type="button" id="game-start" data-en="Start">Iniciar</button>
+                <span id="game-feedback" data-en="Classify fast. Think like operations.">Clasifica rapido. Piensa como operacion.</span>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="section" id="work" aria-labelledby="work-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Career">Carrera</p>
+          <h2 id="work-title" data-en="Professional experience">Experiencia profesional</h2>
+        </div>
+        <div class="career-arc" aria-label="Resumen de evolucion profesional">
+          <span>Customer service</span>
+          <i></i>
+          <span>Data analysis</span>
+          <i></i>
+          <span>Operations</span>
+          <i></i>
+          <span>Automation</span>
+        </div>
+        <div class="experience-feature">
+          <div class="experience-gallery" aria-label="Galeria Delitruck">
+            <figure class="gallery-frame">
+              <img
+                src="assets/delitruck-01.jpeg"
+                alt="Food truck Delitruck en evento nocturno con puestos y luces"
+                width="1600"
+                height="738"
+                loading="lazy"
+                decoding="async"
+                data-gallery-image
+              />
+              <div class="gallery-controls" aria-label="Controles de galeria">
+                <button type="button" data-gallery-prev aria-label="Foto anterior">Prev</button>
+                <button type="button" data-gallery-next aria-label="Foto siguiente">Next</button>
+              </div>
+              <figcaption data-gallery-caption>Evento nocturno, montaje y atencion en punto de venta.</figcaption>
+            </figure>
+            <div class="gallery-thumbs" aria-label="Seleccion de fotos Delitruck">
+              <button
+                class="is-active"
+                type="button"
+                data-gallery-src="assets/delitruck-01.jpeg"
+                data-gallery-alt="Food truck Delitruck en evento nocturno con puestos y luces"
+                data-gallery-text="Evento nocturno, montaje y atencion en punto de venta."
+              >
+                <img src="assets/delitruck-01.jpeg" alt="" width="1600" height="738" loading="lazy" decoding="async" />
+                <span>Evento</span>
+              </button>
+              <button
+                type="button"
+                data-gallery-src="assets/delitruck-02.jpeg"
+                data-gallery-alt="Delitruck en feria nocturna con luces y afluencia de clientes"
+                data-gallery-text="Operacion con alta afluencia, coordinacion de servicio y ritmo de venta."
+              >
+                <img src="assets/delitruck-02.jpeg" alt="" width="1600" height="738" loading="lazy" decoding="async" />
+                <span>Operacion</span>
+              </button>
+              <button
+                type="button"
+                data-gallery-src="assets/delitruck-03.jpeg"
+                data-gallery-alt="Malteadas preparadas en mostrador Delitruck"
+                data-gallery-text="Producto, presentacion, menu visible y control de preparacion."
+              >
+                <img src="assets/delitruck-03.jpeg" alt="" width="1600" height="737" loading="lazy" decoding="async" />
+                <span>Producto</span>
+              </button>
+            </div>
+          </div>
+          <div class="experience-copy">
+            <p class="eyebrow" data-en="Field experience">Experiencia de campo</p>
+            <h3 data-en="Delitruck: real operations, real customers, real-time decisions.">Delitruck: operaciones reales, clientes reales, decisiones en tiempo real.</h3>
+            <p data-en="Ran a food-truck end to end: logistics, inventory, pricing, customers and execution under pressure. It taught me to see the whole process and turn friction into clearer systems.">
+              Operé un food-truck de punta a punta: logística, inventario, precios, clientes y ejecución bajo presión. Me enseñó a ver el proceso completo y convertir fricción en sistemas más claros.
+            </p>
+            <div class="experience-points">
+              <span>Event operations</span>
+              <span>Customer experience</span>
+              <span>Inventory control</span>
+              <span>Pricing &amp; promotions</span>
+            </div>
+            <div class="experience-metrics" aria-label="Aprendizajes operativos Delitruck">
+              <article>
+                <strong>Field ops</strong>
+                <span>Montaje, servicio y cierre en eventos.</span>
+              </article>
+              <article>
+                <strong>Live demand</strong>
+                <span>Ajustes de producto, ritmo y comunicacion.</span>
+              </article>
+              <article>
+                <strong>Business control</strong>
+                <span>Costos, menu, inventario y promociones.</span>
+              </article>
+            </div>
+          </div>
+        </div>
+        <div class="experience-summary">
+          <article>
+            <span data-en="Technical support">Soporte tecnico</span>
+            <strong>TTEC / Verizon</strong>
+            <p data-en="Diagnostics, CRM documentation and escalations with an eye for repetitive patterns.">Diagnostico, documentacion CRM y escalaciones con lectura de patrones repetitivos.</p>
+          </article>
+          <article>
+            <span data-en="Data &amp; systems">Datos y sistemas</span>
+            <strong>Cognizant, Foundever, AT&amp;T</strong>
+            <p data-en="Operational analysis, reporting, workforce, requirements and visibility for teams.">Analisis operativo, reporting, workforce, requerimientos y visibilidad para equipos.</p>
+          </article>
+          <article>
+            <span data-en="Real operations">Operacion real</span>
+            <strong>Delitruck</strong>
+            <p data-en="Events, inventory, pricing, customers, suppliers and execution under pressure.">Eventos, inventario, pricing, clientes, proveedores y ejecucion bajo presion.</p>
+          </article>
+        </div>
+        <details class="details-panel">
+          <summary data-en="View full history">Ver historial completo</summary>
+          <div class="timeline">
+            <article>
+              <time>Sep 2025 – May 2026</time>
+              <h3>Technical Support Representative &middot; Verizon Account · TTEC</h3>
+              <p data-en="10–20 daily customer interactions with a ~90% resolution rate under real-time metrics; CRM documentation, root-cause diagnostics, and pattern detection for automation opportunities.">10–20 interacciones diarias con ~90% de resolución bajo métricas en tiempo real; documentación en CRM, diagnóstico root-cause y detección de patrones para oportunidades de automatización.</p>
+            </article>
+            <article>
+              <time>May 2025 – Sep 2025</time>
+              <h3>Business Systems Analyst / IT &middot; Cognizant</h3>
+              <p data-en="The Coca-Cola Company account: Net Revenue Sales analysis and reporting for the Caribbean. Resolved a blocker by automating header integration from a Jira-like ticketing system, removing manual data entry.">Cuenta The Coca-Cola Company: análisis y reporting de Net Revenue Sales del Caribe. Resolví un blocker automatizando la integración de headers desde un ticketing tipo Jira, eliminando captura manual.</p>
+            </article>
+            <article class="timeline-feature">
+              <time>Oct 2024 – May 2025</time>
+              <h3>Data Analyst, Workforce Management &middot; Foundever</h3>
+              <p data-en="WFM analytics for a 500-agent operation. Designed a full ETL pipeline (Oracle SQL → automated email distribution via Power Automate) and automated the daily seat-rotation from 3–4 h to ~30 min. A floor audit uncovered abuse of the call-routing system.">Analítica WFM para una operación de 500 agentes. Diseñé un ETL completo (Oracle SQL → distribución por correo vía Power Automate) y automaticé la rotación diaria de asientos de 3–4 h a ~30 min. Una auditoría de piso descubrió un abuso del sistema de ruteo de llamadas.</p>
+            </article>
+            <article class="timeline-feature">
+              <time>May 2020 – Oct 2023</time>
+              <h3>Data Analyst, BI &amp; Technology Transformation &middot; AT&amp;T</h3>
+              <p data-en="Took in requests from cross-functional teams and built custom data solutions. Built an ETL that automated a status report previously maintained by a 5-person team, delivering each PM a consolidated, pre-filtered view. 3.5 years of operational data in telecom.">Tomaba requerimientos de áreas cross-funcionales y construía soluciones de datos. Construí un ETL que automatizó un reporte de status antes mantenido por un equipo de 5 personas, entregando a cada PM una vista consolidada y pre-filtrada. 3.5 años de datos operativos en telecom.</p>
+            </article>
+            <article>
+              <time>Oct 2023 – Dec 2024</time>
+              <h3>Founder / Operations &middot; Delitruck</h3>
+              <p data-en="Ran a food-truck end to end: operations, logistics, customer service, marketing and expansion.">Operé un food-truck de punta a punta: operación, logística, servicio al cliente, marketing y expansión.</p>
+            </article>
+            <article class="timeline-compact">
+              <time>2019 – 2020</time>
+              <h3>Project Manager &middot; Bloquera Beraja</h3>
+              <p data-en="Operational tracking, communication and problem-solving.">Seguimiento operativo, comunicación y resolución de problemas.</p>
+            </article>
+            <article class="timeline-compact">
+              <time>2018 – 2019</time>
+              <h3>Receptionist &middot; Comfort Inn</h3>
+              <p data-en="Customer service, administrative support and front-desk management.">Servicio al cliente, soporte administrativo y manejo de front desk.</p>
+            </article>
+          </div>
+        </details>
+      </section>
+
+      <section class="section education-section" id="education" aria-labelledby="education-title">
+        <div class="education-shell">
+          <div>
+            <p class="eyebrow" data-en="Education">Formacion academica</p>
+            <h2 id="education-title" data-en="Business, people and operations as a working foundation.">Negocio, personas y operaciones como base de trabajo.</h2>
+          </div>
+          <div class="education-grid">
+            <article>
+              <span data-en="Business Administration">Administracion de Empresas</span>
+              <h3 data-en="Training in management, operations and decision-making.">Formacion en gestion, operacion y toma de decisiones.</h3>
+              <p data-en="Academic grounding in processes, resource coordination, business structure, service, costs and operational improvement.">
+                Base academica orientada a procesos, coordinacion de recursos, estructura de negocio,
+                servicio, costos y mejora operativa.
+              </p>
+            </article>
+            <article>
+              <span data-en="Psychology">Psicologia</span>
+              <h3 data-en="Training in behavior, communication and reading people.">Formacion en comportamiento, comunicacion y lectura de personas.</h3>
+              <p data-en="A useful lens for technical support, customer experience, teamwork, problem analysis and stakeholder communication.">
+                Perspectiva util para soporte tecnico, experiencia del cliente, trabajo con equipos,
+                analisis de problemas y comunicacion con stakeholders.
+              </p>
+            </article>
+            <article class="education-note">
+              <span data-en="Academic path">Trayectoria academica</span>
+              <h3 data-en="Studies completed with an applied professional focus.">Formacion cursada con enfoque profesional aplicado.</h3>
+              <p data-en="I studied both fields and channeled that base into operations, data, support and automation. The administrative graduation step remains pending due to social service, while my professional growth has continued through hands-on experience, technical certifications and applied projects.">
+                Curse ambas areas y he orientado esa base hacia operaciones, datos, soporte y
+                automatizacion. El cierre administrativo de titulacion permanece pendiente por el
+                servicio social, mientras mi desarrollo profesional ha continuado mediante experiencia
+                directa, certificaciones tecnicas y proyectos aplicados.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="credentials" aria-labelledby="credentials-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-en="Learning">Aprendizaje</p>
+          <h2 id="credentials-title" data-en="Featured credentials">Credenciales destacadas</h2>
+        </div>
+        <div class="credential-map" aria-label="Mapa de aprendizaje">
+          <article>
+            <span>Data</span>
+            <strong>Analytics, statistics, Python and visualization.</strong>
+          </article>
+          <article>
+            <span>BI / ETL</span>
+            <strong>SQL, data warehousing and operational reporting.</strong>
+          </article>
+          <article>
+            <span>Product / Agile</span>
+            <strong>Project management, SAFe and stakeholder alignment.</strong>
+          </article>
+          <article>
+            <span>Language</span>
+            <strong>English C2 proficiency for global support contexts.</strong>
+          </article>
+        </div>
+        <details class="details-panel credential-details">
+          <summary data-en="View all 11 documented credentials">Ver las 11 credenciales documentadas</summary>
+          <div class="credential-list">
+          <article class="credential-card ef">
+            <div class="credential-logo">EF</div>
+            <div class="credential-body">
+              <span>EF SET</span>
+              <h3>EF SET English Certificate 83/100 &middot; C2 Proficient</h3>
+              <p>Issued Aug 2024</p>
+            </div>
+          </article>
+          <article class="credential-card safe">
+            <div class="credential-logo">SA</div>
+            <div class="credential-body">
+              <span>SAFe by Scaled Agile, Inc.</span>
+              <h3>Certified SAFe 6 Product Owner / Product Manager</h3>
+              <p>Issued Jun 2023 &middot; Expires Jun 2024 &middot; ID 17508640-0164</p>
+              <p class="skills">Resolucion de problemas, Agile Methodologies, Product Ownership</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - Google Data Analytics</h3>
+              <p>Issued Jan 2022 &middot; ID 2SNVXGF6SC2M</p>
+              <p class="skills">Modelos estadisticos, Python, analisis de datos</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - IBM Data Warehouse Engineer</h3>
+              <p>Issued Jan 2023 &middot; ID CY8FYWCRXH44</p>
+              <p class="skills">Bases de datos, modelos estadisticos, data warehousing</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - Google Project Management</h3>
+              <p>Issued Dec 2021 &middot; ID JL2Q8YT4PZUR</p>
+              <p class="skills">Project Management, resolucion de problemas, agile practices</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - Data Analysis and Visualization Foundations</h3>
+              <p>ID PAGNGZJGV9VB</p>
+              <p class="skills">Analisis de datos, visualizacion, fundamentos de reporting</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - IBM Data Analyst</h3>
+              <p>Issued Feb 2023 &middot; ID V5GCRUWH6C8S</p>
+              <p class="skills">Modelos estadisticos, Python, analisis y visualizacion</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - IBM Data Science</h3>
+              <p>Issued Feb 2023 &middot; ID 6FYGH72YK6RB</p>
+              <p class="skills">Modelos estadisticos, Python, data science</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - Applied Data Science</h3>
+              <p>Issued Feb 2023 &middot; ID NWMUVY66H6AB</p>
+              <p class="skills">Data Science, modelos estadisticos, Python</p>
+            </div>
+          </article>
+          <article class="credential-card coursera">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - Introduction to Data Science</h3>
+              <p>Issued Feb 2023 &middot; ID 28CDV88XYPSD</p>
+              <p class="skills">Modelos estadisticos, analisis de clusters, data fundamentals</p>
+            </div>
+          </article>
+          <article class="credential-card coursera featured">
+            <div class="credential-logo">CO</div>
+            <div class="credential-body">
+              <span>Coursera</span>
+              <h3>Programa Especializado - BI Foundations with SQL, ETL and Data Warehousing</h3>
+              <p>Issued Feb 2023 &middot; ID T3U9KMAQYBAV</p>
+              <p class="skills">Modelos estadisticos, SQL, ETL, BI foundations</p>
+            </div>
+          </article>
+          </div>
+        </details>
+      </section>
+
+      <section class="section contact-section closing-contact" id="contact" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow" data-en="Contact">Contacto</p>
+          <h2 id="contact-title" data-en="Let&#39;s talk with context.">Hablemos con contexto.</h2>
+          <p data-en="If you'd rather write directly, use these channels and share the problem, current tools and urgency.">
+            El formulario de diagnostico es la mejor entrada para entender tu proceso. Si necesitas escribir directo, usa estos canales y comparte el problema, herramientas actuales y urgencia.
+          </p>
+          <div class="contact-tags" aria-label="Canales de contacto D3X">
+            <span data-en="Human response">Respuesta humana</span>
+            <span data-en="Diagnostic first">Diagnostico primero</span>
+            <span data-en="No automatic actions">Sin acciones automaticas</span>
+          </div>
+        </div>
+        <div class="contact-card contact-actions-card">
+          <a href="#diagnostico" data-en="Go to the diagnostic">Ir al diagnostico</a>
+          <a href="mailto:administracion@d3x.biz">administracion@d3x.biz</a>
+          <a href="tel:+525661273135">+52 56 6127 3135</a>
+          <a href="https://linkedin.com/in/luis-gonzaga-rivero-62a0021a9">LinkedIn</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>D3X &middot; d3x.biz</strong>
+        <span>Portfolio for data, automation and operations work.</span>
+      </div>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="enhancements.js"></script>
+  </body>
+</html>
+
+
+
+
