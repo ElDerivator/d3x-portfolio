@@ -510,3 +510,26 @@ summary[data-en]:hover { color: #0c7c78; }
 /* === Eyebrows "Carrera"/"Aprendizaje" más grandes (pasaban desapercibidos) === */
 #work .section-heading .eyebrow,
 #credentials .section-heading .eyebrow { font-size: 1.05rem !important; letter-spacing: .06em; }
+
+/* === Todos los eyebrows de sección más grandes (Career/Education/Learning/Contact) === */
+.section-heading .eyebrow { font-size: 1.05rem !important; letter-spacing: .06em; }
+
+/* === Acceso al juego: que se vea claramente abrible/jugable === */
+#game .game-disclosure > summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 18px 22px; border: 1px solid var(--line); border-radius: 14px;
+  background: var(--panel); box-shadow: var(--soft-shadow);
+  transition: transform .15s ease, border-color .2s ease;
+}
+#game .game-disclosure > summary:hover { transform: translateY(-2px); border-color: #0a8f8a; }
+#game .game-disclosure > summary::-webkit-details-marker { display: none; }
+#game .game-disclosure > summary small { color: #0a8f8a; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+#game .game-disclosure > summary strong { font-size: 1.2rem; display: block; }
+#game .game-disclosure > summary em {
+  font-style: normal; font-weight: 700; color: #fff;
+  background: #0a8f8a; padding: 10px 20px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+}
+#game .game-disclosure > summary em::before { content: "▶"; font-size: .8em; }
+#game .game-disclosure[open] > summary em::before { content: "■"; }
