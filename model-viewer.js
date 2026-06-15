@@ -6,8 +6,9 @@ import { OrbitControls } from './vendor/three/OrbitControls.js';
 
 // Paletas por tema: gradiente de marca + luces/material.
 const THEMES = {
-  dark:  { c1: 0x0a8f8a, c2: 0xe0a83a, hemiSky: 0xffffff, hemiGround: 0x223a4d, hemiInt: 1.15, keyInt: 1.5,  rimColor: 0x88aaff, rimInt: 0.85, metal: 0.25, rough: 0.5 },
-  light: { c1: 0x0b7f7a, c2: 0xc9892a, hemiSky: 0xffffff, hemiGround: 0xc8d4dc, hemiInt: 1.3,  keyInt: 1.25, rimColor: 0x6688bb, rimInt: 0.5,  metal: 0.15, rough: 0.6 },
+  light: { mode: 'gradient', c1: 0x0b7f7a, c2: 0xc9892a, hemiSky: 0xffffff, hemiGround: 0xc8d4dc, hemiInt: 1.3, keyInt: 1.25, rimColor: 0x6688bb, rimInt: 0.5, metal: 0.15, rough: 0.6 },
+  // dark: mármol blanco tipo estatua griega (veteado procedural + material mate)
+  dark:  { mode: 'marble', base: 0xece9e0, vein: 0xafa89b, hemiSky: 0xffffff, hemiGround: 0x39404a, hemiInt: 1.05, keyInt: 1.8, rimColor: 0xaab4c6, rimInt: 0.6, metal: 0.03, rough: 0.74 },
 };
 function currentTheme() {
   return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
@@ -59,11 +60,24 @@ function initViewer(root) {
       hemi.color.setHex(t.hemiSky); hemi.groundColor.setHex(t.hemiGround); hemi.intensity = t.hemiInt;
       key.intensity = t.keyInt;
       rim.color.setHex(t.rimColor); rim.intensity = t.rimInt;
-      cA.setHex(t.c1); cB.setHex(t.c2);
+      const marble = t.mode === 'marble';
+      if (marble) { cA.setHex(t.vein); cB.setHex(t.base); }
+      else { cA.setHex(t.c1); cB.setHex(t.c2); }
       meshInfos.forEach((mi) => {
         const arr = mi.colorAttr.array, p = mi.posAttr, n = p.count;
         for (let i = 0; i < n; i++) {
-          tmpC.copy(cA).lerp(cB, (p.getZ(i) - mi.lo) / mi.rng);
+          let f;
+          if (marble) {
+            const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+            const nz = Math.sin(x * 3.1 + Math.sin(z * 1.7) * 1.6) * 0.5
+                     + Math.sin(y * 3.4 - x * 1.1) * 0.3
+                     + Math.sin(z * 2.3 + y * 1.5) * 0.2;
+            f = Math.min(1, Math.max(0, nz * 0.5 + 0.5));
+            f = Math.pow(f, 0.5); // sesga a blanco: vetas finas, no manchas
+          } else {
+            f = (p.getZ(i) - mi.lo) / mi.rng;
+          }
+          tmpC.copy(cA).lerp(cB, f);
           arr[i * 3] = tmpC.r; arr[i * 3 + 1] = tmpC.g; arr[i * 3 + 2] = tmpC.b;
         }
         mi.colorAttr.needsUpdate = true;
