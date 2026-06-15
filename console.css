@@ -705,3 +705,10 @@ summary[data-en]:hover { color: #0c7c78; }
 .video-grid video { width:100%; height:auto; display:block; border-radius:8px; border:1px solid var(--line); background:#000; }
 .video-grid figcaption { font-size:.75rem; color: var(--muted); margin-top:5px; font-family: ui-monospace,monospace; }
 @media (max-width:1024px){ .video-grid { grid-template-columns: 1fr; } }
+
+/* === Reproductor de videos (página de proyecto) === */
+.video-player { display: grid; gap: 12px; margin-bottom: 24px; }
+.video-player video { max-height: 70vh; width: auto; max-width: 100%; margin: 0 auto; display: block; border-radius: 12px; border: 1px solid var(--line); background: #000; }
+.video-thumbs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.video-thumbs button { font: 600 12px/1 ui-monospace, "JetBrains Mono", monospace; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 9px 13px; cursor: pointer; transition: color .15s, border-color .15s; }
+.video-thumbs button.is-active, .video-thumbs button:hover { color: var(--ink); border-color: var(--teal); }

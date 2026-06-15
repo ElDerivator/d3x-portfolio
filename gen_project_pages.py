@@ -71,6 +71,19 @@ def block(h_es, h_en, p_es, p_en):
 def btn(href, es, en, cls="primary"):
     return f'<a class="button {cls}" href="{href}" target="_blank" rel="noopener" data-en="{en}">{es}</a>'
 
+_VIDS = [("Personal_derivatorcondex.mp4","D3X · personal"),("Derivatorviendoadex.mp4","D3X · operación"),
+         ("SHORBULL_parrilla.mp4","SHORBULL · producto"),("SHORBULL_Reclutamiento.mp4","SHORBULL · reclutamiento"),
+         ("SHORBULL_Senora.mp4","SHORBULL · campaña")]
+VIDEO_PLAYER = ('<div class="video-player">'
+  f'<video id="mainvid" controls preload="metadata" playsinline src="assets/videos/{_VIDS[0][0]}"></video>'
+  '<div class="video-thumbs">' +
+  "".join(f'<button type="button" data-src="assets/videos/{f}"{" class=\"is-active\"" if i==0 else ""}>{c}</button>'
+          for i,(f,c) in enumerate(_VIDS)) +
+  '</div></div>'
+  '<script>(function(){var v=document.getElementById("mainvid"),b=document.querySelectorAll(".video-thumbs button");'
+  'b.forEach(function(x){x.addEventListener("click",function(){v.src=x.dataset.src;v.play();'
+  'b.forEach(function(y){y.classList.remove("is-active")});x.classList.add("is-active");});});})();</script>')
+
 PROJECTS = {
   "proyecto-exocortex.html": dict(
     title="Exocortex", meta="Exocortex — governed memory and agent orchestration system.",
@@ -132,20 +145,15 @@ PROJECTS = {
     tagline="Generación de video con IA: branding, demos de producto y contenido para social.",
     tagline_en="AI video generation: branding, product demos and social content.",
     tags="".join(tag(t) for t in ["IA generativa","Branding","Demos de producto","Social","Prompt-to-render"]),
-    actions='<a class="button secondary" href="index.html#projects" data-en="Back to projects">Volver a proyectos</a>',
-    body=(
+    actions='',
+    body=(VIDEO_PLAYER +
       block("Qué es","What it is",
         "Pipeline propio de creación de video con IA: de un prompt a un render listo para social, aplicado a branding y demostraciones de producto.",
         "An in-house AI video creation pipeline: from a prompt to a social-ready render, applied to branding and product demos.")+
       block("Qué construí","What I built",
-        "Flujo de generación, marca y montaje para producir piezas cortas de forma repetible. Abajo, ejemplos reales.",
-        "A generation, branding and editing flow to produce short pieces repeatably. Real examples below.")),
-    media='<section class="section"><div class="video-grid">'+
-      "".join(f'<figure><video controls preload="metadata" playsinline src="assets/videos/{f}"></video><figcaption>{c}</figcaption></figure>'
-        for f,c in [("Personal_derivatorcondex.mp4","D3X · personal"),("Derivatorviendoadex.mp4","D3X · operación"),
-                    ("SHORBULL_parrilla.mp4","SHORBULL · producto"),("SHORBULL_Reclutamiento.mp4","SHORBULL · reclutamiento"),
-                    ("SHORBULL_Senora.mp4","SHORBULL · campaña")])+
-      '</div></section>'),
+        "Flujo de generación, marca y montaje para producir piezas cortas de forma repetible.",
+        "A generation, branding and editing flow to produce short pieces repeatably.")),
+    media=''),
 }
 
 for fname, p in PROJECTS.items():
