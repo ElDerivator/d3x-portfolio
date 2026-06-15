@@ -634,3 +634,54 @@ summary[data-en]:hover { color: #0c7c78; }
 }
 .story-quote::before { content: "“"; color: #0a8f8a; margin-right: 2px; }
 .story-quote::after { content: "”"; color: #0a8f8a; margin-left: 2px; }
+
+/* ============================================================
+   FIX MÓVIL CONSOLIDADO (2026-06-15) — carga última, gana cascada.
+   Breakpoint 820px: viewports densos (Huawei P40) reportan ancho
+   mayor que los 640/720 previos, por eso los 2-col no colapsaban.
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* --- Menú: hamburguesa real, nav oculto salvo is-open --- */
+  .menu-toggle { display: inline-flex !important; }
+  /* header (y su dropdown) por ENCIMA del hero: comparten z-index 1 y el main se pintaba arriba */
+  .site-header { position: relative; z-index: 200 !important; }
+  /* #site-nav (ID) gana especificidad; display:none/grid es binario, imposible de override por opacity */
+  #site-nav.nav-links { display: none !important; }
+  .site-header.is-open #site-nav.nav-links {
+    display: grid !important;
+    position: absolute !important;
+    top: calc(100% + 8px) !important; right: 14px !important; left: 14px !important;
+    gap: 0 !important; padding: 8px !important;
+    background: rgba(var(--surf), 0.98) !important;
+    border: 1px solid var(--line) !important; border-radius: 10px !important;
+    box-shadow: var(--shadow) !important; z-index: 60;
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  }
+  #site-nav.nav-links a { width: 100%; padding: 12px 10px !important; }
+
+  /* --- Todos los layouts de 2 columnas -> 1 columna --- */
+  .hero, .section-heading, .client-value-shell, .contact-section, .diagnostic-section,
+  .education-shell, .experience-feature, .game-shell, .method-shell, .ops-score,
+  .project-focus, .section-grid, .timeline {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+  .section-heading { gap: 8px !important; }
+  .hero-actions .button { min-width: 0 !important; width: 100%; }
+
+  /* Juego "Carrera de Señales": que quepa completo a lo ancho sin desbordar */
+  #game .section, #game.section { padding-left: 14px !important; padding-right: 14px !important; }
+  #game .game-shell, #game .ops-score, #game .game-scoreboard, #game .signal-card,
+  #game .game-stage, #game .game-disclosure, #game article {
+    min-width: 0 !important; max-width: 100% !important; box-sizing: border-box;
+  }
+  /* compactar a lo LARGO: que el juego (señal + botones) quepa en una pantalla */
+  #game .section, #game.section { padding-top: 16px !important; padding-bottom: 16px !important; }
+  #game .game-shell { gap: 10px !important; padding: 12px !important; }
+  #game .signal-card { padding: 12px 14px !important; }
+  #game .game-scoreboard, #game .ops-score { gap: 8px !important; }
+  #game .game-disclosure > summary { margin-bottom: 8px !important; }
+
+  /* nada desborda a lo ancho */
+  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+}

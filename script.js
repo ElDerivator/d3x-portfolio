@@ -292,6 +292,9 @@ const game = {
   active: false,
   timer: null,
   current: null,
+  queue: [],     // señales pendientes (barajadas) en este run
+  total: 0,      // total de señales del run
+  solved: 0,     // cuántas se han resuelto
 };
 
 const signals = [
@@ -351,6 +354,118 @@ const signals = [
     answer: "escalate",
     success: "Correcto. Un riesgo operativo necesita ownership antes de optimizarse.",
   },
+  {
+    type: "Automatización",
+    title: "Cada cierre de mes consolidas seis hojas a mano",
+    description: "Mismas columnas, mismo formato, distinto periodo.",
+    answer: "automate",
+    success: "Eso. Una consolidación repetible es trabajo para un flujo, no para tus manos.",
+  },
+  {
+    type: "Validacion",
+    title: "Dos tableros reportan cifras distintas para el mismo KPI",
+    description: "Nadie sabe cual es la fuente de verdad.",
+    answer: "validate",
+    success: "Correcto. Sin fuente validada, cada tablero cuenta una historia distinta.",
+  },
+  {
+    type: "Escalacion",
+    title: "Un cliente reporta una falla que afecta facturacion",
+    description: "El impacto crece y supera tu alcance de decision.",
+    answer: "escalate",
+    success: "Bien. Un riesgo que toca dinero necesita responsable arriba, rapido.",
+  },
+  {
+    type: "Dashboard",
+    title: "Direccion pide el estado del proyecto cada manana por chat",
+    description: "La misma pregunta, todos los dias, en tiempo real.",
+    answer: "dashboard",
+    success: "Exacto. Una pregunta diaria y repetible merece una vista, no otro mensaje.",
+  },
+  { type: "Automatización", answer: "automate",
+    title: "Cada viernes exportas el mismo reporte y lo pegas en tres correos",
+    title_en: "Every Friday you export the same report and paste it into three emails",
+    description: "Mismo origen, mismos destinatarios, mismo formato.",
+    description_en: "Same source, same recipients, same format.",
+    success: "Eso. Una salida repetible debe dispararse sola.",
+    success_en: "That's it. A repeatable output should fire on its own." },
+  { type: "Automatización", answer: "automate",
+    title: "Renombrar doscientos archivos sigue un patron fijo cada mes",
+    title_en: "Renaming two hundred files follows a fixed pattern every month",
+    description: "La regla nunca cambia, solo el lote.",
+    description_en: "The rule never changes, only the batch.",
+    success: "Bien. Reglas fijas sobre lotes son trabajo de script.",
+    success_en: "Good. Fixed rules over batches are script work." },
+  { type: "Automatización", answer: "automate",
+    title: "El alta de un cliente repite los mismos seis pasos manuales",
+    title_en: "Onboarding a client repeats the same six manual steps",
+    description: "Cada alta es identica salvo los datos.",
+    description_en: "Every onboarding is identical except the data.",
+    success: "Correcto. Un proceso identico y repetido pide un flujo.",
+    success_en: "Correct. An identical, repeated process asks for a flow." },
+  { type: "Validacion", answer: "validate",
+    title: "Las sumas del cierre no cuadran con el sistema contable",
+    title_en: "Closing totals don't match the accounting system",
+    description: "Dos fuentes dan cifras distintas para el mismo periodo.",
+    description_en: "Two sources give different figures for the same period.",
+    success: "Bien. Sin cuadrar fuentes, el cierre no es confiable.",
+    success_en: "Good. Without reconciling sources, the close isn't trustworthy." },
+  { type: "Validacion", answer: "validate",
+    title: "Un import dejo fechas en dos formatos distintos",
+    title_en: "An import left dates in two different formats",
+    description: "Parte del archivo usa DD/MM y otra MM/DD.",
+    description_en: "Part of the file uses DD/MM and another MM/DD.",
+    success: "Correcto. Formatos mezclados rompen cualquier analisis.",
+    success_en: "Correct. Mixed formats break any analysis." },
+  { type: "Validacion", answer: "validate",
+    title: "El total de unidades vendidas supera el inventario inicial",
+    title_en: "Total units sold exceeds the starting inventory",
+    description: "El numero es imposible: algo se conto dos veces.",
+    description_en: "The number is impossible: something was counted twice.",
+    success: "Bien visto. Un imposible logico es una alerta de datos.",
+    success_en: "Well spotted. A logical impossibility is a data alert." },
+  { type: "Escalacion", answer: "escalate",
+    title: "Una caida de servicio afecta a varios clientes a la vez",
+    title_en: "A service outage affects several clients at once",
+    description: "El alcance supera lo que puedes resolver solo.",
+    description_en: "The scope is beyond what you can fix alone.",
+    success: "Correcto. Un incidente amplio necesita responsable y coordinacion.",
+    success_en: "Correct. A broad incident needs an owner and coordination." },
+  { type: "Escalacion", answer: "escalate",
+    title: "Detectas un posible acceso no autorizado a un panel",
+    title_en: "You detect a possible unauthorized access to a panel",
+    description: "Hay riesgo de seguridad y no es tu decision contenerlo solo.",
+    description_en: "There's a security risk and containing it isn't yours alone.",
+    success: "Bien. La seguridad se escala de inmediato, no se improvisa.",
+    success_en: "Good. Security escalates immediately, it isn't improvised." },
+  { type: "Escalacion", answer: "escalate",
+    title: "Un cambio rompio produccion y no hay rollback claro",
+    title_en: "A change broke production and there's no clear rollback",
+    description: "El impacto crece mientras se busca la causa.",
+    description_en: "Impact grows while the cause is being found.",
+    success: "Correcto. Sin rollback claro, necesitas mas manos y ownership.",
+    success_en: "Correct. With no clear rollback, you need more hands and ownership." },
+  { type: "Dashboard", answer: "dashboard",
+    title: "Operaciones pregunta el avance de tickets varias veces al dia",
+    title_en: "Ops asks for ticket progress several times a day",
+    description: "La misma metrica, consultada en bucle.",
+    description_en: "The same metric, queried in a loop.",
+    success: "Exacto. Una metrica consultada en bucle merece estar a la vista.",
+    success_en: "Exactly. A metric queried in a loop deserves to be on display." },
+  { type: "Dashboard", answer: "dashboard",
+    title: "Finanzas quiere ver el gasto por area en vivo",
+    title_en: "Finance wants to see spend by area live",
+    description: "Necesitan tendencia, no un export de fin de mes.",
+    description_en: "They need a trend, not a month-end export.",
+    success: "Buena ruta. Las tendencias que guian decisiones van en dashboard.",
+    success_en: "Good route. Trends that drive decisions belong in a dashboard." },
+  { type: "Dashboard", answer: "dashboard",
+    title: "El SLA de soporte se revisa en cada standup",
+    title_en: "The support SLA is reviewed in every standup",
+    description: "El equipo necesita el numero sin abrir otra hoja.",
+    description_en: "The team needs the number without opening another sheet.",
+    success: "Correcto. Un numero recurrente de equipo va visible, no escondido.",
+    success_en: "Correct. A recurring team number goes visible, not hidden." },
 ];
 const gameEls = {
   timer: document.querySelector("#game-timer"),
@@ -393,14 +508,51 @@ const GAME_I18N = {
   "Un proceso manual rompe una regla de cumplimiento": "A manual process breaks a compliance rule",
   "El riesgo afecta calidad de servicio y necesita responsable claro.": "The risk affects service quality and needs a clear owner.",
   "Correcto. Un riesgo operativo necesita ownership antes de optimizarse.": "Correct. An operational risk needs ownership before optimization.",
+  "Cada cierre de mes consolidas seis hojas a mano": "Every month-end you consolidate six sheets by hand",
+  "Mismas columnas, mismo formato, distinto periodo.": "Same columns, same format, different period.",
+  "Eso. Una consolidación repetible es trabajo para un flujo, no para tus manos.": "That's it. A repeatable consolidation is work for a flow, not your hands.",
+  "Dos tableros reportan cifras distintas para el mismo KPI": "Two dashboards report different figures for the same KPI",
+  "Nadie sabe cual es la fuente de verdad.": "Nobody knows which is the source of truth.",
+  "Correcto. Sin fuente validada, cada tablero cuenta una historia distinta.": "Correct. With no validated source, each dashboard tells a different story.",
+  "Un cliente reporta una falla que afecta facturacion": "A client reports a failure that affects billing",
+  "El impacto crece y supera tu alcance de decision.": "The impact grows and exceeds your decision scope.",
+  "Bien. Un riesgo que toca dinero necesita responsable arriba, rapido.": "Good. A risk that touches money needs an owner up the chain, fast.",
+  "Direccion pide el estado del proyecto cada manana por chat": "Leadership asks for project status every morning by chat",
+  "La misma pregunta, todos los dias, en tiempo real.": "The same question, every day, in real time.",
+  "Exacto. Una pregunta diaria y repetible merece una vista, no otro mensaje.": "Exactly. A daily, repeatable question deserves a view, not another message.",
   "Corriendo": "Running",
   "Manda la señal a la capa correcta.": "Send the signal to the right layer.",
   "Jugar de nuevo": "Play again",
+  "Señal": "Signal",
   "Run terminado. La operación quedó más clara que al inicio.": "Run over. The operation ended clearer than it started.",
   "Run terminado. La friccion todavia pesa en el flujo.": "Run over. Friction still weighs on the flow.",
+  "Despejaste todas las señales sin un solo error. Operación impecable.": "You cleared every signal with zero errors. Flawless operation.",
+  "Despejaste todas las señales, pero la fricción dejó marca. Hay que afinar el criterio.": "You cleared every signal, but friction left a mark. Sharpen the judgment.",
+  "Se acabó el tiempo. Quedaron señales en la cola.": "Time's up. Signals were left in the queue.",
 };
 function GLANG() { return document.documentElement.lang === "en" ? "en" : "es"; }
 function tr(t) { return GLANG() === "en" ? (GAME_I18N[t] || t) : t; }
+// Campo bilingüe de una señal: usa <key>_en si existe (tarjetas nuevas), si no cae al diccionario.
+function trField(obj, key) {
+  if (GLANG() === "en") return obj[key + "_en"] || GAME_I18N[obj[key]] || obj[key];
+  return obj[key];
+}
+
+let _timeDeltaEl = null;
+function flashTimeDelta(amount) {
+  if (!gameEls.timer) return;
+  if (!_timeDeltaEl) {
+    _timeDeltaEl = document.createElement("span");
+    _timeDeltaEl.className = "time-delta";
+    _timeDeltaEl.style.cssText = "margin-left:.4em;font-weight:800;opacity:0;transition:opacity .25s ease;";
+    gameEls.timer.insertAdjacentElement("afterend", _timeDeltaEl);
+  }
+  _timeDeltaEl.textContent = (amount > 0 ? "+" : "") + amount + "s";
+  _timeDeltaEl.style.color = amount > 0 ? "#1aa179" : "#e0796b";  // verde acierto / rojo error
+  _timeDeltaEl.style.opacity = "1";
+  clearTimeout(_timeDeltaEl._t);
+  _timeDeltaEl._t = setTimeout(() => { _timeDeltaEl.style.opacity = "0"; }, 750);
+}
 
 function renderGame() {
   if (!gameEls.timer) return;
@@ -408,6 +560,10 @@ function renderGame() {
   gameEls.score.textContent = game.score;
   gameEls.friction.textContent = game.friction;
   gameEls.streak.textContent = game.streak;
+  // El #signal-type ya NO muestra la categoría (delataba la respuesta): muestra progreso.
+  if (gameEls.type && game.total) {
+    gameEls.type.textContent = `${tr("Señal")} ${Math.min(game.solved + 1, game.total)}/${game.total}`;
+  }
   if (gameEls.meter) {
     gameEls.meter.style.width = `${Math.max((game.timeLeft / game.duration) * 100, 0)}%`;
   }
@@ -427,25 +583,46 @@ function setDecisionEnabled(enabled) {
 }
 
 function nextSignal() {
-  const pool = signals.filter((signal) => signal !== game.current);
-  game.current = pool[Math.floor(Math.random() * pool.length)];
-  gameEls.type.textContent = tr(game.current.type);
-  gameEls.title.textContent = tr(game.current.title);
-  gameEls.description.textContent = tr(game.current.description);
+  if (!game.queue.length) {     // se acabaron las tarjetas → fin por completar
+    finishGame("cleared");
+    return;
+  }
+  game.current = game.queue.shift();
+  gameEls.title.textContent = trField(game.current, "title");
+  gameEls.description.textContent = trField(game.current, "description");
   gameEls.card.classList.remove("is-correct", "is-wrong");
   gameEls.card.classList.remove("is-entering");
   window.requestAnimationFrame(() => gameEls.card.classList.add("is-entering"));
+  renderGame();
 }
 
-function finishGame() {
+function finishGame(reason) {
   clearInterval(game.timer);
   game.active = false;
+  game.current = null;
   setDecisionEnabled(false);
   gameEls.start.textContent = tr("Jugar de nuevo");
-  gameEls.feedback.textContent =
-    game.score >= game.friction
-      ? tr("Run terminado. La operación quedó más clara que al inicio.")
-      : tr("Run terminado. La friccion todavia pesa en el flujo.");
+  if (reason === "cleared") {
+    gameEls.feedback.textContent = game.friction === 0
+      ? tr("Despejaste todas las señales sin un solo error. Operación impecable.")
+      : tr("Despejaste todas las señales, pero la fricción dejó marca. Hay que afinar el criterio.");
+  } else if (reason === "timeout") {
+    gameEls.feedback.textContent = tr("Se acabó el tiempo. Quedaron señales en la cola.");
+  } else {
+    gameEls.feedback.textContent =
+      game.score >= game.friction
+        ? tr("Run terminado. La operación quedó más clara que al inicio.")
+        : tr("Run terminado. La friccion todavia pesa en el flujo.");
+  }
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function startGame() {
@@ -454,6 +631,9 @@ function startGame() {
   game.score = 0;
   game.friction = 0;
   game.streak = 0;
+  game.solved = 0;
+  game.queue = shuffle(signals);   // cada run baraja todas las señales, sin repetir
+  game.total = game.queue.length;
   game.active = true;
   gameEls.start.textContent = tr("Corriendo");
   gameEls.feedback.textContent = tr("Manda la señal a la capa correcta.");
@@ -464,7 +644,7 @@ function startGame() {
   game.timer = setInterval(() => {
     game.timeLeft -= 1;
     renderGame();
-    if (game.timeLeft <= 0) finishGame();
+    if (game.timeLeft <= 0) finishGame("timeout");
   }, 1000);
 }
 
@@ -475,19 +655,25 @@ function handleDecision(decision) {
   if (correct) {
     game.streak += 1;
     game.score += 10 + Math.min(game.streak * 2, 10);
+    game.timeLeft += 2;                 // acierto: +2 segundos
+    flashTimeDelta(2);
     gameEls.card.classList.add("is-correct");
-    gameEls.feedback.textContent = tr(game.current.success);
+    gameEls.feedback.textContent = trField(game.current, "success");
     bumpScore(gameEls.score);
     bumpScore(gameEls.streak);
   } else {
     game.streak = 0;
     game.friction += 8;
+    game.timeLeft = Math.max(game.timeLeft - 2, 0);   // error: -2 segundos
+    flashTimeDelta(-2);
     gameEls.card.classList.add("is-wrong");
     gameEls.feedback.textContent = GLANG() === "en" ? `Close. That signal belonged to ${game.current.answer}.` : `Casi. Esta señal pertenecía a ${game.current.answer}.`;
     bumpScore(gameEls.friction);
   }
 
+  game.solved += 1;
   renderGame();
+  if (game.timeLeft <= 0) { finishGame("timeout"); return; }   // el -2 pudo agotar el tiempo
   window.setTimeout(() => {
     if (game.active) nextSignal();
   }, 450);
