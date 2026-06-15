@@ -685,3 +685,23 @@ summary[data-en]:hover { color: #0c7c78; }
   /* nada desborda a lo ancho */
   html, body { overflow-x: hidden !important; max-width: 100% !important; }
 }
+
+/* === Páginas de detalle por proyecto === */
+.project-page .section { max-width: 920px; margin-inline: auto; }
+.proj-back { display:inline-block; color: var(--muted); font-size:.85rem; margin-bottom:18px; }
+.proj-back:hover { color: var(--teal); }
+.proj-title { font-size: clamp(2rem,6vw,3rem); margin:.2em 0; }
+.proj-tagline { color: var(--muted); font-size: clamp(1rem,2.5vw,1.2rem); max-width:60ch; }
+.proj-tags { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0; }
+.proj-tag { font: 600 12px/1 ui-monospace,"JetBrains Mono",monospace; color:var(--ink); background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:7px 12px; }
+.proj-note { color: var(--muted); font-size:.85rem; font-style:italic; }
+.proj-body { display:grid; gap:22px; }
+.proj-block h2 { font-size:1.15rem; margin:0 0 6px; color: var(--teal); }
+.proj-block p { color: var(--muted); line-height:1.7; margin:0; max-width:70ch; }
+.proj-link { display:inline-block; margin-top:10px; color: var(--teal); font-weight:600; font-size:.88rem; }
+.proj-link:hover { text-decoration: underline; }
+.video-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:14px; }
+.video-grid figure { margin:0; }
+.video-grid video { width:100%; height:auto; display:block; border-radius:8px; border:1px solid var(--line); background:#000; }
+.video-grid figcaption { font-size:.75rem; color: var(--muted); margin-top:5px; font-family: ui-monospace,monospace; }
+@media (max-width:1024px){ .video-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="POS — multi-unit point of sale and management for local businesses." />
+    <meta name="theme-color" content="#0a8f8a" />
+    <title>POS Multi-unidad | D3X · Luis Rivero</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23121418'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='22' font-weight='800' fill='white'%3ED3X%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="console.css" />
+    <script>(function(){try{var t=localStorage.getItem("d3x-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Navegacion principal">
+      <a class="brand" href="index.html" aria-label="D3X inicio">
+        <span class="brand-mark">D3X</span>
+        <span class="brand-text">Data &middot; Automation &middot; Operations</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span> Menu</button>
+      <nav class="nav-links" id="site-nav" aria-label="Secciones">
+        <a href="index.html#work" data-en="Experience">Trabajo</a>
+        <a href="index.html#projects" data-en="Projects">Proyectos</a>
+        <a href="index.html#game" data-en="Mini-game">Minijuego</a>
+        <a href="index.html#education" data-en="Education">Educación</a>
+        <a href="index.html#contact" data-en="Contact">Contacto</a>
+      </nav>
+      <div class="console-controls">
+        <button class="console-btn lang-btn" type="button" data-lang-toggle aria-label="Switch language">EN</button>
+        <button class="console-btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Cambiar a modo oscuro"><span class="ico" aria-hidden="true">☾</span><span class="txt">Dark</span></button>
+      </div>
+    </header>
+    <main class="project-page">
+      <section class="section">
+        <a class="proj-back" href="index.html#projects" data-en="&larr; Back to projects">&larr; Volver a proyectos</a>
+        <p class="eyebrow" data-en="Point of sale">Punto de venta</p>
+        <h1 class="proj-title">POS · Gestión de unidades</h1>
+        <p class="proj-tagline" data-en="Multi-unit point of sale and management for local businesses: sales, inventory and reporting.">Punto de venta y gestión multi-unidad para negocios locales: ventas, inventario y reporting.</p>
+        <div class="proj-tags"><span class="proj-tag">FastAPI</span><span class="proj-tag">42 tests</span><span class="proj-tag">Multi-unidad</span><span class="proj-tag">Inventario</span><span class="proj-tag">Dashboard</span><span class="proj-tag">LAN</span></div>
+        <div class="proj-actions"><a class="button primary" href="https://github.com/ElDerivator/d3x-family" target="_blank" rel="noopener" data-en="View repository">Ver repositorio</a></div>
+      </section>
+      <section class="section proj-body">
+        <div class="proj-block"><h2 data-en="What it is">Qué es</h2><p data-en="A point-of-sale and management platform for three real business units (groceries, hardware, baby clothes): sales, inventory and consolidated per-unit reporting.">Plataforma de punto de venta y gestión para tres unidades de negocio reales (abarrotes, ferretería, ropa de bebé): ventas, inventario y reporting consolidado por unidad.</p></div><div class="proj-block"><h2 data-en="What I built">Qué construí</h2><p data-en="A FastAPI API with 42 tests, multi-unit catalog, per-unit economics, dashboard and CLI. Built to run on LAN, robust and verifiable.">API FastAPI con 42 tests, catálogo multi-unidad, economía por unidad, dashboard y CLI. Pensado para operar en LAN, robusto y verificable.</p></div><div class="proj-block"><h2 data-en="Outcome">Resultado</h2><p data-en="A store operations system with test discipline — the basis of how I build: verifiable end to end.">Un sistema operativo de tienda con disciplina de pruebas — la base de cómo construyo: verificable de punta a punta.</p></div>
+      </section>
+      
+    </main>
+    <footer class="site-footer">
+      <div><strong>D3X &middot; d3x.biz</strong><span data-en="Portfolio for data, automation and operations work.">Portafolio de trabajo en datos, automatización y operaciones.</span></div>
+      <a href="index.html" data-en="Back to home">Volver al inicio</a>
+    </footer>
+    <script src="enhancements.js"></script>
+    <script>(function(){var h=document.querySelector(".site-header"),b=document.querySelector(".menu-toggle");if(b)b.addEventListener("click",function(){var o=h.classList.toggle("is-open");b.setAttribute("aria-expanded",String(o));});})();</script>
+  </body>
+</html>

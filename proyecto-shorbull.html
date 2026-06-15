@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="SHORBULL CommerceOps — e-commerce and operations platform." />
+    <meta name="theme-color" content="#0a8f8a" />
+    <title>SHORBULL | D3X · Luis Rivero</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23121418'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='22' font-weight='800' fill='white'%3ED3X%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="console.css" />
+    <script>(function(){try{var t=localStorage.getItem("d3x-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Navegacion principal">
+      <a class="brand" href="index.html" aria-label="D3X inicio">
+        <span class="brand-mark">D3X</span>
+        <span class="brand-text">Data &middot; Automation &middot; Operations</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span> Menu</button>
+      <nav class="nav-links" id="site-nav" aria-label="Secciones">
+        <a href="index.html#work" data-en="Experience">Trabajo</a>
+        <a href="index.html#projects" data-en="Projects">Proyectos</a>
+        <a href="index.html#game" data-en="Mini-game">Minijuego</a>
+        <a href="index.html#education" data-en="Education">Educación</a>
+        <a href="index.html#contact" data-en="Contact">Contacto</a>
+      </nav>
+      <div class="console-controls">
+        <button class="console-btn lang-btn" type="button" data-lang-toggle aria-label="Switch language">EN</button>
+        <button class="console-btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Cambiar a modo oscuro"><span class="ico" aria-hidden="true">☾</span><span class="txt">Dark</span></button>
+      </div>
+    </header>
+    <main class="project-page">
+      <section class="section">
+        <a class="proj-back" href="index.html#projects" data-en="&larr; Back to projects">&larr; Volver a proyectos</a>
+        <p class="eyebrow" data-en="CommerceOps">CommerceOps</p>
+        <h1 class="proj-title">SHORBULL</h1>
+        <p class="proj-tagline" data-en="E-commerce and operations platform: catalog, inventory, multi-channel and dashboard.">Plataforma de e-commerce y operación: catálogo, inventario, multicanal y dashboard.</p>
+        <div class="proj-tags"><span class="proj-tag">Next.js</span><span class="proj-tag">FastAPI</span><span class="proj-tag">SQLite</span><span class="proj-tag">359 productos</span><span class="proj-tag">Multicanal</span><span class="proj-tag">Dashboard</span></div>
+        <div class="proj-actions"><a class="button primary" href="https://github.com/ElDerivator/d3x-shorbull" target="_blank" rel="noopener" data-en="View repository">Ver repositorio</a></div>
+      </section>
+      <section class="section proj-body">
+        <div class="proj-block"><h2 data-en="What it is">Qué es</h2><p data-en="An end-to-end commerce operations system: manages a 359-product catalog, inventory, pricing, 12 sales channels and cash-on-delivery, with an admin panel and reports.">Sistema de operaciones de comercio de punta a punta: gestiona un catálogo de 359 productos, inventario, precios, 12 canales de venta y pago contra entrega, con panel de administración y reportes.</p></div><div class="proj-block"><h2 data-en="What I built">Qué construí</h2><p data-en="A Next.js frontend + FastAPI backend, price history, XLSX export, an operations dashboard and a messaging bot as a reusable pattern. Designed so an owner-operator runs the store without friction.">Frontend Next.js + backend FastAPI, historial de precios, export a XLSX, dashboard de operación y un bot de mensajería como patrón reutilizable. Todo diseñado para que un dueño-operador controle la tienda sin fricción.</p></div><div class="proj-block"><h2 data-en="Outcome">Resultado</h2><p data-en="A complete CommerceOps that proves the ability to build real product, not just prototypes.">Un CommerceOps completo que demuestra capacidad de construir producto real, no solo prototipos.</p></div>
+      </section>
+      
+    </main>
+    <footer class="site-footer">
+      <div><strong>D3X &middot; d3x.biz</strong><span data-en="Portfolio for data, automation and operations work.">Portafolio de trabajo en datos, automatización y operaciones.</span></div>
+      <a href="index.html" data-en="Back to home">Volver al inicio</a>
+    </footer>
+    <script src="enhancements.js"></script>
+    <script>(function(){var h=document.querySelector(".site-header"),b=document.querySelector(".menu-toggle");if(b)b.addEventListener("click",function(){var o=h.classList.toggle("is-open");b.setAttribute("aria-expanded",String(o));});})();</script>
+  </body>
+</html>
