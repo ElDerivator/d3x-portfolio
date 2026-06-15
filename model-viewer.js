@@ -6,9 +6,10 @@ import { OrbitControls } from './vendor/three/OrbitControls.js';
 
 // Paletas por tema: gradiente de marca + luces/material.
 const THEMES = {
-  light: { mode: 'gradient', c1: 0x0b7f7a, c2: 0xc9892a, hemiSky: 0xffffff, hemiGround: 0xc8d4dc, hemiInt: 1.3, keyInt: 1.25, rimColor: 0x6688bb, rimInt: 0.5, metal: 0.15, rough: 0.6 },
-  // dark: mármol blanco tipo estatua griega (veteado procedural + material mate)
-  dark:  { mode: 'marble', base: 0xece9e0, vein: 0xafa89b, hemiSky: 0xffffff, hemiGround: 0x39404a, hemiInt: 1.05, keyInt: 1.8, rimColor: 0xaab4c6, rimInt: 0.6, metal: 0.03, rough: 0.74 },
+  // light: mármol blanco tipo estatua griega (veteado procedural + material mate), luces para fondo claro
+  light: { mode: 'marble', base: 0xece9e0, vein: 0xafa89b, hemiSky: 0xffffff, hemiGround: 0xd8dde2, hemiInt: 1.2, keyInt: 1.55, rimColor: 0x99a3b5, rimInt: 0.5, metal: 0.03, rough: 0.74 },
+  // dark: gradiente de marca teal->dorado vibrante, luces para fondo oscuro
+  dark:  { mode: 'gradient', c1: 0x0a8f8a, c2: 0xe0a83a, hemiSky: 0xffffff, hemiGround: 0x223a4d, hemiInt: 1.15, keyInt: 1.5, rimColor: 0x88aaff, rimInt: 0.85, metal: 0.25, rough: 0.5 },
 };
 function currentTheme() {
   return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
