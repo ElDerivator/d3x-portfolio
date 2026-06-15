@@ -50,6 +50,7 @@ function initViewer(root) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
+    controls.enableZoom = false;   // zoom desactivado: encuadre fijo centrado se ve bien; evita la regresión de zoom
     controls.autoRotate = !reduceMotion;
     controls.autoRotateSpeed = 1.0;
 
