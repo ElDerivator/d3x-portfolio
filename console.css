@@ -712,3 +712,12 @@ summary[data-en]:hover { color: #0c7c78; }
 .video-thumbs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .video-thumbs button { font: 600 12px/1 ui-monospace, "JetBrains Mono", monospace; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 9px 13px; cursor: pointer; transition: color .15s, border-color .15s; }
 .video-thumbs button.is-active, .video-thumbs button:hover { color: var(--ink); border-color: var(--teal); }
+
+/* Project screenshots gallery (static, no JS) */
+.proj-shots { display:grid; grid-template-columns: repeat(2,1fr); gap:16px; margin-top:10px; }
+.proj-shots figure { margin:0; }
+.proj-shots a { display:block; }
+.proj-shots img { width:100%; height:auto; display:block; border-radius:8px; border:1px solid var(--line); background:#000; transition: transform .15s, border-color .15s; }
+.proj-shots a:hover img { border-color: var(--teal); transform: translateY(-2px); }
+.proj-shots figcaption { font-size:.75rem; color: var(--muted); margin-top:6px; font-family: ui-monospace,monospace; }
+@media (max-width:1024px){ .proj-shots { grid-template-columns: 1fr; } }
