@@ -39,13 +39,68 @@
         <p class="eyebrow" data-en="Cognitive system">Sistema cognitivo</p>
         <h1 class="proj-title">Exocortex</h1>
         <p class="proj-tagline" data-en="Governed memory, a temporal truth graph and local-first agent orchestration.">Memoria gobernada, grafo de verdad temporal y orquestación de agentes local-first.</p>
-        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">FalkorDB</span><span class="proj-tag">Qdrant</span><span class="proj-tag">DAG runner</span><span class="proj-tag">Local-first</span><span class="proj-tag">Multi-agente</span></div>
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">FalkorDB</span><span class="proj-tag">Qdrant</span><span class="proj-tag">DAG runner</span><span class="proj-tag">Local-first</span><span class="proj-tag">Multi-agente</span><span class="proj-tag">Bug Bounty</span></div>
         <div class="proj-actions"><span class="proj-note" data-en="Private system &mdash; shown via screenshots">Sistema privado &mdash; se muestra con capturas</span></div>
       </section>
       <section class="section proj-body">
-        <div class="proj-block"><h2 data-en="What it is">Qué es</h2><p data-en="A cognitive extension: a memory system that knows what it knows, why, what outcome confirmed it and when it changed. Built to run on modest hardware (Raspberry Pi) under real compute and cost constraints.">Una extensión cognitiva: un sistema de memoria que sabe qué sabe, por qué lo sabe, qué resultado lo confirmó y cuándo cambió. Construido para correr en hardware modesto (Raspberry Pi) bajo restricciones reales de cómputo y costo.</p></div><div class="proj-block"><h2 data-en="What I built">Qué construí</h2><p data-en="A bi-temporal truth graph (283 edges in FalkorDB), governed memory with deterministic validation, pipelines with checkpoint/resume/replay, and a gate protecting the core layer. Math-based reads with no LLM in the hot path; LLM-proposed writes decided by gates and outcomes.">Grafo de verdad temporal bi-temporal (283 edges en FalkorDB), memoria gobernada con validación determinista, pipelines con checkpoint/resume/replay y un gate que protege la capa core. Lectura matemática sin LLM en el hot-path; escritura propuesta por LLM y decidida por gates y resultados.</p></div><div class="proj-block"><h2 data-en="Outcome">Resultado</h2><p data-en="A memory loop that runs on its own, self-corrects and can explain its own knowledge — zero hallucination as a guiding principle.">Un loop de memoria que corre solo, se autocorrige y puede explicar su propio conocimiento — cero alucinación como principio rector.</p></div>
+        <div class="proj-block">
+          <h2 data-en="What it is">Qué es</h2>
+          <p data-en="A cognitive extension running on modest hardware (Raspberry Pi): a governed-memory system that knows what it knows, why, what outcome confirmed it and when it changed.">Una extensión cognitiva que corre en hardware modesto (Raspberry Pi): un sistema de memoria gobernada que sabe qué sabe, por qué, qué resultado lo confirmó y cuándo cambió.</p>
+          <p data-en="Under the hood: a bi-temporal truth graph (283 edges in FalkorDB), deterministic validation, pipelines with checkpoint/resume/replay and a gate protecting the core layer. Math-based reads with no LLM in the hot path; writes are LLM-proposed but decided by gates and outcomes. The result is a memory loop that self-corrects and explains its own knowledge &mdash; zero hallucination as a guiding principle.">Bajo el capó: grafo de verdad bi-temporal (283 edges en FalkorDB), validación determinista, pipelines con checkpoint/resume/replay y un gate que protege la capa core. Lectura matemática sin LLM en el hot-path; la escritura la propone un LLM pero la deciden gates y resultados. El resultado es un loop de memoria que se autocorrige y explica su propio conocimiento &mdash; cero alucinación como principio rector.</p>
+        </div>
       </section>
-      
+      <section class="section">
+        <div class="proj-block"><h2 data-en="Screenshots">Capturas</h2></div>
+        <div class="proj-shots">
+          <figure>
+            <a href="assets/screenshots/Exocortex/Knowledgegraph.png" target="_blank" rel="noopener">
+              <img src="assets/screenshots/Exocortex/Knowledgegraph.png" alt="Temporal truth knowledge graph" width="1401" height="1123" loading="lazy" decoding="async" />
+            </a>
+            <figcaption data-en="Temporal truth graph: 283 bi-temporal edges in FalkorDB.">Grafo de verdad temporal: 283 edges bi-temporales en FalkorDB.</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/screenshots/Exocortex/Dashboard.png" target="_blank" rel="noopener">
+              <img src="assets/screenshots/Exocortex/Dashboard.png" alt="Exocortex operational dashboard" width="1891" height="880" loading="lazy" decoding="async" />
+            </a>
+            <figcaption data-en="Operational dashboard: memory hierarchy (L0/L1/L2) and node status.">Dashboard operativo: jerarquía de memoria (L0/L1/L2) y estado de nodos.</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/screenshots/Exocortex/3nodos.png" target="_blank" rel="noopener">
+              <img src="assets/screenshots/Exocortex/3nodos.png" alt="Tri-node topology: orchestration, compute and memory" width="1677" height="938" loading="lazy" decoding="async" />
+            </a>
+            <figcaption data-en="Tri-node topology: orchestration, compute and memory coordinated.">Topología tri-nodo: orquestación, cómputo y memoria coordinados.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section proj-vertical" id="bugbounty">
+        <p class="eyebrow" data-en="D3X in action">D3X en acción</p>
+        <h2 class="proj-subtitle" data-en="Applied vertical: offensive-security research (Bug Bounty)">Vertical aplicada: investigación de seguridad ofensiva (Bug Bounty)</h2>
+        <p class="proj-tagline" data-en="The cognitive system isn&rsquo;t abstract: it powers a real security-research operation.">El sistema cognitivo no es abstracto: opera una operación real de investigación de seguridad.</p>
+        <div class="proj-tags"><span class="proj-tag">Go</span><span class="proj-tag">Python</span><span class="proj-tag">Recon</span><span class="proj-tag">Burp</span><span class="proj-tag">Scope enforcement</span><span class="proj-tag">VRT triage</span></div>
+        <div class="proj-body">
+          <div class="proj-block"><h2 data-en="The lab">El laboratorio</h2><p data-en="An offensive-security lab built on top of the governed memory and agent orchestration: an in-house recon &rarr; detection pipeline with Go and Python tooling, an isolated testing VM (Burp, proxies, scripted checks) and deterministic scope enforcement that hard-stops anything out of scope.">Un laboratorio de seguridad ofensiva construido sobre la memoria gobernada y la orquestación de agentes: un pipeline propio de reconocimiento &rarr; detección con herramientas en Go y Python, una VM de pruebas aislada (Burp, proxies, checks programados) y un scope enforcement determinista que detiene en duro cualquier cosa fuera de alcance.</p></div>
+          <div class="proj-block"><h2 data-en="How knowledge compounds">Cómo compone el conocimiento</h2><p data-en="Each program&rsquo;s rules, scope and techniques live in a governed, reusable knowledge base; findings are preserved with evidence and only promoted when an outcome confirms them. Fresh CVEs are turned into executable checks &mdash; not auto-generated templates.">Las reglas, el alcance y las técnicas de cada programa viven en una base de conocimiento gobernada y reutilizable; los hallazgos se preservan con evidencia y solo se promueven cuando un resultado los confirma. Los CVEs frescos se convierten en checks ejecutables &mdash; no en plantillas auto-generadas.</p></div>
+          <div class="proj-block"><h2 data-en="Outcome">Resultado</h2><p data-en="Findings externally validated by the programs (confirmed P5 and P3 severities), proving real security-research capability &mdash; not just automation.">Hallazgos validados externamente por los programas (severidades P5 y P3 confirmadas), que demuestran capacidad real de investigación de seguridad &mdash; no solo automatización.</p></div>
+        </div>
+        <div class="proj-shots">
+          <figure>
+            <a href="assets/screenshots/Exocortex/Bugcrowd.png" target="_blank" rel="noopener">
+              <img src="assets/screenshots/Exocortex/Bugcrowd.png" alt="Bugcrowd security research platform" width="1555" height="970" loading="lazy" decoding="async" />
+            </a>
+            <figcaption data-en="Security research on real bug-bounty programs (Bugcrowd).">Investigación de seguridad sobre programas reales de bug bounty (Bugcrowd).</figcaption>
+          </figure>
+        </div>
+        <p class="proj-note" data-en="Private lab &mdash; program names and findings are withheld under responsible-disclosure policies.">Laboratorio privado &mdash; los nombres de programas y los hallazgos se reservan por políticas de divulgación responsable.</p>
+      </section>
+      <section class="section">
+        <div class="proj-block">
+          <h2 data-en="Reference">Referencia</h2>
+          <p class="proj-cite" data-en="The design draws on the &laquo;science exocortex&raquo; concept &mdash; a synthetic extension of a person&rsquo;s cognition built from interconnected AI agents. Kevin G. Yager, &ldquo;Towards a science exocortex&rdquo;, Digital Discovery, 2024, 3, 1933&ndash;1957.">El diseño se apoya en el concepto de &laquo;science exocortex&raquo; &mdash; una extensión sintética de la cognición de una persona construida con agentes IA interconectados. Kevin G. Yager, &ldquo;Towards a science exocortex&rdquo;, Digital Discovery, 2024, 3, 1933&ndash;1957.</p>
+          <p><a class="button" href="https://doi.org/10.1039/D4DD00178H" target="_blank" rel="noopener" data-en="Read the paper (DOI)">Leer el paper (DOI)</a></p>
+        </div>
+      </section>
+
     </main>
     <footer class="site-footer">
       <div><strong>D3X &middot; d3x.biz</strong><span data-en="Portfolio for data, automation and operations work.">Portafolio de trabajo en datos, automatización y operaciones.</span></div>

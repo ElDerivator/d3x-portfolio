@@ -114,3 +114,48 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fillMarquee);
   else fillMarquee();
 })();
+
+/* Lightbox para capturas de proyecto: evita la pestaña-imagen sin retorno */
+(function () {
+  function build() {
+    var shots = document.querySelectorAll('.proj-shots a');
+    if (!shots.length) return;
+    var box = document.createElement('div');
+    box.className = 'd3x-lightbox';
+    box.setAttribute('hidden', '');
+    box.innerHTML =
+      '<button class="d3x-lb-close" type="button" aria-label="Cerrar">&times;</button>' +
+      '<figure><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(box);
+    var img = box.querySelector('img');
+    var cap = box.querySelector('figcaption');
+    var closeBtn = box.querySelector('.d3x-lb-close');
+    function open(src, caption) {
+      img.src = src;
+      cap.textContent = caption || '';
+      box.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function close() {
+      box.setAttribute('hidden', '');
+      img.removeAttribute('src');
+      document.body.style.overflow = '';
+    }
+    shots.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var fig = a.closest('figure');
+        var c = fig ? fig.querySelector('figcaption') : null;
+        open(a.getAttribute('href'), c ? c.textContent : '');
+      });
+    });
+    closeBtn.addEventListener('click', close);
+    box.addEventListener('click', function (e) { if (e.target === box) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !box.hasAttribute('hidden')) close();
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
+})();
