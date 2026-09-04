@@ -1,0 +1,1107 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Bitácora Europa 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#EDF0EC; --surface:#FFFFFF; --surface-2:#F4F6F2;
+    --ink:#18211C; --ink-soft:#4C574F; --ink-faint:#77837A;
+    --line:#D8DDD4; --line-soft:#E6EAE2;
+    --accent:#1E5B48; --accent-soft:#E1EDE7; --accent-ink:#14442F;
+    --warm:#B0611C; --warm-soft:#F6E8D7; --warm-ink:#8A4A12;
+    --cold:#2C6288; --cold-soft:#DEEAF2; --cold-ink:#204b6b;
+    --gbp:#8A3B57; --gbp-soft:#F3E1E8;
+    --eur:#1E5B48; --eur-soft:#E1EDE7;
+    --chf:#2C6288; --chf-soft:#DEEAF2;
+    --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+    --font-body:'IBM Plex Sans',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+    --shadow:0 1px 2px rgba(24,33,28,.05),0 6px 20px rgba(24,33,28,.06);
+    --maxw:880px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#11150F; --surface:#1A1F17; --surface-2:#212719;
+      --ink:#ECEFE6; --ink-soft:#A9B3A5; --ink-faint:#7C877A;
+      --line:#333A2E; --line-soft:#2A3025;
+      --accent:#6FCBA6; --accent-soft:#1D3227; --accent-ink:#A7E4CB;
+      --warm:#E1995B; --warm-soft:#382719; --warm-ink:#F0BC8B;
+      --cold:#7EB3DA; --cold-soft:#182B39; --cold-ink:#AED2EE;
+      --gbp:#D98AA6; --gbp-soft:#331E27;
+      --eur:#6FCBA6; --eur-soft:#1D3227;
+      --chf:#7EB3DA; --chf-soft:#182B39;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#11150F; --surface:#1A1F17; --surface-2:#212719;
+    --ink:#ECEFE6; --ink-soft:#A9B3A5; --ink-faint:#7C877A;
+    --line:#333A2E; --line-soft:#2A3025;
+    --accent:#6FCBA6; --accent-soft:#1D3227; --accent-ink:#A7E4CB;
+    --warm:#E1995B; --warm-soft:#382719; --warm-ink:#F0BC8B;
+    --cold:#7EB3DA; --cold-soft:#182B39; --cold-ink:#AED2EE;
+    --gbp:#D98AA6; --gbp-soft:#331E27;
+    --eur:#6FCBA6; --eur-soft:#1D3227;
+    --chf:#7EB3DA; --chf-soft:#182B39;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  html{overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font-body);
+    line-height:1.6;-webkit-font-smoothing:antialiased;margin:0;
+    overflow-x:hidden;overflow-wrap:break-word}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:22px 18px 80px}
+  h1,h2,h3{font-family:var(--font-display);text-wrap:balance;line-height:1.1;margin:0}
+  a{color:var(--accent)}
+  .mono{font-family:var(--font-mono)}
+
+  /* ---------- HERO / boarding pass ---------- */
+  .pass{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+  .pass-top{background:var(--accent);color:#fff;padding:20px 22px 18px;
+    display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  :root[data-theme="dark"] .pass-top,
+  :root:not([data-theme="light"]) .pass-top{color:#0c1a13}
+  @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .pass-top{color:#fff}}
+  .pass-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;opacity:.85;margin-bottom:8px}
+  .pass-top h1{font-size:clamp(26px,6vw,40px);font-weight:800;color:inherit}
+  .pass-code{font-family:var(--font-mono);text-align:right;font-size:12px;
+    line-height:1.5;opacity:.9;white-space:nowrap}
+  .pass-code b{font-size:20px;display:block;font-weight:600}
+  .pass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft)}
+  .pass-cell{background:var(--surface);padding:13px 16px}
+  .pass-cell .k{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--ink-faint)}
+  .pass-cell .v{font-weight:600;font-size:15px;margin-top:2px}
+  .pass-route{padding:12px 18px;font-size:13.5px;color:var(--ink-soft);
+    border-top:1px solid var(--line-soft);background:var(--surface-2)}
+  .pass-route b{color:var(--ink);font-weight:600}
+
+  /* ---------- jump nav ---------- */
+  .jump{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+  .jump a{font-family:var(--font-mono);font-size:12px;text-decoration:none;
+    border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:var(--ink-soft);
+    background:var(--surface);transition:all .15s}
+  .jump a:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ---------- section headings ---------- */
+  .sec{margin:38px 0 16px;scroll-margin-top:14px}
+  .sec .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--accent);font-weight:600}
+  .sec h2{font-size:clamp(21px,4.5vw,27px);font-weight:700;margin-top:5px}
+  .sec p{color:var(--ink-soft);font-size:14.5px;margin:8px 0 0;max-width:62ch}
+
+  /* ---------- kit grid ---------- */
+  .kit{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px}
+  .k-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:15px 16px;box-shadow:var(--shadow)}
+  .k-card h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .k-card h3 .ic{font-size:17px;line-height:1}
+  .k-card ul{margin:9px 0 0;padding:0;list-style:none}
+  .k-card li{font-size:13.5px;color:var(--ink-soft);padding:3px 0 3px 16px;position:relative}
+  .k-card li::before{content:"";position:absolute;left:2px;top:11px;width:5px;height:5px;
+    border-radius:50%;background:var(--accent)}
+  .k-card li b{color:var(--ink);font-weight:600}
+
+  /* ---------- currency reference ---------- */
+  .money{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}
+  .m-card{border:1px solid var(--line);border-radius:12px;padding:15px 16px;background:var(--surface);
+    box-shadow:var(--shadow);border-top:3px solid var(--tone,var(--accent))}
+  .m-card.gbp{--tone:var(--gbp)} .m-card.eur{--tone:var(--eur)} .m-card.chf{--tone:var(--chf)}
+  .m-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .m-head .flag{font-size:20px}
+  .m-head .sym{font-family:var(--font-mono);font-weight:600;font-size:22px;color:var(--tone,var(--accent))}
+  .m-card h3{font-size:15.5px;font-weight:700}
+  .m-card .where{font-size:12px;color:var(--ink-faint);font-family:var(--font-mono);margin:2px 0 9px}
+  .m-card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13px}
+  .m-card dt{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-faint);padding-top:2px}
+  .m-card dd{margin:0;color:var(--ink-soft)}
+  .m-card dd b{color:var(--ink);font-weight:600}
+
+  /* ---------- legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--ink-soft);
+    background:var(--surface-2);border:1px solid var(--line-soft);border-radius:10px;
+    padding:10px 14px;margin:6px 0 18px}
+  .legend span{display:flex;align-items:center;gap:7px;font-family:var(--font-mono)}
+  .swatch{width:14px;height:14px;border-radius:4px;flex:none}
+  .sw-cold{background:var(--cold)} .sw-mild{background:var(--accent)}
+  .sw-warm{background:var(--warm)} .sw-air{background:var(--ink-faint)}
+
+  /* ---------- day cards ---------- */
+  .days{display:flex;flex-direction:column;gap:13px}
+  .day{background:var(--surface);border:1px solid var(--line);border-radius:13px;
+    box-shadow:var(--shadow);overflow:hidden;border-left:5px solid var(--stripe,var(--accent))}
+  .day.z-cold{--stripe:var(--cold)} .day.z-mild{--stripe:var(--accent)}
+  .day.z-warm{--stripe:var(--warm)} .day.z-air{--stripe:var(--ink-faint)}
+  .day-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+    padding:13px 16px;border-bottom:1px solid var(--line-soft);background:var(--surface-2)}
+  .day-num{font-family:var(--font-mono);font-weight:600;font-size:12px;color:var(--stripe,var(--accent));
+    letter-spacing:.05em;white-space:nowrap}
+  .day-num b{display:block;font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1}
+  .day-when{flex:1;min-width:140px}
+  .day-when .date{font-weight:700;font-size:15.5px;font-family:var(--font-display)}
+  .day-when .wd{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.12em;color:var(--ink-faint)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .chip{font-family:var(--font-mono);font-size:11.5px;font-weight:500;border-radius:999px;
+    padding:3px 10px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
+    border:1px solid transparent}
+  .chip.cur-gbp{background:var(--gbp-soft);color:var(--gbp);border-color:var(--gbp)}
+  .chip.cur-eur{background:var(--eur-soft);color:var(--eur);border-color:var(--eur)}
+  .chip.cur-chf{background:var(--chf-soft);color:var(--chf);border-color:var(--chf)}
+  .chip.temp{background:var(--surface);border-color:var(--line);color:var(--ink)}
+  .chip.flag{background:transparent;font-size:15px;padding:2px 4px}
+
+  .day-body{padding:6px 16px 15px}
+  .row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;
+    border-bottom:1px dashed var(--line-soft)}
+  .row:last-child{border-bottom:0}
+  .row .rl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-faint);padding-top:3px;display:flex;align-items:flex-start;gap:6px}
+  .row .rl .ic{font-size:14px;line-height:1}
+  .row .rv{font-size:14px;color:var(--ink-soft)}
+  .row .rv b{color:var(--ink);font-weight:600}
+  .flagpair{margin-right:2px}
+
+  .knw{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+  .knw li{position:relative;padding-left:15px;font-size:13.5px;color:var(--ink-soft)}
+  .knw li::before{content:"›";position:absolute;left:0;top:-1px;color:var(--stripe,var(--accent));font-weight:700}
+  .knw li b{color:var(--ink);font-weight:600}
+
+  .note-alert{background:var(--warm-soft);border-left:3px solid var(--warm);
+    border-radius:6px;padding:8px 11px;margin-top:4px;font-size:13.5px;color:var(--warm-ink)}
+  .note-cold{background:var(--cold-soft);border-left:3px solid var(--cold);
+    border-radius:6px;padding:8px 11px;margin-top:4px;font-size:13.5px;color:var(--cold-ink)}
+
+  /* ---------- optional excursions ---------- */
+  .picks{background:var(--accent-soft);border:1px solid var(--accent);border-radius:13px;
+    padding:16px 18px;margin-bottom:16px}
+  .picks h3{font-size:16px;font-weight:700;color:var(--accent-ink);display:flex;align-items:center;gap:8px}
+  .picks ol{margin:11px 0 0;padding-left:0;list-style:none;counter-reset:p;display:flex;flex-direction:column;gap:9px}
+  .picks li{counter-increment:p;position:relative;padding-left:34px;font-size:14px;color:var(--ink)}
+  .picks li::before{content:counter(p);position:absolute;left:0;top:0;width:23px;height:23px;
+    display:grid;place-items:center;background:var(--accent);color:var(--surface);
+    border-radius:50%;font-family:var(--font-mono);font-size:12px;font-weight:600}
+  :root:not([data-theme="light"]) .picks li::before,:root[data-theme="dark"] .picks li::before{color:#0c1a13}
+  @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .picks li::before{color:#fff}}
+  .picks li b{font-weight:700}
+  .picks .pp{font-family:var(--font-mono);color:var(--accent-ink);font-weight:600}
+
+  .tours{display:flex;flex-direction:column;gap:10px}
+  .tour{background:var(--surface);border:1px solid var(--line);border-radius:11px;
+    padding:13px 15px;border-left:4px solid var(--rc,var(--line-soft))}
+  .tour.top{--rc:var(--accent)} .tour.good{--rc:var(--cold)} .tour.taste{--rc:var(--warm)}
+  .thead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .tname{font-family:var(--font-display);font-weight:700;font-size:15.5px;color:var(--ink)}
+  .tprice{font-family:var(--font-mono);font-weight:600;font-size:15px;color:var(--ink);white-space:nowrap}
+  .tmeta{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink-faint);margin:4px 0 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{display:inline-block;font-family:var(--font-mono);font-size:10px;font-weight:600;
+    padding:2px 8px;border-radius:999px;letter-spacing:.03em}
+  .badge.b-top{background:var(--accent-soft);color:var(--accent-ink)}
+  .badge.b-good{background:var(--cold-soft);color:var(--cold-ink)}
+  .badge.b-taste{background:var(--warm-soft);color:var(--warm-ink)}
+  .tverdict{font-size:13.5px;color:var(--ink-soft)}
+  .tverdict b{color:var(--ink);font-weight:600}
+
+  .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,258px),1fr));gap:12px;margin-top:14px}
+  .pack{border:1px dashed var(--line);border-radius:12px;padding:15px 16px;background:var(--surface-2)}
+  .pack h3{font-size:15px;font-weight:700}
+  .pack .pk-price{font-family:var(--font-mono);font-weight:600;font-size:19px;color:var(--accent);margin:4px 0 8px}
+  .pack p{font-size:13px;color:var(--ink-soft);margin:0}
+  .pack .verdict-tag{display:inline-block;margin-top:9px;font-family:var(--font-mono);font-size:11px;
+    font-weight:600;padding:3px 9px;border-radius:6px}
+  .vt-save{background:var(--accent-soft);color:var(--accent-ink)}
+  .vt-nosave{background:var(--warm-soft);color:var(--warm-ink)}
+
+  .disc{font-size:12.5px;color:var(--ink-faint);font-style:italic;margin:18px 0 0;
+    border-top:1px solid var(--line-soft);padding-top:14px;line-height:1.55}
+  footer{margin-top:34px;text-align:center;font-family:var(--font-mono);font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+  /* ---------- checklist ---------- */
+  .chk-progress{display:flex;align-items:center;gap:14px;background:var(--surface-2);
+    border:1px solid var(--line-soft);border-radius:10px;padding:11px 15px;margin-bottom:14px}
+  .chk-track{flex:1;height:8px;background:var(--line);border-radius:999px;overflow:hidden}
+  #chk-bar{height:100%;background:var(--accent);width:0;transition:width .2s ease}
+  #chk-count{font-family:var(--font-mono);font-weight:600;font-size:13px;white-space:nowrap;color:var(--ink)}
+  #chk-reset{font-family:var(--font-mono);font-size:11px;border:1px solid var(--line);background:var(--surface);
+    color:var(--ink-soft);border-radius:7px;padding:5px 10px;cursor:pointer}
+  #chk-reset:hover{border-color:var(--accent);color:var(--accent)}
+  .check{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:12px}
+  .chk-cat{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:14px 15px;box-shadow:var(--shadow)}
+  .chk-cat h3{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .chk-cat h3 .ic{font-size:16px}
+  .ci{display:flex;align-items:flex-start;gap:9px;padding:4px 0;font-size:13.5px;color:var(--ink-soft);cursor:pointer}
+  .ci input{margin:2px 0 0;width:16px;height:16px;accent-color:var(--accent);flex:none;cursor:pointer}
+  .ci input:checked ~ span{color:var(--ink-faint);text-decoration:line-through}
+  .ci input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---------- photo spots ---------- */
+  .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:11px}
+  .ph{background:var(--surface);border:1px solid var(--line);border-radius:11px;
+    padding:12px 14px;border-left:4px solid var(--accent);box-shadow:var(--shadow)}
+  .ph h3{font-family:var(--font-display);font-size:14.5px;font-weight:700;margin-bottom:4px}
+  .ph .spot{font-size:13.5px;color:var(--ink-soft)}
+  .ph .spot b{color:var(--ink);font-weight:600}
+  .ph .tip{font-family:var(--font-mono);font-size:11px;color:var(--accent);margin-top:6px;display:block}
+
+  @media (max-width:520px){
+    .pass-grid{grid-template-columns:repeat(2,1fr)}
+    .row{grid-template-columns:1fr;gap:2px}
+    .row .rl{padding-top:0}
+    .day-when{min-width:0}
+    .day-when .wd{letter-spacing:.05em}
+    .wrap{padding-left:14px;padding-right:14px}
+  }
+</style>
+
+<div class="wrap">
+
+  <!-- ===================== HERO ===================== -->
+  <div class="pass">
+    <div class="pass-top">
+      <div>
+        <div class="pass-eyebrow">Bitácora de viaje · qué llevar y saber</div>
+        <h1>Gran Vuelta por Europa</h1>
+      </div>
+      <div class="pass-code">
+        MEX ✈ LHR<br>
+        <b>19 días</b>
+        MAD ✈ MEX
+      </div>
+    </div>
+    <div class="pass-grid">
+      <div class="pass-cell"><div class="k">Salida</div><div class="v">17 oct 2026</div></div>
+      <div class="pass-cell"><div class="k">Regreso</div><div class="v">04 nov 2026</div></div>
+      <div class="pass-cell"><div class="k">Estación</div><div class="v">Otoño</div></div>
+      <div class="pass-cell"><div class="k">Monedas</div><div class="v">£ · € · CHF</div></div>
+    </div>
+    <div class="pass-route">
+      <b>Ruta:</b> Londres › París › Luxemburgo › Frankfurt › Heidelberg › Zúrich › Lucerna › Vaduz › Innsbruck › Venecia › Roma › Florencia › Pisa › Niza › Barcelona › Madrid
+    </div>
+  </div>
+
+  <nav class="jump">
+    <a href="#kit">Kit esencial</a>
+    <a href="#dinero">Monedas por país</a>
+    <a href="#dias">Día por día</a>
+    <a href="#tours">Excursiones opcionales</a>
+    <a href="#pareja">En pareja</a>
+    <a href="#maleta">Checklist maleta</a>
+    <a href="#fotos">Fotos IG</a>
+  </nav>
+
+  <!-- ===================== KIT ESENCIAL ===================== -->
+  <div class="sec" id="kit">
+    <div class="lbl">Antes de cerrar la maleta</div>
+    <h2>El kit que te sirve todos los días</h2>
+    <p>Vas a cruzar desde los 0&nbsp;°C de los Alpes hasta los 20&nbsp;°C de Roma en tres semanas. La clave es <b>ropa por capas</b>: en vez de un abrigo enorme, varias prendas que sumes o quites según el día.</p>
+  </div>
+  <div class="kit">
+    <div class="k-card">
+      <h3><span class="ic">🧅</span> Ropa por capas</h3>
+      <ul>
+        <li>Camisetas/blusas base (manga corta y larga)</li>
+        <li>2–3 <b>suéteres o jerséis</b> medianos</li>
+        <li>Una <b>chamarra impermeable con capucha</b> (cortavientos) — tu prenda estrella</li>
+        <li>Un <b>abrigo más cálido</b> para los Alpes (día 9)</li>
+        <li>Bufanda + gorro y guantes ligeros</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">👟</span> Zapatos</h3>
+      <ul>
+        <li>Un par <b>cómodo y ya probado</b> para caminar mucho (evita estrenar)</li>
+        <li>Que resistan agua o de secado rápido</li>
+        <li>Un par <b>ligero y arreglado</b> para cenas (flamenco / Mónaco)</li>
+        <li>Sin tacón alto: casi todo es <b>adoquín y empedrado</b></li>
+        <li>Calcetines de sobra</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">☂️</span> Lluvia y frío</h3>
+      <ul>
+        <li><b>Paraguas compacto</b> plegable (cabe en la bolsa)</li>
+        <li>La primera semana (Londres–París) llueve seguido</li>
+        <li>Un impermeable ligero tipo poncho de respaldo</li>
+        <li>Crema labial y de manos: el aire frío reseca</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">🔌</span> Electricidad</h3>
+      <ul>
+        <li><b>Adaptador universal</b> (o dos: uno de Reino Unido + uno europeo)</li>
+        <li>Europa usa <b>230V</b>; tus cargadores modernos (100–240V) funcionan</li>
+        <li>Reino Unido = enchufe distinto al del resto</li>
+        <li>Un <b>power bank</b> para el celular en los días largos de autobús</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">💶</span> Dinero</h3>
+      <ul>
+        <li>Efectivo en las <b>3 monedas</b>: libras, euros y algún franco suizo</li>
+        <li>Ten a la mano los <b>65&nbsp;€ por persona</b> del pago en destino (día 1)</li>
+        <li><b>Avisa a tu banco</b> que viajarás, para que no bloquee la tarjeta</li>
+        <li>Tarjeta con chip y sin contacto: se usa para casi todo</li>
+        <li>Monedas sueltas para <b>baños públicos de pago</b></li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">🎒</span> Contigo, no en la maleta</h3>
+      <ul>
+        <li><b>Pasaporte</b> vigente (al menos 6 meses) + copias aparte</li>
+        <li>Medicinas personales <b>con su receta</b>, en el equipaje de mano</li>
+        <li><b>Bolsa cruzada antirrobo</b> por delante — hay carteristas</li>
+        <li>Botella de agua reutilizable</li>
+        <li>Datos del seguro de viaje (ya viene incluido en tu paquete)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===================== MONEDAS / PAÍSES ===================== -->
+  <div class="sec" id="dinero">
+    <div class="lbl">Lo práctico por país</div>
+    <h2>Tres monedas, dos tipos de enchufe</h2>
+    <p>Casi todo el viaje es en <b>euros</b>. Solo cambian dos tramos: Reino Unido (libras) y el día de los Alpes (franco suizo). Guárdalo mentalmente así.</p>
+  </div>
+  <div class="money">
+    <div class="m-card gbp">
+      <div class="m-head"><span class="flag">🇬🇧</span><span class="sym">£ GBP</span></div>
+      <h3>Reino Unido</h3>
+      <div class="where">LONDRES · DÍAS 1–4</div>
+      <dl>
+        <dt>Moneda</dt><dd><b>Libra esterlina</b>. No usan euro.</dd>
+        <dt>Enchufe</dt><dd>Tipo G, 3 patas planas. <b>Adaptador propio de UK</b> (distinto al europeo).</dd>
+        <dt>Tarjeta</dt><dd>Contactless en todo, incluso el transporte.</dd>
+        <dt>Ojo</dt><dd>Se conduce por la <b>izquierda</b>: al cruzar, mira primero a tu derecha.</dd>
+        <dt>Propina</dt><dd>~10–12.5%; revisa si el "service charge" ya viene en la cuenta.</dd>
+      </dl>
+    </div>
+    <div class="m-card eur">
+      <div class="m-head"><span class="flag">🇪🇺</span><span class="sym">€ EUR</span></div>
+      <h3>Zona Euro</h3>
+      <div class="where">FRANCIA · ALEMANIA · ITALIA · ESPAÑA · +</div>
+      <dl>
+        <dt>Moneda</dt><dd><b>Euro</b>: Francia, Luxemburgo, Alemania, Austria, Italia, Mónaco y España.</dd>
+        <dt>Enchufe</dt><dd>Tipo C/E/F, 2 patas redondas. <b>Un adaptador europeo</b> cubre todos.</dd>
+        <dt>Agua</dt><dd>De grifo es potable; en el restaurante la embotellada se cobra. Trae tu botella.</dd>
+        <dt>Propina</dt><dd>Redondeo o ~5–10%. En Francia e Italia el servicio suele ir incluido.</dd>
+      </dl>
+    </div>
+    <div class="m-card chf">
+      <div class="m-head"><span class="flag">🇨🇭</span><span class="sym">CHF</span></div>
+      <h3>Suiza y Liechtenstein</h3>
+      <div class="where">ZÚRICH · LUCERNA · VADUZ · DÍA 9</div>
+      <dl>
+        <dt>Moneda</dt><dd><b>Franco suizo</b>, NO euro. Aceptan euros a veces, pero el cambio es malo.</dd>
+        <dt>Mejor</dt><dd>Paga con <b>tarjeta</b> y evita cargar francos; solo algo suelto para café o baño.</dd>
+        <dt>Enchufe</dt><dd>Tipo J; la pata europea fina suele entrar, pero el universal es lo seguro.</dd>
+        <dt>Ojo</dt><dd>País <b>caro</b>: agua, café y baños cuestan más que en el resto.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- ===================== DÍA POR DÍA ===================== -->
+  <div class="sec" id="dias">
+    <div class="lbl">El corazón de la bitácora</div>
+    <h2>Día por día: qué ves, qué saber, qué ponerte</h2>
+    <p>Cada día trae los <b>sitios que visitas</b>, un <b>“bueno saber”</b> con lo relevante de cada lugar, y lo práctico (ropa, zapatos, paraguas). El color del borde izquierdo indica el clima típico de esa fecha — son promedios, revisa el pronóstico real unos 5 días antes.</p>
+  </div>
+  <div class="legend">
+    <span><i class="swatch sw-cold"></i>Frío / húmedo</span>
+    <span><i class="swatch sw-mild"></i>Templado</span>
+    <span><i class="swatch sw-warm"></i>Cálido y seco</span>
+    <span><i class="swatch sw-air"></i>Día de vuelo</span>
+  </div>
+
+  <div class="days">
+
+    <!-- DÍA 1 -->
+    <div class="day z-air">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>01</b></div>
+        <div class="day-when"><div class="date">17 de octubre</div><div class="wd">Sábado · México ✈ Londres</div></div>
+        <div class="chips"><span class="chip flag">🇲🇽</span><span class="chip temp">Noche a bordo</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Hoy</div><div class="rv">Vuelo trasatlántico desde el Aeropuerto de la Ciudad de México (Aeroméxico). <b>Preséntate 3 horas antes.</b> Duermes en el avión.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Cómoda y por capas: en el avión hace frío. Lleva un suéter y calcetines gruesos a la mano.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">En tu <b>equipaje de mano</b>: pasaporte, medicinas, cargador, cepillo de dientes y una muda. Toma agua; el vuelo reseca mucho.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 2 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>02</b></div>
+        <div class="day-when"><div class="date">18 de octubre</div><div class="wd">Domingo · Londres</div></div>
+        <div class="chips"><span class="chip flag">🇬🇧</span><span class="chip cur-gbp">£ GBP</span><span class="chip temp">14° / 8° ☂️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Panorámica de Londres: Hyde Park, Kensington, Piccadilly Circus, Regent y Oxford Street, el Parlamento y el Big Ben, Palacio de Buckingham y la Abadía de Westminster.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>El <b>“Big Ben”</b> es en realidad la campana; la torre se llama Elizabeth Tower.</li>
+          <li>En <b>Buckingham</b>, si ondea el estandarte real en el mástil, el Rey está dentro.</li>
+          <li>En la <b>Abadía de Westminster</b> se coronan y casan los reyes desde hace casi mil años.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Día fresco y gris. <b>Capas + chamarra impermeable con capucha.</b> Bufanda.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Los cómodos e impermeables: caminas bastante y el pavimento suele estar mojado.</div></div>
+        <div class="row"><div class="rl"><span class="ic">☂️</span>Paraguas</div><div class="rv"><b>Sí, llévalo.</b> En Londres puede lloviznar en cualquier momento.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Estrena tus <b>libras</b> aquí. Al cruzar la calle mira a la <b>derecha</b> primero. Si el vuelo llegó tarde, la panorámica se pasa a la mañana siguiente.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 3 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>03</b></div>
+        <div class="day-when"><div class="date">19 de octubre</div><div class="wd">Lunes · Londres</div></div>
+        <div class="chips"><span class="chip flag">🇬🇧</span><span class="chip cur-gbp">£ GBP</span><span class="chip temp">13° / 8° ☂️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Día libre. Excursión opcional: <b>Castillo de Windsor</b>, Catedral de San Pablo, Puente de la Torre (Tower Bridge), Torre de Londres, Covent Garden y Piccadilly Circus.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Windsor</b> es el castillo habitado más antiguo y grande del mundo; residencia real desde hace ~1000 años.</li>
+          <li>En la <b>Catedral de San Pablo</b> se casó la princesa Diana en 1981.</li>
+          <li>Cuidado: no confundas el <b>Tower Bridge</b> (el bonito de las torres) con el London Bridge, que es simple.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Capas e impermeable. Si vas a Windsor, son varias horas parte al aire libre.</div></div>
+        <div class="row"><div class="rl"><span class="ic">☂️</span>Paraguas</div><div class="rv"><b>Sí.</b> Otoño londinense; más vale traerlo y no usarlo.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">La opcional de Windsor se paga aparte. El castillo cierra <b>martes y miércoles</b>; el 19 es lunes, así que abre.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 4 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>04</b></div>
+        <div class="day-when"><div class="date">20 de octubre</div><div class="wd">Martes · Londres ✈ París</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇬🇧</span><span class="chip flag">🇫🇷</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">13° / 7° ☂️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Salida a Dover para cruzar en <b>ferry</b> el Canal de la Mancha hasta Calais, y de ahí a París. Opcional de noche: Luces de París y Barrio Latino.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>El cruce <b>Dover–Calais</b> es el punto más estrecho del Canal (~34 km): es donde pasa el famoso Eurotúnel por debajo.</li>
+          <li>El <b>Barrio Latino</b> de París es la zona universitaria (la Sorbona) desde la Edad Media, llena de librerías y cafés.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Chamarra <b>cortavientos</b>: en la cubierta del ferry pega el aire frío del mar.</div></div>
+        <div class="row"><div class="rl"><span class="ic">☂️</span>Paraguas</div><div class="rv"><b>Sí</b>, a mano en la mochila.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Desde hoy vuelves al <b>euro</b> hasta casi el final. Si te marea el barco, toma algo <b>antes</b> de subir. Día largo de traslado: agua y snack contigo.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 5 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>05</b></div>
+        <div class="day-when"><div class="date">21 de octubre</div><div class="wd">Miércoles · París</div></div>
+        <div class="chips"><span class="chip flag">🇫🇷</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">15° / 9° 🌦️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Campos Elíseos, Plaza de la Concordia, Arco del Triunfo, el Louvre (por fuera), los Inválidos, Campo de Marte y Torre Eiffel. Opcional: Versalles y crucero por el Sena.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>La <b>Torre Eiffel</b> (330 m) se construyó para la Expo de 1889 y era temporal — la iban a desmontar.</li>
+          <li>El <b>Louvre</b> es el museo más visitado del mundo; la pirámide de cristal es su entrada.</li>
+          <li>El <b>Arco del Triunfo</b> honra a los soldados de Napoleón y guarda al Soldado Desconocido.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Capas + chamarra ligera impermeable. Algo un poco más arreglado si quieres fotos bonitas.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Cómodos: mucho caminar en el crucero y por la ciudad.</div></div>
+        <div class="row"><div class="rl"><span class="ic">☂️</span>Paraguas</div><div class="rv"><b>Sí</b>, el compacto.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv"><b>Cuida tu bolsa</b> en el metro y junto a la Torre Eiffel: es zona de carteristas. Llévala cruzada y por delante.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 6 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>06</b></div>
+        <div class="day-when"><div class="date">22 de octubre</div><div class="wd">Jueves · París</div></div>
+        <div class="chips"><span class="chip flag">🇫🇷</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">15° / 9° ☂️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Día libre en París. Opcional: <b>Brujas</b> (Bélgica), ciudad medieval de canales — Lago del Amor, Plaza del Mercado y la Torre Belfort.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Brujas</b> es Patrimonio de la Humanidad; sus canales le dan el apodo de “la Venecia del Norte”.</li>
+          <li>Es famosa por su <b>chocolate belga</b> y sus casas medievales intactas.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Si vas a Brujas, va más al norte: suma una capa, ahí hace <b>más frío y húmedo</b>.</div></div>
+        <div class="row"><div class="rl"><span class="ic">☂️</span>Paraguas</div><div class="rv"><b>Sí</b>, sobre todo si eliges Brujas.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Buen día para lavar ropa o reponer básicos. En Francia la farmacia se reconoce por la <b>cruz verde</b>.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 7 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>07</b></div>
+        <div class="day-when"><div class="date">23 de octubre</div><div class="wd">Viernes · París › Luxemburgo › Frankfurt</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇫🇷</span><span class="chip flag flagpair">🇱🇺</span><span class="chip flag">🇩🇪</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">12° / 6° 🌥️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv"><b>Luxemburgo</b> (tiempo libre en el casco antiguo) y sigues a <b>Frankfurt</b>, Alemania. Opcional: Luxemburgo a pie.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Luxemburgo</b> es uno de los países más pequeños y ricos de Europa; su casco viejo, sobre un peñón amurallado, es Patrimonio UNESCO.</li>
+          <li><b>Frankfurt</b> es el centro financiero de Alemania (sede del Banco Central Europeo); por sus rascacielos la llaman “Mainhattan”.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Baja la temperatura: suéter más grueso y la chamarra. Empieza el frío centroeuropeo.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv"><b>Día de mucho autobús</b> (tres países). Ve cómoda, ten agua y snack a mano, y aprovecha las paradas para estirarte.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 8 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>08</b></div>
+        <div class="day-when"><div class="date">24 de octubre</div><div class="wd">Sábado · Frankfurt › Heidelberg › Zúrich</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇩🇪</span><span class="chip flag">🇨🇭</span><span class="chip cur-chf">CHF</span><span class="chip temp">12° / 6° 🌥️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv"><b>Heidelberg</b> (iglesia del Espíritu Santo, puente viejo, Plaza del Mercado) y continúas a <b>Zúrich</b>, Suiza, con panorámica. Opcional: Castillo de Heidelberg.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Heidelberg</b> tiene la universidad más antigua de Alemania (1386) y un castillo romántico en ruinas sobre la ciudad.</li>
+          <li><b>Zúrich</b> es la ciudad más grande de Suiza, pero <b>no es la capital</b> (esa es Berna).</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Fría y húmeda. Capas, chamarra y bufanda.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Llegas a <b>Suiza: aquí es franco suizo, no euro</b>. Es país caro — paga con tarjeta. Prepárate para mañana, el día de montaña.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 9 -->
+    <div class="day z-cold">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>09</b></div>
+        <div class="day-when"><div class="date">25 de octubre</div><div class="wd">Domingo · Zúrich › Lucerna › Vaduz › Innsbruck</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇨🇭</span><span class="chip flag flagpair">🇱🇮</span><span class="chip flag">🇦🇹</span><span class="chip cur-chf">CHF</span><span class="chip temp">10° / 3° ❄️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv"><b>Lucerna</b> (a orillas del lago), bordeas los Alpes hasta <b>Vaduz</b> (Liechtenstein) y sigues a <b>Innsbruck</b>, Austria. Opcional: <b>Monte Titlis</b>, 3.000 m.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Vaduz</b> es la capital de Liechtenstein, un principado diminuto gobernado por un príncipe; a veces se le ve por la calle.</li>
+          <li>El <b>Puente de la Capilla</b> de Lucerna, de madera, es uno de los más antiguos de Europa.</li>
+          <li>El <b>Monte Titlis</b> tiene un teleférico giratorio, glaciar y uno de los puentes colgantes más altos de Europa.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv"><b>El día más frío del viaje.</b> Abrigo cálido, bufanda, gorro y guantes.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Suela con buen agarre: puede haber piso mojado o nieve en las cotas altas.</div></div>
+        <div class="note-cold"><b>❄️ Si subes al Monte Titlis:</b> arriba hay nieve, viento y temperaturas <b>bajo cero</b>. Imprescindibles guantes, gorro y una capa térmica extra. Suma gafas de sol y crema labial: el sol sobre la nieve pega fuerte.</div>
+        <div class="note-alert"><b>🕐 Cambio de horario:</b> esta madrugada los relojes en Europa se <b>atrasan una hora</b> (fin del horario de verano). Tu celular se ajusta solo; revisa que así sea antes de dormir.</div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Vaduz también usa <b>franco suizo</b>. Al entrar a Innsbruck (Austria) vuelves al <b>euro</b>.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 10 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>10</b></div>
+        <div class="day-when"><div class="date">26 de octubre</div><div class="wd">Lunes · Innsbruck › Padua › Venecia</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇦🇹</span><span class="chip flag">🇮🇹</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">16° / 8° 🌧️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv"><b>Innsbruck</b> (opcional a pie: Tejadito de Oro, Basílica de Wilten), cruzas el paso del Brennero hacia <b>Padua</b> (Basílica de San Antonio) y sigues a <b>Venecia</b>.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Innsbruck</b> fue sede de los Juegos Olímpicos de Invierno dos veces; su símbolo es el “Tejadito de Oro”, un balcón cubierto de tejas doradas.</li>
+          <li><b>Padua</b> es gran centro de peregrinación por la Basílica de San Antonio.</li>
+          <li><b>Venecia</b> está construida sobre 118 islas unidas por más de 400 puentes.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Empiezas frío en los Alpes y terminas más templado en Italia: <b>capas que te puedas quitar</b>.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv"><b>Impermeables de verdad.</b> Venecia es húmeda y hay muchos puentes con escalones.</div></div>
+        <div class="row"><div class="rl"><span class="ic">☂️</span>Paraguas</div><div class="rv"><b>Sí.</b></div></div>
+        <div class="note-alert"><b>🌊 Venecia en otoño:</b> puede haber <em>acqua alta</em> (la marea sube y encharca zonas bajas como San Marcos). Si pasa, ponen pasarelas — pero unos zapatos que aguanten el agua te salvan el día.</div>
+      </div>
+    </div>
+
+    <!-- DÍA 11 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>11</b></div>
+        <div class="day-when"><div class="date">27 de octubre</div><div class="wd">Martes · Venecia › Roma</div></div>
+        <div class="chips"><span class="chip flag">🇮🇹</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">17° / 10° 🌤️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Venecia: Puente de los Suspiros, Plaza y Basílica de San Marcos. Por la tarde, viaje a <b>Roma</b>. Opcional en la mañana: paseo en <b>góndola</b> con serenata.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>El <b>Puente de los Suspiros</b> unía el palacio con la cárcel; se dice que los presos “suspiraban” al ver Venecia por última vez.</li>
+          <li>La <b>Plaza de San Marcos</b> es el punto más bajo de la ciudad, por eso es la primera en inundarse.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Más suave que los días alpinos. Un suéter y chamarra ligera bastan; sobre la góndola (temprano) hace fresco.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">En Venecia el café sentado en la plaza cuesta bastante más que de pie en la barra. Trae tu <b>botella</b>: hay fuentes públicas potables.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 12 -->
+    <div class="day z-warm">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>12</b></div>
+        <div class="day-when"><div class="date">28 de octubre</div><div class="wd">Miércoles · Roma</div></div>
+        <div class="chips"><span class="chip flag">🇮🇹</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">19° / 12° 🌤️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Panorámica: Coliseo (por fuera), Circo Máximo, Santa María la Mayor y el Vaticano. Opcional: día completo Vaticano, Capilla Sixtina, San Pedro y Roma barroca (Navona, Panteón, Fontana di Trevi).</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>El <b>Coliseo</b> albergaba unos 50.000 espectadores para los combates de gladiadores.</li>
+          <li>El <b>Vaticano</b> es el país más pequeño del mundo (44 hectáreas); la Capilla Sixtina la pintó Miguel Ángel.</li>
+          <li>En la <b>Fontana di Trevi</b> la tradición es lanzar una moneda de espaldas para asegurar el regreso a Roma.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Los días más agradables del viaje. Capa ligera; de noche refresca. <b>Para iglesias y el Vaticano cubre hombros y rodillas</b> (lleva un chal).</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Los más cómodos que tengas: el Vaticano es <b>muchísimo</b> caminar sobre mármol.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Carteristas en la estación Termini y el transporte. Rellena tu botella en las fuentes <em>nasoni</em> de la calle: agua potable, gratis.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 13 -->
+    <div class="day z-warm">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>13</b></div>
+        <div class="day-when"><div class="date">29 de octubre</div><div class="wd">Jueves · Roma</div></div>
+        <div class="chips"><span class="chip flag">🇮🇹</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">19° / 12° 🌤️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Día libre en Roma. Opcional: <b>Nápoles y Pompeya</b> con almuerzo incluido.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Pompeya</b> quedó sepultada por la erupción del Vesubio en el año 79 d.C.; es de las ciudades romanas mejor conservadas.</li>
+          <li><b>Nápoles</b> es la cuna de la pizza.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Templado y agradable. Capa ligera.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Si vas a <b>Pompeya</b>, el piso es de piedra irregular y no hay sombra: calzado firme y cerrado, gorra y agua.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">La opcional de <b>Capri no opera</b> en estas fechas (solo hasta el 30 de septiembre). La de Nápoles y Pompeya sí.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 14 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>14</b></div>
+        <div class="day-when"><div class="date">30 de octubre</div><div class="wd">Viernes · Roma › Florencia</div></div>
+        <div class="chips"><span class="chip flag">🇮🇹</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">17° / 9° 🌤️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Viaje a <b>Florencia</b>. A pie: Catedral de Santa María del Fiore, el Campanario de Giotto, el Baptisterio, el Ponte Vecchio y la Plaza de la Santa Croce.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Florencia</b> es la cuna del Renacimiento; la cúpula del Duomo, de Brunelleschi, fue una hazaña de ingeniería sin igual en su época.</li>
+          <li>El <b>Ponte Vecchio</b> es el único puente que sobrevivió a la II Guerra Mundial; alberga joyerías desde el siglo XVI.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Fresco por la mañana, agradable de día. Capas.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Cómodos: el centro histórico es todo de piedra.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Florencia es buena para compras de piel; si algo te interesa, aparta <b>efectivo en euros</b> por si el puesto no toma tarjeta.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 15 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>15</b></div>
+        <div class="day-when"><div class="date">31 de octubre</div><div class="wd">Sábado · Florencia › Pisa › Niza</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇮🇹</span><span class="chip flag">🇫🇷</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">17° / 11° 🌤️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv"><b>Pisa</b> (Torre Inclinada, Catedral, Baptisterio) y sigues a <b>Niza</b>, en la Costa Azul. Opcional de noche: <b>Mónaco</b> y el Casino de Montecarlo.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>La <b>Torre de Pisa</b> se inclina desde que la construyeron, por el terreno blando; la foto clásica es “sosteniéndola”.</li>
+          <li><b>Mónaco</b> es el segundo país más pequeño del mundo; su Casino de Montecarlo aparece en James Bond.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Costa suave. Para la salida a Mónaco lleva algo <b>más arreglado</b> y una chamarra: de noche, junto al mar, refresca.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Entrar al Casino de Montecarlo cuesta aparte (~18&nbsp;€) y piden vestimenta cuidada. Mónaco usa euro.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 16 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>16</b></div>
+        <div class="day-when"><div class="date">01 de noviembre</div><div class="wd">Domingo · Niza › Barcelona</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇫🇷</span><span class="chip flag">🇪🇸</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">18° / 12° 🌤️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Cruzas Provenza y la Costa Azul hasta <b>Barcelona</b>. Panorámica breve: Sagrada Familia, Plaza Cataluña, Monumento a Colón, Plaza de España.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>La <b>Sagrada Familia</b> de Gaudí lleva en construcción desde 1882 y todavía no se termina.</li>
+          <li><b>Niza</b> está en la Riviera francesa; su Paseo de los Ingleses bordea el Mediterráneo.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Mediterráneo templado. Capa ligera; de noche, un suéter.</div></div>
+        <div class="note-alert"><b>📅 Hoy es Día de Todos los Santos:</b> festivo en Francia, Italia y España. <b>Muchas tiendas y comercios cierran.</b> No cuentes con hacer compras al llegar a Barcelona.</div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Día largo de carretera. Lleva agua y algo de comer, porque en festivo cuesta más encontrar todo abierto en el camino.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 17 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>17</b></div>
+        <div class="day-when"><div class="date">02 de noviembre</div><div class="wd">Lunes · Barcelona › Zaragoza › Madrid</div></div>
+        <div class="chips"><span class="chip flag">🇪🇸</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">17° / 8° 🌙</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv"><b>Zaragoza</b> (Basílica del Pilar) y continuación a <b>Madrid</b>. Opcional: cena de despedida con show de <b>flamenco</b>.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li>La <b>Basílica del Pilar</b> de Zaragoza es uno de los templos marianos más importantes de España.</li>
+          <li><b>Madrid</b> es la capital a mayor altitud de Europa (~660 m); por eso las mañanas y noches son frescas.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">De día templado, pero <b>mañanas y noches frías</b>. Para el flamenco, algo arreglado.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">La cena de flamenco (opcional, 3 tiempos) es tu última noche en Europa. Vale reservar con tu guía.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 18 -->
+    <div class="day z-mild">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>18</b></div>
+        <div class="day-when"><div class="date">03 de noviembre</div><div class="wd">Martes · Madrid</div></div>
+        <div class="chips"><span class="chip flag">🇪🇸</span><span class="chip cur-eur">€ EUR</span><span class="chip temp">16° / 7° ☀️</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Visitas</div><div class="rv">Día libre. Opcional: <b>Toledo</b> (Catedral incluida) y panorámica de Madrid — Atocha, Paseo del Prado, Cibeles, Puerta de Alcalá, Gran Vía — con tiempo de compras.</div></div>
+        <div class="row"><div class="rl"><span class="ic">🏛️</span>Bueno saber</div><div class="rv"><ul class="knw">
+          <li><b>Toledo</b> fue capital de España hasta 1561; se le llama “la ciudad de las tres culturas” (cristiana, judía y musulmana) y es Patrimonio UNESCO.</li>
+          <li>En Madrid, el <b>Museo del Prado</b> guarda las grandes obras de Velázquez y Goya.</li>
+        </ul></div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Seco y despejado. Capas: <b>fresco en la mañana</b>, templado al mediodía.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👟</span>Zapatos</div><div class="rv">Si vas a <b>Toledo</b>, son cuestas y empedrado en subida: los zapatos cómodos, sin duda.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Último día completo: buen momento para <b>souvenirs</b> y para repartir peso en la maleta pensando en el vuelo de mañana.</div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 19 -->
+    <div class="day z-air">
+      <div class="day-head">
+        <div class="day-num">DÍA<b>19</b></div>
+        <div class="day-when"><div class="date">04 de noviembre</div><div class="wd">Miércoles · Madrid ✈ México</div></div>
+        <div class="chips"><span class="chip flag flagpair">🇪🇸</span><span class="chip flag">🇲🇽</span><span class="chip temp">Vuelo de regreso</span></div>
+      </div>
+      <div class="day-body">
+        <div class="row"><div class="rl"><span class="ic">📍</span>Hoy</div><div class="rv">Traslado al aeropuerto Adolfo Suárez Madrid-Barajas para el vuelo de regreso a la Ciudad de México (Aeroméxico). Fin del viaje.</div></div>
+        <div class="row"><div class="rl"><span class="ic">👕</span>Ropa</div><div class="rv">Cómoda para el vuelo largo, con un suéter a la mano.</div></div>
+        <div class="row"><div class="rl"><span class="ic">💡</span>Nota</div><div class="rv">Si compraste bastante, revisa el <b>peso de tu maleta</b> la noche anterior. Guarda líquidos grandes en la maleta documentada y deja los pequeños (100 ml) en la de mano.</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===================== EXCURSIONES OPCIONALES ===================== -->
+  <div class="sec" id="tours">
+    <div class="lbl">Las que se pagan aparte</div>
+    <h2>Excursiones opcionales: cuáles valen la pena</h2>
+    <p>Ninguna viene incluida en tu paquete. Los precios son <b>en dólares y por persona</b> — para tu presupuesto real, multiplícalos por tu tipo de cambio y por <b>2 personas</b>. Abajo va mi recomendación honesta por lo que aportan frente a lo que ya ves incluido.</p>
+  </div>
+
+  <div class="picks">
+    <h3>⭐ Mis 4 mejores por valor</h3>
+    <ol>
+      <li><b>Full Day Roma · Vaticano</b> <span class="pp">— 192 USD</span>. Cara, pero es la visita cultural cumbre del viaje: sin ella <b>no entras</b> a los Museos Vaticanos, la Capilla Sixtina ni San Pedro (el día incluido solo pasa por fuera). La #1 imperdible.</li>
+      <li><b>Toledo + panorámica de Madrid</b> <span class="pp">— 84 USD</span>. La <b>mejor relación valor/precio</b>: barata, ciudad Patrimonio con Catedral incluida, y llena un día que de otro modo es libre.</li>
+      <li><b>Versalles + crucero por el Sena</b> <span class="pp">— 120 USD</span>. Dos íconos en una salida; no ves Versalles por tu cuenta desde el tour.</li>
+      <li><b>Luces de París + Barrio Latino</b> <span class="pp">— 72 USD</span>. París de noche, económica y muy bonita para arrancar el tramo francés.</li>
+    </ol>
+  </div>
+
+  <div class="tours">
+    <div class="tour good">
+      <div class="thead"><span class="tname">Luces de París con Barrio Latino</span><span class="tprice">72 USD</span></div>
+      <div class="tmeta">Día 4 · París <span class="badge b-good">Buen valor</span></div>
+      <div class="tverdict">París iluminado en autobús + el bohemio Barrio Latino. Económica y linda; buena primera noche.</div>
+    </div>
+    <div class="tour taste">
+      <div class="thead"><span class="tname">London Full Day: Windsor</span><span class="tprice">168 USD</span></div>
+      <div class="tmeta">Día 3 · Londres <span class="badge b-taste">Según gusto</span></div>
+      <div class="tverdict">El castillo habitado del Rey, con audioguía. Cara; el día 2 ya cubre bien Londres. Tómala <b>si te llama el castillo</b>.</div>
+    </div>
+    <div class="tour top">
+      <div class="thead"><span class="tname">Versalles y crucero por el Sena</span><span class="tprice">120 USD</span></div>
+      <div class="tmeta">Día 5 · París <span class="badge b-top">Muy recomendable</span></div>
+      <div class="tverdict"><b>Dos experiencias en una</b>: el palacio de Luis XIV y el paseo en barco por el Sena. No ves Versalles de otra forma.</div>
+    </div>
+    <div class="tour taste">
+      <div class="thead"><span class="tname">Brujas desde París</span><span class="tprice">156 USD</span></div>
+      <div class="tmeta">Día 6 · Bélgica <span class="badge b-taste">Según gusto</span></div>
+      <div class="tverdict">Preciosa ciudad medieval, pero <b>cara</b> y te quita tu día libre de París. Solo si amas los cascos antiguos y los canales.</div>
+    </div>
+    <div class="tour good">
+      <div class="thead"><span class="tname">Luxemburgo a pie</span><span class="tprice">54 USD</span></div>
+      <div class="tmeta">Día 7 · Luxemburgo <span class="badge b-good">Buen valor</span></div>
+      <div class="tverdict">De las más baratas. Aprovecha el tiempo libre que de todos modos tienes ahí, con guía que te cuenta la ciudad.</div>
+    </div>
+    <div class="tour good">
+      <div class="thead"><span class="tname">El Castillo de Heidelberg</span><span class="tprice">66 USD</span></div>
+      <div class="tmeta">Día 8 · Alemania <span class="badge b-good">Buen valor</span></div>
+      <div class="tverdict">Barata y bonita: castillo romántico en ruinas y casco antiguo. Buen complemento si el cuerpo aguanta el día.</div>
+    </div>
+    <div class="tour good">
+      <div class="thead"><span class="tname">El Monte Titlis</span><span class="tprice">180 USD</span></div>
+      <div class="tmeta">Día 9 · Alpes suizos <span class="badge b-good">Aventura en pareja</span></div>
+      <div class="tverdict">Justo su tipo de plan: teleférico giratorio a 3.000 m, glaciar y uno de los puentes colgantes más altos de Europa. Cara y hace frío de verdad — el único pero es el gasto; abríguense bien y disfrútenla.</div>
+    </div>
+    <div class="tour good">
+      <div class="thead"><span class="tname">Innsbruck a pie</span><span class="tprice">54 USD</span></div>
+      <div class="tmeta">Día 10 · Austria <span class="badge b-good">Buen valor</span></div>
+      <div class="tverdict">Barata; el pueblo tirolés y el Tejadito de Oro con guía. Complementa el tiempo libre de la mañana.</div>
+    </div>
+    <div class="tour taste">
+      <div class="thead"><span class="tname">Góndolas con serenata</span><span class="tprice">84 USD</span></div>
+      <div class="tmeta">Día 11 · Venecia <span class="badge b-taste">Según gusto</span></div>
+      <div class="tverdict">Muy icónica y romántica, pero <b>corta</b> para el precio. Vale por la foto y la experiencia; según presupuesto.</div>
+    </div>
+    <div class="tour top">
+      <div class="thead"><span class="tname">Full Day Roma · Vaticano</span><span class="tprice">192 USD</span></div>
+      <div class="tmeta">Día 12 · Roma <span class="badge b-top">Muy recomendable</span></div>
+      <div class="tverdict">La <b>#1 del viaje</b>. Museos Vaticanos, Capilla Sixtina y San Pedro con entrada preferente, más la Roma barroca. Sin ella no entras al Vaticano.</div>
+    </div>
+    <div class="tour taste">
+      <div class="thead"><span class="tname">Nápoles y Pompeya (con almuerzo)</span><span class="tprice">228 USD</span></div>
+      <div class="tmeta">Día 13 · Sur de Italia <span class="badge b-taste">Día largo</span></div>
+      <div class="tverdict">La <b>más cara</b> y una jornada larga, pero muy llevadera para ustedes. Pompeya es única e incluye la comida; el mejor uso de su día libre en Roma si les gusta la historia.</div>
+    </div>
+    <div class="tour taste">
+      <div class="thead"><span class="tname">Mónaco Walking Tour</span><span class="tprice">102 USD</span></div>
+      <div class="tmeta">Día 15 · Mónaco <span class="badge b-taste">Según gusto</span></div>
+      <div class="tverdict">Paseo nocturno por el principado y el Casino de Montecarlo. Cara para ser un tour a pie; tómala por el glamour de la Costa Azul.</div>
+    </div>
+    <div class="tour good">
+      <div class="thead"><span class="tname">Cena de despedida con flamenco</span><span class="tprice">114 USD</span></div>
+      <div class="tmeta">Día 17 · Madrid <span class="badge b-good">Buen valor</span></div>
+      <div class="tverdict">Incluye <b>cena de 3 tiempos</b> + show en un tablao. Buen broche para la última noche; comes y te entretienes en uno.</div>
+    </div>
+    <div class="tour top">
+      <div class="thead"><span class="tname">Full Day: Toledo + Madrid</span><span class="tprice">84 USD</span></div>
+      <div class="tmeta">Día 18 · España <span class="badge b-top">Muy recomendable</span></div>
+      <div class="tverdict"><b>Mejor valor del viaje.</b> Toledo (Patrimonio, con Catedral incluida) + panorámica de Madrid, y aprovechas un día que es libre.</div>
+    </div>
+  </div>
+
+  <div class="packs">
+    <div class="pack">
+      <h3>Paquete “Mega Imperdibles”</h3>
+      <div class="pk-price">1.026 USD</div>
+      <p>Junta 8 excursiones: Windsor, Versalles+Sena, Heidelberg, Titlis, Góndolas, Roma/Vaticano, Mónaco y Flamenco.</p>
+      <span class="verdict-tag vt-nosave">No ahorras nada</span>
+      <p style="margin-top:8px">Cuesta <b>exactamente lo mismo</b> que comprar esas 8 por separado (168+120+66+180+84+192+102+114 = 1.026). Mejor elige sueltas las que sí quieras.</p>
+    </div>
+    <div class="pack">
+      <h3>Paquete “Mega Experiencia”</h3>
+      <div class="pk-price">1.590 USD</div>
+      <p>Incluye <b>las 14 excursiones</b>, todo el viaje.</p>
+      <span class="verdict-tag vt-save">Ahorras ~84 USD</span>
+      <p style="margin-top:8px">Sueltas, las 14 suman ~1.674 USD; el paquete baja a 1.590 (~5% menos). <b>Solo conviene si de verdad piensan hacer casi todas.</b></p>
+    </div>
+  </div>
+
+  <!-- ===================== EN PAREJA ===================== -->
+  <div class="sec" id="pareja">
+    <div class="lbl">Pareja · 43 años · sin horarios de niños</div>
+    <h2>Para ustedes dos</h2>
+    <p>Van César y tú: jóvenes, activos y sin la logística de los peques. Eso les abre lo romántico, la vida nocturna y las excursiones con más movimiento. Esto es lo que les conviene tener en cuenta como pareja.</p>
+  </div>
+  <div class="kit">
+    <div class="k-card">
+      <h3><span class="ic">🛏️</span> La habitación</h3>
+      <ul>
+        <li>Reservaron <b>1 habitación para 2</b>. En hoteles turista europeos es muy común la cama <b>“twin” (dos camas separadas)</b>.</li>
+        <li>Si quieren <b>cama matrimonial</b>, pídanlo a la agencia <b>con anticipación</b> — va bajo petición y no siempre está garantizado.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">🔌</span> Cargar los de los dos</h3>
+      <ul>
+        <li>Un solo adaptador no alcanza para <b>dos teléfonos + cámara</b>.</li>
+        <li>Truco: 1 adaptador universal + una <b>regleta mexicana</b> → conectan la regleta al adaptador y cargan todo de una toma.</li>
+        <li>O un adaptador con <b>varios puertos USB</b>.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">✅</span> Seguro y salud</h3>
+      <ul>
+        <li>El <b>seguro incluido aplica a menores de 70</b> — a sus 43, ambos cubiertos sin cargo extra.</li>
+        <li>Lleven los <b>datos de la póliza</b> y un botiquín básico con sus medicinas.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">💞</span> Momentos para los dos</h3>
+      <ul>
+        <li>Crucero por el <b>Sena</b> al atardecer y <b>góndola</b> en Venecia.</li>
+        <li>Lancen <b>juntos la moneda</b> en la Fontana di Trevi.</li>
+        <li>Atardecer en el <b>Paseo de los Ingleses</b> de Niza.</li>
+        <li>La <b>cena de flamenco</b> como broche de la última noche.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">🌙</span> Vida nocturna</h3>
+      <ul>
+        <li>Sin horarios de niños, aprovechen la noche: <b>Luces de París</b>, la <b>Roma barroca</b> iluminada, el glamour de <b>Montecarlo</b>.</li>
+        <li>Los tours nocturnos opcionales les cuadran perfecto.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">🍷</span> Sabores en pareja</h3>
+      <ul>
+        <li>Vino en la <b>Toscana</b> (Florencia), cerveza en <b>Alemania</b>, vino de <b>Rioja</b> y tapas en España.</li>
+        <li>Pizza en su cuna si van a <b>Nápoles</b>.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">💳</span> Presupuesto x2</h3>
+      <ul>
+        <li>Las opcionales y las comidas son <b>por persona</b>: sumen lo que elijan y <b>multipliquen por dos</b>.</li>
+        <li><b>Repártanse el efectivo</b> en las 3 monedas — que no lo cargue todo una sola persona.</li>
+      </ul>
+    </div>
+    <div class="k-card">
+      <h3><span class="ic">📸</span> Fotos de los dos</h3>
+      <ul>
+        <li>Lleven un <b>mini trípode</b> o palo para no depender de terceros.</li>
+        <li>Fondos de postal en cada parada: Eiffel, Pisa, Trevi, Sagrada Familia.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===================== CHECKLIST DE MALETA ===================== -->
+  <div class="sec" id="maleta">
+    <div class="lbl">Para ir palomeando</div>
+    <h2>Checklist de maleta</h2>
+    <p>Toca cada casilla para marcarla; <b>se guarda en este teléfono</b> aunque cierres la página. Cada quien lleve su propio conteo. Recuerda: los líquidos de más de 100 ml van en la maleta documentada.</p>
+  </div>
+  <div class="chk-progress">
+    <span id="chk-count">0 / 0</span>
+    <div class="chk-track"><div id="chk-bar"></div></div>
+    <button id="chk-reset" type="button">Reiniciar</button>
+  </div>
+  <div class="check">
+    <div class="chk-cat">
+      <h3><span class="ic">🛂</span> Documentos y dinero</h3>
+      <label class="ci"><input type="checkbox" id="c-doc-1"><span>Pasaporte vigente (mínimo 6 meses)</span></label>
+      <label class="ci"><input type="checkbox" id="c-doc-2"><span>Copia del pasaporte, aparte del original</span></label>
+      <label class="ci"><input type="checkbox" id="c-doc-3"><span>Tarjetas (avisa al banco del viaje)</span></label>
+      <label class="ci"><input type="checkbox" id="c-doc-4"><span>Efectivo: libras, euros y algún franco suizo</span></label>
+      <label class="ci"><input type="checkbox" id="c-doc-5"><span>65 € por persona del pago en destino</span></label>
+      <label class="ci"><input type="checkbox" id="c-doc-6"><span>Datos del seguro de viaje</span></label>
+      <label class="ci"><input type="checkbox" id="c-doc-7"><span>Itinerario y reservas (impreso o en el celular)</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">🧅</span> Ropa</h3>
+      <label class="ci"><input type="checkbox" id="c-rop-1"><span>Camisetas/blusas base (corta y larga)</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-2"><span>2–3 suéteres o jerséis</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-3"><span>Chamarra impermeable con capucha</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-4"><span>Abrigo cálido para los Alpes</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-5"><span>Pantalones cómodos para caminar</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-6"><span>Un outfit arreglado (flamenco / Mónaco)</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-7"><span>Bufanda, gorro y guantes ligeros</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-8"><span>Ropa interior y calcetines de sobra</span></label>
+      <label class="ci"><input type="checkbox" id="c-rop-9"><span>Pijama</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">👟</span> Calzado</h3>
+      <label class="ci"><input type="checkbox" id="c-cal-1"><span>Tenis cómodos e impermeables (¡ya probados!)</span></label>
+      <label class="ci"><input type="checkbox" id="c-cal-2"><span>Un par ligero y arreglado</span></label>
+      <label class="ci"><input type="checkbox" id="c-cal-3"><span>Pantuflas o sandalias para el hotel</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">☂️</span> Clima</h3>
+      <label class="ci"><input type="checkbox" id="c-cli-1"><span>Paraguas compacto</span></label>
+      <label class="ci"><input type="checkbox" id="c-cli-2"><span>Impermeable o poncho ligero</span></label>
+      <label class="ci"><input type="checkbox" id="c-cli-3"><span>Gafas de sol (imprescindibles en el Titlis)</span></label>
+      <label class="ci"><input type="checkbox" id="c-cli-4"><span>Crema labial y de manos</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">🔌</span> Electrónica</h3>
+      <label class="ci"><input type="checkbox" id="c-ele-1"><span>Celular y su cargador</span></label>
+      <label class="ci"><input type="checkbox" id="c-ele-2"><span>Adaptador universal (Reino Unido + Europa)</span></label>
+      <label class="ci"><input type="checkbox" id="c-ele-3"><span>Regleta o cargador multi-USB (para los dos)</span></label>
+      <label class="ci"><input type="checkbox" id="c-ele-4"><span>Power bank</span></label>
+      <label class="ci"><input type="checkbox" id="c-ele-5"><span>Cámara y su cargador</span></label>
+      <label class="ci"><input type="checkbox" id="c-ele-6"><span>Mini trípode o palo para selfies</span></label>
+      <label class="ci"><input type="checkbox" id="c-ele-7"><span>Audífonos</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">🧴</span> Aseo <span style="font-weight:400;font-size:11px;color:var(--ink-faint)">(&lt;100 ml en la de mano)</span></h3>
+      <label class="ci"><input type="checkbox" id="c-ase-1"><span>Cepillo y pasta de dientes</span></label>
+      <label class="ci"><input type="checkbox" id="c-ase-2"><span>Desodorante</span></label>
+      <label class="ci"><input type="checkbox" id="c-ase-3"><span>Shampoo/jabón tamaño viaje</span></label>
+      <label class="ci"><input type="checkbox" id="c-ase-4"><span>Peine o cepillo</span></label>
+      <label class="ci"><input type="checkbox" id="c-ase-5"><span>Cremas y protector solar</span></label>
+      <label class="ci"><input type="checkbox" id="c-ase-6"><span>Toallitas húmedas</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">💊</span> Botiquín</h3>
+      <label class="ci"><input type="checkbox" id="c-bot-1"><span>Medicinas personales con su receta</span></label>
+      <label class="ci"><input type="checkbox" id="c-bot-2"><span>Analgésico y antigripal</span></label>
+      <label class="ci"><input type="checkbox" id="c-bot-3"><span>Antidiarreico y antiácido</span></label>
+      <label class="ci"><input type="checkbox" id="c-bot-4"><span>Pastillas para el mareo (para el ferry)</span></label>
+      <label class="ci"><input type="checkbox" id="c-bot-5"><span>Curitas y vendas</span></label>
+    </div>
+    <div class="chk-cat">
+      <h3><span class="ic">🎒</span> Extras útiles</h3>
+      <label class="ci"><input type="checkbox" id="c-ext-1"><span>Botella de agua reutilizable</span></label>
+      <label class="ci"><input type="checkbox" id="c-ext-2"><span>Bolsa cruzada antirrobo</span></label>
+      <label class="ci"><input type="checkbox" id="c-ext-3"><span>Candado TSA para la maleta</span></label>
+      <label class="ci"><input type="checkbox" id="c-ext-4"><span>Bolsa para ropa sucia</span></label>
+      <label class="ci"><input type="checkbox" id="c-ext-5"><span>Snacks para los días de autobús</span></label>
+      <label class="ci"><input type="checkbox" id="c-ext-6"><span>Lentes y un repuesto (si usas)</span></label>
+    </div>
+  </div>
+
+  <!-- ===================== FOTOS INSTAGRAMEABLES ===================== -->
+  <div class="sec" id="fotos">
+    <div class="lbl">Para la foto de postal</div>
+    <h2>Spots instagrameables por parada</h2>
+    <p>El mejor punto de cada lugar, con un tip de luz u hora cuando ayuda. La regla de oro: <b>temprano en la mañana</b> tienes los sitios casi vacíos y la luz más suave.</p>
+  </div>
+  <div class="photos">
+    <div class="ph"><h3>🇬🇧 Londres</h3><div class="spot"><b>Cabina roja de teléfono</b> con el Big Ben detrás, en Parliament Square. También el Tower Bridge desde la orilla sur.</div><span class="tip">Mejor: mañana temprano, menos gente</span></div>
+    <div class="ph"><h3>🏰 Windsor</h3><div class="spot">La <b>fachada del castillo</b> desde High Street, con la calle en primer plano.</div></div>
+    <div class="ph"><h3>🇫🇷 París</h3><div class="spot">La <b>Torre Eiffel desde la explanada del Trocadéro</b>, simétrica y completa.</div><span class="tip">Mejor: al amanecer, casi para ti sola</span></div>
+    <div class="ph"><h3>🇧🇪 Brujas</h3><div class="spot">Los <b>canales desde el muelle Rozenhoedkaai</b>: la vista de postal de la ciudad.</div></div>
+    <div class="ph"><h3>🇱🇺 Luxemburgo</h3><div class="spot">Los <b>balcones de la Corniche</b> asomados sobre el valle amurallado.</div></div>
+    <div class="ph"><h3>🇩🇪 Frankfurt</h3><div class="spot">El <b>skyline de rascacielos</b> desde el puente peatonal Eiserner Steg.</div></div>
+    <div class="ph"><h3>🏰 Heidelberg</h3><div class="spot">El <b>castillo y el río desde el Puente Viejo</b> (Alte Brücke).</div></div>
+    <div class="ph"><h3>🇨🇭 Zúrich</h3><div class="spot">Los <b>tejados y el río Limmat</b> desde la terraza Lindenhof.</div></div>
+    <div class="ph"><h3>⛲ Lucerna</h3><div class="spot">El <b>Puente de la Capilla</b> (Kapellbrücke) de madera con sus flores.</div></div>
+    <div class="ph"><h3>🇱🇮 Vaduz</h3><div class="spot">El <b>castillo del príncipe</b> sobre la colina, de fondo tras el pueblo.</div></div>
+    <div class="ph"><h3>🏔️ Monte Titlis</h3><div class="spot">El <b>puente colgante (Cliff Walk)</b> sobre el glaciar y la nieve.</div><span class="tip">Cuida el celular: hay viento fuerte</span></div>
+    <div class="ph"><h3>🇦🇹 Innsbruck</h3><div class="spot">Las <b>casas de colores de Mariahilf</b> con los Alpes nevados detrás.</div></div>
+    <div class="ph"><h3>🛶 Venecia</h3><div class="spot">El <b>Puente de Rialto</b> y las góndolas en el Gran Canal.</div><span class="tip">San Marcos al amanecer, sin multitudes</span></div>
+    <div class="ph"><h3>🇮🇹 Roma</h3><div class="spot">La <b>Fontana di Trevi</b> y el <b>Coliseo iluminado</b> de noche.</div><span class="tip">Trevi y Piazza di Spagna: a primera hora</span></div>
+    <div class="ph"><h3>🎨 Florencia</h3><div class="spot">El <b>Duomo y toda la ciudad</b> desde el Piazzale Michelangelo.</div><span class="tip">Al atardecer, luz dorada</span></div>
+    <div class="ph"><h3>🗼 Pisa</h3><div class="spot">La foto clásica <b>“sosteniendo” la Torre Inclinada</b>.</div></div>
+    <div class="ph"><h3>🌊 Niza</h3><div class="spot">La <b>Bahía de los Ángeles desde la Colina del Castillo</b>; las sillas azules del Paseo de los Ingleses.</div></div>
+    <div class="ph"><h3>🎰 Mónaco</h3><div class="spot">El <b>puerto de yates</b> y la terraza del Casino de Montecarlo.</div></div>
+    <div class="ph"><h3>⛪ Barcelona</h3><div class="spot">La <b>Sagrada Familia reflejada</b> en el estanque del Plaça de Gaudí.</div><span class="tip">Al amanecer el reflejo es perfecto</span></div>
+    <div class="ph"><h3>🇪🇸 Zaragoza</h3><div class="spot">La <b>Basílica del Pilar reflejada en el Ebro</b>, desde el Puente de Piedra.</div></div>
+    <div class="ph"><h3>🌇 Madrid</h3><div class="spot">El <b>Templo de Debod</b> con el sol poniéndose detrás.</div><span class="tip">De los mejores atardeceres de Europa</span></div>
+    <div class="ph"><h3>🏙️ Toledo</h3><div class="spot">La <b>panorámica completa de la ciudad</b> desde el Mirador del Valle.</div></div>
+  </div>
+
+  <p class="disc">Las temperaturas son <b>promedios típicos de la época</b> (mediados de octubre a inicios de noviembre) para cada ciudad, no un pronóstico. El clima cambia año con año, así que revisa la predicción real unos 5 a 7 días antes de salir y ajusta la maleta. Los precios de las excursiones, el itinerario y los hoteles salen de tu cotización de Mundo Joven; confirma con tu agencia si son por persona y el tipo de cambio del día. El orden de algunas visitas puede variar según decida el guía.</p>
+
+  <footer>Bitácora Europa · 17 oct – 04 nov 2026 · Buen viaje</footer>
+
+</div>
+
+<script>
+(function(){
+  var KEY='bitacora-europa-checklist-v1';
+  var saved={};
+  try{ saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ saved={}; }
+  var boxes=Array.prototype.slice.call(document.querySelectorAll('.check input[type=checkbox]'));
+  var countEl=document.getElementById('chk-count');
+  var barEl=document.getElementById('chk-bar');
+  function persist(){ try{ localStorage.setItem(KEY,JSON.stringify(saved)); }catch(e){} }
+  function refresh(){
+    var done=0;
+    boxes.forEach(function(b){ if(b.checked) done++; });
+    if(countEl) countEl.textContent=done+' / '+boxes.length;
+    if(barEl) barEl.style.width=boxes.length?(done/boxes.length*100)+'%':'0%';
+  }
+  boxes.forEach(function(b){
+    if(saved[b.id]) b.checked=true;
+    b.addEventListener('change',function(){ saved[b.id]=b.checked; persist(); refresh(); });
+  });
+  refresh();
+  var reset=document.getElementById('chk-reset');
+  if(reset) reset.addEventListener('click',function(){
+    boxes.forEach(function(b){ b.checked=false; saved[b.id]=false; });
+    persist(); refresh();
+  });
+})();
+</script>
