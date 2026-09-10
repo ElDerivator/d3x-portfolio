@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Datum — Skill Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@0,400;0,500;0,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script>document.documentElement.className='js';</script>
+<style>
+:root{--bg:#eef1f5;--grid:#e2e7ee;--surface:#ffffff;--surface-2:#f4f6fa;--ink:#13202e;--ink-soft:#37434f;--muted:#65717f;--line:#d6dde6;--accent:#005596;--good:#2c7a57;--shadow:0 1px 0 rgba(19,32,46,.04),0 14px 34px -26px rgba(19,32,46,.26)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08131f;--grid:#0f2233;--surface:#0e1c2b;--surface-2:#0b1826;--ink:#e9f0f7;--ink-soft:#bcc9d6;--muted:#8494a4;--line:#1d3040;--accent:#4f9ee0;--good:#4bb488;--shadow:0 1px 0 rgba(0,0,0,.4),0 20px 46px -30px rgba(0,0,0,.7)}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.05}
+a{color:var(--accent)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:11px}.brand b{font-family:"Archivo";font-weight:800;font-size:17px}
+.tag{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:3px 7px}
+.top a{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);text-decoration:none}
+header.intro{padding:44px 0 20px}
+header.intro h1{font-size:clamp(30px,5vw,46px)}
+header.intro p{color:var(--ink-soft);max-width:64ch;margin:16px 0 0;font-size:16px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:16px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#q{flex:1;min-width:220px;font-family:"IBM Plex Mono";font-size:13px;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink)}
+#q:focus{outline:2px solid var(--accent);outline-offset:1px}
+.count{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted)}
+.grp{padding:30px 0 8px}
+.grp-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px;border-top:2px solid var(--accent);padding-top:14px}
+.grp-hd h2{font-size:22px}.grp-blurb{color:var(--muted);font-size:13.5px;margin:4px 0 0}
+.grp-cnt{font-size:12px;color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.skill{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:16px 16px 12px;box-shadow:var(--shadow)}
+.s-hd{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.skill h3{font-family:"IBM Plex Mono";font-weight:600;font-size:14px;letter-spacing:-.01em}
+.s-desc{color:var(--ink-soft);font-size:13px;margin:6px 0 0}
+.copy{flex:none;font-family:"IBM Plex Mono";font-size:12px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;border:0;border-radius:3px;padding:7px 13px;transition:background .15s,transform .1s}
+.copy:hover{filter:brightness(1.08)}.copy:active{transform:translateY(1px)}
+.copy.ok{background:var(--good)}
+details{margin-top:11px}summary{cursor:pointer;font-size:11.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;list-style:none}
+summary::-webkit-details-marker{display:none}summary::before{content:"▸ ";color:var(--accent)}
+details[open] summary::before{content:"▾ "}
+pre{margin:10px 0 2px;padding:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;overflow-x:auto;font-family:"IBM Plex Mono";font-size:12px;line-height:1.5;color:var(--ink-soft);white-space:pre-wrap;word-break:break-word}
+.hidden{display:none!important}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 56px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);font-family:"IBM Plex Mono";font-size:13px;padding:10px 18px;border-radius:5px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><b>DATUM</b><span class="tag">SKILL LIBRARY</span></div>
+    <a href="../">← overview</a>
+  </div>
+  <header class="intro">
+    <h1>Copy each skill into Gemini Spark.</h1>
+    <p>All 32 skills, ready to paste. In Spark, create a new skill, hit <b>Copy</b> here, paste the
+    full text, and bind the tools from the map. Foundation first, then the discipline you need.</p>
+  </header>
+  <div class="bar">
+    <input id="q" placeholder="filter skills — e.g. cost, risk, evm, report…" autocomplete="off">
+    <span class="count" id="count">32 skills</span>
+  </div>
+  
+    <section class="grp" data-grp="Foundation">
+      <div class="grp-hd">
+        <div><h2>Foundation</h2><p class="grp-blurb">The data engine under all four disciplines.</p></div>
+        <span class="grp-cnt mono">7 skills</span>
+      </div>
+      <div class="grid">
+      <article class="skill" data-name="corp-safe-python" data-desc="las reglas del sandbox de código — la base sobre la que corre todo lo que compute. sin red, sin pip, i/o por el agente. todo skill que ejecute python respeta esto.">
+        <div class="s-hd">
+          <div><h3 class="mono">corp-safe-python</h3><p class="s-desc">Las reglas del sandbox de código — la base sobre la que corre todo lo que compute. Sin red, sin pip, I/O por el agente. Todo skill que ejecute Python respeta esto.</p></div>
+          <button class="copy" data-target="pl-1">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-1"># SKILL: corp-safe-python
+description: Las reglas del sandbox de código — la base sobre la que corre todo lo que compute. Sin red, sin pip, I/O por el agente. Todo skill que ejecute Python respeta esto.
+depends_on: (ninguno — es la base)
+
+## Las 2 leyes del entorno
+1. **El sandbox NO tiene red.** El código solo COMPUTA sobre archivos locales. Nada de pip,
+   requests, APIs externas, URLs. Si necesitás datos, el agente los baja por tool-call primero.
+2. **El agente hace el I/O, el código no.** Leer/escribir Sheets, mandar Gmail, listar Drive =
+   tool-call del agente. El código recibe archivos y devuelve archivos. Nunca mezclar.
+
+## Qué SÍ hay en el sandbox
+- pandas, numpy, openpyxl (Excel), scipy (estadística), reportlab (PDF). Python3 + Bash.
+- Timeouts de 30-120s. Procesá en chunks, no cargues datasets gigantes de una.
+
+## Qué NO hay (y cómo se resuelve)
+- **Sin memoria entre sesiones** → la persistencia va a Drive/Sheets (un tab `config`, `state`).
+- **Sin scheduler** → lo agendado (reporte mensual, trigger on-submit) se genera como Apps Script.
+- **Sin base de datos** → los datos viven en Sheets; el código los procesa como DataFrames.
+
+## Patrón estándar
+1. Agente: baja los archivos de Drive al sandbox.
+2. Sandbox: pandas transforma → escribe un CSV/artefacto a disco.
+3. Agente: sube el resultado a Sheets (UPSERT) o lo manda por Gmail.
+
+## Guardrails
+- No vuelques datos crudos al chat (satura). Procesá con script, reportá conteos/resumen.
+- Si un cálculo necesita un insumo que falta, PARÁ y pedilo — no inventes valores (§ credibilidad).
+- Todo número entregado tiene que ser reproducible desde los datos + el método.
+</pre></details>
+      </article>
+      <article class="skill" data-name="xlsx-to-sheets" data-desc="ingesta n archivos excel desde una carpeta de drive, los transforma con pandas y escribe la base en google sheets por upsert. la puerta de entrada de datos de todos los roles.">
+        <div class="s-hd">
+          <div><h3 class="mono">xlsx-to-sheets</h3><p class="s-desc">Ingesta N archivos Excel desde una carpeta de Drive, los transforma con pandas y escribe la base en Google Sheets por UPSERT. La puerta de entrada de datos de todos los roles.</p></div>
+          <button class="copy" data-target="pl-2">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-2"># SKILL: xlsx-to-sheets
+description: Ingesta N archivos Excel desde una carpeta de Drive, los transforma con pandas y escribe la base en Google Sheets por UPSERT. La puerta de entrada de datos de todos los roles.
+depends_on: corp-safe-python
+
+## Cuándo usar
+Cuando llegan archivos nuevos (subidos vía Form/Drive) y hay que consolidarlos hacia la(s) base(s) en Sheets.
+
+## Config (pedir la 1ra vez, guardar en un Sheet `config`)
+- INTAKE_FOLDER (carpeta Drive) · SHEETS_DB_ID / tab destino · KEY_COLUMNS (la llave que hace
+  única una fila) · MAPEO header_del_xlsx → columna_canónica.
+
+## Procedimiento
+1. **Agente:** listá INTAKE, tomá los nuevos (sin prefijo `_done_`), descargalos al sandbox.
+2. **Sandbox:** `pd.read_excel` cada uno, aplicá el MAPEO, concatená, normalizá tipos. Derivá
+   `_key` = hash de KEY_COLUMNS (bisagra para que la limpieza persista). Guardá CSV limpio.
+3. **Agente (tool-call):** UPSERT por `_key` al Sheet — actualizá existentes, agregá nuevas.
+   **NUNCA truncar** (respeta lo cargado y limpiado). Confirmá conteo antes/después.
+4. **Agente:** renombrá los procesados con `_done_` (idempotencia).
+5. Invocá `data-cleaning-overlay` para poblar la cola de missing de las filas nuevas.
+
+## Guardrails
+- Si un XLSX no trae los headers esperados, PARÁ y avisá — no adivines el mapeo.
+- El write es UPSERT, no replace. Confirmá el delta (filas antes → después).
+- No vuelques datos crudos al chat; procesá con script.
+</pre></details>
+      </article>
+      <article class="skill" data-name="sheet-ops" data-desc="capa de datos con disciplina de esquema sobre google sheets — upsert por llave, dedup, joins entre tabs, escritura por lotes. la mecánica común sobre la que se apoyan los demás skills sin corromper la hoja.">
+        <div class="s-hd">
+          <div><h3 class="mono">sheet-ops</h3><p class="s-desc">Capa de datos con disciplina de esquema sobre Google Sheets — upsert por llave, dedup, joins entre tabs, escritura por lotes. La mecánica común sobre la que se apoyan los demás skills sin corromper la hoja.</p></div>
+          <button class="copy" data-target="pl-3">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-3"># SKILL: sheet-ops
+description: Capa de datos con disciplina de esquema sobre Google Sheets — upsert por llave, dedup, joins entre tabs, escritura por lotes. La mecánica común sobre la que se apoyan los demás skills sin corromper la hoja.
+depends_on: corp-safe-python
+
+## Cuándo usar
+Siempre que otro skill lea o escriba una hoja con garantías: no truncar, no duplicar, respetar la llave.
+
+## Operaciones
+- **UPSERT por `_key`:** actualiza si existe, agrega si no. Nunca borres la hoja para reescribir.
+- **DEDUP:** dos filas con misma `_key` → quedate con la más reciente (`updated_at`), registrá cuántas colapsaste.
+- **JOIN:** cruzar dos tabs por columna llave; filas sin match se marcan, no se descartan en silencio.
+- **BATCH:** escribí por lote (un rango completo), no celda por celda — respeta cuotas.
+
+## Procedimiento
+1. Agente: leé el rango a un DataFrame (headers = fila 1).
+2. Sandbox: la operación en pandas; validá `_key`.
+3. Agente: escribí por lote; reportá el delta (agregadas/actualizadas/colapsadas).
+
+## Guardrails
+- La llave manda: si `_key` falta o cambió de definición, PARÁ y avisá — un upsert con llave mala pisa datos buenos.
+- Toda escritura reporta su delta. Sin números, no hubo operación verificada.
+- Nunca truncate. Si hay que reconstruir, backup del tab a una copia con fecha primero.
+</pre></details>
+      </article>
+      <article class="skill" data-name="data-cleaning-overlay" data-desc="gestiona la limpieza de missing data como una capa persistente que sobrevive a cada re-carga — nunca se pisa el trabajo que el humano ya hizo. la capa de data stewardship del pipeline.">
+        <div class="s-hd">
+          <div><h3 class="mono">data-cleaning-overlay</h3><p class="s-desc">Gestiona la limpieza de missing data como una CAPA persistente que sobrevive a cada re-carga — nunca se pisa el trabajo que el humano ya hizo. La capa de data stewardship del pipeline.</p></div>
+          <button class="copy" data-target="pl-4">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-4"># SKILL: data-cleaning-overlay
+description: Gestiona la limpieza de missing data como una CAPA persistente que sobrevive a cada re-carga — nunca se pisa el trabajo que el humano ya hizo. La capa de data stewardship del pipeline.
+depends_on: corp-safe-python, sheet-ops
+
+## Principio (el que hace o rompe todo)
+La limpieza vive en su PROPIA tabla, separada del raw, y se re-aplica como overlay en cada corrida.
+Si reconstruís la base desde cero en cada upload, BORRÁS el trabajo del humano. La llave estable
+(`_key`) es la bisagra: sin ella no se puede re-pegar la corrección.
+
+## Estructura (3 tabs)
+- `raw`: lo que entra del pipeline (keyed por `_key`).
+- `cleaning`: overlay — 1 fila por registro con missing, columnas de los campos + `status`
+  (pendiente/limpio) + `cleaned_by` + `cleaned_at`. **Lo edita el humano.**
+- `clean`: MERGE = raw + overlay. `valor_final = overlay SI existe, SINO raw`. Lo lee el reporte/Looker.
+
+## Procedimiento
+1. **Seed:** por cada fila nueva con algún campo MISSING que no esté en `cleaning`, agregala con
+   status=pendiente. No toques las ya presentes (preservás lo cargado).
+2. **Merge:** por cada fila de raw, si hay overlay para su `_key`, pisá los campos con el overlay;
+   marcá `_cleaned`. El merge es VIVO: cada vez que el usuario limpia, re-corrés y el reporte se actualiza.
+3. Persistencia: todo en Sheets (el agente no tiene memoria; la verdad está en el Sheet).
+
+## Guardrails
+- UPSERT por `_key`, JAMÁS truncate de `cleaning`.
+- Nunca auto-completes un missing sin marcarlo — distinguí valor humano de derivado.
+- Monitoreá la tasa de nulos por campo; si sube material, alertá.
+- Si cambia el esquema de KEY_COLUMNS, AVISÁ: las llaves viejas dejan de matchear y podés duplicar/desconectar.
+</pre></details>
+      </article>
+      <article class="skill" data-name="data-governance" data-desc="la disciplina transversal — esquema versionado, reglas de calidad, separación owner/steward, y provenance de cada dato — que hace el sistema confiable y auditable. es lo que te permite defender cada número frente al director.">
+        <div class="s-hd">
+          <div><h3 class="mono">data-governance</h3><p class="s-desc">La disciplina transversal — esquema versionado, reglas de calidad, separación owner/steward, y provenance de cada dato — que hace el sistema confiable y auditable. Es lo que te permite defender cada número frente al director.</p></div>
+          <button class="copy" data-target="pl-5">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-5"># SKILL: data-governance
+description: La disciplina transversal — esquema versionado, reglas de calidad, separación owner/steward, y provenance de cada dato — que hace el sistema confiable y auditable. Es lo que te permite defender cada número frente al director.
+depends_on: (transversal — informa a todos los skills)
+
+## Por qué existe
+Un tablero sin gobernanza es una opinión con colores. La gobernanza permite pararse frente al
+director y defender cada número: de dónde vino, quién lo tocó, bajo qué regla.
+
+## Los cuatro pilares
+1. **Esquema como contrato:** columnas canónicas, tipos y `KEY_COLUMNS` en el Sheet `config`,
+   versionados. Un cambio de esquema es un evento anunciado, no un accidente.
+2. **Reglas de calidad:** completitud (nulos), validez (rangos de dominio), unicidad (sin llaves
+   duplicadas), consistencia (mismo dato igual en todos lados). Se MIDEN cada corrida.
+3. **Owner vs Steward:** el OWNER define el estándar (qué es válido, cuál es la llave); el STEWARD
+   opera (resuelve los casos que necesitan juicio). Roles distintos, ambos registrados.
+4. **Provenance:** cada dato sabe su origen (archivo, carga, fecha); cada corrección sabe su autor.
+
+## Procedimiento
+1. Mantené el `config` como fuente única de esquema/llaves/umbrales; todo skill lo lee de ahí.
+2. Publicá un mini &quot;estado de calidad&quot; cada ciclo: completitud, nulos, duplicados, cambios de esquema.
+3. Todo lo decidido a mano (llave nueva, umbral) se registra — la memoria del sistema vive en Sheets.
+
+## Guardrails
+- Ningún dato entra al tablero sin llave y sin origen. Sin provenance no hay confianza.
+- La calidad se MIDE, no se asume. Un número sin regla detrás es decoración.
+- Separá lo auto-derivado de lo que un humano decidió — etiquetá ambos, nunca los mezcles.
+</pre></details>
+      </article>
+      <article class="skill" data-name="apps-script-generator" data-desc="genera código apps script corp-seguro para lo que necesita reloj o disparador — el agente no tiene scheduler ni memoria, así que lo agendado vive como script instalado en tu proyecto de workspace.">
+        <div class="s-hd">
+          <div><h3 class="mono">apps-script-generator</h3><p class="s-desc">Genera código Apps Script corp-seguro para lo que necesita RELOJ o DISPARADOR — el agente no tiene scheduler ni memoria, así que lo agendado vive como script instalado en tu proyecto de Workspace.</p></div>
+          <button class="copy" data-target="pl-6">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-6"># SKILL: apps-script-generator
+description: Genera código Apps Script corp-seguro para lo que necesita RELOJ o DISPARADOR — el agente no tiene scheduler ni memoria, así que lo agendado vive como script instalado en tu proyecto de Workspace.
+depends_on: corp-safe-python
+
+## Por qué existe
+El agente es un brazo INTERACTIVO: actúa cuando lo invocás. Lo que debe correr solo (reporte
+mensual, trigger al enviarse un Form, refresh nocturno) se materializa como Apps Script, que sí
+tiene triggers de tiempo y de evento nativos de Google.
+
+## Qué genera (patrones)
+- **Trigger on-form-submit:** al llegar una respuesta al Form → dispara la ingesta/transformación.
+- **Trigger temporal:** diario/semanal/mensual → refresca base, corre chequeos, manda el reporte.
+- **Convertir XLSX → Google Sheet** vía Drive Advanced Service (Apps Script sí puede; el sandbox no
+  parsea el binario). Paso previo si el Form recibe Excel.
+- **Envío programado:** `MailApp`/`GmailApp` para el reporte que el schedule nativo de Looker no cubre.
+- **Export a PDF:** genera el PDF de una hoja/rango vía URL de export para adjuntar.
+
+## Procedimiento
+1. Definí el disparador (evento vs tiempo) y qué hace el handler.
+2. Generá el `.gs`: función handler + registro del trigger (`ScriptApp.newTrigger...`) + try/catch con log.
+   Código completo, sin TODOs.
+3. Entregá script + instrucciones (pegar en el proyecto Apps Script del Sheet/Form, autorizar scopes,
+   correr una vez el setup del trigger).
+
+## Guardrails
+- Pedí el mínimo de scopes; documentá cuáles y por qué (el admin corp los revisa).
+- Idempotencia: el handler no duplica si se dispara dos veces (marcá procesados).
+- Respetá cuotas de Google (envíos/día, tiempo de ejecución). Sin loops largos que corten.
+</pre></details>
+      </article>
+      <article class="skill" data-name="workflow-orchestration" data-desc="encadena los skills en un pipeline de punta a punta — ingesta → limpieza → chequeo → análisis → tablero → distribución — con verificación entre pasos y compuertas duras. es lo que vuelve el skillset un sistema, no piezas sueltas.">
+        <div class="s-hd">
+          <div><h3 class="mono">workflow-orchestration</h3><p class="s-desc">Encadena los skills en un pipeline de punta a punta — ingesta → limpieza → chequeo → análisis → tablero → distribución — con verificación entre pasos y compuertas duras. Es lo que vuelve el skillset un sistema, no piezas sueltas.</p></div>
+          <button class="copy" data-target="pl-7">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-7"># SKILL: workflow-orchestration
+description: Encadena los skills en un pipeline de punta a punta — ingesta → limpieza → chequeo → análisis → tablero → distribución — con verificación entre pasos y compuertas duras. Es lo que vuelve el skillset un sistema, no piezas sueltas.
+depends_on: xlsx-to-sheets, data-cleaning-overlay, anomaly-detection, cost-control-evm, project-health-dashboard, stakeholder-report
+
+## Cuándo usar
+Cuando querés correr el ciclo completo (mensual, o al llegar datos nuevos) sin orquestar cada paso a mano.
+
+## El pipeline (orden y compuertas)
+1. **Ingesta** (`xlsx-to-sheets`): consolidá los archivos nuevos → UPSERT a la base.
+2. **Limpieza** (`data-cleaning-overlay`): sembrá los missing nuevos; re-aplicá overlay → `clean`.
+3. **Chequeo** (`anomaly-detection`): reglas. **COMPUERTA:** si hay BLOQUEANTE, PARÁ y avisá — no publiques datos rotos.
+4. **Análisis** (`cost-control-evm` / `programme` / `risk-register` según toque): métricas → tabs.
+5. **Tablero** (`project-health-dashboard`): confirmá que la fuente refrescó.
+6. **Distribución** (`stakeholder-report` / `report-blast`): DRY-RUN → test a vos → envío real.
+
+## Procedimiento
+1. Cada paso reporta su delta (filas, anomalías, métricas) antes de habilitar el siguiente.
+2. Si un paso falla, PARÁ ahí; no arrastres el error aguas abajo. Reportá dónde y por qué.
+3. Log del run (qué corrió, conteos, alertas) a un tab `run_log` para auditoría.
+
+## Guardrails
+- Las compuertas son duras: una anomalía bloqueante detiene la publicación, no es un aviso a ignorar.
+- La distribución real (correo) es SIEMPRE el último paso y SIEMPRE tras dry-run + test-a-vos.
+- Lo que corre SOLO (sin vos) va como Apps Script (`apps-script-generator`), no como invocación del agente.
+</pre></details>
+      </article></div>
+    </section>
+    <section class="grp" data-grp="Cost Manager">
+      <div class="grp-hd">
+        <div><h2>Cost Manager</h2><p class="grp-blurb">Estimate, plan, control and forecast cost.</p></div>
+        <span class="grp-cnt mono">8 skills</span>
+      </div>
+      <div class="grid">
+      <article class="skill" data-name="cost-estimating" data-desc="produce estimados de costo de proyecto — desde orden de magnitud hasta detallado por elemento — con rangos de incertidumbre honestos. el músculo central del cost manager.">
+        <div class="s-hd">
+          <div><h3 class="mono">cost-estimating</h3><p class="s-desc">Produce estimados de costo de proyecto — desde orden de magnitud hasta detallado por elemento — con rangos de incertidumbre honestos. El músculo central del cost manager.</p></div>
+          <button class="copy" data-target="pl-8">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-8"># SKILL: cost-estimating
+description: Produce estimados de costo de proyecto — desde orden de magnitud hasta detallado por elemento — con rangos de incertidumbre honestos. El músculo central del cost manager.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+Cuando hay que poner un número al costo de un proyecto o paquete: estudio de factibilidad,
+presupuesto de anteproyecto, o estimado detallado con cantidades.
+
+## Niveles de estimado (declarar SIEMPRE cuál es)
+- **Orden de magnitud (Clase 5/4):** por área ($/m²) o unidad funcional (cama, aula, MW). Rango ±30-50%.
+- **Presupuestario (Clase 3):** por elemento (subestructura, envolvente, MEP...). Rango ±15-25%.
+- **Detallado (Clase 1/2):** por partida con cantidades × tarifa unitaria (estilo BoQ). Rango ±5-10%.
+
+## Marco de referencia (RICS NRM + RIBA)
+- **RICS NRM1** rige el orden de estimado y el **plan de costo elemental**; **NRM2** la medición
+  detallada y los **bills of quantities (BoQ)**; **NRM3** el costo de mantenimiento/ciclo de vida.
+  Nombrá tus elementos con la estructura NRM — así es benchmarkeable y defendible en el estándar del negocio.
+- Alineá el nivel a la **etapa RIBA Plan of Work**: order-of-cost-estimate en etapas tempranas (0-1),
+  plan de costo formal madurando por las etapas 2-4. La precisión sube con el diseño, no antes.
+
+## Procedimiento
+1. Definí alcance y base: superficie/unidades, ubicación, calidad, fecha base de precios.
+2. Sandbox: cantidad × tarifa unitaria por partida/elemento; sumá directos.
+3. Sumá indirectos, preliminares, honorarios, **contingencia** (según nivel de diseño) e inflación
+   a la fecha del gasto. Cada capa etiquetada, no escondida en el total.
+4. Entregá el estimado CON su rango y sus supuestos (nivel, exclusiones, base de precios).
+
+## Guardrails
+- Un estimado sin rango ni supuestos engaña. El rango comunica el nivel de diseño, no debilidad.
+- Distinguí costo de construcción, costo de proyecto (con honorarios/terreno) y costo de ciclo de vida.
+- Ajustá por tiempo (inflación a la fecha del gasto) y lugar (índice de localización) — no compares crudo.
+- Nunca bajes la contingencia para &quot;que cierre&quot; el número. Eso lo decide el negocio, con la cifra real.
+</pre></details>
+      </article>
+      <article class="skill" data-name="cost-plan-budget" data-desc="convierte el estimado en un plan de costo elemental y una línea base de presupuesto controlable — asignado por elemento/wbs, con reservas explícitas. es el contrato financiero contra el que se mide todo después.">
+        <div class="s-hd">
+          <div><h3 class="mono">cost-plan-budget</h3><p class="s-desc">Convierte el estimado en un plan de costo elemental y una línea base de presupuesto controlable — asignado por elemento/WBS, con reservas explícitas. Es el contrato financiero contra el que se mide todo después.</p></div>
+          <button class="copy" data-target="pl-9">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-9"># SKILL: cost-plan-budget
+description: Convierte el estimado en un plan de costo elemental y una línea base de presupuesto controlable — asignado por elemento/WBS, con reservas explícitas. Es el contrato financiero contra el que se mide todo después.
+depends_on: cost-estimating, sheet-ops
+
+## Cuándo usar
+Cuando el estimado se aprueba y hay que volverlo un presupuesto operable: asignar el dinero por
+paquete, fijar la línea base y habilitar el control.
+
+## Procedimiento
+1. Descomponé el costo total por **elemento/WBS** — usá la **estructura elemental de RICS NRM1**
+   (subestructura, superestructura, acabados, MEP, externos, preliminares...) — cada paquete con su dueño y monto.
+2. Separá explícitamente: costo base de trabajo · **contingencia** (riesgo cuantificado) ·
+   **reserva de gestión** (lo no previsto) · escalamiento. Nunca mezclar reserva con base.
+3. Fijá la **línea base** (baseline): el presupuesto congelado contra el que se mide variación.
+   Guardala en un tab `baseline` con fecha y versión — no se pisa, se versiona.
+4. Distribuí en el tiempo (por mes/hito) para habilitar el valor planeado (PV) del control EVM.
+
+## Guardrails
+- La línea base es un contrato: se cambia solo por control de cambios formal, no editando la celda.
+- Contingencia ≠ colchón para tapar mala estimación. Es riesgo cuantificado, con dueño de liberación.
+- Todo movimiento de presupuesto deja rastro (de qué elemento, a cuál, por qué, quién aprobó).
+- Un presupuesto sin dueños por paquete no se controla — asigná responsable a cada línea.
+</pre></details>
+      </article>
+      <article class="skill" data-name="cost-control-evm" data-desc="el control de costo y avance por earned value management — cpi, spi, variaciones y pronóstico a término — sobre la línea base. el skill que te vuelve nativo del negocio de costo/programa de t&amp;t.">
+        <div class="s-hd">
+          <div><h3 class="mono">cost-control-evm</h3><p class="s-desc">El control de costo y avance por Earned Value Management — CPI, SPI, variaciones y pronóstico a término — sobre la línea base. El skill que te vuelve nativo del negocio de costo/programa de T&amp;T.</p></div>
+          <button class="copy" data-target="pl-10">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-10"># SKILL: cost-control-evm
+description: El control de costo y avance por Earned Value Management — CPI, SPI, variaciones y pronóstico a término — sobre la línea base. El skill que te vuelve nativo del negocio de costo/programa de T&amp;T.
+depends_on: cost-plan-budget, corp-safe-python
+
+## Cuándo usar
+Cada ciclo de reporte, cuando hay datos de costo real y avance: ¿vamos bien de costo y tiempo?
+¿cuánto va a costar al final? ¿dónde está el riesgo?
+
+## Insumos (por proyecto y por región/portafolio)
+- BAC (presupuesto total) · PV (valor planeado a la fecha) · EV (valor ganado = %avance × BAC) ·
+  AC (costo real a la fecha).
+
+## Métricas (sandbox, pandas)
+- **CV** = EV − AC (variación de costo; negativo = sobrecosto)
+- **SV** = EV − PV (variación de cronograma; negativo = atraso)
+- **CPI** = EV / AC ; **SPI** = EV / PV (&gt;1 bien, &lt;1 mal)
+- **EAC** = BAC / CPI (pronóstico) ; **ETC** = EAC − AC ; **VAC** = BAC − EAC (sobre/sub-costo proyectado)
+- Semáforo por umbral (ej. CPI/SPI &lt; 0.95 rojo, 0.95-1.0 ámbar, ≥1.0 verde).
+
+## Contexto de contrato (NEC4 / UK)
+- Bajo **NEC**, alineá el baseline de tiempo al **Accepted Programme** y el costo al **Defined Cost**
+  (con la estructura de Fee) — si no, el EVM contradice el contrato.
+- El estándar UK integra **EVM + Cost-Value Reconciliation (CVR)** en UN solo reporte mensual. Si hay
+  datos de CVR (costo comprometido vs valor certificado), reportalos junto al EVM, no aparte.
+
+## Procedimiento
+1. Validá que existan los 4 insumos por proyecto; si falta alguno, marcá el gap, no calcules a medias.
+2. Calculá métricas por proyecto y agregadas; guardá a un tab `metrics` (lo lee Looker/el reporte).
+3. Generá la **lista de excepciones**: proyectos en rojo o con VAC negativo grande, ordenados por riesgo.
+
+## Guardrails
+- No reportes un CPI con AC incompleto — engaña. Marcá el insumo faltante.
+- Distinguí dato real (AC, EV) de pronóstico (EAC, ETC) — etiquetá las proyecciones.
+- La lectura EVM es objetiva; la ACCIÓN (recortar, re-planear) es del negocio. Vos surgís la alerta.
+</pre></details>
+      </article>
+      <article class="skill" data-name="cashflow-forecast" data-desc="proyecta el flujo de caja del proyecto en el tiempo — curva s de gasto, drawdown mensual, pico de exposición — para que el cliente sepa cuánto dinero necesita y cuándo. costo no es solo cuánto, es cuándo.">
+        <div class="s-hd">
+          <div><h3 class="mono">cashflow-forecast</h3><p class="s-desc">Proyecta el flujo de caja del proyecto en el tiempo — curva S de gasto, drawdown mensual, pico de exposición — para que el cliente sepa cuánto dinero necesita y cuándo. Costo no es solo cuánto, es cuándo.</p></div>
+          <button class="copy" data-target="pl-11">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-11"># SKILL: cashflow-forecast
+description: Proyecta el flujo de caja del proyecto en el tiempo — curva S de gasto, drawdown mensual, pico de exposición — para que el cliente sepa cuánto dinero necesita y cuándo. Costo no es solo cuánto, es cuándo.
+depends_on: cost-plan-budget, corp-safe-python
+
+## Cuándo usar
+Cuando el negocio necesita planear liquidez: cuánto se gasta cada mes, cuándo es el pico, cuándo
+se libera la contingencia.
+
+## Procedimiento
+1. Tomá la línea base distribuida en el tiempo (del cost-plan) o el programa con costos por hito.
+2. Sandbox: construí la **curva S acumulada** (gasto lento-rápido-lento típico de construcción) y
+   el gasto **mensual** (la derivada de la curva).
+3. Marcá: pico de gasto mensual, gasto acumulado a la fecha, y proyección a término.
+4. Si hay AC real, superponé **planeado vs real** para ver adelanto/atraso de desembolso.
+
+## Métricas útiles
+- % de gasto a la fecha vs % de tiempo transcurrido (¿gasta más rápido que avanza?).
+- Pico de cash mensual (para dimensionar líneas de crédito / aportes).
+- Proyección de fin: si el ritmo sigue, ¿cuándo se agota el presupuesto?
+
+## Guardrails
+- Cash flow de PLAN vs de REAL son cosas distintas — nunca las confundas en el mismo número.
+- Un adelanto de desembolso sin adelanto de avance = señal de alerta (se paga sin ganar valor).
+- La curva es un modelo; declará el supuesto de forma (lineal, S estándar, cargada al frente).
+</pre></details>
+      </article>
+      <article class="skill" data-name="procurement-tender-analysis" data-desc="nivela y compara ofertas de licitación de forma objetiva — tarifa por tarifa, ajustando por alcance y calificaciones — para recomendar adjudicación defendible. el momento donde el cost manager protege el dinero del cliente.">
+        <div class="s-hd">
+          <div><h3 class="mono">procurement-tender-analysis</h3><p class="s-desc">Nivela y compara ofertas de licitación de forma objetiva — tarifa por tarifa, ajustando por alcance y calificaciones — para recomendar adjudicación defendible. El momento donde el cost manager protege el dinero del cliente.</p></div>
+          <button class="copy" data-target="pl-12">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-12"># SKILL: procurement-tender-analysis
+description: Nivela y compara ofertas de licitación de forma objetiva — tarifa por tarifa, ajustando por alcance y calificaciones — para recomendar adjudicación defendible. El momento donde el cost manager protege el dinero del cliente.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+Cuando llegan varias ofertas de contratistas/proveedores y hay que compararlas de forma justa
+y recomendar una.
+
+## Procedimiento
+1. **Nivelación (leveling):** llevá todas las ofertas a una base comparable — mismo alcance, mismas
+   exclusiones. Ajustá por lo que un oferente incluyó y otro no. Sin esto, comparás peras con manzanas.
+2. Sandbox: tabla oferente × partida; resaltá tarifas outlier (muy altas = riesgo de margen, muy
+   bajas = riesgo de reclamo/abandono).
+3. Analizá: precio total nivelado, distribución de tarifas, calificaciones/supuestos de cada oferta,
+   y balance del programa (ofertas cargadas al frente = riesgo de flujo).
+4. Recomendación: no solo el más barato — el mejor valor considerando riesgo, alcance y capacidad.
+
+## Guardrails
+- El más barato NO es la recomendación por default. Una oferta anormalmente baja es un riesgo, no un ahorro.
+- Documentá cada ajuste de nivelación (qué se sumó/restó y por qué) — la adjudicación debe ser auditable.
+- Marcá tarifas outlier para revisión humana; no las &quot;corrijas&quot; solo.
+- Nunca reveles cifras de un oferente a otro — confidencialidad de licitación.
+</pre></details>
+      </article>
+      <article class="skill" data-name="cost-benchmarking" data-desc="compara los costos del proyecto contra una base de referencia — $/m², tarifas unitarias, ratios por elemento — para validar que el número es razonable y detectar dónde se sale de la norma. la segunda opinión objetiva del cost manager.">
+        <div class="s-hd">
+          <div><h3 class="mono">cost-benchmarking</h3><p class="s-desc">Compara los costos del proyecto contra una base de referencia — $/m², tarifas unitarias, ratios por elemento — para validar que el número es razonable y detectar dónde se sale de la norma. La segunda opinión objetiva del cost manager.</p></div>
+          <button class="copy" data-target="pl-13">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-13"># SKILL: cost-benchmarking
+description: Compara los costos del proyecto contra una base de referencia — $/m², tarifas unitarias, ratios por elemento — para validar que el número es razonable y detectar dónde se sale de la norma. La segunda opinión objetiva del cost manager.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+Cuando hay que validar un estimado o una oferta contra el mercado: ¿este costo es razonable para
+este tipo de proyecto, en este lugar, en esta fecha?
+
+## Procedimiento
+1. Normalizá el proyecto a métricas comparables: **costo/m²**, costo/unidad funcional, % por elemento
+   (subestructura, envolvente, MEP como % del total).
+2. Ajustá los benchmarks por **tiempo** (índice de inflación a fecha común) y **lugar** (índice de
+   localización) — un $/m² de 2019 en otra ciudad no compara crudo. Referencia sectorial: los datos
+   de **construcción por m² por mercado** y el **índice de inflación de construcción** (estilo ICMS/GCMI)
+   son la base de comparación internacional; usá el índice del año/mercado correcto.
+3. Sandbox: proyecto vs banda de referencia (p25-p75-p90). Marcá elementos fuera de banda.
+4. Explicá los outliers: ¿mayor calidad? ¿condición de sitio? ¿o un error de estimación?
+
+## Guardrails
+- Un benchmark mal normalizado (sin ajuste de tiempo/lugar/alcance) es peor que ninguno — engaña con confianza.
+- Fuera de banda ≠ error automáticamente. Puede ser una decisión de diseño justificada. Explicá, no borres.
+- Documentá la fuente y la fecha base de cada benchmark. Sin procedencia, no es defendible.
+- Compará alcance con alcance: incluí/excluí honorarios y preliminares de forma consistente en ambos lados.
+</pre></details>
+      </article>
+      <article class="skill" data-name="value-engineering" data-desc="analiza opciones de diseño por costo-vs-función para maximizar valor (no solo recortar costo) y hace seguimiento de los ahorros hasta que se materializan. el cost manager como socio de decisión, no solo contador.">
+        <div class="s-hd">
+          <div><h3 class="mono">value-engineering</h3><p class="s-desc">Analiza opciones de diseño por costo-vs-función para maximizar valor (no solo recortar costo) y hace seguimiento de los ahorros hasta que se materializan. El cost manager como socio de decisión, no solo contador.</p></div>
+          <button class="copy" data-target="pl-14">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-14"># SKILL: value-engineering
+description: Analiza opciones de diseño por costo-vs-función para maximizar valor (no solo recortar costo) y hace seguimiento de los ahorros hasta que se materializan. El cost manager como socio de decisión, no solo contador.
+depends_on: cost-estimating, corp-safe-python
+
+## Cuándo usar
+Cuando el proyecto excede presupuesto o el cliente busca optimizar: ¿qué se puede cambiar para
+bajar costo SIN perder la función/valor que importa?
+
+## Procedimiento
+1. Listá las opciones (alternativas de sistema, material, alcance) con su costo estimado y su
+   impacto en función/calidad/tiempo/operación.
+2. Sandbox: tabla opción × (costo capital, costo de ciclo de vida, impacto en programa, riesgo).
+   Valor = función entregada / costo — no solo el costo.
+3. Rankeá por **ahorro neto** considerando ciclo de vida (una opción barata que cuesta más operar
+   no es ahorro). Separá ahorros &quot;duros&quot; (confirmados) de &quot;blandos&quot; (potenciales).
+4. **Seguimiento:** registrá cada idea aprobada y verificá que el ahorro llegue al presupuesto —
+   una VE aprobada que no se implementa es un ahorro de mentira.
+
+## Guardrails
+- Value engineering ≠ recorte a ciegas. Si baja el costo pero destruye la función, es cost-cutting, no VE.
+- Considerá costo de ciclo de vida, no solo capital — el barato-de-instalar puede ser caro-de-operar.
+- Un ahorro no es ahorro hasta que se materializa en el presupuesto. Rastreá idea → aprobada → implementada.
+</pre></details>
+      </article>
+      <article class="skill" data-name="change-cost-control" data-desc="gestiona el impacto de costo de las variaciones/órdenes de cambio y el consumo de contingencia — cada cambio evaluado, aprobado y rastreado contra la línea base. es donde el presupuesto se defiende o se desangra.">
+        <div class="s-hd">
+          <div><h3 class="mono">change-cost-control</h3><p class="s-desc">Gestiona el impacto de costo de las variaciones/órdenes de cambio y el consumo de contingencia — cada cambio evaluado, aprobado y rastreado contra la línea base. Es donde el presupuesto se defiende o se desangra.</p></div>
+          <button class="copy" data-target="pl-15">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-15"># SKILL: change-cost-control
+description: Gestiona el impacto de costo de las variaciones/órdenes de cambio y el consumo de contingencia — cada cambio evaluado, aprobado y rastreado contra la línea base. Es donde el presupuesto se defiende o se desangra.
+depends_on: cost-control-evm, sheet-ops
+
+## Cuándo usar
+Cuando surgen cambios (variaciones, órdenes de cambio, reclamos) que mueven el costo respecto a
+la línea base aprobada.
+
+## Procedimiento
+1. Por cada cambio: descripción, causa (cliente/diseño/sitio/riesgo materializado), **impacto de
+   costo** estimado, impacto de programa, y estado (propuesto/aprobado/rechazado).
+2. Sandbox: registro de cambios con acumulado. Rastreá el **drawdown de contingencia**: cuánto
+   quedaba, cuánto consumió este cambio, cuánto resta.
+3. Recalculá el presupuesto revisado = línea base + cambios aprobados. La línea base ORIGINAL no
+   se toca (se versiona) — la variación se ve contra ella.
+4. Alertá si la contingencia restante no cubre el riesgo pendiente — señal temprana de sobrecosto.
+
+## Guardrails
+- Ningún cambio entra al costo sin aprobación formal registrada. &quot;Ya se hizo&quot; no es aprobación.
+- La línea base original se preserva; el presupuesto revisado es una capa aparte. No pisar la base.
+- Distinguí causa: un cambio por decisión del cliente ≠ un error de diseño ≠ un riesgo que se activó.
+  La causa determina quién paga.
+- Contingencia agotándose con riesgo pendiente = bandera roja al negocio, ya, no al final.
+</pre></details>
+      </article></div>
+    </section>
+    <section class="grp" data-grp="Project Manager">
+      <div class="grp-hd">
+        <div><h2>Project Manager</h2><p class="grp-blurb">Programme, risk and change.</p></div>
+        <span class="grp-cnt mono">7 skills</span>
+      </div>
+      <div class="grid">
+      <article class="skill" data-name="programme-schedule-analysis" data-desc="analiza el programa/cronograma del proyecto — ruta crítica, holgura, deslizamiento de hitos, spi — para saber si va a terminar a tiempo y dónde está el riesgo de plazo. el eje &quot;tiempo&quot; del control de proyecto.">
+        <div class="s-hd">
+          <div><h3 class="mono">programme-schedule-analysis</h3><p class="s-desc">Analiza el programa/cronograma del proyecto — ruta crítica, holgura, deslizamiento de hitos, SPI — para saber si va a terminar a tiempo y dónde está el riesgo de plazo. El eje &quot;tiempo&quot; del control de proyecto.</p></div>
+          <button class="copy" data-target="pl-16">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-16"># SKILL: programme-schedule-analysis
+description: Analiza el programa/cronograma del proyecto — ruta crítica, holgura, deslizamiento de hitos, SPI — para saber si va a terminar a tiempo y dónde está el riesgo de plazo. El eje &quot;tiempo&quot; del control de proyecto.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+Cuando hay un programa con tareas/hitos y fechas, y el negocio pregunta: ¿vamos a tiempo? ¿qué
+hito está en riesgo? ¿qué es lo crítico?
+
+## Insumos esperados
+- Tareas con: inicio/fin planeado, inicio/fin real o proyectado, % avance, predecesoras, hito (sí/no).
+
+## Análisis (sandbox)
+- **Ruta crítica:** la cadena de tareas sin holgura que define la fecha de fin. Un atraso ahí = atraso del proyecto.
+- **Holgura (float):** cuánto puede atrasarse una tarea sin mover el fin. Holgura consumiéndose = alerta.
+- **Deslizamiento de hitos:** fecha proyectada vs baseline por hito. Tendencia mes a mes (¿se aleja?).
+- **SPI de cronograma** y % avance planeado vs real por fase.
+
+## Procedimiento
+1. Validá dependencias y fechas; marcá tareas sin lógica (huérfanas) que distorsionan la ruta.
+2. Calculá ruta crítica, holguras, y deslizamiento de hitos clave. Guardá a tab `schedule`.
+3. Lista de excepciones: hitos con deslizamiento material o tareas críticas atrasadas, por magnitud.
+
+## Guardrails
+- % avance auto-reportado por el contratista se cuestiona, no se toma como verdad — cruzá con entregables.
+- Un hito que se aleja 2 semanas cada mes va a llegar tarde aunque hoy diga &quot;verde&quot;. Reportá la tendencia.
+- Distinguí atraso recuperable (holgura disponible) de atraso en ruta crítica (impacta el fin ya).
+</pre></details>
+      </article>
+      <article class="skill" data-name="risk-register-management" data-desc="gestiona el registro de riesgos — probabilidad × impacto, exposición, valor monetario esperado (emv), y seguimiento de mitigaciones — para que el riesgo se maneje antes de volverse problema. el &quot;identify risks before they become issues&quot; de t&amp;t.">
+        <div class="s-hd">
+          <div><h3 class="mono">risk-register-management</h3><p class="s-desc">Gestiona el registro de riesgos — probabilidad × impacto, exposición, valor monetario esperado (EMV), y seguimiento de mitigaciones — para que el riesgo se maneje antes de volverse problema. El &quot;identify risks before they become issues&quot; de T&amp;T.</p></div>
+          <button class="copy" data-target="pl-17">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-17"># SKILL: risk-register-management
+description: Gestiona el registro de riesgos — probabilidad × impacto, exposición, valor monetario esperado (EMV), y seguimiento de mitigaciones — para que el riesgo se maneje antes de volverse problema. El &quot;identify risks before they become issues&quot; de T&amp;T.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+En cada ciclo de gobierno del proyecto: mantener vivo el registro de riesgos, re-puntuar, y
+priorizar dónde poner la atención.
+
+## Estructura del riesgo
+- id · descripción · categoría · **probabilidad** (1-5) · **impacto** (1-5, costo/tiempo/calidad) ·
+  **score** = P×I · dueño · mitigación · estado · impacto en $ y días si se materializa.
+
+## Análisis (sandbox)
+- **Exposición** = score, o mejor **EMV** = probabilidad × impacto en $ (valor monetario esperado).
+- Matriz de calor P×I: cuántos riesgos en rojo/ámbar/verde.
+- Riesgos **top**: los de mayor EMV/score — donde va la gestión.
+- **Tendencia:** ¿el perfil de riesgo sube o baja mes a mes? ¿las mitigaciones están funcionando?
+
+## Procedimiento
+1. Re-puntuá cada riesgo abierto; agregá nuevos; cerrá los que ya no aplican (con nota).
+2. Calculá EMV total del portafolio de riesgo → esto informa la contingencia necesaria.
+3. Lista priorizada por EMV con su mitigación y dueño. Los sin dueño = bandera.
+
+## Guardrails
+- Un riesgo sin dueño y sin fecha de mitigación es decoración. Cada rojo necesita responsable y acción.
+- EMV informa la contingencia — si la contingencia &lt; EMV del riesgo abierto, avisá.
+- Riesgo (aún no pasó, se gestiona) ≠ Issue (ya pasó, se resuelve). No los mezcles.
+- No infles ni escondas riesgos por política. El registro honesto es lo que protege al cliente.
+</pre></details>
+      </article>
+      <article class="skill" data-name="raid-log" data-desc="mantiene el log raid — riesgos, assumptions (supuestos), issues, dependencies — como la memoria operativa del proyecto. lo que se asumió, lo que se rompió, y de qué depende cada cosa, en un solo lugar gobernado.">
+        <div class="s-hd">
+          <div><h3 class="mono">raid-log</h3><p class="s-desc">Mantiene el log RAID — Riesgos, Assumptions (supuestos), Issues, Dependencies — como la memoria operativa del proyecto. Lo que se asumió, lo que se rompió, y de qué depende cada cosa, en un solo lugar gobernado.</p></div>
+          <button class="copy" data-target="pl-18">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-18"># SKILL: raid-log
+description: Mantiene el log RAID — Riesgos, Assumptions (supuestos), Issues, Dependencies — como la memoria operativa del proyecto. Lo que se asumió, lo que se rompió, y de qué depende cada cosa, en un solo lugar gobernado.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+Como registro vivo del control de proyecto, revisado cada ciclo de gobierno. Complementa al
+registro de riesgos con las otras tres categorías que se caen entre las grietas.
+
+## Las cuatro categorías
+- **R — Riesgos:** algo que PODRÍA pasar (ver risk-register para el detalle de scoring).
+- **A — Assumptions (supuestos):** lo que damos por cierto sin confirmar. Cada supuesto es un riesgo
+  latente: si es falso, algo se rompe. Rastreá cuáles siguen sin validar.
+- **I — Issues:** algo que YA pasó y necesita resolución. Con dueño, acción y fecha límite.
+- **D — Dependencies:** de qué/quién depende una tarea (interna o externa). Una dependencia
+  incumplida atrasa aunque tu parte esté lista.
+
+## Procedimiento
+1. Un tab por categoría (o uno con columna `tipo`), keyed por id, con dueño/estado/fecha.
+2. Cada ciclo: supuestos sin validar que ya deberían estarlo → escalar. Issues vencidos → alerta.
+   Dependencias externas en riesgo → avisar al PM.
+3. Reportá los **assumptions vencidos sin validar** y los **issues vencidos** — esos hunden proyectos silenciosamente.
+
+## Guardrails
+- Un supuesto no escrito es un riesgo invisible. Si alguien &quot;asumió&quot; algo, va al log.
+- Issue ≠ Riesgo: el issue ya pasó, no se &quot;mitiga&quot;, se resuelve. No los confundas.
+- Una dependencia sin dueño del otro lado no está gestionada — nombrá al responsable externo.
+</pre></details>
+      </article>
+      <article class="skill" data-name="change-control" data-desc="gobierna las solicitudes de cambio del proyecto — evaluación de impacto (costo/tiempo/alcance/riesgo), aprobación y trazabilidad — para que el alcance no se deforme sin decisión consciente. la defensa contra el scope creep.">
+        <div class="s-hd">
+          <div><h3 class="mono">change-control</h3><p class="s-desc">Gobierna las solicitudes de cambio del proyecto — evaluación de impacto (costo/tiempo/alcance/riesgo), aprobación y trazabilidad — para que el alcance no se deforme sin decisión consciente. La defensa contra el scope creep.</p></div>
+          <button class="copy" data-target="pl-19">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-19"># SKILL: change-control
+description: Gobierna las solicitudes de cambio del proyecto — evaluación de impacto (costo/tiempo/alcance/riesgo), aprobación y trazabilidad — para que el alcance no se deforme sin decisión consciente. La defensa contra el scope creep.
+depends_on: corp-safe-python, sheet-ops
+
+## Cuándo usar
+Cuando algo pide cambiar el alcance/plan aprobado del proyecto. Todo cambio pasa por acá antes
+de ejecutarse.
+
+## Procedimiento
+1. Registrá la solicitud: qué cambia, quién lo pide, por qué, urgencia.
+2. **Evaluación de impacto** (el corazón): efecto en **costo** (→ change-cost-control), **tiempo**
+   (→ programme), **alcance**, **riesgo** y **calidad**. Un cambio &quot;chico&quot; con impacto de ruta crítica no es chico.
+3. Estado y decisión: propuesto → evaluado → aprobado/rechazado, con quién aprobó y cuándo.
+4. Si se aprueba: se actualizan las líneas base (costo y programa) por el proceso formal — no antes.
+
+## Procedimiento de datos (sandbox)
+- Registro de cambios keyed por id, con impacto cuantificado y estado. Acumulado de impacto aprobado
+  vs línea base original (¿cuánto se ha deformado el proyecto?).
+
+## Guardrails
+- Ningún cambio se ejecuta antes de aprobarse. La secuencia es evaluar → decidir → actualizar baseline → hacer.
+- Cuantificá SIEMPRE el impacto en las cuatro dimensiones. &quot;Es un cambio menor&quot; sin números no es evaluación.
+- La suma de cambios &quot;menores&quot; aprobados sin ver el acumulado = scope creep. Reportá el total, no solo el último.
+- Distinguí un cambio (nueva decisión) de un error a corregir (no debería ser &quot;cambio pagado&quot;).
+</pre></details>
+      </article>
+      <article class="skill" data-name="stakeholder-report" data-desc="genera el reporte de estado del proyecto tallado a cada audiencia — sponsor, cliente, equipo — con el titular arriba y la acción al final. la comunicación que convierte el control en decisión.">
+        <div class="s-hd">
+          <div><h3 class="mono">stakeholder-report</h3><p class="s-desc">Genera el reporte de estado del proyecto tallado a cada audiencia — sponsor, cliente, equipo — con el titular arriba y la acción al final. La comunicación que convierte el control en decisión.</p></div>
+          <button class="copy" data-target="pl-20">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-20"># SKILL: stakeholder-report
+description: Genera el reporte de estado del proyecto tallado a cada audiencia — sponsor, cliente, equipo — con el titular arriba y la acción al final. La comunicación que convierte el control en decisión.
+depends_on: data-storytelling, project-health-dashboard
+
+## Cuándo usar
+Cada ciclo de reporte, o ante un hito/escalamiento. El mismo proyecto, distinto reporte según
+quién lo lee.
+
+## Regla de audiencia
+- **Sponsor/cliente ejecutivo:** titular en una línea (costo/tiempo/riesgo global), semáforo,
+  las 3 excepciones que importan, decisión pedida. Nada de detalle salvo que lo pida.
+- **Equipo de proyecto/PM:** el mismo estado + el detalle por paquete, acciones, dueños, fechas.
+
+## Estructura (pirámide invertida)
+1. **Titular (1 línea):** estado global + implicancia. Ej: &quot;Proyecto en costo (CPI 1.01) pero
+   Hito 3 desliza 3 semanas; se necesita decisión de aceleración.&quot;
+2. **Semáforo** por dimensión: costo · tiempo · riesgo · calidad.
+3. **Excepciones:** los 3-5 items rojos con su &quot;por qué&quot; en una frase y su acción.
+4. **Decisión/acción pedida:** qué necesita el que lee, para cuándo.
+5. **Anexo:** métricas/detalle para quien quiera bucear.
+
+## Guardrails
+- El titular arriba, siempre. No entierres el estado global al final de la página 4.
+- Un reporte &quot;todo verde&quot; mes tras més y luego rojo de golpe = pérdida de credibilidad. Reportá tendencias.
+- No maquilles: si algo está rojo, se reporta rojo, con la acción. La credibilidad es el activo del asesor.
+- Un insight sin acción no es insight. Cerrá siempre con el &quot;¿y entonces qué hacemos?&quot;.
+</pre></details>
+      </article>
+      <article class="skill" data-name="project-health-dashboard" data-desc="consolida el estado del proyecto en un semáforo integrado — costo, tiempo, riesgo, calidad, alcance — con roll-up de portafolio para ver muchos proyectos de un vistazo. la &quot;single clear view&quot; que vende t&amp;t.">
+        <div class="s-hd">
+          <div><h3 class="mono">project-health-dashboard</h3><p class="s-desc">Consolida el estado del proyecto en un semáforo integrado — costo, tiempo, riesgo, calidad, alcance — con roll-up de portafolio para ver muchos proyectos de un vistazo. La &quot;single clear view&quot; que vende T&amp;T.</p></div>
+          <button class="copy" data-target="pl-21">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-21"># SKILL: project-health-dashboard
+description: Consolida el estado del proyecto en un semáforo integrado — costo, tiempo, riesgo, calidad, alcance — con roll-up de portafolio para ver muchos proyectos de un vistazo. La &quot;single clear view&quot; que vende T&amp;T.
+depends_on: cost-control-evm, programme-schedule-analysis, risk-register-management
+
+## Cuándo usar
+Cuando el negocio necesita ver el estado de UN proyecto integrado, o de MUCHOS proyectos en un
+tablero (portafolio/programa).
+
+## Las dimensiones (RAG por cada una)
+- **Costo:** de CPI/VAC (cost-control-evm).
+- **Tiempo:** de SPI/deslizamiento de hitos (programme).
+- **Riesgo:** de EMV/perfil de riesgo (risk-register).
+- **Calidad/Alcance:** de issues abiertos, cambios, no-conformidades.
+
+## Procedimiento
+1. Traé el estado de cada dimensión de su skill fuente; normalizá a RAG con umbrales del `config`.
+2. **Roll-up de portafolio:** por región/programa, cuántos proyectos en rojo/ámbar/verde por dimensión.
+   El &quot;peor de las dimensiones&quot; define el color del proyecto (un rojo en costo = proyecto rojo).
+3. Ordená los proyectos por severidad — los que necesitan atención arriba.
+4. Guardá a un tab `dashboard` que Looker Studio lee para el tablero visual.
+
+## Guardrails
+- Un proyecto &quot;verde global&quot; que esconde un rojo en una dimensión miente. El color global = el peor semáforo.
+- El RAG viene de umbrales objetivos (config), no de la sensación del PM. Documentá el umbral.
+- El tablero muestra el QUÉ; siempre acompañalo del POR QUÉ y la acción (stakeholder-report). Un color solo no decide.
+</pre></details>
+      </article>
+      <article class="skill" data-name="governance-gates" data-desc="gestiona las revisiones de etapa (stage-gate / gateway) — checklists de preparación, criterios de salida, decisión de avanzar/parar — para que un proyecto no pase de fase sin estar listo. la disciplina de gobierno que evita sorpresas caras.">
+        <div class="s-hd">
+          <div><h3 class="mono">governance-gates</h3><p class="s-desc">Gestiona las revisiones de etapa (stage-gate / gateway) — checklists de preparación, criterios de salida, decisión de avanzar/parar — para que un proyecto no pase de fase sin estar listo. La disciplina de gobierno que evita sorpresas caras.</p></div>
+          <button class="copy" data-target="pl-22">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-22"># SKILL: governance-gates
+description: Gestiona las revisiones de etapa (stage-gate / gateway) — checklists de preparación, criterios de salida, decisión de avanzar/parar — para que un proyecto no pase de fase sin estar listo. La disciplina de gobierno que evita sorpresas caras.
+depends_on: project-health-dashboard, corp-safe-python
+
+## Cuándo usar
+En cada punto de decisión del ciclo de vida (fin de anteproyecto, pre-construcción, pre-entrega):
+¿este proyecto está listo para pasar a la siguiente fase?
+
+## Procedimiento
+1. Definí los **criterios de salida** de la fase (checklist): diseño congelado, presupuesto aprobado,
+   riesgos clave mitigados, permisos, etc. — objetivos, verificables. Alineá las fases al **RIBA Plan
+   of Work** (etapas 0 Definición Estratégica → 7 En Uso) y a los **government gateways** donde apliquen;
+   así el gate encaja con el lenguaje de etapas del sector.
+2. Evaluá cada criterio: cumplido / parcial / no cumplido, con evidencia.
+3. **Decisión de gate:** Go (pasa) · Conditional Go (pasa con acciones y fecha) · Hold (no pasa hasta cerrar gaps).
+   La decisión es del comité; vos preparás la evidencia objetiva.
+4. Registrá la decisión y los criterios pendientes con dueño/fecha.
+
+## Procedimiento de datos (sandbox)
+- Checklist por gate keyed por criterio, con estado/evidencia. % de preparación por fase.
+- Historial de gates: qué se aprobó condicional y si las condiciones se cerraron después.
+
+## Guardrails
+- Un gate no es un trámite: si los criterios no se cumplen, la recomendación honesta es Hold, aunque
+  presione el calendario. Pasar sin estar listo se paga caro después.
+- &quot;Conditional Go&quot; sin seguimiento de las condiciones = Go disfrazado. Rastreá que las condiciones se cierren.
+- La preparación se MIDE contra criterios objetivos, no se asume por optimismo del equipo.
+</pre></details>
+      </article></div>
+    </section>
+    <section class="grp" data-grp="Data Analyst">
+      <div class="grp-hd">
+        <div><h2>Data Analyst</h2><p class="grp-blurb">Signal, forecast, and the story that moves a decision.</p></div>
+        <span class="grp-cnt mono">7 skills</span>
+      </div>
+      <div class="grid">
+      <article class="skill" data-name="statistical-analysis" data-desc="explora la base limpia con estadística descriptiva y detecta señal — tendencias, distribuciones, outliers, correlaciones — con pandas/scipy. el paso que convierte una tabla en un hallazgo.">
+        <div class="s-hd">
+          <div><h3 class="mono">statistical-analysis</h3><p class="s-desc">Explora la base limpia con estadística descriptiva y detecta señal — tendencias, distribuciones, outliers, correlaciones — con pandas/scipy. El paso que convierte una tabla en un hallazgo.</p></div>
+          <button class="copy" data-target="pl-23">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-23"># SKILL: statistical-analysis
+description: Explora la base limpia con estadística descriptiva y detecta señal — tendencias, distribuciones, outliers, correlaciones — con pandas/scipy. El paso que convierte una tabla en un hallazgo.
+depends_on: corp-safe-python, data-cleaning-overlay
+
+## Cuándo usar
+Cuando hay que entender los datos antes de reportarlos: ¿qué cambió?, ¿qué está fuera de lo normal?,
+¿qué se mueve junto?
+
+## Qué calcula (sandbox)
+- **Descriptiva:** conteo, media, mediana, desvío, percentiles (p25/50/75/90) por grupo (región/proyecto).
+  La mediana importa cuando hay outliers.
+- **Distribución:** rango, sesgo, cuántos registros por tramo — para saber si un promedio engaña.
+- **Outliers:** por IQR (fuera de p25−1.5·IQR / p75+1.5·IQR) o z&gt;3. Listalos, no los borres.
+- **Correlación:** Pearson/Spearman entre variables; reportá el coeficiente Y recordá: correlación ≠ causa.
+- **Comparación temporal:** variación vs periodo anterior (Δ absoluto y %).
+
+## Procedimiento
+1. Leé la base limpia; excluí lo que sigue MISSING (marcado), no lo imputes en silencio.
+2. Calculá lo pertinente a la pregunta — no tires todo el paquete si sobra.
+3. Guardá a un tab `analysis` y devolvé los 2-3 hallazgos que mueven la decisión, no la tabla cruda.
+
+## Guardrails
+- Muestra chica (n&lt;30 por grupo) → números indicativos, decilo explícito.
+- No reportes correlación como causa. No infieras sobre datos con muchos nulos sin marcarlo.
+- Un outlier puede ser error de carga O el dato más importante — súbelo a revisión, no lo ocultes.
+</pre></details>
+      </article>
+      <article class="skill" data-name="forecasting" data-desc="proyecta costo y avance a término — rango de eac/etc y series de tiempo simples — con la incertidumbre marcada. le da al negocio el &quot;cómo vamos a terminar&quot;, no solo el &quot;cómo vamos&quot;.">
+        <div class="s-hd">
+          <div><h3 class="mono">forecasting</h3><p class="s-desc">Proyecta costo y avance a término — rango de EAC/ETC y series de tiempo simples — con la incertidumbre marcada. Le da al negocio el &quot;cómo vamos a terminar&quot;, no solo el &quot;cómo vamos&quot;.</p></div>
+          <button class="copy" data-target="pl-24">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-24"># SKILL: forecasting
+description: Proyecta costo y avance a término — rango de EAC/ETC y series de tiempo simples — con la incertidumbre marcada. Le da al negocio el &quot;cómo vamos a terminar&quot;, no solo el &quot;cómo vamos&quot;.
+depends_on: corp-safe-python, cost-control-evm
+
+## Cuándo usar
+Cuando el negocio pregunta hacia adelante: ¿cuánto va a costar al final?, ¿cuándo termina?,
+¿qué proyectos rompen presupuesto si sigue esta tendencia?
+
+## Métodos (elegí según los datos)
+- **EAC por desempeño** (el nativo de control de proyecto):
+  - EAC = BAC / CPI (el desempeño actual continúa).
+  - EAC = AC + (BAC − EV) (lo que falta va según plan).
+  - EAC = AC + (BAC − EV)/(CPI·SPI) (costo Y cronograma mal).
+  Presentá el RANGO de los tres, no un número — es el mensaje honesto.
+- **Serie de tiempo simple:** media móvil o regresión lineal sobre el histórico mensual. Suficiente
+  y explicable; no metas modelos que no podés defender.
+- **ETC** = EAC − AC ; **VAC** = BAC − EAC.
+
+## Procedimiento
+1. Traé el histórico por proyecto (varios puntos; si hay uno solo, decí que no hay base).
+2. Calculá el rango de EAC y, si hay serie, la proyección de tendencia. Guardá a tab `forecast`.
+3. Rankeá por VAC negativo proyectado (riesgo de sobrecosto) para la lista de acción.
+
+## Guardrails
+- Un pronóstico es un rango con supuestos, NO una certeza. Etiquetá método + supuesto.
+- No pronostiques sobre 1-2 puntos. Marcá &quot;base insuficiente&quot; antes que inventar una curva.
+- Distinguí SIEMPRE dato real (AC, EV) de proyección (EAC, ETC).
+</pre></details>
+      </article>
+      <article class="skill" data-name="anomaly-detection" data-desc="vigila la base cada corrida y levanta alerta temprana — saltos bruscos, valores imposibles, huecos de datos — antes de que lleguen al tablero y al director. el control de calidad que protege la credibilidad del reporte.">
+        <div class="s-hd">
+          <div><h3 class="mono">anomaly-detection</h3><p class="s-desc">Vigila la base cada corrida y levanta alerta temprana — saltos bruscos, valores imposibles, huecos de datos — ANTES de que lleguen al tablero y al director. El control de calidad que protege la credibilidad del reporte.</p></div>
+          <button class="copy" data-target="pl-25">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-25"># SKILL: anomaly-detection
+description: Vigila la base cada corrida y levanta alerta temprana — saltos bruscos, valores imposibles, huecos de datos — ANTES de que lleguen al tablero y al director. El control de calidad que protege la credibilidad del reporte.
+depends_on: corp-safe-python, statistical-analysis
+
+## Cuándo usar
+En cada ingestión/refresh, como paso automático previo a publicar. Mejor que el analista descubra
+la anomalía que el director en la reunión.
+
+## Qué detecta (sandbox)
+- **Valores imposibles:** costo negativo, %avance &gt;100 o &lt;0, fecha futura donde va histórico,
+  CPI/SPI absurdos. Reglas duras de dominio.
+- **Saltos bruscos:** un valor que cambió &gt;X% vs el periodo anterior sin explicación (ej. AC que se duplica).
+- **Huecos nuevos:** un campo que venía completo y ahora llega vacío para muchos registros.
+- **Rupturas de esquema:** columna que desapareció, cambió de nombre o de tipo.
+- **Duplicados:** dos registros con la misma `_key` (doble carga).
+
+## Procedimiento
+1. Corré las reglas sobre la base recién cargada, antes de refrescar tableros.
+2. Clasificá: BLOQUEANTE (dato imposible / esquema roto → frená la publicación) vs AVISO (salto sospechoso → publicá pero alertá).
+3. Escribí un tab `anomalies`: registro, regla, severidad, valor. Notificá los bloqueantes al analista.
+
+## Guardrails
+- Los umbrales viven en el `config` — no los hardcodees.
+- Una anomalía NO se auto-corrige: se levanta para juicio humano (va a `data-cleaning-overlay`).
+- Falso positivo cuesta atención; falso negativo cuesta credibilidad. Ante la duda, alertá.
+</pre></details>
+      </article>
+      <article class="skill" data-name="data-storytelling" data-desc="convierte un análisis en una narrativa tallada a la audiencia — el &quot;so what&quot; y la acción — para que el negocio actúe sobre los datos. la comunicación es el multiplicador de impacto del analista.">
+        <div class="s-hd">
+          <div><h3 class="mono">data-storytelling</h3><p class="s-desc">Convierte un análisis en una narrativa tallada a la audiencia — el &quot;so what&quot; y la acción — para que el negocio ACTÚE sobre los datos. La comunicación es el multiplicador de impacto del analista.</p></div>
+          <button class="copy" data-target="pl-26">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-26"># SKILL: data-storytelling
+description: Convierte un análisis en una narrativa tallada a la audiencia — el &quot;so what&quot; y la acción — para que el negocio ACTÚE sobre los datos. La comunicación es el multiplicador de impacto del analista.
+depends_on: (ninguno — se aplica sobre cualquier análisis)
+
+## Por qué existe
+La gente no actúa sobre datos que no entiende ni en los que no confía. Un análisis sin narrativa
+es un tablero que nadie usa. Este skill cierra la brecha entre el número y la decisión.
+
+## Regla de oro: la audiencia primero
+- **Ejecutivo/director:** el titular arriba, en una línea — qué pasó, qué significa, qué hacer.
+  Nada de metodología salvo que la pida. Máximo 3 puntos.
+- **Equipo técnico/PM:** el mismo hallazgo + el cómo (método, supuestos, detalle por proyecto).
+
+## Estructura (pirámide invertida)
+1. **Titular (1 línea):** hallazgo + implicancia. Ej: &quot;3 proyectos del oeste proyectan sobrecosto (VAC −4.2M); el riesgo se concentra en X.&quot;
+2. **Los 3 puntos que importan:** cada uno = dato + contexto + &quot;so what&quot;.
+3. **Recomendación / próxima acción:** qué debería pasar, quién, cuándo.
+4. **Anexo (opcional):** detalle/método para quien quiera bucear.
+
+## Procedimiento
+1. Extraé el ÚNICO mensaje central (si hay 5, elegí el que mueve la decisión).
+2. Respáldalo con contexto (vs plan, vs mes anterior, vs umbral) — un número solo no convence; comparado, sí.
+3. Elegí 1-2 visuales que lo prueben (tendencia &gt; tabla larga; destacá el punto, no todo).
+
+## Guardrails
+- No adornes ni exageres — la credibilidad es el activo. Si el dato es incierto, decilo.
+- Un insight sin acción no es insight. Cerrá con el &quot;¿y entonces qué hacemos?&quot;.
+- No entierres el titular al final. Bottom-line-up-front, siempre.
+</pre></details>
+      </article>
+      <article class="skill" data-name="report-blast" data-desc="filtra la base por región/proyecto y distribuye el reporte por gmail — tabla en el cuerpo + link al tablero filtrado — a los contactos correctos. la última milla: del dato al buzón del que decide.">
+        <div class="s-hd">
+          <div><h3 class="mono">report-blast</h3><p class="s-desc">Filtra la base por región/proyecto y distribuye el reporte por Gmail — tabla en el cuerpo + link al tablero filtrado — a los contactos correctos. La última milla: del dato al buzón del que decide.</p></div>
+          <button class="copy" data-target="pl-27">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-27"># SKILL: report-blast
+description: Filtra la base por región/proyecto y distribuye el reporte por Gmail — tabla en el cuerpo + link al tablero filtrado — a los contactos correctos. La última milla: del dato al buzón del que decide.
+depends_on: sheet-ops, data-storytelling
+
+## Cuándo usar
+Cuando el análisis está listo y hay que hacerlo llegar: reporte mensual por región, o alerta a los
+responsables de los proyectos en rojo.
+
+## Procedimiento
+1. Filtrá la base (`clean`/`metrics`) por el criterio (ej. region = &quot;West&quot;, o proyectos en rojo).
+2. Sandbox: armá el cuerpo del correo — titular (data-storytelling) + tabla HTML compacta con lo que
+   importa + link al tablero **filtrado** para esa audiencia.
+3. Resolvé los destinatarios desde un tab `contacts` (nunca inventes correos).
+4. **Agente (Gmail):** DRY-RUN por default (mostrá a quién y qué) → **test solo-a-vos** → recién ahí el blast real.
+
+## Guardrails
+- DRY-RUN primero, SIEMPRE. Test a vos mismo antes de mandar a terceros. Un correo no se des-envía.
+- Nunca inventes un destinatario. Si falta un contacto, PARÁ y pedilo.
+- Respetá la cuota de envío de Workspace (~1500/día); si el blast la supera, dividí en tandas.
+- Un solo mensaje por contacto, tallado a su región/proyecto — no un genérico a todos.
+</pre></details>
+      </article>
+      <article class="skill" data-name="looker-wiring" data-desc="conecta la base gobernada a dashboards de looker studio con disciplina — la fuente correcta, links filtrados por audiencia, entrega programada nativa. cierra el pipeline en algo que el negocio abre solo.">
+        <div class="s-hd">
+          <div><h3 class="mono">looker-wiring</h3><p class="s-desc">Conecta la base gobernada a dashboards de Looker Studio con disciplina — la fuente correcta, links filtrados por audiencia, entrega programada nativa. Cierra el pipeline en algo que el negocio abre solo.</p></div>
+          <button class="copy" data-target="pl-28">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-28"># SKILL: looker-wiring
+description: Conecta la base gobernada a dashboards de Looker Studio con disciplina — la fuente correcta, links filtrados por audiencia, entrega programada nativa. Cierra el pipeline en algo que el negocio abre solo.
+depends_on: sheet-ops
+
+## Cuándo usar
+Cuando la base limpia + métricas ya están en Sheets y hace falta que la gente las VEA sin pedir nada:
+un tablero general y vistas por proyecto/región.
+
+## Principios de cableado
+- **Una sola fuente de verdad:** Looker lee del tab gobernado (`clean`/`metrics`/`dashboard`), nunca
+  del raw. Si el tab cambia de esquema, el dashboard se rompe — versioná el esquema.
+- **Credenciales del dueño (owner&#x27;s credentials):** la fuente se conecta con las credenciales del
+  propietario del dashboard; el que abre el link NO necesita acceso al Sheet subyacente. Forma corp-segura de compartir.
+- **Links filtrados por audiencia:** un mismo dashboard con parámetros de URL genera la vista por
+  región/proyecto. West ve West.
+- **Refresh:** definí la frecuencia acorde a cuándo se actualiza la base (no cada minuto si carga es mensual).
+
+## Entrega automática
+- **Reporte general:** &quot;Schedule email delivery&quot; NATIVO de Looker → manda el PDF, con sello del admin,
+  sin scraping. El camino sancionado.
+- **Por proyecto/región (filtrado):** eso no lo hace el schedule nativo → `apps-script-generator`
+  (link filtrado en el correo y/o PDF de la hoja).
+
+## Guardrails
+- Nunca conectes Looker al raw ni a un tab sin llave — un cambio de carga rompe el tablero.
+- No expongas el Sheet crudo para &quot;que vean el dashboard&quot;: owner&#x27;s credentials + link filtrado.
+- Un dashboard sin dueño y sin esquema versionado es deuda; nombrá responsable.
+</pre></details>
+      </article>
+      <article class="skill" data-name="exec-brief" data-desc="empaqueta el análisis en un resumen ejecutivo de una página o pdf tallado al director — titular, semáforo, excepciones, acción. convierte el trabajo en algo que el liderazgo lee en 60 segundos y sobre lo que decide.">
+        <div class="s-hd">
+          <div><h3 class="mono">exec-brief</h3><p class="s-desc">Empaqueta el análisis en un resumen ejecutivo de una página o PDF tallado al director — titular, semáforo, excepciones, acción. Convierte el trabajo en algo que el liderazgo lee en 60 segundos y sobre lo que decide.</p></div>
+          <button class="copy" data-target="pl-29">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-29"># SKILL: exec-brief
+description: Empaqueta el análisis en un resumen ejecutivo de una página o PDF tallado al director — titular, semáforo, excepciones, acción. Convierte el trabajo en algo que el liderazgo lee en 60 segundos y sobre lo que decide.
+depends_on: data-storytelling, project-health-dashboard
+
+## Cuándo usar
+Cuando el destinatario es dirección/cliente y necesita el estado del portafolio SIN abrir un tablero:
+reunión mensual, revisión de riesgo, actualización a sponsor.
+
+## Estructura del brief (1 página / PDF)
+1. **Titular (1 línea):** estado del portafolio + implicancia. Ej: &quot;Portafolio en costo (CPI 1.02) pero
+   3 proyectos del oeste proyectan sobrecosto (VAC −4.2M).&quot;
+2. **Semáforo del portafolio:** verde/ámbar/rojo por región/proyecto, tabla compacta.
+3. **Excepciones que importan:** los 3-5 proyectos en rojo, cada uno con su métrica clave y el &quot;por qué&quot;.
+4. **Acción recomendada:** qué debería decidirse, quién, para cuándo.
+5. **Anexo (opcional):** métricas completas / link al tablero.
+
+## Procedimiento
+1. Traé métricas (cost-control-evm / dashboard) y el hallazgo central (data-storytelling).
+2. Sandbox: armá el PDF con ReportLab (tabla-semáforo + texto) O el HTML del correo. Todo local, sin red.
+3. Agente: entregá el PDF a Drive / adjunto de Gmail, o el HTML en el cuerpo.
+
+## Guardrails
+- Una página. Si no cabe, no priorizaste — el director no lee 6 páginas.
+- Titular arriba, siempre (bottom-line-up-front).
+- Todo número defendible: si un insumo falta, marcá el gap, no lo maquilles.
+- Distinguí real de pronóstico (EAC/VAC son proyección) — no prometas lo que no está medido.
+</pre></details>
+      </article></div>
+    </section>
+    <section class="grp" data-grp="Deliverables">
+      <div class="grp-hd">
+        <div><h2>Deliverables</h2><p class="grp-blurb">Slides, docs and visuals — the everyday output.</p></div>
+        <span class="grp-cnt mono">3 skills</span>
+      </div>
+      <div class="grid">
+      <article class="skill" data-name="slides-builder" data-desc="arma una presentación de google slides desde un análisis o un outline — tallada a la audiencia, con titular, semáforo, tabla y gráfico. convierte el número en algo que se proyecta en la reunión.">
+        <div class="s-hd">
+          <div><h3 class="mono">slides-builder</h3><p class="s-desc">Arma una presentación de Google Slides desde un análisis o un outline — tallada a la audiencia, con titular, semáforo, tabla y gráfico. Convierte el número en algo que se proyecta en la reunión.</p></div>
+          <button class="copy" data-target="pl-30">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-30"># SKILL: slides-builder
+description: Arma una presentación de Google Slides desde un análisis o un outline — tallada a la audiencia, con titular, semáforo, tabla y gráfico. Convierte el número en algo que se proyecta en la reunión.
+depends_on: data-storytelling
+
+## Cuándo usar
+Cuando necesitás una presentación rápida y presentable: revisión mensual, comité, actualización a
+cliente. Vos das el contenido/outline; el skill arma el deck.
+
+## Uso sencillo
+Decile: &quot;armá un deck de N slides sobre [tema] para [audiencia]&quot;. Si hay datos, apuntá al Sheet.
+
+## Procedimiento
+1. Definí el outline (data-storytelling): 1 slide de titular, 3-5 de puntos clave, 1 de acción.
+   Una idea por slide — no volcar la tabla entera.
+2. **Agente (tool-call a Slides):** creá la presentación, agregá slides con título + bullets +
+   tabla/valor destacado. Para gráficos, insertá un chart nativo de Sheets (queda vinculado y se
+   actualiza) o una imagen del visual.
+3. Aplicá una plantilla simple y consistente (mismo layout, tipografía, colores por semáforo).
+4. Entregá el link del deck en Drive.
+
+## Buenas prácticas
+- **Una idea por slide.** El título de cada slide es el mensaje, no la categoría (&quot;West proyecta
+  sobrecosto&quot;, no &quot;Costos West&quot;).
+- Semáforo visual (verde/ámbar/rojo) para estado — se lee de un vistazo desde el fondo de la sala.
+- Cerrá con una slide de **acción/decisión**, no con &quot;gracias&quot;.
+
+## Guardrails
+- El deck refleja el análisis, no lo infla. Si un número es pronóstico, la slide lo dice.
+- No metas 8 bullets por slide. Si no cabe en 5, es otra slide o sobra.
+- Gráfico vinculado a la fuente &gt; imagen pegada — así no queda desactualizado.
+</pre></details>
+      </article>
+      <article class="skill" data-name="doc-builder" data-desc="genera un google doc listo — reporte, memo, minuta de reunión, carta de estado — con estructura, encabezados y tablas. el entregable escrito de todos los días, sin pelear con el formato.">
+        <div class="s-hd">
+          <div><h3 class="mono">doc-builder</h3><p class="s-desc">Genera un Google Doc listo — reporte, memo, minuta de reunión, carta de estado — con estructura, encabezados y tablas. El entregable escrito de todos los días, sin pelear con el formato.</p></div>
+          <button class="copy" data-target="pl-31">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-31"># SKILL: doc-builder
+description: Genera un Google Doc listo — reporte, memo, minuta de reunión, carta de estado — con estructura, encabezados y tablas. El entregable escrito de todos los días, sin pelear con el formato.
+depends_on: data-storytelling
+
+## Cuándo usar
+Cuando hace falta un documento presentable rápido: reporte mensual escrito, memo de recomendación,
+minuta de reunión, resumen para el cliente.
+
+## Uso sencillo
+Decile: &quot;armá un [memo/reporte/minuta] sobre [tema] para [audiencia]&quot;. Apuntá al Sheet si hay datos.
+
+## Plantillas comunes
+- **Memo/recomendación:** contexto → hallazgo → opciones → recomendación → próximos pasos.
+- **Reporte de estado:** titular → semáforo → excepciones → acciones/dueños → anexo.
+- **Minuta de reunión:** asistentes → decisiones → acciones (dueño + fecha) → temas abiertos.
+
+## Procedimiento
+1. Elegí la plantilla según el tipo. Bottom-line-up-front: la conclusión/recomendación arriba.
+2. **Agente (tool-call a Docs):** creá el doc con encabezados jerárquicos, párrafos concisos, y
+   tablas para los datos (no números sueltos en prosa).
+3. Insertá tablas/valores desde el Sheet; para tendencias, un gráfico o una tabla compacta.
+4. Entregá el link en Drive.
+
+## Guardrails
+- Claro y conciso; una idea por párrafo; verbos de acción. Sin relleno.
+- Todo dato del doc es defendible y trazable a la fuente. Si es incierto, se dice.
+- Las acciones llevan dueño y fecha — un doc sin &quot;quién/cuándo&quot; no mueve nada.
+- No inventes cifras ni citas para rellenar. Si falta un dato, se marca el gap.
+</pre></details>
+      </article>
+      <article class="skill" data-name="visuals-and-images" data-desc="produce los visuales del entregable — gráficos limpios, tablas-semáforo, diagramas simples — y gestiona imágenes para slides/docs. lo que hace que un reporte se entienda de un vistazo.">
+        <div class="s-hd">
+          <div><h3 class="mono">visuals-and-images</h3><p class="s-desc">Produce los visuales del entregable — gráficos limpios, tablas-semáforo, diagramas simples — y gestiona imágenes para slides/docs. Lo que hace que un reporte se entienda de un vistazo.</p></div>
+          <button class="copy" data-target="pl-32">Copy</button>
+        </div>
+        <details><summary class="mono">view</summary><pre id="pl-32"># SKILL: visuals-and-images
+description: Produce los visuales del entregable — gráficos limpios, tablas-semáforo, diagramas simples — y gestiona imágenes para slides/docs. Lo que hace que un reporte se entienda de un vistazo.
+depends_on: corp-safe-python
+
+## Cuándo usar
+Cuando un número necesita un visual: una tendencia, una comparación, un semáforo de estado, o una
+imagen/logo para el deck o el doc.
+
+## Qué produce (y por dónde)
+- **Gráficos de datos → charts nativos de Google** (Sheets/Slides): tendencia (línea), comparación
+  (barras), composición (dona con moderación). Quedan vinculados a la fuente y se actualizan solos.
+  Es la vía más confiable dentro de Workspace.
+- **Tablas-semáforo:** formato condicional (verde/ámbar/rojo) sobre la métrica — el visual más
+  eficiente para estado de portafolio.
+- **PDF de una hoja/rango:** con `reportlab` en el sandbox o el export nativo de Sheets/Docs.
+- **Imágenes existentes** (logos, fotos de sitio, capturas): el agente las inserta desde Drive en
+  slides/docs por tool-call.
+
+## Regla de un buen gráfico
+- Un solo mensaje por gráfico. Destacá el punto (el proyecto en rojo), no pintes todo igual.
+- Título = el hallazgo (&quot;Costo West sobre plan&quot;), no la variable (&quot;Costo por región&quot;).
+- Tendencia &gt; tabla larga cuando lo que importa es la dirección.
+
+## Guardrails
+- **Generación de imágenes con IA** (crear una imagen de cero) depende de que tu Gemini corporativo
+  lo tenga habilitado — no lo hace el sandbox de código (sin red). Si no está, usá charts nativos +
+  imágenes reales de Drive.
+- El eje empieza en cero salvo razón explícita — un eje truncado exagera y quema credibilidad.
+- No adornes con visuales que no aporten. Un gráfico que no cambia la decisión sobra.
+</pre></details>
+      </article></div>
+    </section>
+  <footer>
+    <span>Datum — independent work‑product for Turner &amp; Townsend workflows. Not an official Turner &amp; Townsend product.</span>
+    <span class="mono">Private · unlisted · noindex</span>
+  </footer>
+</div>
+<div class="toast" id="toast">Copied</div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'), tmo;
+  function ping(msg){ toast.textContent=msg; toast.classList.add('show'); clearTimeout(tmo); tmo=setTimeout(function(){toast.classList.remove('show');},1300); }
+  function copy(text,btn){
+    function ok(){ if(btn){var o=btn.textContent;btn.textContent='Copied';btn.classList.add('ok');setTimeout(function(){btn.textContent=o;btn.classList.remove('ok');},1400);} ping('Copied to clipboard'); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok,function(){fallback(text,ok);}); } else { fallback(text,ok); }
+  }
+  function fallback(text,ok){ var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity=0;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){ping('Press Ctrl+C to copy');}document.body.removeChild(ta); }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.copy'); if(!b) return;
+    var pre=document.getElementById(b.dataset.target); if(pre) copy(pre.textContent,b);
+  });
+  var q=document.getElementById('q'), count=document.getElementById('count');
+  q.addEventListener('input',function(){
+    var v=q.value.trim().toLowerCase(), shown=0;
+    document.querySelectorAll('.skill').forEach(function(s){
+      var hit=!v || s.dataset.name.toLowerCase().indexOf(v)>=0 || (s.dataset.desc||'').indexOf(v)>=0;
+      s.classList.toggle('hidden',!hit); if(hit) shown++;
+    });
+    document.querySelectorAll('.grp').forEach(function(g){
+      g.classList.toggle('hidden', g.querySelectorAll('.skill:not(.hidden)').length===0);
+    });
+    count.textContent = shown + (shown===1?' skill':' skills');
+  });
+})();
+</script>
+</body>
+</html>
