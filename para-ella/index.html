@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Para ti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap">
+<script>document.documentElement.className='js';</script>
+<style>
+:root{
+  --bg:#0e0709; --bg2:#160a0f; --ink:#f3e9ec; --soft:#d8bfc7; --muted:#9c7d88;
+  --wine:#7d1f38; --rose:#e8a6b8; --gold:#d8b27a; --line:#2a151c;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:radial-gradient(120% 80% at 50% -10%, #2a0f18 0%, var(--bg2) 40%, var(--bg) 100%);
+  color:var(--ink);
+  font-family:"Jost",system-ui,sans-serif; font-weight:300; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.wrap{max-width:480px;margin:0 auto;padding:0 22px}
+.serif{font-family:"Cormorant Garamond",serif}
+.i{font-style:italic}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s ease}
+.reveal.in{opacity:1;transform:none}
+.no-js .reveal{opacity:1;transform:none}
+
+/* hero */
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 22px 40px;position:relative}
+.eyebrow{font-family:"Jost";font-weight:400;letter-spacing:.42em;text-transform:uppercase;font-size:11px;color:var(--gold)}
+.hero h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-style:italic;font-size:clamp(52px,20vw,86px);line-height:.95;margin:18px 0 0;color:var(--ink)}
+.hero .name{display:block;font-style:normal;font-weight:400;font-size:.42em;letter-spacing:.06em;color:var(--rose);margin-top:14px;text-transform:none}
+.hero p{max-width:22ch;color:var(--soft);font-size:16px;margin:26px 0 0}
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:11px;letter-spacing:.3em;text-transform:uppercase;animation:float 2.4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* line block */
+.block{padding:56px 0}
+.block .serif{font-size:clamp(24px,7vw,32px);line-height:1.32;color:var(--ink);font-weight:400}
+.block .serif .accent{color:var(--rose);font-style:italic}
+.kicker{font-family:"Jost";font-weight:400;letter-spacing:.34em;text-transform:uppercase;font-size:11px;color:var(--gold);margin-bottom:18px}
+
+/* photos */
+.frame{margin:10px 0;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -30px rgba(0,0,0,.9);border:1px solid var(--line)}
+.frame img{display:block;width:100%;height:auto}
+.frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(14,7,9,.55) 100%);pointer-events:none}
+.cap{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;color:var(--soft);text-align:center;margin:14px 0 40px}
+.ph{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#20101a,#160a0f);color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:20px}
+
+/* propuesta */
+.propuesta{background:linear-gradient(180deg,rgba(125,31,56,.16),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:60px 0}
+.propuesta h2{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:500;font-size:clamp(34px,11vw,46px);margin:0 0 6px;color:var(--ink)}
+.propuesta .lead{color:var(--soft);font-size:16px;margin:14px 0 28px}
+.terms{list-style:none;margin:0;padding:0}
+.terms li{padding:16px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+.terms li:last-child{border-bottom:0}
+.terms .n{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:26px;color:var(--gold);line-height:1;min-width:30px}
+.terms b{display:block;font-weight:500;color:var(--ink);font-size:16px;margin-bottom:2px}
+.terms span{color:var(--muted);font-size:14px}
+
+/* close */
+.close{text-align:center;padding:70px 22px 90px}
+.close .serif{font-size:clamp(28px,9vw,40px);font-style:italic;color:var(--ink);line-height:1.25}
+.close .serif .accent{color:var(--rose)}
+.cta{display:inline-block;margin-top:34px;font-family:"Jost";font-weight:400;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--bg);background:linear-gradient(120deg,var(--rose),var(--gold));padding:15px 30px;border-radius:100px;text-decoration:none;box-shadow:0 16px 40px -16px rgba(232,166,184,.5)}
+.sign{margin-top:40px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--muted)}
+.tiny{margin-top:30px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5a4149}
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="eyebrow reveal">Solo para ti</div>
+    <h1 class="reveal">Hola,<span class="name">Mich</span></h1>
+    <p class="reveal">Te hice algo. Porque una mujer como tú no se conquista con prisa… se conquista con intención.</p>
+    <div class="scrollcue reveal">desliza</div>
+  </header>
+
+  <div class="wrap">
+
+    <section class="block reveal">
+      <div class="kicker">Lo primero</div>
+      <p class="serif">Desde que te vi supe dos cosas: que eres <span class="accent">problema del bueno</span>, y que valía la pena averiguar cuánto.</p>
+    </section>
+
+    <section class="reveal">
+      <div class="frame">
+        <!-- Cuando metas la foto 1 como para-ella/ella-1.jpg, esto la muestra. Mientras, placeholder: -->
+        <img src="ella-1.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none">foto 1 · ponela como ella-1.jpg</div>
+      </div>
+      <p class="cap">Y todavía no sabes lo bien que te ves cuando no lo intentas.</p>
+    </section>
+
+    <section class="block reveal">
+      <div class="kicker">La verdad</div>
+      <p class="serif">No quiero impresionarte con la cartera. Quiero impresionarte con la <span class="accent">idea</span>: mente abierta, cero poses, y una noche que ninguno de los dos olvide.</p>
+    </section>
+
+    <section class="reveal">
+      <div class="frame">
+        <img src="ella-2.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none">foto 2 · ponela como ella-2.jpg</div>
+      </div>
+      <p class="cap">Así, en la penumbra, eres justo mi tipo de peligro.</p>
+    </section>
+
+  </div>
+
+  <section class="propuesta">
+    <div class="wrap">
+      <div class="kicker reveal">La propuesta</div>
+      <h2 class="reveal">Tú y yo, sin libreto.</h2>
+      <p class="lead reveal">Una salida hecha a tu medida. Tres reglas, y las pones tú:</p>
+      <ul class="terms">
+        <li class="reveal"><span class="n">I</span><div><b>Tú eliges el terreno</b><span>El lugar, la hora, el plan. Yo pongo la actitud y las ganas.</span></div></li>
+        <li class="reveal"><span class="n">II</span><div><b>Mente abierta, respeto cerrado</b><span>Nos divertimos como se nos dé la gana; tu comodidad manda, siempre.</span></div></li>
+        <li class="reveal"><span class="n">III</span><div><b>Cero prisa</b><span>Sin cuentas, sin presiones. Solo dos personas con química y buena noche por delante.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="close">
+    <p class="serif reveal">Así que dime, <span class="accent">Mich</span>…<br>¿te atreves a averiguar qué sigue?</p>
+    <a class="cta reveal" href="#">Dime que sí</a>
+    <div class="sign reveal">— Con toda la intención,<br>Luis</div>
+    <div class="tiny">Privado · solo para ti</div>
+  </section>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(e){io.observe(e);});
+})();
+</script>
+</body>
+</html>
