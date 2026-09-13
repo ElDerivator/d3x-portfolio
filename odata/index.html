@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>ODATA Querétaro · Engagement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+  --accent:var(--cyan);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Inter",system-ui,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);
+  overflow-x:hidden;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+
+/* header */
+header.hero{padding:64px 0 40px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(30px,6vw,50px);font-weight:700;margin:14px 0 10px}
+.hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:18px;max-width:60ch}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.chip{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--soft);background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+.chip b{color:var(--ink)}
+
+/* sections */
+section{padding:44px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:26px;font-weight:600;display:flex;align-items:baseline;gap:12px}
+section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 24px;max-width:70ch}
+
+/* cards grid */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:720px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.card p{color:var(--soft);font-size:14px;margin:0}
+.card .big{font-family:"Space Grotesk";font-size:28px;font-weight:700;color:var(--cyan)}
+.card .unit{font-size:13px;color:var(--muted)}
+
+/* specs table */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+td b{color:var(--ink)} td{color:var(--soft)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.raci td:not(:first-child){text-align:center;font-family:"JetBrains Mono",monospace;font-weight:600}
+.R{color:var(--cyan)} .A{color:var(--amber)} .C{color:var(--soft)} .I{color:var(--muted)}
+
+/* map */
+.mapbox{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.mapbox iframe{display:block;width:100%;height:360px;border:0;filter:grayscale(.2) contrast(1.05)}
+.mapmeta{padding:14px 16px;font-size:13px;color:var(--soft);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+
+/* day plan */
+.day{display:grid;grid-template-columns:88px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.day:last-child{border-bottom:0}
+.day .d{font-family:"Space Grotesk";font-weight:700;color:var(--cyan)}
+.day .d small{display:block;color:var(--muted);font-weight:400;font-family:"JetBrains Mono";font-size:11px}
+.day h3{font-size:16px;margin-bottom:6px}
+.day ul{margin:6px 0 0;padding-left:18px;color:var(--soft);font-size:14px}
+.day li{margin:3px 0}
+
+/* priority / leakage */
+.prio{border-left:3px solid var(--amber);background:var(--panel);border-radius:0 10px 10px 0;padding:14px 16px;margin:10px 0}
+.prio.high{border-left-color:var(--red)} .prio.win{border-left-color:var(--green)}
+.prio .tag{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.prio.high .tag{color:var(--red)} .prio.win .tag{color:var(--green)}
+.prio h3{font-size:15px;margin:4px 0 4px} .prio p{color:var(--soft);font-size:14px;margin:0}
+
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{padding:9px 0 9px 30px;position:relative;color:var(--soft);font-size:14px;border-bottom:1px solid var(--line)}
+.checklist li:before{content:"▢";position:absolute;left:2px;top:8px;color:var(--cyan)}
+.checklist li b{color:var(--ink)}
+
+.note{font-size:13px;color:var(--muted);font-style:italic}
+footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
+.legend{font-family:"JetBrains Mono";font-size:12px;color:var(--muted);margin-top:10px}
+.legend b{color:var(--soft)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Engagement privado · Semana en sitio · Lun–Vie</div>
+    <h1>ODATA <span>Querétaro</span><br>Mejora de procesos del data center</h1>
+    <p class="lede">Briefing de campo + plan de acción para el engagement de optimización operativa. Foco: cerrar los procesos huérfanos (sin owner) y detener el <em>leakage</em>, y montar una ingesta de datos con dueño y trazabilidad.</p>
+    <div class="meta-row">
+      <span class="chip">Operador: <b>ODATA, an Aligned Data Centers Company</b></span>
+      <span class="chip">Sitio: <b>QR03 · El Marqués</b></span>
+      <span class="chip">Capacidad: <b>&gt;200 MW</b></span>
+      <span class="chip">Cooling: <b>Delta³ waterless</b></span>
+      <span class="chip">Equipo: <b>Luis + 1</b></span>
+    </div>
+    <p class="note" style="margin-top:18px">Página fantasma — no indexada, no listada en d3x.biz. Uso interno del equipo para la visita.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span> ODATA / Aligned — panorama</h2>
+    <p class="sub">Con qué operador trabajás y por qué importa el contexto: es infraestructura hyperscale/IA de primer nivel, no un sitio legacy. El estándar operativo esperado es alto.</p>
+    <div class="grid g3">
+      <div class="card"><h3>Quién</h3><p>ODATA fue adquirida por <b>Aligned Data Centers</b> (mayo 2023); opera como “ODATA, an Aligned company”. CEO Ricardo Alário. Aligned: &gt;2.5 GW y 40+ data centers en las Américas a full buildout.</p></div>
+      <div class="card"><h3>Dónde</h3><p>Brasil, Chile, Colombia, México + EE.UU. (vía Aligned). ~531 empleados (jun 2026). En México el foco es el campus de <b>Querétaro</b>.</p></div>
+      <div class="card"><h3>Enfoque</h3><p>Escalabilidad + eficiencia energética (&gt;US$1B en green financing), y densidad para clusters GPU/IA de próxima generación.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span> El campus de Querétaro</h2>
+    <p class="sub">El sitio donde vas. QR03 es la joya (el mayor campus de data center de México); QR01 aporta capacidad adicional. Conocer los números te posiciona en las conversaciones técnicas.</p>
+    <div class="grid g3" style="margin-bottom:18px">
+      <div class="card"><div class="big">150<span class="unit"> MW</span></div><h3>QR03 · El Marqués</h3><p>Flagship hyperscale. Inversión &gt;US$3B, ~275,000 m², 5 edificios a full buildout. Primer edificio energizado may-2025.</p></div>
+      <div class="card"><div class="big">32<span class="unit"> MW</span></div><h3>QR01 · Santa Rosa Jáuregui</h3><p>Capacidad adicional del campus integrado. (QR02 también en el portafolio Querétaro.)</p></div>
+      <div class="card"><div class="big">&gt;50<span class="unit"> kW/rack</span></div><h3>Delta³ (Delta Cube)</h3><p>Cooling por aire <b>sin agua</b> (cero consumo en operación normal), patentado por Aligned. Habilita GPU/IA de alta densidad.</p></div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Dimensión</th><th>Dato</th><th>Por qué importa para procesos</th></tr>
+        <tr><td><b>Energía</b></td><td>&gt;200 MW integrados; 200 MW energizados fase 1 con <b>Ammper</b></td><td>La relación con el partner de energía (Ammper) es un proceso crítico con handoffs — candidato clásico a owner difuso.</td></tr>
+        <tr><td><b>Cooling</b></td><td>Delta³ waterless, &gt;50 kW/rack</td><td>Mantenimiento y monitoreo térmico de alta densidad = procedimientos M&O estrictos; error humano aquí es caro.</td></tr>
+        <tr><td><b>Conectividad</b></td><td>Fibra de alta capacidad, doble ruta subterránea a CDMX + gateways internacionales</td><td>Redundancia física → procesos de verificación de rutas y failover con dueño y cadencia.</td></tr>
+        <tr><td><b>Escala</b></td><td>275,000 m², 5 edificios (buildout)</td><td>Sitio multi-edificio en expansión = riesgo alto de procesos que “caen entre” equipos/edificios (leakage).</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span> Terreno / mapa</h2>
+    <p class="sub">Ubicación de QR03 para logística y reconocimiento. Nota de seguridad: los planos internos (layout de salas, one-lines eléctricos, rutas de fibra) <b>no son públicos</b> — se piden bajo NDA en sitio; abajo qué solicitar.</p>
+    <div class="mapbox">
+      <iframe loading="lazy" src="https://maps.google.com/maps?q=20.5305,-100.2453&z=14&output=embed" title="ODATA QR03 El Marqués"></iframe>
+      <div class="mapmeta">
+        <span><b style="color:var(--ink)">QR03</b> · Carr. Estatal 431 – Los Cues km 5.8, Parque Industrial PyME, 76246 El Marqués, Querétaro</span>
+        <span class="mono">~20.5305, -100.2453 · <a href="https://www.google.com/maps/search/?api=1&query=20.5305,-100.2453" target="_blank" rel="noopener">Abrir en Maps ↗</a></span>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">Coordenadas aproximadas del área de El Marqués / Parque Industrial; confirmá el acceso exacto y caseta con el contacto de sitio. QR01 está en Santa Rosa Jáuregui (otro punto de Querétaro).</p>
+    <ul class="checklist" style="margin-top:16px">
+      <li><b>Pedir en sitio (bajo NDA):</b> layout de salas / white space, one-line eléctrico, diagrama de cooling Delta³, rutas de fibra A/B, plano de evacuación.</li>
+      <li><b>Reconocimiento previo:</b> vista satelital del campus, accesos, subestación, y edificios energizados vs en obra.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span> El problema central — procesos huérfanos y leakage</h2>
+    <p class="sub">Tu pain point, enmarcado con el estándar de industria. Es el problema #1 de operaciones, no un detalle.</p>
+    <div class="grid g2" style="margin-bottom:20px">
+      <div class="card" style="border-color:var(--red)"><h3 style="color:var(--red)">Dato duro</h3><p>El <b>error humano es la causa #1 de downtime</b> de infraestructura digital. Las <b>malas prácticas operativas son 5× más probables</b> de afectar la disponibilidad que cualquier otra causa (Uptime Institute).</p></div>
+      <div class="card"><h3>La raíz</h3><p>Un proceso <b>sin Accountable</b> (dueño único) no se ejecuta, no se revisa y no se mejora — “cae entre equipos”. En un sitio multi-edificio en expansión el riesgo se multiplica: cada handoff es un punto de fuga.</p></div>
+    </div>
+    <h3 style="font-size:18px;margin-bottom:10px">Mecanismo anti-leakage: “ningún proceso sin dueño”</h3>
+    <p class="sub">Regla dura, tres piezas — la misma disciplina que evita que las tareas se pudran sin cierre:</p>
+    <div class="grid g3">
+      <div class="card"><h3>1 · Registro único</h3><p>Todo proceso en <b>un solo registro</b> (process register) con: nombre, Accountable (una persona), cadencia de ejecución/revisión, y estado. Si no está en el registro, no existe → no puede ser huérfano en silencio.</p></div>
+      <div class="card"><h3>2 · Un Accountable, siempre</h3><p>RACI con la regla dura: <b>exactamente un “A” por proceso</b>. Cero “A” = huérfano (alarma). Dos “A” = ambigüedad (alarma). El “A” responde aunque delegue el “R”.</p></div>
+      <div class="card"><h3>3 · Cadencia + escalación</h3><p>Cada proceso tiene un <b>deadline/cadencia</b> y una <b>ruta de escalación</b>. Un proceso sin ejecutar &gt; su cadencia = escala automático. Sin esto, el registro se pudre igual.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">05</span> Plan de acción — la semana en sitio</h2>
+    <p class="sub">Estructura Lun–Vie: descubrir → inventariar → asignar dueños → cerrar fugas → montar la ingesta. Cada día produce un artefacto entregable.</p>
+    <div class="day"><div class="d">LUN<small>Discovery</small></div><div><h3>Entender el terreno operativo</h3><ul>
+      <li>Walkthrough del sitio + reunión con líderes de cada área (facilities, critical env, NOC, seguridad, energía/Ammper).</li>
+      <li>Recolectar procesos existentes (runbooks, SOPs, tickets, calendarios de mantenimiento).</li>
+      <li><b>Entregable:</b> lista cruda de procesos + stakeholders + qué NDA/accesos hacen falta.</li>
+    </ul></div></div>
+    <div class="day"><div class="d">MAR<small>Inventario</small></div><div><h3>Process register v1</h3><ul>
+      <li>Volcar TODO proceso a un registro único (una fila = un proceso): nombre, área, frecuencia, insumos/salidas, criticidad.</li>
+      <li>Clasificar por dominio M&O (Uptime): staffing, mantenimiento, entrenamiento, planning, condiciones de operación.</li>
+      <li><b>Entregable:</b> process register poblado + mapa de handoffs entre áreas/edificios.</li>
+    </ul></div></div>
+    <div class="day"><div class="d">MIÉ<small>Ownership</small></div><div><h3>RACI + caza de huérfanos</h3><ul>
+      <li>Asignar RACI a cada proceso; aplicar la regla dura: <b>exactamente 1 Accountable</b>.</li>
+      <li>Marcar los procesos con <b>0 A (huérfanos)</b> y <b>2+ A (ambiguos)</b> — esos son el leakage.</li>
+      <li><b>Entregable:</b> matriz RACI + lista priorizada de fugas (huérfanos/ambiguos) por criticidad.</li>
+    </ul></div></div>
+    <div class="day"><div class="d">JUE<small>Ingesta de datos</small></div><div><h3>Pipeline de datos con dueño</h3><ul>
+      <li>Mapear las fuentes (DCIM, BMS, sensores térmicos/energía, tickets/ITSM, CMDB) y su estado.</li>
+      <li>Diseñar la ingesta: fuente → validación → registro único de verdad → dashboard, cada etapa con Accountable y gate de calidad.</li>
+      <li><b>Entregable:</b> diagrama de ingesta + gaps de datos + owner por etapa (ver §06).</li>
+    </ul></div></div>
+    <div class="day"><div class="d">VIE<small>Cierre</small></div><div><h3>Priorización + quick wins + roadmap</h3><ul>
+      <li>Priorizar fugas por impacto (downtime/seguridad) × esfuerzo; asignar dueños y deadlines.</li>
+      <li>Definir la cadencia de revisión del registro (semanal/mensual) + la ruta de escalación.</li>
+      <li><b>Entregable:</b> plan de acción priorizado + quick wins ejecutables + roadmap 30/60/90.</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">06</span> Plan de ingesta de datos</h2>
+    <p class="sub">El “proceso del proceso”: cómo entra, se valida y se confía la data operativa. Cada etapa con dueño — un pipeline sin owner por etapa filtra datos malos silenciosamente.</p>
+    <div class="tbl-wrap" style="margin-bottom:18px">
+      <table>
+        <tr><th>Etapa</th><th>Qué</th><th>Gate de calidad</th><th>Owner (A)</th></tr>
+        <tr><td><b>Fuentes</b></td><td>DCIM, BMS, sensores térmicos/energía, ITSM/tickets, CMDB, logs de mantenimiento</td><td>Fuente registrada + healthcheck (¿emite? ¿frecuencia esperada?)</td><td>Data / DCIM lead</td></tr>
+        <tr><td><b>Ingesta</b></td><td>Colección → normalización → un registro único de verdad</td><td>Schema válido, sin nulos críticos, dedup por id estable</td><td>Data engineer</td></tr>
+        <tr><td><b>Validación</b></td><td>Reglas de negocio + rangos + reconciliación cruzada</td><td>Fuera de rango / drift = flag, no se propaga silencioso</td><td>Ops analyst</td></tr>
+        <tr><td><b>Consumo</b></td><td>Dashboards, alertas, reportes de capacidad/energía</td><td>Cada métrica trazable a su fuente + fecha</td><td>NOC / capacity</td></tr>
+      </table>
+    </div>
+    <div class="prio high"><span class="tag">Anti-leakage de datos</span><h3>Toda fuente y toda etapa tiene un Accountable en el registro</h3><p>Una fuente sin dueño deja de emitir y nadie se entera; una etapa sin dueño deja pasar datos malos. Mismo principio que los procesos: sin owner = fuga. El gate de calidad debe FALLAR ruidoso, no aceptar en silencio.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">07</span> RACI — plantilla para procesos de DC</h2>
+    <p class="sub">Ejemplo de arranque. <span class="legend"><b class="R">R</b> Responsible (ejecuta) · <b class="A">A</b> Accountable (responde, 1 solo) · <b class="C">C</b> Consulted · <b class="I">I</b> Informed</span></p>
+    <div class="tbl-wrap">
+      <table class="raci">
+        <tr><th>Proceso</th><th>Facilities</th><th>Critical Env</th><th>NOC</th><th>Seguridad</th><th>Energía/Ammper</th></tr>
+        <tr><td><b>Mantenimiento preventivo (Delta³)</b></td><td class="A">A</td><td class="R">R</td><td class="I">I</td><td class="I">I</td><td class="C">C</td></tr>
+        <tr><td><b>Gestión de cambios (change mgmt)</b></td><td class="C">C</td><td class="A">A</td><td class="R">R</td><td class="I">I</td><td class="C">C</td></tr>
+        <tr><td><b>Respuesta a incidentes</b></td><td class="C">C</td><td class="R">R</td><td class="A">A</td><td class="C">C</td><td class="I">I</td></tr>
+        <tr><td><b>Verificación failover energía</b></td><td class="C">C</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="A">A</td></tr>
+        <tr><td><b>Control de acceso / seguridad física</b></td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="A">A</td><td class="I">I</td></tr>
+        <tr><td><b>Ingesta y calidad de datos (§06)</b></td><td class="I">I</td><td class="C">C</td><td class="R">R</td><td class="I">I</td><td class="C">C</td></tr>
+      </table>
+    </div>
+    <p class="note" style="margin-top:12px">Plantilla de ejemplo — validá los nombres reales de áreas/roles el Lunes. La regla no cambia: <b>un “A” por fila</b>. Una fila sin “A” es una fuga.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">08</span> Prioridades y quick wins</h2>
+    <div class="prio high"><span class="tag">Alta prioridad</span><h3>Cazar y cerrar los procesos huérfanos críticos</h3><p>Cualquier proceso de energía/cooling/incidentes sin Accountable = riesgo directo de downtime. Asignar dueño ese mismo día.</p></div>
+    <div class="prio"><span class="tag">Estructural</span><h3>Montar el process register + cadencia de revisión</h3><p>Sin el registro único con revisión periódica, los huérfanos vuelven. Es la infraestructura del control, no un documento.</p></div>
+    <div class="prio win"><span class="tag">Quick win</span><h3>Healthchecks de fuentes de datos</h3><p>Detectar qué fuentes dejaron de emitir (fugas silenciosas) es rápido y de alto impacto — probablemente ya hay data muerta en dashboards.</p></div>
+    <div class="prio win"><span class="tag">Quick win</span><h3>Un dueño por handoff entre edificios/áreas</h3><p>Los handoffs son donde cae el leakage. Nombrar dueño de cada handoff cierra fugas sin rediseñar nada.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">09</span> Checklist de sitio</h2>
+    <ul class="checklist">
+      <li><b>Contactos:</b> líder de sitio, jefe de critical environment, NOC lead, seguridad, contacto de energía (Ammper).</li>
+      <li><b>Accesos/NDA:</b> gestionar antes o el Lunes temprano; sin NDA no hay planos ni one-lines.</li>
+      <li><b>Documentos a pedir:</b> SOPs/runbooks existentes, calendario de mantenimiento, log de incidentes/cambios, inventario de fuentes de datos.</li>
+      <li><b>Observar:</b> qué procesos son tribales (viven en la cabeza de alguien, no documentados) — esos son huérfanos disfrazados.</li>
+      <li><b>Medir:</b> cuántos procesos tienen dueño claro vs difuso — es tu baseline del engagement.</li>
+      <li><b>Cerrar cada día:</b> un entregable por día (§05) para no salir con las manos vacías.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>ODATA Querétaro · Engagement de mejora de procesos — briefing de campo del equipo. Documento de trabajo, no oficial de ODATA/Aligned; los datos públicos son de fuentes abiertas y deben confirmarse en sitio.</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata</p>
+  </div>
+</footer>
+
+</body>
+</html>
