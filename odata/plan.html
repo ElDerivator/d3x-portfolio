@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>ODATA Querétaro · Playbook de campo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+  --accent:var(--cyan);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(28px,5vw,44px)} .hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:18px;max-width:62ch;margin-top:12px}
+.backlink{display:inline-block;margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:13px}
+section{padding:34px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:22px} section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim);margin-right:8px}
+.sub{color:var(--soft);margin:8px 0 22px;max-width:72ch}
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{padding:9px 0 9px 30px;position:relative;color:var(--soft);font-size:14px;border-bottom:1px solid var(--line)}
+.checklist li:before{content:"\25A2";position:absolute;left:2px;top:8px;color:var(--cyan)}
+.checklist li b{color:var(--ink)}
+.day{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:0;margin:14px 0;overflow:hidden}
+.day .head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;padding:14px 18px;background:var(--panel2);border-bottom:1px solid var(--line)}
+.day .d{font-family:"Space Grotesk";font-weight:700;color:var(--cyan);font-size:18px}
+.day .theme{color:var(--ink);font-weight:600} .day .obj{color:var(--soft);font-size:13px}
+.day .body{padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:720px){.day .body{grid-template-columns:1fr}}
+.block h4{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.block ul{margin:0;padding-left:18px;color:var(--soft);font-size:14px} .block ul li{margin:3px 0}
+.dod{margin-top:12px;border-left:3px solid var(--green);background:var(--panel2);border-radius:0 8px 8px 0;padding:10px 14px}
+.dod .tag{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+.dod p{margin:4px 0 0;color:var(--soft);font-size:14px}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+td b{color:var(--ink)} td{color:var(--soft)}
+.slot{border:1px dashed var(--cyan-dim);border-radius:10px;padding:14px 16px;margin:12px 0;background:rgba(53,194,201,.04)}
+.slot .tag{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.slot p{margin:6px 0 0;color:var(--soft);font-size:14px}
+.qbank{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.qbank li{color:var(--soft);font-size:14px;margin:5px 0}
+.pill{display:inline-block;font-family:"JetBrains Mono";font-size:11px;padding:3px 9px;border:1px solid var(--line);border-radius:100px;color:var(--soft);background:var(--panel)}
+footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Playbook de campo · Lun–Vie · uso interno</div>
+    <h1>Playbook operativo <span>ODATA Querétaro</span></h1>
+    <p class="lede">La herramienta en mano para la semana en sitio. Cada día: objetivo, agenda AM/PM, banco de preguntas, artefacto a producir y una regla de "no salís del día sin esto". Complementa el <a href="index.html">briefing de campo</a>.</p>
+    <a class="backlink" href="index.html">&larr; Volver al briefing (contexto ODATA/Aligned, mapa, RACI, ingesta)</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">00</span>Antes de volar — checklist de preparación</h2>
+    <p class="sub">Lo que conviene tener cerrado antes de pisar el sitio, para no quemar el Lunes en logística.</p>
+    <ul class="checklist">
+      <li><b>Accesos y NDA:</b> confirmar caseta/acceso QR03 con el contacto de sitio; firmar NDA temprano para poder pedir planos internos (layout de salas, one-line eléctrico, cooling, rutas de fibra A/B).</li>
+      <li><b>Reconocimiento previo:</b> vista satelital del campus (El Marqués), accesos, subestación, edificios energizados vs en obra. Guardar offline.</li>
+      <li><b>Herramientas listas:</b> plantilla de <b>process register</b> (una fila = un proceso), hoja <b>RACI</b> en blanco, y la <b>worksheet de caza de huérfanos</b> (§ abajo). Una laptop con las plantillas + copia offline.</li>
+      <li><b>Contactos:</b> mapear a quién pedir cada área — facilities, critical environment, NOC, seguridad física, energía/partner (Ammper). Confirmar nombres reales el Lunes.</li>
+      <li><b>Objetivo del viaje en una frase:</b> "cerrar los procesos sin dueño y montar una ingesta de datos con owner por etapa". Repetible en cada reunión.</li>
+    </ul>
+    <div class="slot">
+      <span class="tag">▢ slot · research del equipo</span>
+      <p>Se integra aquí la investigación del liaison (contexto operador/mercado, benchmarks del sitio) cuando llegue — sin bloquear el arranque.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span>La semana, día por día</h2>
+    <p class="sub">Descubrir &rarr; inventariar &rarr; asignar dueños &rarr; cerrar fugas &rarr; montar la ingesta. Un artefacto entregable por día; el flujo de cada día alimenta al siguiente.</p>
+
+    <div class="day">
+      <div class="head"><span class="d">LUN</span><span class="theme">Discovery</span><span class="obj">— entender el terreno operativo y quién hace qué</span></div>
+      <div class="body">
+        <div class="block"><h4>AM</h4><ul>
+          <li>Walkthrough del sitio con el contacto (edificios energizados, salas, subestación, planta de cooling).</li>
+          <li>Reunión de apertura: encuadrar el objetivo (procesos sin dueño + ingesta con owner) y pedir acceso a runbooks/SOPs/tickets.</li>
+        </ul></div>
+        <div class="block"><h4>PM</h4><ul>
+          <li>1:1 corto con el líder de cada área: facilities, critical env, NOC, seguridad, energía/Ammper.</li>
+          <li>Recolectar procesos existentes: calendarios de mantenimiento, procedimientos, colas de tickets.</li>
+        </ul></div>
+      </div>
+      <div class="body" style="border-top:1px solid var(--line)">
+        <div class="block qbank"><h4>Banco de preguntas</h4><ul>
+          <li>¿Qué procesos corren en tu área y con qué frecuencia?</li>
+          <li>Cuando algo falla fuera de horario, ¿quién responde y cómo escala?</li>
+          <li>¿Qué handoff con otra área te da más dolores de cabeza?</li>
+          <li>¿Qué proceso "todos asumen que alguien más hace"?</li>
+        </ul></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Lista cruda</b> de procesos + stakeholders por área + qué NDA/accesos faltan. No hace falta que esté ordenada — solo completa.</p></div></div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="head"><span class="d">MAR</span><span class="theme">Inventario</span><span class="obj">— todo proceso en un registro único</span></div>
+      <div class="body">
+        <div class="block"><h4>AM</h4><ul>
+          <li>Volcar TODO proceso de la lista cruda a un <b>registro único</b>: nombre, área, frecuencia, insumos/salidas, criticidad.</li>
+          <li>Regla: si no está en el registro, no existe → no puede ser huérfano en silencio.</li>
+        </ul></div>
+        <div class="block"><h4>PM</h4><ul>
+          <li>Clasificar por dominio M&amp;O (Uptime): staffing, mantenimiento, entrenamiento, planning, condiciones de operación.</li>
+          <li>Dibujar el <b>mapa de handoffs</b>: qué proceso pasa de un área/edificio a otro (cada handoff es un punto de fuga).</li>
+        </ul></div>
+      </div>
+      <div class="body" style="border-top:1px solid var(--line)">
+        <div class="block qbank"><h4>Chequeos del registro</h4><ul>
+          <li>¿Cada fila tiene frecuencia y criticidad?</li>
+          <li>¿Los procesos entre edificios están duplicados o hay uno solo?</li>
+          <li>¿Falta algún proceso "obvio" (energía, cooling, cambios, incidentes)?</li>
+        </ul></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Process register v1</b> poblado + mapa de handoffs entre áreas/edificios.</p></div></div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="head"><span class="d">MIÉ</span><span class="theme">Ownership</span><span class="obj">— un Accountable por proceso, caza de huérfanos</span></div>
+      <div class="body">
+        <div class="block"><h4>AM</h4><ul>
+          <li>Asignar RACI a cada proceso del registro. Regla dura: <b>exactamente 1 Accountable</b> por fila.</li>
+          <li>El "A" responde aunque delegue el "R". Validar nombres reales de roles con cada líder.</li>
+        </ul></div>
+        <div class="block"><h4>PM</h4><ul>
+          <li>Marcar los <b>huérfanos</b> (0 A) y los <b>ambiguos</b> (2+ A) — ese es el leakage.</li>
+          <li>Priorizar por criticidad (downtime/seguridad): un proceso crítico sin dueño va primero.</li>
+        </ul></div>
+      </div>
+      <div class="body" style="border-top:1px solid var(--line)">
+        <div class="block qbank"><h4>Banco de preguntas</h4><ul>
+          <li>Para este proceso: ¿quién responde si no se hace? (ese es el A).</li>
+          <li>Si dos personas dicen "yo" → ¿cuál queda como A y cuál como R?</li>
+          <li>Si nadie dice "yo" → ¿de qué área debería colgar?</li>
+        </ul></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Matriz RACI</b> + lista priorizada de fugas (huérfanos/ambiguos) por criticidad.</p></div></div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="head"><span class="d">JUE</span><span class="theme">Ingesta de datos</span><span class="obj">— pipeline con dueño por etapa</span></div>
+      <div class="body">
+        <div class="block"><h4>AM</h4><ul>
+          <li>Mapear las fuentes: DCIM, BMS, sensores térmicos/energía, ITSM/tickets, CMDB, logs de mantenimiento — y su estado (¿emite? ¿frecuencia?).</li>
+          <li>Detectar fuentes sin dueño: una fuente sin owner deja de emitir y nadie se entera.</li>
+        </ul></div>
+        <div class="block"><h4>PM</h4><ul>
+          <li>Diseñar la ingesta: fuente &rarr; validación &rarr; registro único de verdad &rarr; dashboard, <b>cada etapa con un Accountable y un gate de calidad</b>.</li>
+          <li>El gate debe fallar ruidoso (flag), no aceptar datos malos en silencio.</li>
+        </ul></div>
+      </div>
+      <div class="body" style="border-top:1px solid var(--line)">
+        <div class="slot"><span class="tag">▢ slot · schema de ingesta (consola data)</span><p>Se integra aquí el schema de ingesta que releya la consola de data: fuentes reales, contrato de datos, y el owner por etapa. Hasta entonces, la tabla del <a href="index.html">briefing §06</a> es el marco.</p></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Diagrama de ingesta</b> + gaps de datos + owner (A) por etapa.</p></div></div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="head"><span class="d">VIE</span><span class="theme">Cierre</span><span class="obj">— priorizar, quick-wins, roadmap 30/60/90</span></div>
+      <div class="body">
+        <div class="block"><h4>AM</h4><ul>
+          <li>Priorizar las fugas por <b>impacto × esfuerzo</b> (downtime/seguridad primero, esfuerzo bajo primero).</li>
+          <li>Asignar dueño + deadline a cada fuga cerrada esta semana.</li>
+        </ul></div>
+        <div class="block"><h4>PM</h4><ul>
+          <li>Definir la <b>cadencia de revisión</b> del registro (semanal/mensual) + la ruta de escalación (proceso vencido = escala automático).</li>
+          <li>Presentar quick-wins ejecutables + roadmap 30/60/90 al cierre con los líderes.</li>
+        </ul></div>
+      </div>
+      <div class="body" style="border-top:1px solid var(--line)">
+        <div class="block qbank"><h4>Quick-wins típicos (validar en sitio)</h4><ul>
+          <li>Registrar los 5 procesos críticos sin dueño y asignarles un A hoy.</li>
+          <li>Poner cadencia + alarma al proceso de verificación de failover de energía.</li>
+          <li>Un healthcheck simple sobre la fuente de datos más importante que hoy nadie vigila.</li>
+        </ul></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Plan de acción priorizado</b> + quick-wins + roadmap 30/60/90, con dueños y fechas.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span>Worksheet — caza de procesos huérfanos</h2>
+    <p class="sub">La herramienta del Miércoles, lista para llenar en sitio. Una fila por proceso; la columna "A" es la que caza la fuga: 0 A = huérfano, 2+ A = ambiguo. Ambos son alarma.</p>
+    <table>
+      <thead><tr><th>Proceso</th><th>Área</th><th>Frecuencia</th><th>Criticidad</th><th># de "A"</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td><b>(ej.) Mantenimiento preventivo Delta³</b></td><td>Facilities</td><td>Mensual</td><td>Alta</td><td>1</td><td class="mono" style="color:var(--green)">OK</td></tr>
+        <tr><td><b>(ej.) Verificación failover energía</b></td><td>Energía/Ammper</td><td>?</td><td>Alta</td><td>0</td><td class="mono" style="color:var(--red)">HUÉRFANO</td></tr>
+        <tr><td><b>(ej.) Gestión de cambios</b></td><td>Critical Env / NOC</td><td>Por evento</td><td>Alta</td><td>2</td><td class="mono" style="color:var(--amber)">AMBIGUO</td></tr>
+        <tr><td colspan="6" style="color:var(--muted);text-align:center">— filas en blanco para llenar en sitio —</td></tr>
+      </tbody>
+    </table>
+    <p class="sub" style="margin-top:14px"><span class="pill">regla</span> Ninguna fila queda sin resolver el Viernes: cada huérfano/ambiguo sale con un A asignado y una fecha, o entra al roadmap 30/60/90 con dueño.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span>Contactos y logística — llenar el Lunes</h2>
+    <p class="sub">Slots para completar en sitio; no inventar. El objetivo es tener a quién escalar cada dominio antes del Martes.</p>
+    <table>
+      <thead><tr><th>Dominio</th><th>Contacto / rol</th><th>Cómo se escala fuera de horario</th></tr></thead>
+      <tbody>
+        <tr><td><b>Facilities / M&amp;O</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Critical Environment</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>NOC</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Seguridad física</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Energía / Ammper</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Datos / DCIM</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span>Chequeo M&amp;O — 6 preguntas que cubren ~70% del riesgo</h2>
+    <p class="sub">El estándar Uptime: ~70% de los outages son por error humano; las malas prácticas operativas pesan 5× más que cualquier falla de equipo. Se combate con procedimiento, no con hardware. Estas 6 preguntas son el termómetro rápido en cada área — la base del descubrimiento (Lun–Mar).</p>
+    <ul class="checklist">
+      <li><b>1 · ¿Hay sello M&amp;O?</b> ¿existe un marco de operación y mantenimiento formal, o cada área improvisa?</li>
+      <li><b>2 · ¿MOP + rollback por cada acción de cambio de estado?</b> toda maniobra sobre un componente crítico (energía, cooling) con procedimiento paso-a-paso y plan de reversión escrito.</li>
+      <li><b>3 · ¿EOPs digitales en piso?</b> los procedimientos de emergencia accesibles en el sitio (no en un cajón), actualizados.</li>
+      <li><b>4 · ¿RACI por sistema/activo crítico?</b> un único Accountable por cada sistema — conecta directo con la <a href="captura.html">captura de procesos</a>.</li>
+      <li><b>5 · ¿Change management con approval-gate?</b> request &rarr; evaluación de riesgo &rarr; aprobación &rarr; MOP &rarr; rollback &rarr; verificación. (Los cambios mal gestionados causan más outages que las fallas de equipo.)</li>
+      <li><b>6 · ¿Drills de EOP?</b> ¿el equipo practica las emergencias, o el EOP existe solo en papel?</li>
+    </ul>
+    <div class="slot" style="border-style:solid;border-color:var(--line)">
+      <span class="tag">SOP · MOP · EOP</span>
+      <p><b>SOP</b> = rutina estándar. <b>MOP</b> = método paso-a-paso para cambios de estado de componentes críticos, con rollback. <b>EOP</b> = procedimiento de emergencia, digital y en piso. Un proceso crítico sin su MOP/EOP con dueño es un huérfano de alto riesgo → va directo a la <a href="captura.html">worksheet de captura</a> con gap marcado.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>ODATA Querétaro · Playbook de campo — documento de trabajo del equipo, no oficial de ODATA/Aligned. Marcos (Uptime M&amp;O, SOP/MOP/EOP, change management) de fuentes abiertas; los datos del sitio se confirman en la visita. Los nombres, contactos y horarios se completan durante la semana.</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/plan</p>
+  </div>
+</footer>
+
+</body>
+</html>

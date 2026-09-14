@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>ODATA Querétaro · Captura de procesos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.55;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%)}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;margin:0;line-height:1.15}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:44px 0 26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(26px,4.5vw,38px)} .hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:16px;max-width:64ch;margin-top:10px}
+.backlink{display:inline-block;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:13px}
+section{padding:26px 0;border-bottom:1px solid var(--line)}
+label{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);
+  font-family:"Inter",sans-serif;font-size:14px;padding:9px 11px}
+textarea{resize:vertical;min-height:52px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.field.req label:after{content:" *";color:var(--red)}
+.owner-row{display:flex;gap:8px} .owner-row input{flex:1}
+.btn{font-family:"JetBrains Mono",monospace;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:8px;padding:9px 15px;cursor:pointer}
+.btn:hover{border-color:var(--cyan)} .btn.primary{background:var(--cyan-dim);border-color:var(--cyan);color:#eaffff}
+.btn.ghost{color:var(--soft)} .btn.warn{border-color:var(--amber);color:var(--amber)}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.hint{color:var(--muted);font-size:12px;margin-top:4px}
+.rule{border-left:3px solid var(--amber);background:var(--panel);border-radius:0 8px 8px 0;padding:10px 14px;margin:14px 0;color:var(--soft);font-size:14px}
+.rule b{color:var(--ink)}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+td{color:var(--soft)} td b{color:var(--ink)}
+.tag{font-family:"JetBrains Mono",monospace;font-size:10px;padding:2px 7px;border-radius:100px;border:1px solid var(--line)}
+.tag.gap{color:var(--amber);border-color:var(--amber)} .tag.unk{color:var(--red);border-color:var(--red)} .tag.ok{color:var(--green);border-color:var(--green)}
+.stat{display:inline-block;margin-right:18px;font-size:13px;color:var(--soft)} .stat b{font-family:"Space Grotesk";color:var(--cyan);font-size:20px}
+.del{color:var(--muted);cursor:pointer;font-family:"JetBrains Mono";font-size:12px} .del:hover{color:var(--red)}
+footer{padding:34px 0 56px;color:var(--muted);font-size:13px}
+.saved{color:var(--green);font-size:13px;font-family:"JetBrains Mono";margin-left:8px;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Herramienta de captura · en sitio · noindex</div>
+    <h1>Captura de procesos <span>ODATA Querétaro</span></h1>
+    <p class="lede">Formulario para levantar el <b>process register</b> en el viaje. Fuerza un dueño por proceso (si no sabés, queda <span class="mono">UNKNOWN</span> + gap visible, nunca en blanco). Guarda en este navegador y exporta JSONL y CSV. Sin conexión requerida.</p>
+    <a class="backlink" href="plan.html">&larr; Playbook</a> &nbsp;·&nbsp; <a href="index.html">Briefing</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2 style="font-size:20px">Nuevo proceso</h2>
+    <div class="rule"><b>Regla dura:</b> nada se descarta por incompleto. Owner vacío &rarr; <b>UNKNOWN</b> + gap. Evidencia vacía &rarr; gap + confianza &le; 0.5. Lo incompleto queda visible y priorizado, no se pierde.</div>
+    <div class="grid">
+      <div class="field req"><label>Nombre del proceso</label><input id="f_name" placeholder="ej. Mantenimiento preventivo Delta³"></div>
+      <div class="field"><label>Categoría</label>
+        <select id="f_category">
+          <option value="backup">backup</option><option value="ingest">ingest</option><option value="deploy">deploy</option>
+          <option value="monitoring">monitoring</option><option value="network">network</option><option value="security">security</option>
+          <option value="billing">billing</option><option value="manual" selected>manual</option><option value="other">other</option>
+        </select></div>
+      <div class="field req"><label>Owner (Accountable — obligatorio)</label>
+        <div class="owner-row"><input id="f_owner" placeholder="nombre / rol"><button class="btn warn" type="button" onclick="setUnknown()">No sé → UNKNOWN</button></div>
+        <div class="hint">El Accountable único (raci A). Si nadie responde por este proceso, dejalo UNKNOWN: eso ES el hallazgo.</div></div>
+      <div class="field"><label>RACI · Responsible (ejecuta)</label><input id="f_R" placeholder="quién ejecuta (opcional)"></div>
+      <div class="field"><label>Estado</label>
+        <select id="f_status"><option>activo</option><option>parcial</option><option>ad-hoc</option><option>indefinido</option><option>sin-ejecutar</option></select></div>
+      <div class="field"><label>Trigger (qué lo dispara)</label><input id="f_trigger" placeholder="calendario / evento / alarma"></div>
+      <div class="field"><label>Frecuencia</label><input id="f_frequency" placeholder="diario / semanal / mensual / por evento / ?"></div>
+      <div class="field"><label>Riesgo</label>
+        <select id="f_risk"><option value="low">low</option><option value="med" selected>med</option><option value="high">high</option><option value="critical">critical</option></select></div>
+      <div class="field"><label>Evidencia (runbook, ticket, SOP/MOP/EOP…)</label><input id="f_evidence" placeholder="doc / link / referencia — vacío = gap"></div>
+      <div class="field"><label>Dependencias</label><input id="f_dependencies" placeholder="otros procesos/sistemas (coma)"></div>
+      <div class="field" style="grid-column:1/-1"><label>Gaps (qué falta / qué no cierra)</label><textarea id="f_gaps" placeholder="huérfano, sin cadencia, sin rollback, sin EOP en piso…"></textarea></div>
+      <div class="field"><label>Notas</label><input id="f_notes" placeholder="libre"></div>
+      <div class="field"><label>Capturado por</label><input id="f_by" placeholder="tu nombre"></div>
+    </div>
+    <div class="btnrow">
+      <button class="btn primary" type="button" onclick="addProcess()">Guardar proceso</button>
+      <button class="btn ghost" type="button" onclick="clearForm()">Limpiar</button>
+      <span id="saved" class="saved">guardado ✓</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 style="font-size:20px">Registro capturado <span id="counts" class="mono" style="font-size:13px;color:var(--muted)"></span></h2>
+    <div id="stats" style="margin:12px 0"></div>
+    <div class="btnrow" style="margin-top:0">
+      <button class="btn primary" type="button" onclick="exportJSONL()">Export JSONL</button>
+      <button class="btn primary" type="button" onclick="exportCSV()">Export CSV</button>
+      <button class="btn warn" type="button" onclick="wipe()">Borrar todo</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table><thead><tr><th>Proceso</th><th>Cat</th><th>Owner</th><th>Riesgo</th><th>Flags</th><th></th></tr></thead>
+      <tbody id="rows"></tbody></table>
+    </div>
+    <p class="hint" style="margin-top:12px">Los datos viven solo en este navegador (localStorage). Exportá JSONL/CSV para llevártelos. Schema: process_id, name, category, owner, raci{R,A,C,I}, status, trigger, frequency, evidence[], dependencies[], gaps[], risk, notes, captured_by, captured_at (UTC), confidence.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>ODATA Querétaro · Captura de procesos — herramienta de trabajo del equipo, no oficial de ODATA/Aligned. Datos locales al navegador; exportá para conservarlos.</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/captura</p>
+  </div>
+</footer>
+
+<script>
+const KEY="odata_process_register_v1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
+function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
+function uid(){return "proc_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function setUnknown(){document.getElementById("f_owner").value="UNKNOWN"}
+function val(id){return (document.getElementById(id).value||"").trim()}
+function splitList(s){return s? s.split(",").map(x=>x.trim()).filter(Boolean):[]}
+
+function addProcess(){
+  const name=val("f_name");
+  if(!name){alert("El nombre del proceso es obligatorio.");return;}
+  let owner=val("f_owner");
+  const gaps=splitList(val("f_gaps").replace(/\n/g,","));
+  // REGLA DURA: owner nunca en blanco -> UNKNOWN + gap
+  if(!owner){owner="UNKNOWN"; if(!gaps.includes("owner desconocido")) gaps.push("owner desconocido");}
+  const evidence=splitList(val("f_evidence"));
+  let confidence=0.8;
+  if(evidence.length===0){ if(!gaps.includes("sin evidencia")) gaps.push("sin evidencia"); confidence=0.5; }
+  if(owner==="UNKNOWN") confidence=Math.min(confidence,0.5);
+  const rec={
+    process_id:uid(), name:name, category:val("f_category"), owner:owner,
+    raci:{R:val("f_R")||null, A:owner, C:null, I:null},
+    status:val("f_status"), trigger:val("f_trigger")||null, frequency:val("f_frequency")||null,
+    evidence:evidence, dependencies:splitList(val("f_dependencies")), gaps:gaps,
+    risk:val("f_risk"), notes:val("f_notes")||null, captured_by:val("f_by")||null,
+    captured_at:new Date().toISOString(), confidence:confidence
+  };
+  const a=load(); a.push(rec); save(a); render(); clearForm(true);
+  const s=document.getElementById("saved"); s.classList.add("show"); setTimeout(()=>s.classList.remove("show"),1400);
+}
+function clearForm(keepBy){
+  ["f_name","f_owner","f_R","f_trigger","f_frequency","f_evidence","f_dependencies","f_gaps","f_notes"].forEach(id=>document.getElementById(id).value="");
+  if(!keepBy) document.getElementById("f_by").value="";
+  document.getElementById("f_name").focus();
+}
+function del(id){const a=load().filter(r=>r.process_id!==id); save(a); render();}
+function render(){
+  const a=load(); const tb=document.getElementById("rows"); tb.innerHTML="";
+  let unk=0,gap=0,crit=0;
+  a.forEach(r=>{
+    if(r.owner==="UNKNOWN")unk++; if((r.gaps||[]).length)gap++; if(r.risk==="critical"||r.risk==="high")crit++;
+    const flags=[];
+    if(r.owner==="UNKNOWN")flags.push('<span class="tag unk">UNKNOWN</span>');
+    (r.gaps||[]).forEach(g=>flags.push('<span class="tag gap">'+escapeHtml(g)+'</span>'));
+    if(!flags.length)flags.push('<span class="tag ok">OK</span>');
+    const tr=document.createElement("tr");
+    tr.innerHTML='<td><b>'+escapeHtml(r.name)+'</b><br><span class="mono" style="color:var(--muted);font-size:11px">'+escapeHtml(r.frequency||"?")+' · conf '+r.confidence+'</span></td>'+
+      '<td>'+escapeHtml(r.category)+'</td><td>'+escapeHtml(r.owner)+'</td><td>'+escapeHtml(r.risk)+'</td>'+
+      '<td>'+flags.join(" ")+'</td><td><span class="del" onclick="del(\''+r.process_id+'\')">borrar</span></td>';
+    tb.appendChild(tr);
+  });
+  document.getElementById("counts").textContent="· "+a.length+" procesos";
+  document.getElementById("stats").innerHTML=
+    '<span class="stat"><b>'+a.length+'</b> total</span>'+
+    '<span class="stat"><b style="color:var(--red)">'+unk+'</b> sin owner (UNKNOWN)</span>'+
+    '<span class="stat"><b style="color:var(--amber)">'+gap+'</b> con gaps</span>'+
+    '<span class="stat"><b>'+crit+'</b> riesgo alto/crítico</span>';
+}
+function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function download(fn,txt,type){
+  const b=new Blob([txt],{type:type}); const u=URL.createObjectURL(b);
+  const a=document.createElement("a"); a.href=u; a.download=fn; document.body.appendChild(a); a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(u)},200);
+}
+function exportJSONL(){
+  const a=load(); if(!a.length){alert("Nada capturado aún.");return;}
+  download("odata_process_register_"+stamp()+".jsonl", a.map(r=>JSON.stringify(r)).join("\n")+"\n","application/x-ndjson");
+}
+function csvCell(v){v=(v==null?"":String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function exportCSV(){
+  const a=load(); if(!a.length){alert("Nada capturado aún.");return;}
+  const cols=["process_id","name","category","owner","raci_A","status","trigger","frequency","evidence","dependencies","gaps","risk","notes","captured_by","captured_at","confidence"];
+  const lines=[cols.join(",")];
+  a.forEach(r=>lines.push([r.process_id,r.name,r.category,r.owner,(r.raci&&r.raci.A)||r.owner,r.status,r.trigger,r.frequency,
+    (r.evidence||[]).join("; "),(r.dependencies||[]).join("; "),(r.gaps||[]).join("; "),r.risk,r.notes,r.captured_by,r.captured_at,r.confidence].map(csvCell).join(",")));
+  download("odata_process_register_"+stamp()+".csv", lines.join("\n")+"\n","text/csv");
+}
+function stamp(){return new Date().toISOString().replace(/[:.]/g,"").slice(0,15)+"Z"}
+function wipe(){if(confirm("¿Borrar TODOS los procesos capturados de este navegador? (exportá antes)")){save([]);render();}}
+render();
+</script>
+</body>
+</html>
