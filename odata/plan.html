@@ -74,7 +74,7 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Playbook de campo · BIM Manager · Lun–Vie · uso interno</div>
+    <div class="eyebrow">Playbook de campo · BIM Manager · Lun–Vie (Mié feriado) · uso interno</div>
     <h1>Playbook de información <span>ODATA Querétaro</span></h1>
     <p class="lede">La herramienta en mano para la semana en sitio, desde el rol de <b>BIM Manager</b> del equipo T&amp;T. Tu trabajo no es auditar la planta: es que el proyecto tenga <b>una sola fuente de verdad</b> — un CDE, no N bases manuales que divergen — y que el dato diga la verdad. Cada día: objetivo, agenda AM/PM, banco de preguntas, artefacto a producir y una regla de "no salís del día sin esto". Complementa el <a href="index.html">briefing de campo</a>.</p>
     <a class="backlink" href="index.html">&larr; Volver al briefing (contexto ODATA/Aligned, QR03, mapa)</a>
@@ -121,7 +121,7 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
 <section>
   <div class="wrap">
     <h2><span class="n">01</span>La semana, día por día</h2>
-    <p class="sub">Descubrir &rarr; inventariar las fuentes &rarr; reconciliar y cazar duplicados/gaps &rarr; montar la ingesta/reporte con dueño sobre un CDE único &rarr; priorizar y cerrar. Un artefacto entregable por día; el flujo de cada día alimenta al siguiente.</p>
+    <p class="sub"><b>Semana de 4 días en sitio</b> — el <b>Miércoles 16 es feriado</b> (Día de la Independencia). Flujo: descubrir &rarr; inventariar las fuentes &rarr; [feriado] &rarr; reconciliar + montar la ingesta sobre un CDE único &rarr; priorizar y cerrar. Un artefacto entregable por día laborable; el flujo de cada día alimenta al siguiente.</p>
 
     <div class="day">
       <div class="head"><span class="d">LUN</span><span class="theme">Discovery</span><span class="obj">— entender el proyecto y quién produce/consume cada dato</span></div>
@@ -168,43 +168,35 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
       </div>
     </div>
 
-    <div class="day">
-      <div class="head"><span class="d">MIÉ</span><span class="theme">Calidad &amp; reconciliación</span><span class="obj">— ¿los números cuadran entre sí?</span></div>
-      <div class="body">
-        <div class="block"><h4>AM</h4><ul>
-          <li>Reconciliar: ¿el avance del <b>programa</b> cuadra con el <b>costo</b>, con el <b>modelo</b> y con lo que dice el <b>sitio</b>? Documentar cada desajuste.</li>
-          <li>Entender el <b>método de % de avance</b>: subjetivo (dedazo) vs reglas de crédito. Ese método explica la mitad de las discrepancias.</li>
+    <div class="day" style="opacity:.9">
+      <div class="head" style="background:rgba(232,161,58,.06)"><span class="d" style="color:var(--amber)">MIÉ</span><span class="theme">Feriado — 16 sep</span><span class="obj">— Día de la Independencia: no se trabaja en sitio</span></div>
+      <div class="body" style="grid-template-columns:1fr">
+        <div class="block"><h4>sin reuniones</h4><ul>
+          <li>Día no laborable. Ventana <b>opcional</b> para consolidar notas offline (ordenar el registro de fuentes del Lun–Mar, preparar la matriz de reconciliación del Jueves) — sin contactar al sitio.</li>
+          <li>La semana en sitio es de <b>4 días</b> (Lun, Mar, Jue, Vie): el Jueves absorbe reconciliación + diseño de ingesta.</li>
         </ul></div>
-        <div class="block"><h4>PM</h4><ul>
-          <li>Marcar <b>fuentes huérfanas</b> (0 dueño), <b>duplicados</b> (dato en varias bases) y <b>gaps de calidad</b> (no cuadra / desactualizada / manual) — ese es el leakage del reporte.</li>
-          <li>Priorizar por impacto en la decisión del cliente: un KPI que el cliente mira y que hoy no es confiable va primero.</li>
-        </ul></div>
-      </div>
-      <div class="body" style="border-top:1px solid var(--line)">
-        <div class="block qbank"><h4>Banco de preguntas</h4><ul>
-          <li>Para este número: ¿de qué fuente sale y quién responde si está mal? (ese es el dueño)</li>
-          <li>Si el mismo dato está en 3 bases y no coinciden → ¿cuál es la buena y por qué?</li>
-          <li>Si nadie es dueño de una fuente → ¿de qué función debería colgar?</li>
-        </ul></div>
-        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Matriz de reconciliación</b> + lista priorizada de gaps (huérfanas / duplicadas / no cuadra) por impacto en el reporte.</p></div></div>
       </div>
     </div>
 
     <div class="day">
-      <div class="head"><span class="d">JUE</span><span class="theme">Ingesta &amp; reporting</span><span class="obj">— pipeline con dueño por etapa, sobre un CDE único</span></div>
+      <div class="head"><span class="d">JUE</span><span class="theme">Reconciliación &amp; ingesta</span><span class="obj">— día doble (compensa el feriado): cuadrar los números y montar el pipeline</span></div>
       <div class="body">
-        <div class="block"><h4>AM</h4><ul>
-          <li>Mapear los KPIs a sus fuentes reales: qué sistema alimenta cada número y con qué frecuencia.</li>
-          <li>Detectar el eslabón débil: una fuente sin dueño deja de emitir y el reporte miente sin avisar.</li>
+        <div class="block"><h4>AM · reconciliación</h4><ul>
+          <li>Reconciliar: ¿el avance del <b>programa</b> cuadra con el <b>costo</b>, el <b>modelo</b> y lo que dice el <b>sitio</b>? Documentar cada desajuste.</li>
+          <li>Entender el <b>método de % de avance</b> (subjetivo vs reglas de crédito) y marcar <b>huérfanas / duplicados / gaps</b> priorizados por impacto en el reporte.</li>
         </ul></div>
-        <div class="block"><h4>PM</h4><ul>
-          <li>Diseñar la ingesta: fuente &rarr; validación &rarr; <b>CDE / fuente única de verdad</b> &rarr; dashboard, <b>cada etapa con un dueño y un gate de calidad</b>.</li>
-          <li>El gate debe fallar ruidoso (flag), no dejar pasar dato malo en silencio. Bosquejar el mockup del reporte al cliente.</li>
+        <div class="block"><h4>PM · ingesta</h4><ul>
+          <li>Mapear los KPIs a sus fuentes reales y diseñar la ingesta: fuente &rarr; validación &rarr; <b>CDE / fuente única</b> &rarr; dashboard, cada etapa con dueño y gate de calidad.</li>
+          <li>El gate falla ruidoso (flag), no deja pasar dato malo en silencio. Bosquejar el mockup del reporte al cliente.</li>
         </ul></div>
       </div>
       <div class="body" style="border-top:1px solid var(--line)">
-        <div class="slot"><span class="tag">▢ slot · schema de ingesta del sitio</span><p>Se completa aquí el contrato de datos del pipeline de reporte: fuentes reales, esquema por etapa y el dueño de cada una. Hasta relevarlo en sitio, la tabla del <a href="index.html">briefing §06</a> es el marco.</p></div>
-        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Diagrama de ingesta</b> (fuente→validación→CDE→dashboard) + owner y gate por etapa + mockup del reporte al cliente.</p></div></div>
+        <div class="block qbank"><h4>Banco de preguntas</h4><ul>
+          <li>Si el mismo dato está en 3 bases y no coinciden → ¿cuál es la buena y por qué?</li>
+          <li>Para este KPI: ¿de qué fuente sale y quién responde si está mal?</li>
+          <li>¿Qué fuente, si deja de actualizarse, hace mentir el reporte sin avisar?</li>
+        </ul></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Matriz de reconciliación</b> + <b>diagrama de ingesta</b> (fuente→validación→CDE→dashboard) con owner y gate por etapa + mockup del reporte.</p></div></div>
       </div>
     </div>
 
@@ -229,6 +221,27 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
         <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Plan de acción priorizado</b> + quick-wins + roadmap 30/60/90, con dueños y fechas.</p></div></div>
       </div>
     </div>
+
+    <h3 style="font-size:17px;margin-top:26px">Cómo identificar — señales &amp; preguntas killer</h3>
+    <p class="sub" style="margin-top:6px">El kit de bolsillo para cazar el problema en cualquier reunión: las señales que delatan dato malo, y las preguntas que lo destapan.</p>
+    <div class="day"><div class="body">
+      <div class="block"><h4>🚩 señales que delatan</h4><ul>
+        <li>El mismo dato en <b>varias bases</b> (duplicado) — el riesgo #1.</li>
+        <li>"<b>Preguntale a Fulano</b>" — conocimiento tribal, sin documentar.</li>
+        <li>Mismo dato <b>tecleado dos veces</b> entre sistemas (recaptura manual).</li>
+        <li><b>Excels sueltos</b> por correo = no hay fuente única.</li>
+        <li>Nadie contesta "<b>¿quién es el dueño?</b>" = fuente huérfana.</li>
+        <li><b>% de avance a dedazo</b> (sin reglas de crédito).</li>
+      </ul></div>
+      <div class="block qbank"><h4>preguntas killer</h4><ul>
+        <li>¿Dónde vive el dato maestro y <b>quién lo actualiza</b>?</li>
+        <li>¿Cuál es la <b>fuente de verdad</b>? ¿cuántas copias hay de este dato?</li>
+        <li>¿<b>Reconcilian</b> programa, costo, modelo y sitio?</li>
+        <li>¿Cómo se arma hoy el <b>reporte al cliente</b>?</li>
+        <li>¿Qué <b>decisión</b> toma el cliente con este número?</li>
+        <li>¿Qué fuente, si se cae, <b>hace mentir el reporte</b> sin avisar?</li>
+      </ul></div>
+    </div></div>
   </div>
 </section>
 
