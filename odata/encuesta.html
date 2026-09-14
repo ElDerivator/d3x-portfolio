@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Encuesta de captura · QR03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);overflow-x:hidden}
+.wrap{max-width:900px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:50px 0 30px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(27px,5vw,42px);margin:12px 0 10px} .hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:17px;max-width:64ch}
+.backlink{display:inline-block;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:13px}
+section{padding:30px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:21px;display:flex;align-items:baseline;gap:12px} section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 18px;max-width:70ch}
+.spi{border:1px solid var(--red);background:rgba(224,90,90,.07);border-radius:12px;padding:16px 18px;margin:18px 0}
+.spi h3{color:var(--red);font-size:15px;margin-bottom:6px} .spi p{color:var(--soft);font-size:14px;margin:6px 0 0}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.q .qt{color:var(--ink);font-size:15px;font-weight:600}
+.q .qh{color:var(--muted);font-size:13px;margin-top:4px}
+.q .type{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);border:1px solid var(--cyan-dim);border-radius:100px;padding:2px 8px;margin-left:8px;white-space:nowrap}
+.opts{color:var(--soft);font-size:13px;margin-top:8px}
+.opts b{color:var(--ink)}
+.box{border-left:3px solid var(--cyan);background:var(--panel);border-radius:0 10px 10px 0;padding:14px 16px;margin:12px 0}
+.box.win{border-left-color:var(--green)} .box.amber{border-left-color:var(--amber)}
+.box h3{font-size:15px;margin-bottom:4px} .box p{color:var(--soft);font-size:14px;margin:4px 0 0}
+.box .tag{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.box.win .tag{color:var(--green)} .box.amber .tag{color:var(--amber)}
+.note{font-size:13px;color:var(--muted);font-style:italic}
+footer{padding:38px 0 58px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Blueprint de encuesta · uso interno · noindex</div>
+    <h1>Encuesta de captura <span>por departamento</span></h1>
+    <p class="lede">Instrumento para que cada workstream (CM, DC, Planning, Quality, Campus, CSA, MEP) documente <b>solo/a</b> sus procesos, datos e ineficiencias — sin que los dos consultores tengan que sentarse con cada uno. Objetivo (Arroyo): <b>capturing data</b> → cuánta, de qué tipo, quién, cómo se hace/procesa, ineficiencias, errores, cómo eficientar.</p>
+    <a class="backlink" href="index.html">&larr; Briefing</a> &nbsp;·&nbsp; <a href="plan.html">Playbook</a> &nbsp;·&nbsp; <a href="captura.html">Captura en vivo</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="spi">
+      <h3>⚠ SPI — antes que nada</h3>
+      <p>Esta encuesta captura <b>cómo trabajan con la información, no la información sensible en sí</b>. Regla en cada pregunta: <b>describí, no pegues</b> datos confidenciales, nombres de clientes, credenciales ni contenido SPI. Cada respuesta lleva un campo de <b>clasificación de sensibilidad</b>.</p>
+      <p><b>Dónde vive:</b> se construye en <b>Microsoft Forms</b> dentro del tenant del cliente — la data <b>nunca sale</b> a un sitio externo. Esta página es solo el blueprint (preguntas en blanco), no recolecta nada.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">S0</span> Identificación</h2>
+    <p class="sub">Para poder cruzar y consolidar las respuestas de todos los workstreams en un solo dataset.</p>
+    <div class="q"><div class="qt">Departamento / workstream <span class="type">opción</span></div>
+      <div class="opts"><b>Opciones:</b> CM · DC · Planning · Quality · Campus · CSA · MEP · Otro</div></div>
+    <div class="q"><div class="qt">Tu rol en el departamento <span class="type">texto corto</span></div></div>
+    <div class="q"><div class="qt">Nombre (opcional) <span class="type">texto corto</span></div><div class="qh">Opcional; sirve para hacer seguimiento, no para exponer a nadie.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">S1</span> Qué datos manejan — el inventario</h2>
+    <p class="sub">Responder por cada dato/reporte/proceso importante. En Forms: se envía una respuesta por proceso (el mismo líder puede enviar varias veces), o una fila por proceso si migra a Power App.</p>
+    <div class="q"><div class="qt">Nombre del dato / reporte / proceso <span class="type">texto corto</span></div><div class="qh">Ej. "Avance físico semanal", "Control de cambios MEP", "Reporte de calidad de concreto".</div></div>
+    <div class="q"><div class="qt">Tipo de dato <span class="type">opción</span></div>
+      <div class="opts"><b>Opciones:</b> programa/schedule · costo · avance · calidad · documentos/planos · modelo/BIM · riesgo · seguridad/H&amp;S · inventario/materiales · otro</div></div>
+    <div class="q"><div class="qt">¿Cuánta? — volumen y frecuencia <span class="type">opción</span></div>
+      <div class="opts"><b>Frecuencia:</b> tiempo real · diario · semanal · quincenal · mensual · por evento &nbsp;|&nbsp; <b>Volumen aprox:</b> texto corto</div></div>
+    <div class="q"><div class="qt">Clasificación de sensibilidad <span class="type">opción</span></div>
+      <div class="qh">Clave para SPI — no capturamos el contenido de lo confidencial/SPI, solo que existe.</div>
+      <div class="opts"><b>Opciones:</b> público · interno · confidencial · <b>SPI (special private info)</b></div></div>
+    <div class="q"><div class="qt">¿Dónde vive? — sistema/fuente <span class="type">opción múltiple</span></div>
+      <div class="opts"><b>Opciones:</b> SharePoint · Excel · MS Project · Power BI · Teams · correo · papel/físico · otro sistema (¿cuál?)</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">S2</span> Cómo lo hacen — el flujo</h2>
+    <p class="sub">De punta a punta: quién, cómo se genera, cómo se procesa, a quién alimenta.</p>
+    <div class="q"><div class="qt">¿Quién lo hace? (rol) <span class="type">texto corto</span></div></div>
+    <div class="q"><div class="qt">¿Cómo se captura / genera? <span class="type">texto largo</span></div></div>
+    <div class="q"><div class="qt">¿Cómo se procesa después? <span class="type">texto largo</span></div><div class="qh">Pasos, transformaciones, cálculos, quién lo revisa.</div></div>
+    <div class="q"><div class="qt">¿A quién / a qué reporte alimenta? <span class="type">texto corto</span></div></div>
+    <div class="q"><div class="qt">Templates que usan <span class="type">texto largo</span></div><div class="qh">Nombres/descripción. (Podés adjuntar un template EN BLANCO, sin datos reales, en S4.)</div></div>
+    <div class="q"><div class="qt">Sistemas / herramientas que usan <span class="type">texto largo</span></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">S3</span> Dónde duele — ineficiencias y errores</h2>
+    <p class="sub">El corazón de la pregunta de Arroyo: <em>"Where are the key inefficiencies?"</em></p>
+    <div class="q"><div class="qt">¿Cuáles son las mayores ineficiencias de este proceso? <span class="type">texto largo</span></div></div>
+    <div class="q"><div class="qt">¿Qué errores ocurren más seguido? <span class="type">texto largo</span></div></div>
+    <div class="q"><div class="qt">¿Cuánto retrabajo / tiempo te consume? <span class="type">texto corto</span></div><div class="qh">Estimado — horas/semana, o "poco/medio/mucho".</div></div>
+    <div class="q"><div class="qt">¿El mismo dato lo capturás/tecleás en más de un lado? <span class="type">opción + texto</span></div>
+      <div class="qh">El fallo #1 (bases duplicadas que divergen).</div>
+      <div class="opts"><b>Opciones:</b> sí / no / no sé &nbsp;—&nbsp; si sí, ¿en cuáles sistemas?</div></div>
+    <div class="q"><div class="qt">¿Qué te haría más eficiente? <span class="type">texto largo</span></div><div class="qh">Su propia idea de la solución — oro puro.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">S4</span> Evidencia — opcional, sin SPI</h2>
+    <p class="sub">Solo material NO sensible. Nada de datos reales de clientes.</p>
+    <div class="q"><div class="qt">Adjuntar un template EN BLANCO <span class="type">archivo</span></div><div class="qh">Vacío, sin datos reales — solo la estructura del template.</div></div>
+    <div class="q"><div class="qt">Testimonio / comentario libre <span class="type">texto largo</span></div><div class="qh">Lo que quieran contarnos sobre su proceso que no cupo arriba.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">↦</span> Cómo desplegarla</h2>
+    <div class="box win"><span class="tag">ahora · semana 1 (piloto)</span>
+      <h3>Microsoft Forms — un solo Form, selector de departamento</h3>
+      <p>No-code, 15 min armarlo, vive en el tenant (SPI segura), exporta a Excel. Distribuís el <b>mismo link por Teams</b> a cada líder de workstream. Un dataset consolidado = fácil de analizar entre 2 personas.</p></div>
+    <div class="box amber"><span class="tag">si el piloto funciona</span>
+      <h3>Power App + Dataverse/SharePoint</h3>
+      <p>Solo si el volumen lo justifica: captura repetible (varias filas por depto), validación (owner obligatorio, gate de calidad), y dashboard en Power BI sobre una fuente única. El resultado de la encuesta te dice si vale la pena — no lo construyas antes de tener la señal.</p></div>
+    <div class="box"><span class="tag">límite de 2 personas</span>
+      <h3>La encuesta ES el multiplicador</h3>
+      <p>No pueden sentarse con 7 workstreams en una semana. La encuesta hace que cada departamento se auto-documente; ustedes dos se enfocan en <b>analizar y validar</b> (entrevistas cortas de seguimiento solo donde la encuesta prenda una bandera).</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>QR03 · Blueprint de encuesta de captura — documento de trabajo del equipo BIM, no oficial de ODATA/Aligned ni de T&amp;T. Página en blanco (sin datos): la recolección real vive en Microsoft Forms dentro del tenant del cliente. SPI: describir, no pegar.</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/encuesta</p>
+  </div>
+</footer>
+
+</body>
+</html>
