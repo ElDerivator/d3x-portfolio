@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex, nofollow">
-<title>ODATA Querétaro · Captura de procesos</title>
+<title>ODATA Querétaro · Captura de fuentes de dato</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -62,43 +62,46 @@ footer{padding:34px 0 56px;color:var(--muted);font-size:13px}
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Herramienta de captura · en sitio · noindex</div>
-    <h1>Captura de procesos <span>ODATA Querétaro</span></h1>
-    <p class="lede">Formulario para levantar el <b>process register</b> en el viaje. Fuerza un dueño por proceso (si no sabés, queda <span class="mono">UNKNOWN</span> + gap visible, nunca en blanco). Guarda en este navegador y exporta JSONL y CSV. Sin conexión requerida.</p>
+    <div class="eyebrow">Herramienta de captura · BIM Manager · en sitio · noindex</div>
+    <h1>Captura de fuentes de dato <span>ODATA Querétaro</span></h1>
+    <p class="lede">Formulario para levantar el <b>registro de fuentes de dato</b> del proyecto en el viaje. Fuerza un dueño (quién la actualiza) por fuente — si no sabés, queda <span class="mono">UNKNOWN</span> + gap visible, nunca en blanco — marca si el número <b>reconcilia</b>, y detectá cuando el mismo dato vive en <b>varias bases</b> (el riesgo #1). Guarda en este navegador y exporta JSONL y CSV. Sin conexión requerida.</p>
     <a class="backlink" href="plan.html">&larr; Playbook</a> &nbsp;·&nbsp; <a href="index.html">Briefing</a>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <h2 style="font-size:20px">Nuevo proceso</h2>
-    <div class="rule"><b>Regla dura:</b> nada se descarta por incompleto. Owner vacío &rarr; <b>UNKNOWN</b> + gap. Evidencia vacía &rarr; gap + confianza &le; 0.5. Lo incompleto queda visible y priorizado, no se pierde.</div>
+    <h2 style="font-size:20px">Nueva fuente de dato</h2>
+    <div class="rule"><b>Regla dura:</b> nada se descarta por incompleto. Owner vacío &rarr; <b>UNKNOWN</b> + gap. Evidencia vacía &rarr; gap + confianza &le; 0.5. Si no reconcilia (o no se verificó) &rarr; gap de calidad. Lo incompleto queda visible y priorizado, no se pierde.</div>
     <div class="grid">
-      <div class="field req"><label>Nombre del proceso</label><input id="f_name" placeholder="ej. Mantenimiento preventivo Delta³"></div>
-      <div class="field"><label>Categoría</label>
+      <div class="field req"><label>Nombre de la fuente</label><input id="f_name" placeholder="ej. Avance físico por disciplina"></div>
+      <div class="field"><label>Función de controles</label>
         <select id="f_category">
-          <option value="backup">backup</option><option value="ingest">ingest</option><option value="deploy">deploy</option>
-          <option value="monitoring">monitoring</option><option value="network">network</option><option value="security">security</option>
-          <option value="billing">billing</option><option value="manual" selected>manual</option><option value="other">other</option>
+          <option value="bim">BIM / modelo (data drop)</option><option value="cde">información / CDE</option>
+          <option value="programa" selected>programa / schedule</option><option value="costo">costo / commercial</option>
+          <option value="riesgo">riesgo</option><option value="cambios">cambios / change</option>
+          <option value="procura">procura / long-lead</option><option value="doc-control">document control</option>
+          <option value="hs">H&amp;S / HSE</option><option value="reporte">reporte al cliente</option><option value="other">otra</option>
         </select></div>
-      <div class="field req"><label>Owner (Accountable — obligatorio)</label>
+      <div class="field"><label>Sistema (dónde vive)</label><input id="f_system" placeholder="P6 / MS Project / cost tool / Excel / DCIM / Aconex…"></div>
+      <div class="field req"><label>Owner — quién la actualiza (obligatorio)</label>
         <div class="owner-row"><input id="f_owner" placeholder="nombre / rol"><button class="btn warn" type="button" onclick="setUnknown()">No sé → UNKNOWN</button></div>
-        <div class="hint">El Accountable único (raci A). Si nadie responde por este proceso, dejalo UNKNOWN: eso ES el hallazgo.</div></div>
-      <div class="field"><label>RACI · Responsible (ejecuta)</label><input id="f_R" placeholder="quién ejecuta (opcional)"></div>
-      <div class="field"><label>Estado</label>
-        <select id="f_status"><option>activo</option><option>parcial</option><option>ad-hoc</option><option>indefinido</option><option>sin-ejecutar</option></select></div>
-      <div class="field"><label>Trigger (qué lo dispara)</label><input id="f_trigger" placeholder="calendario / evento / alarma"></div>
-      <div class="field"><label>Frecuencia</label><input id="f_frequency" placeholder="diario / semanal / mensual / por evento / ?"></div>
-      <div class="field"><label>Riesgo</label>
+        <div class="hint">El responsable de que el dato esté al día. Si nadie responde por esta fuente, dejalo UNKNOWN: eso ES el hallazgo.</div></div>
+      <div class="field"><label>Consumidor (a qué reporte/decisión alimenta)</label><input id="f_consumer" placeholder="reporte cliente / dashboard PM / programa…"></div>
+      <div class="field"><label>¿Reconcilia con otras fuentes?</label>
+        <select id="f_reconcile"><option value="?" selected>? (sin verificar)</option><option value="si">sí</option><option value="parcial">parcial</option><option value="no">no cuadra</option></select></div>
+      <div class="field"><label>Frecuencia de actualización</label><input id="f_frequency" placeholder="diario / semanal / mensual / por evento / ?"></div>
+      <div class="field"><label>Formato</label><input id="f_format" placeholder="sistema / Excel / PDF / manual / correo"></div>
+      <div class="field"><label>Impacto si falla</label>
         <select id="f_risk"><option value="low">low</option><option value="med" selected>med</option><option value="high">high</option><option value="critical">critical</option></select></div>
-      <div class="field"><label>Evidencia (runbook, ticket, SOP/MOP/EOP…)</label><input id="f_evidence" placeholder="doc / link / referencia — vacío = gap"></div>
-      <div class="field"><label>Dependencias</label><input id="f_dependencies" placeholder="otros procesos/sistemas (coma)"></div>
-      <div class="field" style="grid-column:1/-1"><label>Gaps (qué falta / qué no cierra)</label><textarea id="f_gaps" placeholder="huérfano, sin cadencia, sin rollback, sin EOP en piso…"></textarea></div>
+      <div class="field"><label>Evidencia (screenshot, link, referencia)</label><input id="f_evidence" placeholder="doc / link / referencia — vacío = gap"></div>
+      <div class="field"><label>Depende de (otras fuentes/sistemas)</label><input id="f_dependencies" placeholder="otras fuentes/sistemas (coma)"></div>
+      <div class="field" style="grid-column:1/-1"><label>Gaps de calidad (qué falta / qué no cierra)</label><textarea id="f_gaps" placeholder="dato duplicado en otra base, no cuadra, desactualizada, recaptura manual, sin dueño…"></textarea></div>
       <div class="field"><label>Notas</label><input id="f_notes" placeholder="libre"></div>
       <div class="field"><label>Capturado por</label><input id="f_by" placeholder="tu nombre"></div>
     </div>
     <div class="btnrow">
-      <button class="btn primary" type="button" onclick="addProcess()">Guardar proceso</button>
+      <button class="btn primary" type="button" onclick="addSource()">Guardar fuente</button>
       <button class="btn ghost" type="button" onclick="clearForm()">Limpiar</button>
       <span id="saved" class="saved">guardado ✓</span>
     </div>
@@ -115,44 +118,46 @@ footer{padding:34px 0 56px;color:var(--muted);font-size:13px}
       <button class="btn warn" type="button" onclick="wipe()">Borrar todo</button>
     </div>
     <div style="overflow-x:auto">
-      <table><thead><tr><th>Proceso</th><th>Cat</th><th>Owner</th><th>Riesgo</th><th>Flags</th><th></th></tr></thead>
+      <table><thead><tr><th>Fuente</th><th>Función</th><th>Owner</th><th>¿Recon?</th><th>Flags</th><th></th></tr></thead>
       <tbody id="rows"></tbody></table>
     </div>
-    <p class="hint" style="margin-top:12px">Los datos viven solo en este navegador (localStorage). Exportá JSONL/CSV para llevártelos. Schema: process_id, name, category, owner, raci{R,A,C,I}, status, trigger, frequency, evidence[], dependencies[], gaps[], risk, notes, captured_by, captured_at (UTC), confidence.</p>
+    <p class="hint" style="margin-top:12px">Los datos viven solo en este navegador (localStorage). Exportá JSONL/CSV para llevártelos. Schema: source_id, name, category, system, owner, consumer, reconciles, frequency, format, evidence[], dependencies[], gaps[], risk, notes, captured_by, captured_at (UTC), confidence.</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p>ODATA Querétaro · Captura de procesos — herramienta de trabajo del equipo, no oficial de ODATA/Aligned. Datos locales al navegador; exportá para conservarlos.</p>
+    <p>ODATA Querétaro · Captura de fuentes de dato — herramienta de trabajo del equipo BIM (BIM Manager), no oficial de ODATA/Aligned ni de T&amp;T. Datos locales al navegador; exportá para conservarlos. La ingesta al sistema del equipo es un paso separado y gobernado (lo capturado se trata como no confiable hasta validarlo).</p>
     <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/captura</p>
   </div>
 </footer>
 
 <script>
-const KEY="odata_process_register_v1";
+const KEY="odata_source_register_v1";
 function load(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
 function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-function uid(){return "proc_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function uid(){return "src_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function setUnknown(){document.getElementById("f_owner").value="UNKNOWN"}
 function val(id){return (document.getElementById(id).value||"").trim()}
 function splitList(s){return s? s.split(",").map(x=>x.trim()).filter(Boolean):[]}
 
-function addProcess(){
+function addSource(){
   const name=val("f_name");
-  if(!name){alert("El nombre del proceso es obligatorio.");return;}
+  if(!name){alert("El nombre de la fuente es obligatorio.");return;}
   let owner=val("f_owner");
   const gaps=splitList(val("f_gaps").replace(/\n/g,","));
   // REGLA DURA: owner nunca en blanco -> UNKNOWN + gap
   if(!owner){owner="UNKNOWN"; if(!gaps.includes("owner desconocido")) gaps.push("owner desconocido");}
   const evidence=splitList(val("f_evidence"));
+  const reconcile=val("f_reconcile");
   let confidence=0.8;
   if(evidence.length===0){ if(!gaps.includes("sin evidencia")) gaps.push("sin evidencia"); confidence=0.5; }
+  if(reconcile==="no" && !gaps.includes("no reconcilia")) gaps.push("no reconcilia");
+  if(reconcile==="?"){ if(!gaps.includes("reconciliación sin verificar")) gaps.push("reconciliación sin verificar"); confidence=Math.min(confidence,0.6); }
   if(owner==="UNKNOWN") confidence=Math.min(confidence,0.5);
   const rec={
-    process_id:uid(), name:name, category:val("f_category"), owner:owner,
-    raci:{R:val("f_R")||null, A:owner, C:null, I:null},
-    status:val("f_status"), trigger:val("f_trigger")||null, frequency:val("f_frequency")||null,
+    source_id:uid(), name:name, category:val("f_category"), system:val("f_system")||null, owner:owner,
+    consumer:val("f_consumer")||null, reconciles:reconcile, frequency:val("f_frequency")||null, format:val("f_format")||null,
     evidence:evidence, dependencies:splitList(val("f_dependencies")), gaps:gaps,
     risk:val("f_risk"), notes:val("f_notes")||null, captured_by:val("f_by")||null,
     captured_at:new Date().toISOString(), confidence:confidence
@@ -161,32 +166,34 @@ function addProcess(){
   const s=document.getElementById("saved"); s.classList.add("show"); setTimeout(()=>s.classList.remove("show"),1400);
 }
 function clearForm(keepBy){
-  ["f_name","f_owner","f_R","f_trigger","f_frequency","f_evidence","f_dependencies","f_gaps","f_notes"].forEach(id=>document.getElementById(id).value="");
+  ["f_name","f_system","f_owner","f_consumer","f_frequency","f_format","f_evidence","f_dependencies","f_gaps","f_notes"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("f_reconcile").value="?";
   if(!keepBy) document.getElementById("f_by").value="";
   document.getElementById("f_name").focus();
 }
-function del(id){const a=load().filter(r=>r.process_id!==id); save(a); render();}
+function del(id){const a=load().filter(r=>r.source_id!==id); save(a); render();}
+function reconLabel(v){return v==="si"?'<span style="color:var(--green)">sí</span>':v==="no"?'<span style="color:var(--red)">no</span>':v==="parcial"?'<span style="color:var(--amber)">parcial</span>':'<span style="color:var(--muted)">?</span>';}
 function render(){
   const a=load(); const tb=document.getElementById("rows"); tb.innerHTML="";
-  let unk=0,gap=0,crit=0;
+  let unk=0,gap=0,norec=0;
   a.forEach(r=>{
-    if(r.owner==="UNKNOWN")unk++; if((r.gaps||[]).length)gap++; if(r.risk==="critical"||r.risk==="high")crit++;
+    if(r.owner==="UNKNOWN")unk++; if((r.gaps||[]).length)gap++; if(r.reconciles==="no")norec++;
     const flags=[];
     if(r.owner==="UNKNOWN")flags.push('<span class="tag unk">UNKNOWN</span>');
     (r.gaps||[]).forEach(g=>flags.push('<span class="tag gap">'+escapeHtml(g)+'</span>'));
     if(!flags.length)flags.push('<span class="tag ok">OK</span>');
     const tr=document.createElement("tr");
-    tr.innerHTML='<td><b>'+escapeHtml(r.name)+'</b><br><span class="mono" style="color:var(--muted);font-size:11px">'+escapeHtml(r.frequency||"?")+' · conf '+r.confidence+'</span></td>'+
-      '<td>'+escapeHtml(r.category)+'</td><td>'+escapeHtml(r.owner)+'</td><td>'+escapeHtml(r.risk)+'</td>'+
-      '<td>'+flags.join(" ")+'</td><td><span class="del" onclick="del(\''+r.process_id+'\')">borrar</span></td>';
+    tr.innerHTML='<td><b>'+escapeHtml(r.name)+'</b><br><span class="mono" style="color:var(--muted);font-size:11px">'+escapeHtml(r.system||"?")+' · '+escapeHtml(r.frequency||"?")+' · conf '+r.confidence+'</span></td>'+
+      '<td>'+escapeHtml(r.category)+'</td><td>'+escapeHtml(r.owner)+'</td><td>'+reconLabel(r.reconciles)+'</td>'+
+      '<td>'+flags.join(" ")+'</td><td><span class="del" onclick="del(\''+r.source_id+'\')">borrar</span></td>';
     tb.appendChild(tr);
   });
-  document.getElementById("counts").textContent="· "+a.length+" procesos";
+  document.getElementById("counts").textContent="· "+a.length+" fuentes";
   document.getElementById("stats").innerHTML=
     '<span class="stat"><b>'+a.length+'</b> total</span>'+
     '<span class="stat"><b style="color:var(--red)">'+unk+'</b> sin owner (UNKNOWN)</span>'+
-    '<span class="stat"><b style="color:var(--amber)">'+gap+'</b> con gaps</span>'+
-    '<span class="stat"><b>'+crit+'</b> riesgo alto/crítico</span>';
+    '<span class="stat"><b style="color:var(--amber)">'+gap+'</b> con gaps de calidad</span>'+
+    '<span class="stat"><b style="color:var(--red)">'+norec+'</b> no reconcilian</span>';
 }
 function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function download(fn,txt,type){
@@ -196,19 +203,19 @@ function download(fn,txt,type){
 }
 function exportJSONL(){
   const a=load(); if(!a.length){alert("Nada capturado aún.");return;}
-  download("odata_process_register_"+stamp()+".jsonl", a.map(r=>JSON.stringify(r)).join("\n")+"\n","application/x-ndjson");
+  download("odata_source_register_"+stamp()+".jsonl", a.map(r=>JSON.stringify(r)).join("\n")+"\n","application/x-ndjson");
 }
 function csvCell(v){v=(v==null?"":String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
 function exportCSV(){
   const a=load(); if(!a.length){alert("Nada capturado aún.");return;}
-  const cols=["process_id","name","category","owner","raci_A","status","trigger","frequency","evidence","dependencies","gaps","risk","notes","captured_by","captured_at","confidence"];
+  const cols=["source_id","name","category","system","owner","consumer","reconciles","frequency","format","evidence","dependencies","gaps","risk","notes","captured_by","captured_at","confidence"];
   const lines=[cols.join(",")];
-  a.forEach(r=>lines.push([r.process_id,r.name,r.category,r.owner,(r.raci&&r.raci.A)||r.owner,r.status,r.trigger,r.frequency,
+  a.forEach(r=>lines.push([r.source_id,r.name,r.category,r.system,r.owner,r.consumer,r.reconciles,r.frequency,r.format,
     (r.evidence||[]).join("; "),(r.dependencies||[]).join("; "),(r.gaps||[]).join("; "),r.risk,r.notes,r.captured_by,r.captured_at,r.confidence].map(csvCell).join(",")));
-  download("odata_process_register_"+stamp()+".csv", lines.join("\n")+"\n","text/csv");
+  download("odata_source_register_"+stamp()+".csv", lines.join("\n")+"\n","text/csv");
 }
 function stamp(){return new Date().toISOString().replace(/[:.]/g,"").slice(0,15)+"Z"}
-function wipe(){if(confirm("¿Borrar TODOS los procesos capturados de este navegador? (exportá antes)")){save([]);render();}}
+function wipe(){if(confirm("¿Borrar TODAS las fuentes capturadas de este navegador? (exportá antes)")){save([]);render();}}
 render();
 </script>
 </body>

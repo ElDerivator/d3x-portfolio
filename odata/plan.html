@@ -54,6 +54,16 @@ td b{color:var(--ink)} td{color:var(--soft)}
 .slot{border:1px dashed var(--cyan-dim);border-radius:10px;padding:14px 16px;margin:12px 0;background:rgba(53,194,201,.04)}
 .slot .tag{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
 .slot p{margin:6px 0 0;color:var(--soft);font-size:14px}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 0}
+@media(max-width:620px){.roles{grid-template-columns:1fr}}
+.role{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:14px 16px}
+.role h4{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 6px}
+.role.you h4{color:var(--cyan)} .role.pm h4{color:var(--amber)}
+.role p{margin:0;color:var(--soft);font-size:14px}
+.kpis{list-style:none;padding:0;margin:10px 0 0;counter-reset:k}
+.kpis li{counter-increment:k;position:relative;padding:9px 0 9px 34px;border-bottom:1px solid var(--line);color:var(--soft);font-size:14px}
+.kpis li:before{content:counter(k);position:absolute;left:0;top:8px;font-family:"JetBrains Mono";font-size:12px;color:var(--cyan);border:1px solid var(--cyan-dim);border-radius:100px;width:20px;height:20px;display:grid;place-items:center}
+.kpis li b{color:var(--ink)}
 .qbank{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
 .qbank li{color:var(--soft);font-size:14px;margin:5px 0}
 .pill{display:inline-block;font-family:"JetBrains Mono";font-size:11px;padding:3px 9px;border:1px solid var(--line);border-radius:100px;color:var(--soft);background:var(--panel)}
@@ -64,27 +74,46 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Playbook de campo · Lun–Vie · uso interno</div>
-    <h1>Playbook operativo <span>ODATA Querétaro</span></h1>
-    <p class="lede">La herramienta en mano para la semana en sitio. Cada día: objetivo, agenda AM/PM, banco de preguntas, artefacto a producir y una regla de "no salís del día sin esto". Complementa el <a href="index.html">briefing de campo</a>.</p>
-    <a class="backlink" href="index.html">&larr; Volver al briefing (contexto ODATA/Aligned, mapa, RACI, ingesta)</a>
+    <div class="eyebrow">Playbook de campo · BIM Manager · Lun–Vie · uso interno</div>
+    <h1>Playbook de información <span>ODATA Querétaro</span></h1>
+    <p class="lede">La herramienta en mano para la semana en sitio, desde el rol de <b>BIM Manager</b> del equipo T&amp;T. Tu trabajo no es auditar la planta: es que el proyecto tenga <b>una sola fuente de verdad</b> — un CDE, no N bases manuales que divergen — y que el dato diga la verdad. Cada día: objetivo, agenda AM/PM, banco de preguntas, artefacto a producir y una regla de "no salís del día sin esto". Complementa el <a href="index.html">briefing de campo</a>.</p>
+    <a class="backlink" href="index.html">&larr; Volver al briefing (contexto ODATA/Aligned, QR03, mapa)</a>
+    <div class="roles">
+      <div class="role you"><h4>Vos · BIM Manager</h4><p>Que la información sea una sola verdad: un CDE, sin bases manuales paralelas, dato limpio y reconciliado, y avisar cuando el reporte no cuadra con el sitio o el modelo.</p></div>
+      <div class="role pm"><h4>Luis Arroyo · BIM Director</h4><p>Lidera la disciplina y la relación con el cliente; vos ejecutás y le reportás. El mandato del equipo cubre tres lentes: entrega/PM, información/datos y <b>H&amp;S (seguridad de obra)</b>.</p></div>
+    </div>
+    <div class="slot" style="border-color:var(--amber);background:rgba(232,161,58,.05)">
+      <span class="tag" style="color:var(--amber)">riesgo #1 a cazar</span>
+      <p>El clásico que arruina el reporte: <b>el mismo dato viviendo en 2–3 bases manuales</b> (el programa en un Excel, el avance en otro, el costo en un tercero). Una se equivoca o queda vieja y contamina todo aguas abajo — y nadie sabe cuál es la buena. Tu primer trabajo: <b>encontrar dónde el mismo dato vive en más de un lado</b> y colapsarlo a una sola fuente (el CDE).</p>
+    </div>
   </div>
 </header>
 
 <section>
   <div class="wrap">
     <h2><span class="n">00</span>Antes de volar — checklist de preparación</h2>
-    <p class="sub">Lo que conviene tener cerrado antes de pisar el sitio, para no quemar el Lunes en logística.</p>
+    <p class="sub">Lo que conviene cerrar antes de pisar el sitio, para no quemar el Lunes en logística ni peleando con datos sueltos.</p>
     <ul class="checklist">
-      <li><b>Accesos y NDA:</b> confirmar caseta/acceso QR03 con el contacto de sitio; firmar NDA temprano para poder pedir planos internos (layout de salas, one-line eléctrico, cooling, rutas de fibra A/B).</li>
-      <li><b>Reconocimiento previo:</b> vista satelital del campus (El Marqués), accesos, subestación, edificios energizados vs en obra. Guardar offline.</li>
-      <li><b>Herramientas listas:</b> plantilla de <b>process register</b> (una fila = un proceso), hoja <b>RACI</b> en blanco, y la <b>worksheet de caza de huérfanos</b> (§ abajo). Una laptop con las plantillas + copia offline.</li>
-      <li><b>Contactos:</b> mapear a quién pedir cada área — facilities, critical environment, NOC, seguridad física, energía/partner (Ammper). Confirmar nombres reales el Lunes.</li>
-      <li><b>Objetivo del viaje en una frase:</b> "cerrar los procesos sin dueño y montar una ingesta de datos con owner por etapa". Repetible en cada reunión.</li>
+      <li><b>Alinear con el equipo (BIM Director):</b> cerrar con Luis Arroyo los KPIs que el cliente va a querer ver (abajo). Todo lo que releves en la semana se ordena para alimentar esos números desde una sola fuente.</li>
+      <li><b>Accesos y NDA:</b> firmar NDA temprano para poder ver el <b>CDE</b> (Aconex/Asite/BIM 360/ACC), el modelo/BIM, el programa/schedule (P6 o MS Project), reportes de costo, risk register, change log y los tableros de H&amp;S.</li>
+      <li><b>Herramientas listas:</b> plantilla de <b>registro de fuentes de dato</b> (una fila = una fuente), hoja de <b>reconciliación</b> (programa vs costo vs avance de sitio vs modelo), y la <b>worksheet de caza de gaps</b> (§ abajo). Laptop con plantillas + copia offline.</li>
+      <li><b>Contexto del sitio:</b> vista satelital del campus (El Marqués), edificios energizados vs en obra, actores del programa. Guardar offline.</li>
+      <li><b>Objetivo del viaje en una frase:</b> "una sola fuente de verdad para la información del proyecto, encontrar dónde el número no cuadra, y dejar un reporte que el cliente pueda confiar". Repetible en cada reunión.</li>
     </ul>
+    <div class="slot" style="margin-top:18px">
+      <span class="tag">▣ acordar con el BIM Director — KPIs de arranque</span>
+      <ol class="kpis">
+        <li><b>Información / CDE</b> — estado de <i>data drops</i> y entregables de información (ISO 19650); ¿el modelo y la data viven en un CDE único o en carpetas sueltas?</li>
+        <li><b>Avance físico %</b> — real vs plan, curva-S (SPI). ¿Se mide subjetivo o por reglas de crédito?</li>
+        <li><b>Costo</b> — comprometido vs presupuesto y forecast a término (CPI).</li>
+        <li><b>Hitos clave</b> — milestones críticos y su deriva vs baseline.</li>
+        <li><b>Procura de largo plazo</b> — lead times del equipo crítico (gensets, chillers, switchgear, UPS): ruta crítica en un DC.</li>
+        <li><b>Riesgos, cambios y H&amp;S</b> — top risks + volumen/valor de cambios y RFIs + incidentes / near-misses de seguridad de obra.</li>
+      </ol>
+    </div>
     <div class="slot">
-      <span class="tag">▢ slot · research del equipo</span>
-      <p>Se integra aquí la investigación del liaison (contexto operador/mercado, benchmarks del sitio) cuando llegue — sin bloquear el arranque.</p>
+      <span class="tag">▢ slot · contexto del sitio (research del equipo)</span>
+      <p>Se integra aquí la investigación de contexto (mercado, actores, benchmarks del sitio) cuando llegue — sin bloquear el arranque.</p>
     </div>
   </div>
 </section>
@@ -92,90 +121,90 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
 <section>
   <div class="wrap">
     <h2><span class="n">01</span>La semana, día por día</h2>
-    <p class="sub">Descubrir &rarr; inventariar &rarr; asignar dueños &rarr; cerrar fugas &rarr; montar la ingesta. Un artefacto entregable por día; el flujo de cada día alimenta al siguiente.</p>
+    <p class="sub">Descubrir &rarr; inventariar las fuentes &rarr; reconciliar y cazar duplicados/gaps &rarr; montar la ingesta/reporte con dueño sobre un CDE único &rarr; priorizar y cerrar. Un artefacto entregable por día; el flujo de cada día alimenta al siguiente.</p>
 
     <div class="day">
-      <div class="head"><span class="d">LUN</span><span class="theme">Discovery</span><span class="obj">— entender el terreno operativo y quién hace qué</span></div>
+      <div class="head"><span class="d">LUN</span><span class="theme">Discovery</span><span class="obj">— entender el proyecto y quién produce/consume cada dato</span></div>
       <div class="body">
         <div class="block"><h4>AM</h4><ul>
-          <li>Walkthrough del sitio con el contacto (edificios energizados, salas, subestación, planta de cooling).</li>
-          <li>Reunión de apertura: encuadrar el objetivo (procesos sin dueño + ingesta con owner) y pedir acceso a runbooks/SOPs/tickets.</li>
+          <li>Walkthrough del sitio y del programa (edificios energizados vs en obra, fases, hitos próximos).</li>
+          <li>Reunión de apertura: encuadrar el objetivo (una sola fuente de verdad + reporte confiable) y pedir acceso al CDE y a los sistemas de datos.</li>
         </ul></div>
         <div class="block"><h4>PM</h4><ul>
-          <li>1:1 corto con el líder de cada área: facilities, critical env, NOC, seguridad, energía/Ammper.</li>
-          <li>Recolectar procesos existentes: calendarios de mantenimiento, procedimientos, colas de tickets.</li>
+          <li>1:1 corto con cada función: BIM/CDE, planner/programa, cost/commercial, riesgo, cambios, procura, document control y H&amp;S.</li>
+          <li>Con el BIM Director: cerrar los KPIs objetivo y a quién se le reporta hoy cada número.</li>
         </ul></div>
       </div>
       <div class="body" style="border-top:1px solid var(--line)">
         <div class="block qbank"><h4>Banco de preguntas</h4><ul>
-          <li>¿Qué procesos corren en tu área y con qué frecuencia?</li>
-          <li>Cuando algo falla fuera de horario, ¿quién responde y cómo escala?</li>
-          <li>¿Qué handoff con otra área te da más dolores de cabeza?</li>
-          <li>¿Qué proceso "todos asumen que alguien más hace"?</li>
+          <li>¿Dónde vive el dato maestro — modelo, programa, costo, riesgo — y quién lo actualiza?</li>
+          <li>¿Cuál es la fuente de verdad? ¿o el mismo dato vive en varios lados? (si contestan "depende", ahí está el problema)</li>
+          <li>¿Cómo se arma hoy el reporte al cliente y cada cuánto?</li>
+          <li>¿Qué dato "todos asumen que alguien más mantiene"?</li>
         </ul></div>
-        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Lista cruda</b> de procesos + stakeholders por área + qué NDA/accesos faltan. No hace falta que esté ordenada — solo completa.</p></div></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Lista cruda</b> de fuentes de dato + quién las produce/consume + qué reporta el cliente hoy. No hace falta que esté ordenada — solo completa.</p></div></div>
       </div>
     </div>
 
     <div class="day">
-      <div class="head"><span class="d">MAR</span><span class="theme">Inventario</span><span class="obj">— todo proceso en un registro único</span></div>
+      <div class="head"><span class="d">MAR</span><span class="theme">Inventario de fuentes</span><span class="obj">— toda fuente en un registro único</span></div>
       <div class="body">
         <div class="block"><h4>AM</h4><ul>
-          <li>Volcar TODO proceso de la lista cruda a un <b>registro único</b>: nombre, área, frecuencia, insumos/salidas, criticidad.</li>
-          <li>Regla: si no está en el registro, no existe → no puede ser huérfano en silencio.</li>
+          <li>Volcar TODA fuente de la lista cruda a un <b>registro único</b>: nombre, sistema, dueño, frecuencia, quién la consume, formato.</li>
+          <li>Regla: si no está en el registro, no existe → no puede fallar en silencio.</li>
         </ul></div>
         <div class="block"><h4>PM</h4><ul>
-          <li>Clasificar por dominio M&amp;O (Uptime): staffing, mantenimiento, entrenamiento, planning, condiciones de operación.</li>
-          <li>Dibujar el <b>mapa de handoffs</b>: qué proceso pasa de un área/edificio a otro (cada handoff es un punto de fuga).</li>
+          <li>Dibujar el <b>mapa de interfaces</b>: dónde el mismo dato salta de un sistema a otro — cada salto manual es una fuga de calidad.</li>
+          <li>Cazar <b>duplicados</b>: el mismo dato en varias bases (islas de Excel, copias paralelas). Marcá cuál debería ser la fuente única.</li>
         </ul></div>
       </div>
       <div class="body" style="border-top:1px solid var(--line)">
         <div class="block qbank"><h4>Chequeos del registro</h4><ul>
-          <li>¿Cada fila tiene frecuencia y criticidad?</li>
-          <li>¿Los procesos entre edificios están duplicados o hay uno solo?</li>
-          <li>¿Falta algún proceso "obvio" (energía, cooling, cambios, incidentes)?</li>
+          <li>¿Cada fila tiene dueño, frecuencia y consumidor?</li>
+          <li>¿Hay una sola fuente por dato, o el mismo número vive en tres lados?</li>
+          <li>¿Falta alguna fuente "obvia" (modelo/CDE, programa, costo, procura, riesgo, cambios, H&amp;S)?</li>
         </ul></div>
-        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Process register v1</b> poblado + mapa de handoffs entre áreas/edificios.</p></div></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Registro de fuentes v1</b> poblado + mapa de interfaces + lista de <b>datos duplicados</b> (mismo dato en &gt;1 base).</p></div></div>
       </div>
     </div>
 
     <div class="day">
-      <div class="head"><span class="d">MIÉ</span><span class="theme">Ownership</span><span class="obj">— un Accountable por proceso, caza de huérfanos</span></div>
+      <div class="head"><span class="d">MIÉ</span><span class="theme">Calidad &amp; reconciliación</span><span class="obj">— ¿los números cuadran entre sí?</span></div>
       <div class="body">
         <div class="block"><h4>AM</h4><ul>
-          <li>Asignar RACI a cada proceso del registro. Regla dura: <b>exactamente 1 Accountable</b> por fila.</li>
-          <li>El "A" responde aunque delegue el "R". Validar nombres reales de roles con cada líder.</li>
+          <li>Reconciliar: ¿el avance del <b>programa</b> cuadra con el <b>costo</b>, con el <b>modelo</b> y con lo que dice el <b>sitio</b>? Documentar cada desajuste.</li>
+          <li>Entender el <b>método de % de avance</b>: subjetivo (dedazo) vs reglas de crédito. Ese método explica la mitad de las discrepancias.</li>
         </ul></div>
         <div class="block"><h4>PM</h4><ul>
-          <li>Marcar los <b>huérfanos</b> (0 A) y los <b>ambiguos</b> (2+ A) — ese es el leakage.</li>
-          <li>Priorizar por criticidad (downtime/seguridad): un proceso crítico sin dueño va primero.</li>
+          <li>Marcar <b>fuentes huérfanas</b> (0 dueño), <b>duplicados</b> (dato en varias bases) y <b>gaps de calidad</b> (no cuadra / desactualizada / manual) — ese es el leakage del reporte.</li>
+          <li>Priorizar por impacto en la decisión del cliente: un KPI que el cliente mira y que hoy no es confiable va primero.</li>
         </ul></div>
       </div>
       <div class="body" style="border-top:1px solid var(--line)">
         <div class="block qbank"><h4>Banco de preguntas</h4><ul>
-          <li>Para este proceso: ¿quién responde si no se hace? (ese es el A).</li>
-          <li>Si dos personas dicen "yo" → ¿cuál queda como A y cuál como R?</li>
-          <li>Si nadie dice "yo" → ¿de qué área debería colgar?</li>
+          <li>Para este número: ¿de qué fuente sale y quién responde si está mal? (ese es el dueño)</li>
+          <li>Si el mismo dato está en 3 bases y no coinciden → ¿cuál es la buena y por qué?</li>
+          <li>Si nadie es dueño de una fuente → ¿de qué función debería colgar?</li>
         </ul></div>
-        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Matriz RACI</b> + lista priorizada de fugas (huérfanos/ambiguos) por criticidad.</p></div></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Matriz de reconciliación</b> + lista priorizada de gaps (huérfanas / duplicadas / no cuadra) por impacto en el reporte.</p></div></div>
       </div>
     </div>
 
     <div class="day">
-      <div class="head"><span class="d">JUE</span><span class="theme">Ingesta de datos</span><span class="obj">— pipeline con dueño por etapa</span></div>
+      <div class="head"><span class="d">JUE</span><span class="theme">Ingesta &amp; reporting</span><span class="obj">— pipeline con dueño por etapa, sobre un CDE único</span></div>
       <div class="body">
         <div class="block"><h4>AM</h4><ul>
-          <li>Mapear las fuentes: DCIM, BMS, sensores térmicos/energía, ITSM/tickets, CMDB, logs de mantenimiento — y su estado (¿emite? ¿frecuencia?).</li>
-          <li>Detectar fuentes sin dueño: una fuente sin owner deja de emitir y nadie se entera.</li>
+          <li>Mapear los KPIs a sus fuentes reales: qué sistema alimenta cada número y con qué frecuencia.</li>
+          <li>Detectar el eslabón débil: una fuente sin dueño deja de emitir y el reporte miente sin avisar.</li>
         </ul></div>
         <div class="block"><h4>PM</h4><ul>
-          <li>Diseñar la ingesta: fuente &rarr; validación &rarr; registro único de verdad &rarr; dashboard, <b>cada etapa con un Accountable y un gate de calidad</b>.</li>
-          <li>El gate debe fallar ruidoso (flag), no aceptar datos malos en silencio.</li>
+          <li>Diseñar la ingesta: fuente &rarr; validación &rarr; <b>CDE / fuente única de verdad</b> &rarr; dashboard, <b>cada etapa con un dueño y un gate de calidad</b>.</li>
+          <li>El gate debe fallar ruidoso (flag), no dejar pasar dato malo en silencio. Bosquejar el mockup del reporte al cliente.</li>
         </ul></div>
       </div>
       <div class="body" style="border-top:1px solid var(--line)">
-        <div class="slot"><span class="tag">▢ slot · schema de ingesta del sitio</span><p>Se completa aquí el contrato de datos del pipeline de ingesta del DC: fuentes reales, esquema por etapa y el owner (A) de cada una. Hasta relevarlo en sitio, la tabla del <a href="index.html">briefing §06</a> es el marco.</p></div>
-        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Diagrama de ingesta</b> + gaps de datos + owner (A) por etapa.</p></div></div>
+        <div class="slot"><span class="tag">▢ slot · schema de ingesta del sitio</span><p>Se completa aquí el contrato de datos del pipeline de reporte: fuentes reales, esquema por etapa y el dueño de cada una. Hasta relevarlo en sitio, la tabla del <a href="index.html">briefing §06</a> es el marco.</p></div>
+        <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Diagrama de ingesta</b> (fuente→validación→CDE→dashboard) + owner y gate por etapa + mockup del reporte al cliente.</p></div></div>
       </div>
     </div>
 
@@ -183,19 +212,19 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
       <div class="head"><span class="d">VIE</span><span class="theme">Cierre</span><span class="obj">— priorizar, quick-wins, roadmap 30/60/90</span></div>
       <div class="body">
         <div class="block"><h4>AM</h4><ul>
-          <li>Priorizar las fugas por <b>impacto × esfuerzo</b> (downtime/seguridad primero, esfuerzo bajo primero).</li>
-          <li>Asignar dueño + deadline a cada fuga cerrada esta semana.</li>
+          <li>Priorizar los gaps por <b>impacto × esfuerzo</b> (confiabilidad del KPI que ve el cliente primero, esfuerzo bajo primero).</li>
+          <li>Asignar dueño + fecha a cada gap que se cierra esta semana.</li>
         </ul></div>
         <div class="block"><h4>PM</h4><ul>
-          <li>Definir la <b>cadencia de revisión</b> del registro (semanal/mensual) + la ruta de escalación (proceso vencido = escala automático).</li>
-          <li>Presentar quick-wins ejecutables + roadmap 30/60/90 al cierre con los líderes.</li>
+          <li>Definir la <b>cadencia de reporte</b> (semanal/mensual) + la ruta cuando un número llega tarde o no cuadra (escala automático).</li>
+          <li>Presentar con el BIM Director: quick-wins ejecutables + roadmap 30/60/90 a los líderes.</li>
         </ul></div>
       </div>
       <div class="body" style="border-top:1px solid var(--line)">
         <div class="block qbank"><h4>Quick-wins típicos (validar en sitio)</h4><ul>
-          <li>Registrar los 5 procesos críticos sin dueño y asignarles un A hoy.</li>
-          <li>Poner cadencia + alarma al proceso de verificación de failover de energía.</li>
-          <li>Un healthcheck simple sobre la fuente de datos más importante que hoy nadie vigila.</li>
+          <li>Colapsar el dato más duplicado a una sola fuente y avisar a todos cuál es la buena.</li>
+          <li>Un check de reconciliación programa↔costo↔modelo antes de cada reporte al cliente.</li>
+          <li>Asignar dueño a las 3 fuentes críticas que hoy nadie mantiene.</li>
         </ul></div>
         <div class="block"><div class="dod"><span class="tag">no salís del día sin</span><p><b>Plan de acción priorizado</b> + quick-wins + roadmap 30/60/90, con dueños y fechas.</p></div></div>
       </div>
@@ -205,34 +234,37 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
 
 <section>
   <div class="wrap">
-    <h2><span class="n">02</span>Worksheet — caza de procesos huérfanos</h2>
-    <p class="sub">La herramienta del Miércoles, lista para llenar en sitio. Una fila por proceso; la columna "A" es la que caza la fuga: 0 A = huérfano, 2+ A = ambiguo. Ambos son alarma.</p>
+    <h2><span class="n">02</span>Worksheet — caza de gaps y duplicados</h2>
+    <p class="sub">La herramienta del Miércoles, lista para llenar en sitio. Una fila por fuente; las columnas "Dueño" y "¿Reconcilia?" cazan la fuga: sin dueño = huérfana, no cuadra = gap de calidad, mismo dato en &gt;1 base = duplicado. Todos son alarma.</p>
     <table>
-      <thead><tr><th>Proceso</th><th>Área</th><th>Frecuencia</th><th>Criticidad</th><th># de "A"</th><th>Estado</th></tr></thead>
+      <thead><tr><th>Fuente de dato</th><th>Sistema</th><th>Dueño</th><th>Consumidor</th><th>¿Reconcilia?</th><th>Estado</th></tr></thead>
       <tbody>
-        <tr><td><b>(ej.) Mantenimiento preventivo Delta³</b></td><td>Facilities</td><td>Mensual</td><td>Alta</td><td>1</td><td class="mono" style="color:var(--green)">OK</td></tr>
-        <tr><td><b>(ej.) Verificación failover energía</b></td><td>Energía/Ammper</td><td>?</td><td>Alta</td><td>0</td><td class="mono" style="color:var(--red)">HUÉRFANO</td></tr>
-        <tr><td><b>(ej.) Gestión de cambios</b></td><td>Critical Env / NOC</td><td>Por evento</td><td>Alta</td><td>2</td><td class="mono" style="color:var(--amber)">AMBIGUO</td></tr>
+        <tr><td><b>(ej.) Modelo federado / data drop</b></td><td>CDE (Aconex/ACC)</td><td>BIM coord.</td><td>Todos</td><td>Sí</td><td class="mono" style="color:var(--green)">OK</td></tr>
+        <tr><td><b>(ej.) Avance físico por disciplina</b></td><td>Programa (P6) + Excel</td><td>?</td><td>Reporte cliente</td><td>No</td><td class="mono" style="color:var(--amber)">DUPLICADO</td></tr>
+        <tr><td><b>(ej.) Procura largo plazo (gensets/chillers)</b></td><td>Excel de procura</td><td>?</td><td>Programa / riesgo</td><td>?</td><td class="mono" style="color:var(--red)">HUÉRFANA</td></tr>
         <tr><td colspan="6" style="color:var(--muted);text-align:center">— filas en blanco para llenar en sitio —</td></tr>
       </tbody>
     </table>
-    <p class="sub" style="margin-top:14px"><span class="pill">regla</span> Ninguna fila queda sin resolver el Viernes: cada huérfano/ambiguo sale con un A asignado y una fecha, o entra al roadmap 30/60/90 con dueño.</p>
+    <p class="sub" style="margin-top:14px"><span class="pill">regla</span> Ninguna fila queda sin resolver el Viernes: cada huérfana/duplicada/no-cuadra sale con un dueño asignado, una fuente única definida y una fecha, o entra al roadmap 30/60/90 con dueño.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
     <h2><span class="n">03</span>Contactos y logística — llenar el Lunes</h2>
-    <p class="sub">Slots para completar en sitio; no inventar. El objetivo es tener a quién escalar cada dominio antes del Martes.</p>
+    <p class="sub">Slots para completar en sitio; no inventar. El objetivo es saber quién produce cada dato y a quién escalar cada función antes del Martes.</p>
     <table>
-      <thead><tr><th>Dominio</th><th>Contacto / rol</th><th>Cómo se escala fuera de horario</th></tr></thead>
+      <thead><tr><th>Función</th><th>Contacto / rol</th><th>Fuente / sistema que produce</th></tr></thead>
       <tbody>
-        <tr><td><b>Facilities / M&amp;O</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
-        <tr><td><b>Critical Environment</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
-        <tr><td><b>NOC</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
-        <tr><td><b>Seguridad física</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
-        <tr><td><b>Energía / Ammper</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
-        <tr><td><b>Datos / DCIM</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>BIM / Modelo (data drops · CDE)</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Planificación / Programa</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Costo / Commercial</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Riesgo</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Cambios / Change control</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Procura / Long-lead</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Document control / CDE</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>H&amp;S / HSE</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
+        <tr><td><b>Reporte al cliente</b></td><td class="mono" style="color:var(--muted)">— por confirmar —</td><td class="mono" style="color:var(--muted)">—</td></tr>
       </tbody>
     </table>
   </div>
@@ -240,26 +272,26 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
 
 <section>
   <div class="wrap">
-    <h2><span class="n">04</span>Chequeo M&amp;O — 6 preguntas que cubren ~70% del riesgo</h2>
-    <p class="sub">El estándar Uptime: ~70% de los outages son por error humano; las malas prácticas operativas pesan 5× más que cualquier falla de equipo. Se combate con procedimiento, no con hardware. Estas 6 preguntas son el termómetro rápido en cada área — la base del descubrimiento (Lun–Mar).</p>
+    <h2><span class="n">04</span>Chequeo de datos — 6 preguntas que cubren el ~70% del riesgo de reporte</h2>
+    <p class="sub">En un mandato BIM/información, casi todo error de reporte nace de dato duplicado, que no cuadra o que nadie mantiene — no de falta de herramientas. Estas 6 preguntas son el termómetro rápido en cada función; la base del descubrimiento (Lun–Mar).</p>
     <ul class="checklist">
-      <li><b>1 · ¿Hay sello M&amp;O?</b> ¿existe un marco de operación y mantenimiento formal, o cada área improvisa?</li>
-      <li><b>2 · ¿MOP + rollback por cada acción de cambio de estado?</b> toda maniobra sobre un componente crítico (energía, cooling) con procedimiento paso-a-paso y plan de reversión escrito.</li>
-      <li><b>3 · ¿EOPs digitales en piso?</b> los procedimientos de emergencia accesibles en el sitio (no en un cajón), actualizados.</li>
-      <li><b>4 · ¿RACI por sistema/activo crítico?</b> un único Accountable por cada sistema — conecta directo con la <a href="captura.html">captura de procesos</a>.</li>
-      <li><b>5 · ¿Change management con approval-gate?</b> request &rarr; evaluación de riesgo &rarr; aprobación &rarr; MOP &rarr; rollback &rarr; verificación. (Los cambios mal gestionados causan más outages que las fallas de equipo.)</li>
-      <li><b>6 · ¿Drills de EOP?</b> ¿el equipo practica las emergencias, o el EOP existe solo en papel?</li>
+      <li><b>1 · ¿Fuente única de verdad (un CDE)?</b> ¿o el mismo dato vive en 2–3 bases manuales que divergen — el error #1? Contá cuántas copias hay de cada dato.</li>
+      <li><b>2 · ¿Reconcilian los números?</b> ¿el avance del programa cuadra con el costo, el modelo y con lo que dice el sitio?</li>
+      <li><b>3 · ¿Cómo se mide el % de avance?</b> subjetivo (dedazo) vs reglas de crédito — el método explica las discrepancias.</li>
+      <li><b>4 · ¿Dueño por fuente de dato?</b> un único responsable por cada fuente — conecta directo con la <a href="captura.html">captura de fuentes</a>. Una fuente sin dueño deja de emitir y nadie se entera.</li>
+      <li><b>5 · ¿Recaptura manual entre sistemas?</b> el mismo dato tecleado dos veces = fuga de calidad y tu oportunidad de automatizar hacia el CDE.</li>
+      <li><b>6 · ¿El reporte al cliente se arma a mano cada mes?</b> ensamblarlo copiando de 5 lados = dolor + oportunidad de pipeline. ¿Hay cadencia fija? (incluir aquí el tablero de H&amp;S).</li>
     </ul>
     <div class="slot" style="border-style:solid;border-color:var(--line)">
-      <span class="tag">SOP · MOP · EOP</span>
-      <p><b>SOP</b> = rutina estándar. <b>MOP</b> = método paso-a-paso para cambios de estado de componentes críticos, con rollback. <b>EOP</b> = procedimiento de emergencia, digital y en piso. Un proceso crítico sin su MOP/EOP con dueño es un huérfano de alto riesgo → va directo a la <a href="captura.html">worksheet de captura</a> con gap marcado.</p>
+      <span class="tag">fuente única · reconciliación · dueño</span>
+      <p><b>Fuente única de verdad (CDE)</b> = un solo lugar manda por cada dato; el resto lo consume, no lo re-teclea. <b>Reconciliación</b> = los números cuadran entre modelo, programa, costo y sitio. <b>Dueño</b> = un responsable por fuente que responde si el dato falla. Una fuente crítica duplicada, sin dueño y sin reconciliar es el huérfano de alto riesgo → va directo a la <a href="captura.html">worksheet de captura</a> con el gap marcado.</p>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p>ODATA Querétaro · Playbook de campo — documento de trabajo del equipo, no oficial de ODATA/Aligned. Marcos (Uptime M&amp;O, SOP/MOP/EOP, change management) de fuentes abiertas; los datos del sitio se confirman en la visita. Los nombres, contactos y horarios se completan durante la semana.</p>
+    <p>ODATA Querétaro · Playbook de campo — documento de trabajo del equipo BIM (BIM Manager + BIM Director), no oficial de ODATA/Aligned ni de T&amp;T. Marcos de información y controles (ISO 19650, CDE, fuente única, reconciliación, EVM) de fuentes abiertas; los datos del sitio se confirman en la visita. Los nombres, contactos y sistemas se completan durante la semana.</p>
     <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/plan</p>
   </div>
 </footer>
