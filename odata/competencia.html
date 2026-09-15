@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Posicionamiento competitivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);overflow-x:hidden}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:52px 0 32px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:12px 0 10px} .hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:17px;max-width:66ch}
+.backlink{display:inline-block;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:13px}
+section{padding:32px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:22px;display:flex;align-items:baseline;gap:12px} section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 18px;max-width:74ch}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td b{color:var(--ink)} td{color:var(--soft)}
+.good{color:var(--green)} .bad{color:var(--amber)}
+.thesis{border-left:3px solid var(--cyan);background:var(--panel);border-radius:0 10px 10px 0;padding:14px 16px;margin:14px 0;color:var(--soft);font-size:15px}
+.thesis b{color:var(--ink)}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}
+@media(max-width:720px){.g2{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{font-size:15px;margin-bottom:6px} .card p{color:var(--soft);font-size:14px;margin:0}
+.card .k{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan)}
+.diff{list-style:none;padding:0;margin:0;counter-reset:d}
+.diff li{counter-increment:d;position:relative;padding:12px 0 12px 42px;border-bottom:1px solid var(--line);color:var(--soft);font-size:14.5px}
+.diff li:before{content:counter(d);position:absolute;left:0;top:11px;font-family:"JetBrains Mono";font-size:13px;color:var(--cyan);border:1px solid var(--cyan-dim);border-radius:100px;width:24px;height:24px;display:grid;place-items:center}
+.diff li b{color:var(--ink)}
+.pitch{background:linear-gradient(180deg,rgba(53,194,201,.08),transparent);border:1px solid var(--cyan-dim);border-radius:12px;padding:20px 22px;margin-top:8px}
+.pitch p{color:var(--ink);font-size:17px;margin:0;font-family:"Space Grotesk";line-height:1.4}
+.note{font-size:13px;color:var(--muted);font-style:italic}
+footer{padding:36px 0 56px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Posicionamiento · para dirección · noindex</div>
+    <h1>Por qué nuestro sistema <span>gana</span></h1>
+    <p class="lede">Panorama competitivo + diferenciación del ticketing/controles que estamos armando. Punto de partida honesto: <b>cuando le preguntamos al PM qué metodología usa, no supo responder</b> — el proceso vive en WhatsApp y Gmail. Ese vacío ES la oportunidad: no vendemos otra licencia, instalamos una <b>metodología</b> dentro de las herramientas que el cliente ya paga.</p>
+    <a class="backlink" href="index.html">&larr; Briefing</a> &nbsp;·&nbsp; <a href="ticketing.html">Arquitectura del ticketing</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span> El panorama competitivo</h2>
+    <p class="sub">Lo que hay en el mercado de project/construction management, issue-defect tracking y project controls. Ninguno resuelve nuestro caso completo; cada uno pesa de un lado.</p>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Producto</th><th>Categoría</th><th class="good">Qué hace bien</th><th class="bad">Qué le falta (para nuestro caso)</th></tr>
+        <tr><td><b>Procore</b></td><td>Construction PM/campo</td><td>Líder en gestión de obra, RFIs, campo, adopción.</td><td>Caro (per-seat), US-céntrico, no DC-específico, otro vendor + licencia; metodología genérica.</td></tr>
+        <tr><td><b>Autodesk Construction Cloud</b> (BIM 360)</td><td>BIM + issues/RFIs</td><td>Fuerte en modelo, coordinación, issues ligados al BIM.</td><td>Orientado a diseño/modelo más que al loop de incidencias con el cliente; ecosistema Autodesk, curva.</td></tr>
+        <tr><td><b>Oracle Aconex</b></td><td>Control documental / CDE</td><td>Control documental y workflows enterprise, ISO 19650, trazabilidad legal.</td><td>Pesado y lento de configurar, caro; overkill para un ticketing ágil.</td></tr>
+        <tr><td><b>Oracle Primavera P6 / Unifier</b></td><td>Schedule + cost controls</td><td>El estándar de programación y controles de costo en megaproyectos.</td><td>Complejo, consultor-dependiente; el issue-loop operativo no es su fuerte.</td></tr>
+        <tr><td><b>Fieldwire / PlanGrid</b></td><td>Tareas de campo / punch</td><td>Ligero, tareas y punch list en piso, fácil de usar.</td><td>Poco de controles/KPIs/lineage; sin metodología ni rollup entre disciplinas.</td></tr>
+        <tr><td><b>Revizto</b></td><td>Coordinación de issues BIM</td><td>Excelente para clashes y coordinación en el modelo.</td><td>Centrado en diseño/modelo, no en el loop operativo con el cliente ni aging.</td></tr>
+        <tr><td><b>InEight / Ecosys</b></td><td>Project controls EPC</td><td>Controles integrados para EPC / megaproyectos.</td><td>Pesadísimo y caro; sobredimensionado para un MVP ágil.</td></tr>
+        <tr><td><b>Jira / ServiceNow / Monday</b></td><td>Ticketing genérico</td><td>Ticketing/flujos maduros y flexibles.</td><td>No construcción-específico: sin disciplinas de obra, sin lineage padre-hijo por especialidad; otra licencia y otro silo.</td></tr>
+      </table>
+    </div>
+    <p class="note" style="margin-top:12px">Patrón: o son <b>pesados/caros/enterprise</b> (Aconex, Primavera, InEight), o <b>ligeros pero sin controles ni metodología</b> (Fieldwire), o <b>genéricos</b> (Jira). Y todos son <b>otro vendor + otra licencia + otro silo</b> fuera del tenant del cliente.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span> La metodología — y el vacío del mercado</h2>
+    <p class="sub">Estas herramientas embeben (o asumen) alguna metodología. El problema real que vimos en sitio: muchas firmas de entrega <b>no tienen una definida</b>.</p>
+    <div class="grid g2">
+      <div class="card"><span class="k">lo que existe</span><h3>Marcos formales</h3><p>Lean Construction / Last Planner, PMBOK (PMI), ISO 19650 (información/BIM), Earned Value Management, RIBA Plan of Work, PRINCE2. Potentes, pero exigen disciplina, capacitación y una herramienta que los soporte.</p></div>
+      <div class="card" style="border-color:var(--amber)"><span class="k">la realidad</span><h3 style="color:var(--amber)">Operación ad-hoc</h3><p>Muchos equipos operan por <b>WhatsApp + Gmail + Excel</b>, sin metodología codificada — cascada sin retorno, sin owner, sin aging. Exactamente lo que respondió (o no) el PM. El proceso vive en la cabeza de la gente.</p></div>
+    </div>
+    <div class="thesis"><b>La tesis:</b> el software caro no arregla la falta de metodología — solo digitaliza el caos. Nosotros entregamos <b>la metodología primero</b> (fuente única, owner obligatorio, lineage, loop cerrado, aging) y la volvemos operable dentro de las herramientas que ya pagan. Eso es lo que nadie del cuadro de arriba vende junto.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span> Nuestros diferenciadores — dónde ganamos</h2>
+    <ol class="diff">
+      <li><b>Nativo al tenant Microsoft.</b> Corre sobre Power Platform (Power Apps + Dataverse + Power BI) que el cliente probablemente ya licencia. Cero vendor nuevo, cero lock-in, integra con Teams / SharePoint / Excel / Copilot. Los competidores son un silo aparte.</li>
+      <li><b>Metodología incluida.</b> No es un contenedor vacío: trae la disciplina baked-in — una sola verdad, owner obligatorio (nada huérfano), lineage y aging. Llena <b>exactamente</b> el hueco que el PM no supo nombrar.</li>
+      <li><b>Lineage padre-hijo con atomicidad.</b> Un problema grande se parte en subtickets atómicos por disciplina (CSA/MEP/EL), con trazabilidad de que era un solo problema. Los genéricos no modelan la especialidad de obra; los de campo no hacen rollup.</li>
+      <li><b>Loop cerrado + aging medible.</b> El estado sube por rollup (la info regresa, deja de ser cascada) y cada ticket mide su edad y escala solo. Matamos el "¿en qué quedó?" del WhatsApp.</li>
+      <li><b>Ligero y rápido — MVP en una semana.</b> Vs meses de configurar Procore/Aconex y consultores de Primavera. Arranca chico (Planning+CM), escala a los otros fronts.</li>
+      <li><b>A la medida de SU organigrama.</b> Modelado a sus disciplinas y roles reales (site supervisors, PMO/PM/PMT), no un flujo genérico enlatado.</li>
+      <li><b>Costo.</b> Fracción del per-seat de un SaaS de construcción; se apalanca en licencias que ya tienen.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span> Dónde NO competimos (honestidad)</h2>
+    <p class="sub">Credibilidad ante dirección = saber qué NO somos. No vamos a reemplazar todo — somos una cuña filosa y complementaria.</p>
+    <div class="grid g2">
+      <div class="card"><h3>No sustituimos</h3><p><b>Primavera P6</b> como programador maestro ni <b>Aconex</b> como control documental / CDE formal enterprise. Si ya los tienen, nos <b>integramos</b>, no competimos.</p></div>
+      <div class="card"><h3>Sí somos</h3><p>La capa de <b>incidencias + metodología + KPIs + dashboard</b>: ligera, nativa, con dueño y tiempo. El loop que hoy no existe, encima de lo que ya usan.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">05</span> El pitch para dirección</h2>
+    <div class="pitch"><p>"No vendemos otra licencia de software. Instalamos una <b>metodología</b> —con dueño, trazabilidad y tiempo medible— dentro de las herramientas Microsoft que ya pagan. El loop de incidencias que hoy vive en WhatsApp y se pierde, operable y auditable, en una semana."</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Posicionamiento competitivo · documento de trabajo del equipo — no oficial de ODATA/Aligned ni de T&amp;T. Análisis basado en el panorama conocido del mercado de software de construcción/project controls; los nombres son marcas de sus dueños. Para citas/datos en vivo, pasada de fuentes pendiente.</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/competencia</p>
+  </div>
+</footer>
+
+</body>
+</html>

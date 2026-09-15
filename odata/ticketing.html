@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Ticketing MVP · Arquitectura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b; --violet:#9a86e8;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);overflow-x:hidden}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:52px 0 32px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:12px 0 10px} .hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:17px;max-width:66ch}
+.backlink{display:inline-block;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:13px}
+section{padding:32px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:22px;display:flex;align-items:baseline;gap:12px} section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 18px;max-width:74ch}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:720px){.g2,.g4{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{font-size:15px;margin-bottom:6px} .card p{color:var(--soft);font-size:14px;margin:0}
+.card .k{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td b{color:var(--ink)} td{color:var(--soft)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.pk{color:var(--amber)} .fk{color:var(--violet)} .calc{color:var(--green)} .req{color:var(--red)}
+.tree{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.9;color:var(--soft);overflow-x:auto}
+.tree .p{color:var(--ink)} .tree .done{color:var(--green)} .tree .wip{color:var(--amber)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;font-size:13px}
+.node{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;color:var(--ink)}
+.node.h{border-color:var(--cyan);color:var(--cyan)} .arr{color:var(--muted);font-family:"JetBrains Mono"}
+.rule{border-left:3px solid var(--amber);background:var(--panel);border-radius:0 10px 10px 0;padding:12px 15px;margin:12px 0;color:var(--soft);font-size:14px}
+.rule b{color:var(--ink)}
+.day{display:grid;grid-template-columns:70px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.day:last-child{border-bottom:0}.day .d{font-family:"Space Grotesk";font-weight:700;color:var(--cyan)}
+.day p{margin:0;color:var(--soft);font-size:14px}
+.note{font-size:13px;color:var(--muted);font-style:italic}
+footer{padding:36px 0 56px;color:var(--muted);font-size:13px}
+.badge{display:inline-block;font-family:"JetBrains Mono";font-size:10px;padding:2px 7px;border-radius:100px;border:1px solid var(--line);color:var(--soft)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Planning · MVP · QR03 · uso interno · noindex</div>
+    <h1>Ticketing de ingeniería <span>MVP</span></h1>
+    <p class="lede">Cerrar el <b>loop de ingeniería</b>: de errores del cliente que hoy viven en WhatsApp/Gmail (se pierden y no regresan) a un ticketing en <b>Power Apps + Dataverse</b> con <b>lineage, aging y owner obligatorio</b>. Construible en una semana; la arquitectura de datos en estándar para el equipo y los directores.</p>
+    <a class="backlink" href="index.html">&larr; Briefing</a> &nbsp;·&nbsp; <a href="plan.html">Playbook</a> &nbsp;·&nbsp; <a href="encuesta.html">Encuesta</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span> El problema — el loop está roto</h2>
+    <p class="sub">Hoy el error del cliente entra por <b>WhatsApp</b>, vive en <b>Gmail</b>, y PM lo cascadea hacia los departamentos y sus <b>site supervisors</b>. Pero no regresa nada completo: es cascada sin retorno.</p>
+    <div class="flow">
+      <span class="node">Cliente reporta (WhatsApp)</span><span class="arr">&rarr;</span>
+      <span class="node">Vive en Gmail</span><span class="arr">&rarr;</span>
+      <span class="node">PM cascadea &darr;</span><span class="arr">&rarr;</span>
+      <span class="node">Depto / Site supervisor</span><span class="arr">&#10007;</span>
+      <span class="node" style="border-color:var(--red);color:var(--red)">no regresa</span>
+    </div>
+    <div class="grid g4" style="margin-top:8px">
+      <div class="card"><span class="k">dolor 1</span><h3>Sin fuente única</h3><p>La info solo vive en Gmail/WhatsApp. Nadie tiene la foto consolidada.</p></div>
+      <div class="card"><span class="k">dolor 2</span><h3>Loop roto</h3><p>Cascadea hacia abajo pero no vuelve completo. No hay ciclo, no hay cierre.</p></div>
+      <div class="card"><span class="k">dolor 3</span><h3>Sin aging</h3><p>No se sabe cuánto lleva atorado un problema. Cero traqueo de tiempo.</p></div>
+      <div class="card"><span class="k">dolor 4</span><h3>Tickets huérfanos</h3><p>Problemas que nadie es dueño → se caen entre departamentos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span> La solución — un ticketing con 4 caras</h2>
+    <p class="sub">Un ticketing en Power Apps sobre Dataverse que <b>consolida</b>, <b>cierra el loop</b>, <b>mide aging</b> y <b>mata huérfanos</b>. Mismos 4 fronts del brainstorm:</p>
+    <div class="grid g4">
+      <div class="card"><h3>Tickets huérfanos</h3><p>Owner obligatorio por ticket → nada se cae en silencio.</p></div>
+      <div class="card"><h3>KPIs</h3><p>% de avance por rollup, aging por departamento, quién falla y cómo.</p></div>
+      <div class="card"><h3>Dashboarding</h3><p>Power BI leyendo de Dataverse: estado, aging, backlog por disciplina.</p></div>
+      <div class="card"><h3>Risk Management</h3><p>Ticket tipo "riesgo" con probabilidad × impacto y su propio owner.</p></div>
+    </div>
+    <p class="note" style="margin-top:12px">Tres de estas cuatro caras comparten la columna vertebral del toolkit (owner obligatorio, fuente única, gate que avisa, KPIs, dashboard). El ticketing solo agrega <b>jerarquía padre-hijo + rollup + aging</b>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span> Arquitectura de datos — entidad <span class="mono" style="font-size:.8em">ticket</span></h2>
+    <p class="sub">La tabla central en Dataverse. <span class="pk">PK/AK</span> · <span class="fk">lookup (FK)</span> · <span class="calc">calculado/rollup</span> · <span class="req">obligatorio</span>.</p>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Campo</th><th>Tipo</th><th>Qué es</th></tr>
+        <tr><td><b class="pk">ticket_id</b></td><td>GUID (PK)</td><td>Identidad Dataverse.</td></tr>
+        <tr><td><b class="pk">ticket_code</b></td><td>Autonumber (AK)</td><td>Código humano estable, ej. <span class="mono">TCK-MEP-0042</span>. Pegamento con reportes/Power BI.</td></tr>
+        <tr><td><b>title</b> / <b>description</b></td><td>Text</td><td>Qué reportó el cliente.</td></tr>
+        <tr><td><b>source</b></td><td>Choice</td><td>cliente-WhatsApp · interno · auditoría · inspección.</td></tr>
+        <tr><td><b>ticket_type</b></td><td>Choice</td><td>incidencia · defecto · <b>riesgo</b> (habilita el Risk front) · solicitud.</td></tr>
+        <tr><td><b class="fk">department_id</b></td><td>Lookup → department</td><td>Disciplina dueña: CSA · MEP · EL · ESP · OC · COST · PLAN · CAL.</td></tr>
+        <tr><td><b class="fk req">owner_id</b></td><td>Lookup → person (oblig.)</td><td>Site supervisor responsable. Vacío → <span class="mono">UNKNOWN</span> + gap visible (regla dura).</td></tr>
+        <tr><td><b class="fk">parent_ticket_id</b></td><td>Lookup → ticket (self)</td><td><b>El corazón:</b> auto-relación. Un problema grande = padre; se parte en hijos atómicos.</td></tr>
+        <tr><td><b>status</b></td><td>Choice</td><td>nuevo · asignado · en-progreso · bloqueado · resuelto · cerrado.</td></tr>
+        <tr><td><b>priority</b> · <b>probability</b> · <b>impact</b></td><td>Choice/Int</td><td>Prioridad; para tipo=riesgo: probabilidad × impacto = score.</td></tr>
+        <tr><td><b class="calc">completion_pct</b></td><td>Rollup</td><td>Padre: hijos cerrados ÷ total hijos. Hoja: 0 ó 100.</td></tr>
+        <tr><td><b>created_at</b> · <b>resolved_at</b></td><td>DateTime UTC</td><td>Marcas de tiempo.</td></tr>
+        <tr><td><b class="calc">age_days</b> · <b class="calc">sla_breached</b></td><td>Calc</td><td>Edad = (resolved_at ?? ahora) − created_at. SLA vencido = bandera.</td></tr>
+        <tr><td><b>needs_attention</b></td><td>Bool (lo escribe el gate)</td><td>Marcado por Power Automate (aging/sin owner/no cuadra), no a mano.</td></tr>
+      </table>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><span class="k">relaciones</span><h3>Padre-hijo (lineage + atomicidad)</h3><p><span class="mono">parent_ticket_id</span> es un lookup de <b>ticket → ticket</b> (1 padre : N hijos). Un problema grande se parte en hijos <b>atómicos</b>, uno por departamento. El árbol ES el lineage.</p></div>
+      <div class="card"><span class="k">lookups</span><h3>department · person</h3><p>Tablas de catálogo: <b>department</b> (8 disciplinas) y <b>person</b> (supervisores, con fila reservada UNKNOWN). RBAC por department (quién ve/edita qué).</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span> Lineage + atomicidad — un problema grande, hijos por disciplina</h2>
+    <p class="sub">Ejemplo (ficticio): un problema reportado se parte en tickets atómicos. El padre no cierra hasta que todos los hijos cierran → el rollup da el %.</p>
+    <div class="tree">
+<span class="p">TCK-0001 · "Filtración en sala COLO 6" · [PADRE] · completion = 2/3 = 67%</span>
+ ├─ <span class="done">TCK-0002 · [MEP]  reparar tubería condensados ......... cerrado ✓</span>
+ ├─ <span class="done">TCK-0003 · [CSA]  resane y sello de muro ............. cerrado ✓</span>
+ └─ <span class="wip">TCK-0004 · [EL]   revisar tablero con humedad ....... en-progreso ⧗  ← el padre espera esto</span>
+    </div>
+    <div class="rule"><b>Regla:</b> un ticket sin <span class="mono">parent_ticket_id</span> es un problema raíz; con hijos, es padre y su avance es rollup. Cada hoja tiene <b>un solo owner</b> (atomicidad). Así un problema de 3 disciplinas se reparte a 3 supervisores sin perder la trazabilidad de que era <b>un</b> problema.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">05</span> El loop cerrado — la info REGRESA</h2>
+    <p class="sub">El estado de los hijos sube al padre por rollup (Power Automate). Deja de ser cascada; se vuelve ciclo. Eso es lo que hoy no existe.</p>
+    <div class="flow">
+      <span class="node">Problema (padre)</span><span class="arr">&darr; se parte</span>
+      <span class="node">Hijos por disciplina</span><span class="arr">&rarr;</span>
+      <span class="node h">Owner trabaja + cierra</span><span class="arr">&uarr; rollup</span>
+      <span class="node">Padre = % avance</span><span class="arr">&rarr;</span>
+      <span class="node" style="border-color:var(--green);color:var(--green)">Cliente ve estado real</span>
+    </div>
+    <p class="note">KPIs del brainstorm ya cuadran con esto: <span class="mono">001/4 = 80%</span> (padre con 4 hijos, 80% cerrados) · <span class="mono">002/0 = 0%</span> (problema grande aún sin partir/arrancar → bandera roja).</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">06</span> Aging &amp; escalación · Backend</h2>
+    <div class="grid g2">
+      <div class="card"><span class="k">aging</span><h3>Gate que avisa</h3><p>Power Automate diario: calcula edad, y si un ticket vence su SLA / sigue UNKNOWN / lleva N días sin moverse → marca <span class="mono">needs_attention</span> y escala <b>owner → lead → PM</b>. Aging por departamento = "quién falla y cómo".</p></div>
+      <div class="card"><span class="k">backend</span><h3>Dataverse (primario) + Oracle (Finanzas)</h3><p><b>Dataverse</b> es el system of record del ticketing. <b>Oracle SQL</b> = solo la base de Finanzas, se lee por <b>conector</b> (no se construye ahí). <b>Power Apps</b> como front: Deptos · Usuarios · Permisos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">07</span> Plan MVP — una semana</h2>
+    <div class="day"><div class="d">D1</div><p>Tablas Dataverse: <b>ticket</b>, <b>department</b> (8), <b>person</b> (con UNKNOWN). Choices y el autonumber <span class="mono">ticket_code</span>.</p></div>
+    <div class="day"><div class="d">D2</div><p>La <b>relación padre-hijo</b> (self-lookup) + la vista de árbol. Power App: captura + botón "partir en hijos" por departamento.</p></div>
+    <div class="day"><div class="d">D3</div><p><b>Rollup</b> completion_pct (padre) + reglas de estado (padre no cierra con hijos abiertos). Owner obligatorio + UNKNOWN+gap.</p></div>
+    <div class="day"><div class="d">D4</div><p><b>Aging + escalación</b> (Power Automate) + <span class="mono">needs_attention</span>. Migrar el backlog de Gmail (carga inicial).</p></div>
+    <div class="day"><div class="d">D5</div><p><b>Dashboard Power BI</b>: estado, aging por disciplina, huérfanos, top riesgos. Demo a directores.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">08</span> Por qué es buen estándar (para los directores)</h2>
+    <ul style="color:var(--soft);font-size:14px;line-height:1.8;padding-left:18px;max-width:74ch">
+      <li><b>Una sola verdad:</b> el estado del problema deja de vivir en Gmail; vive en Dataverse, versionado y auditable.</li>
+      <li><b>Nada huérfano:</b> owner obligatorio por ticket; el que no tiene dueño salta como gap, no se pierde.</li>
+      <li><b>Trazabilidad real:</b> lineage padre-hijo → se ve cómo un problema se repartió y quién tiene cada pieza.</li>
+      <li><b>Tiempo medible:</b> aging + SLA + escalación → deja de ser "¿en qué quedó?" y pasa a ser un número.</li>
+      <li><b>Escalable:</b> mismo modelo alimenta los otros fronts (riesgo, KPIs, dashboard) y se integra a Finanzas por conector.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Ticketing MVP · documento de planning del equipo — no oficial de ODATA/Aligned ni de T&amp;T. Ejemplos ficticios, cero datos reales de cliente. Arquitectura de referencia para construir en el tenant del cliente (Dataverse/Power Platform).</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/ticketing</p>
+  </div>
+</footer>
+
+</body>
+</html>
