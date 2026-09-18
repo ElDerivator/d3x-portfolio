@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>ODATA QR03 · Sistema (demo)</title>
+<style>
+:root{--bg:#0b1015;--panel:#111a22;--panel2:#0e161d;--line:#1f2c37;--ink:#e8eef2;--soft:#9fb2c0;--mute:#6b8090;
+--cyan:#35c2c9;--amber:#e8a13a;--green:#4fbf8b;--red:#e56a6a;--violet:#9a8cff;}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,sans-serif}
+header{padding:14px 22px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header .t{font-weight:700} header .t b{color:var(--cyan)} header .proj{color:var(--soft);font-size:13px;font-family:ui-monospace,Consolas,monospace}
+.badge{margin-left:auto;font-size:11px;color:var(--green);border:1px solid var(--green);border-radius:20px;padding:3px 10px}
+.badge.demo{color:var(--amber);border-color:var(--amber);margin-left:8px}
+nav{display:flex;gap:4px;padding:10px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:var(--panel2)}
+nav button{background:transparent;border:1px solid transparent;color:var(--soft);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600}
+nav button:hover{color:var(--ink)} nav button.on{background:var(--panel);color:var(--cyan);border-color:var(--line)}
+main{padding:20px 22px;max-width:1200px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .n{font-size:34px;font-weight:800;line-height:1}.kpi .l{color:var(--soft);font-size:12px;margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
+.kpi .s{font-size:12px;margin-top:4px}
+h2{font-size:16px;margin:26px 0 12px;font-weight:700}h2 span{color:var(--mute);font-weight:600;font-size:13px}
+h3{font-size:13px;color:var(--soft);margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+td.num,th.num{text-align:right;font-family:ui-monospace,Consolas,monospace}
+.pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700}
+.ok{background:rgba(79,191,139,.15);color:var(--green)}.warn{background:rgba(232,161,58,.15);color:var(--amber)}.bad{background:rgba(229,106,106,.16);color:var(--red)}.mut{background:rgba(155,140,255,.14);color:var(--violet)}
+.bar{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;margin-top:6px}.bar>i{display:block;height:100%;border-radius:6px}
+.row-fx{display:flex;gap:6px;align-items:center}
+.sub{color:var(--soft);font-size:13px;margin:0 0 6px}
+.flag{border-left:3px solid var(--red)}
+.legend{font-size:12px;color:var(--mute);margin-top:8px}
+select{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
+.callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--soft)}
+.footer{color:var(--mute);font-size:11px;padding:14px 22px;border-top:1px solid var(--line);font-family:ui-monospace,Consolas,monospace}
+</style></head><body>
+<header>
+  <div><div class="t">ODATA QR03 · <b>Single Source of Truth</b></div><div class="proj" id="projlbl"></div></div>
+  <span class="badge">● en vivo</span><span class="badge demo">DEMO · data simulada</span>
+</header>
+<nav id="nav"></nav>
+<main id="view"></main>
+<div class="footer">Demo interactivo · data simulada para ilustrar el sistema · d3x.biz/odata · Turner &amp; Townsend</div>
+<script>
+const DATA = {"proj": "OBDMX-QR03 · Fase 1 (200 MW)", "areas": [{"id": "DH1", "name": "Data Hall 1", "fis": 72, "fin": 78, "disc": "MEP+CSA"}, {"id": "DH2", "name": "Data Hall 2", "fis": 38, "fin": 41, "disc": "MEP+CSA"}, {"id": "SE1", "name": "Sala Electrica 1", "fis": 25, "fin": 80, "disc": "MEP", "flag": true, "gc": 40}, {"id": "BAT", "name": "Sala de Baterias", "fis": 54, "fin": 57, "disc": "MEP"}, {"id": "YRD", "name": "Yard / Obra exterior", "fis": 61, "fin": 59, "disc": "CSA"}], "lines": {"DH1": [["L001 Ducto principal AC", "MEP", "m", 120, 96, "units"], ["L002 Charola cableado", "MEP", "m", 200, 150, "units"], ["L003 Muro divisorio", "CSA", "m2", 340, 300, "units"], ["L004 Piso tecnico", "CSA", "m2", 500, 320, "weighted"]], "DH2": [["L010 Ducto AC", "MEP", "m", 120, 40, "units"], ["L011 Charola", "MEP", "m", 200, 72, "units"], ["L012 Muro", "CSA", "m2", 340, 150, "units"]], "SE1": [["L020 Tableros MT", "MEP", "pza", 8, 2, "steps"], ["L021 Canalizacion", "MEP", "m", 90, 70, "units"], ["L022 Barra tierra", "MEP", "m", 60, 15, "units"]], "BAT": [["L030 Racks bateria", "MEP", "pza", 24, 13, "units"], ["L031 Ventilacion", "MEP", "m", 80, 44, "units"]], "YRD": [["L040 Pavimento", "CSA", "m2", 1200, 760, "units"], ["L041 Drenaje", "CSA", "m", 300, 180, "units"]]}, "packages": [{"id": "IWP-DH1-03", "area": "DH1", "type": "IWP", "released": true, "constraints": 0}, {"id": "IWP-DH2-01", "area": "DH2", "type": "IWP", "released": false, "constraints": 2, "cnote": "material + plano rev"}, {"id": "IWP-SE1-02", "area": "SE1", "type": "IWP", "released": false, "constraints": 1, "cnote": "tableros en fabrica"}, {"id": "IWP-BAT-01", "area": "BAT", "type": "IWP", "released": true, "constraints": 0}, {"id": "IWP-YRD-04", "area": "YRD", "type": "IWP", "released": true, "constraints": 0}], "costcodes": [{"cc": "CSA-CONCRETO", "bud": 8200, "com": 8000, "act": 6100, "eac": 8300}, {"cc": "CSA-ACABADOS", "bud": 3400, "com": 3100, "act": 1200, "eac": 3350}, {"cc": "MEP-DUCTOS", "bud": 3500, "com": 3400, "act": 2100, "eac": 3700}, {"cc": "MEP-TUBERIA", "bud": 2600, "com": 2500, "act": 1500, "eac": 2600}, {"cc": "ELEC-TABLEROS", "bud": 5200, "com": 5000, "act": 4400, "eac": 5600}, {"cc": "ELEC-UPS", "bud": 4100, "com": 4000, "act": 1900, "eac": 4050}], "evm": {"period": ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"], "pv": [1200, 3100, 5600, 8900, 12500, 16200, 19800, 23000], "ev": [1000, 2800, 5100, 8200, 11400, 14800, 18100, 20900], "ac": [1100, 3000, 5500, 8800, 12300, 16000, 19600, 22300]}, "gcs": [{"gc": "Constructora Norte", "est": "EST-08", "period": "Ago", "monto": 4200, "cfdi": "OK", "recon": "conciliada"}, {"gc": "MEP Solutions", "est": "EST-06", "period": "Ago", "monto": 2600, "cfdi": "OK", "recon": "conciliada"}, {"gc": "Electro QR", "est": "EST-05", "period": "Ago", "monto": 3100, "cfdi": "OK", "recon": "DISCREPANCIA", "note": "cobra 40% vs 25% fisico en SE1"}], "commx": [{"sys": "UPS-A", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "ok", "L5": "pend"}, {"sys": "UPS-B", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "pend", "L5": "pend"}, {"sys": "Enfriamiento Delta3", "L1": "ok", "L2": "ok", "L3": "pend", "L4": "pend", "L5": "pend"}, {"sys": "Tablero MT SE1", "L1": "ok", "L2": "pend", "L3": "pend", "L4": "pend", "L5": "pend"}, {"sys": "Deteccion incendio", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "ok", "L5": "ok"}], "issues": {"ncr_open": 4, "rfi_open": 7, "punch_open": 23, "constraints_open": 3}, "kpi": {"fisico": 52, "financiero": 61, "cpi": 0.94, "spi": 0.91, "hitos_atraso": 2, "paquetes_liberados": 3, "paquetes_total": 5}};
+document.getElementById('projlbl').textContent = DATA.proj;
+const $=(h)=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild;};
+const pct=(v)=>v+'%'; const money=(v)=>'$'+v.toLocaleString()+'k';
+const barColor=(v)=>v>=66?'var(--green)':v>=33?'var(--amber)':'var(--red)';
+function bar(v,c){return `<div class="bar"><i style="width:${Math.min(v,100)}%;background:${c||barColor(v)}"></i></div>`;}
+function pill(txt,cls){return `<span class="pill ${cls}">${txt}</span>`;}
+
+// ---- SVG charts (sin libs) ----
+function svgLine(series, w=560, h=180){
+  const all=[].concat(...Object.values(series.data)); const max=Math.max(...all)*1.08;
+  const n=series.labels.length, pad=34;
+  const X=i=>pad+i*(w-pad-10)/(n-1), Y=v=>h-24-(v/max)*(h-44);
+  let out=`<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
+  for(let g=0;g<=4;g++){const yy=24+g*(h-48)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-10}" y2="${yy}" stroke="#1f2c37"/>`;}
+  series.labels.forEach((l,i)=>out+=`<text x="${X(i)}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${l}</text>`);
+  const cols={pv:'#9a8cff',ev:'#4fbf8b',ac:'#e8a13a'};
+  for(const k in series.data){const d=series.data[k];let p='';d.forEach((v,i)=>p+=(i?'L':'M')+X(i)+' '+Y(v)+' ');
+    out+=`<path d="${p}" fill="none" stroke="${cols[k]||'#35c2c9'}" stroke-width="2.5"/>`;
+    d.forEach((v,i)=>out+=`<circle cx="${X(i)}" cy="${Y(v)}" r="2.6" fill="${cols[k]||'#35c2c9'}"/>`);}
+  out+='</svg>';return out;
+}
+function svgBars(items, w=560, h=200){ // items:[{label,v}]
+  const max=100,pad=30,n=items.length,bw=(w-pad-10)/n*0.62;
+  let out=`<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
+  const X=i=>pad+i*(w-pad-10)/n+((w-pad-10)/n-bw)/2, Y=v=>h-22-(v/max)*(h-40);
+  items.forEach((it,i)=>{const y=Y(it.v),bh=h-22-y;
+    out+=`<rect x="${X(i)}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${it.c||'#35c2c9'}"/>`;
+    out+=`<text x="${X(i)+bw/2}" y="${y-5}" fill="#e8eef2" font-size="11" text-anchor="middle">${it.v}%</text>`;
+    out+=`<text x="${X(i)+bw/2}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${it.label}</text>`;});
+  out+='</svg>';return out;
+}
+function gauge(v,label,color){ // 0-100 style but shows ratio
+  const r=42,c=2*Math.PI*r,off=c*(1-Math.min(v,1.3)/1.3);
+  return `<svg viewBox="0 0 120 120" width="120" height="120">
+   <circle cx="60" cy="60" r="${r}" fill="none" stroke="#1f2c37" stroke-width="10"/>
+   <circle cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="10" stroke-linecap="round"
+     stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
+   <text x="60" y="58" fill="#e8eef2" font-size="22" font-weight="800" text-anchor="middle">${v.toFixed(2)}</text>
+   <text x="60" y="76" fill="#9fb2c0" font-size="10" text-anchor="middle">${label}</text></svg>`;
+}
+
+// ---- VIEWS ----
+const V = {};
+V["Resumen"]=()=>{const k=DATA.kpi,is=DATA.issues;
+  return `
+  <div class="grid g4">
+    ${kpiCard(k.fisico+'%','Avance físico','verificado en obra','var(--green)')}
+    ${kpiCard(k.financiero+'%','Avance financiero','desde el ledger','var(--amber)')}
+    ${kpiCard(k.cpi,'CPI (costo)',k.cpi>=1?'en presupuesto':'sobre costo',k.cpi>=1?'var(--green)':'var(--red)')}
+    ${kpiCard(k.spi,'SPI (tiempo)',k.spi>=1?'en programa':'atrasado',k.spi>=1?'var(--green)':'var(--amber)')}
+  </div>
+  <h2>El 40 / 25 / 80 <span>· la discrepancia que el sistema caza sola</span></h2>
+  <div class="callout flag">En <b>Sala Eléctrica 1</b>: el GC cobra <b style="color:var(--amber)">40%</b> (estimación) · obra reporta <b style="color:var(--green)">25%</b> físico verificado · costos van <b style="color:var(--red)">80%</b> ejercido. Tres verdades sin etiquetar. El sistema las etiqueta, las liga a su dueño y <b>marca la discrepancia</b> antes de que llegue al reporte del cliente. → ver pestaña Reconciliación.</div>
+  <h2>Curva S · Earned Value <span>(miles USD acumulado)</span></h2>
+  <div class="card">${svgLine({labels:DATA.evm.period,data:{pv:DATA.evm.pv,ev:DATA.evm.ev,ac:DATA.evm.ac}})}
+    <div class="legend"><span style="color:var(--violet)">■</span> PV (planeado) &nbsp; <span style="color:var(--green)">■</span> EV (ganado) &nbsp; <span style="color:var(--amber)">■</span> AC (real). EV por debajo de PV = atraso; AC por encima de EV = sobrecosto.</div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Avance físico por área</h3>${svgBars(DATA.areas.map(a=>({label:a.id,v:a.fis,c:a.flag?'var(--red)':'var(--cyan)'})))}</div>
+    <div class="card"><h3>Estado del proyecto</h3>
+      <table><tr><td>Paquetes AWP liberados (constraint-free)</td><td class="num">${k.paquetes_liberados}/${k.paquetes_total}</td></tr>
+      <tr><td>Hitos en atraso</td><td class="num">${pill(k.hitos_atraso,'warn')}</td></tr>
+      <tr><td>NCR abiertas</td><td class="num">${pill(is.ncr_open,'bad')}</td></tr>
+      <tr><td>RFI abiertas</td><td class="num">${pill(is.rfi_open,'warn')}</td></tr>
+      <tr><td>Punch abiertos</td><td class="num">${pill(is.punch_open,'warn')}</td></tr>
+      <tr><td>Constraints bloqueando</td><td class="num">${pill(is.constraints_open,'bad')}</td></tr></table>
+    </div>
+  </div>`;
+};
+function kpiCard(n,l,s,c){return `<div class="card kpi"><div class="n" style="color:${c}">${n}</div><div class="l">${l}</div><div class="s" style="color:var(--soft)">${s}</div></div>`;}
+
+V["Reconciliación"]=()=>{
+  let rows=DATA.areas.map(a=>{const d=a.fin-a.fis;const flag=Math.abs(d)>=20;
+    return `<tr class="${flag?'flag':''}"><td>${a.name}</td>
+      <td class="num" style="color:var(--green)">${a.fis}%</td>
+      <td class="num" style="color:var(--amber)">${a.fin}%</td>
+      <td class="num" style="color:${flag?'var(--red)':'var(--soft)'}">${d>0?'+':''}${d} pp</td>
+      <td>${flag?pill('⚠ DISCREPANCIA','bad'):pill('conciliado','ok')}</td></tr>`;}).join('');
+  return `<h2>Reconciliación físico vs financiero <span>· el gate</span></h2>
+  <p class="sub">Cada número trae su dueño y su etiqueta. Cuando el financiero corre adelante del físico más de 20 puntos, el sistema lo marca — la validación que falta de quien está más cerca de la realidad.</p>
+  <div class="card"><table><tr><th>Área</th><th class="num">Físico (obra)</th><th class="num">Financiero (ledger/GC)</th><th class="num">Delta</th><th>Estado</th></tr>${rows}</table></div>
+  <div class="callout" style="margin-top:14px">Sala Eléctrica 1 dispara la alarma: el GC cobra 40% pero obra sólo verifica 25% instalado (tableros aún en fábrica). El costo ejercido 80% es anticipo + compromiso, no avance físico. Sin el sistema, ese 40% entraba al reporte del cliente sin cuestionar.</div>`;
+};
+
+V["Avance"]=()=>{
+  const opts=DATA.areas.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');
+  return `<h2>Avance por área <span>· hasta la línea (unidad granular)</span></h2>
+  <div class="row-fx" style="margin-bottom:12px"><span class="sub">Área:</span> <select id="areasel" onchange="renderLines(this.value)">${opts}</select>
+  <span class="sub" style="margin-left:auto">Cada avance cuelga de la línea, con regla de crédito (units/steps) — no "a ojo".</span></div>
+  <div id="lineswrap"></div>`;
+};
+function renderLines(aid){
+  const ls=DATA.lines[aid]||[]; const pkgs=DATA.packages.filter(p=>p.area===aid);
+  let prows=pkgs.map(p=>`<tr><td>${p.id}</td><td>${p.type}</td>
+     <td>${p.released?pill('liberado','ok'):pill(p.constraints+' constraint(s): '+(p.cnote||''),'bad')}</td></tr>`).join('');
+  let lrows=ls.map(l=>{const [nm,disc,uom,plan,inst,method]=l;const v=Math.round(inst/plan*100);
+    return `<tr><td>${nm}</td><td>${pill(disc,'mut')}</td><td class="num">${inst}/${plan} ${uom}</td>
+     <td style="width:180px"><div class="row-fx">${bar(v)}<span class="num" style="min-width:38px">${v}%</span></div></td>
+     <td><span class="pill mut">${method}</span></td></tr>`;}).join('');
+  document.getElementById('lineswrap').innerHTML=`
+   <div class="card" style="margin-bottom:14px"><h3>Paquetes AWP · acreditación (constraint-free)</h3>
+     <table><tr><th>Paquete</th><th>Tipo</th><th>Estado de liberación</th></tr>${prows}</table></div>
+   <div class="card"><h3>Líneas · avance físico verificado</h3>
+     <table><tr><th>Línea (producto)</th><th>Disciplina</th><th class="num">Instalado / plan</th><th>Avance</th><th>Regla de crédito</th></tr>${lrows}</table></div>`;
+}
+
+V["Costos / EVM"]=()=>{
+  let tot={bud:0,com:0,act:0,eac:0};
+  let rows=DATA.costcodes.map(c=>{tot.bud+=c.bud;tot.com+=c.com;tot.act+=c.act;tot.eac+=c.eac;
+    const vac=c.bud-c.eac;
+    return `<tr><td>${c.cc}</td><td class="num">${money(c.bud)}</td><td class="num">${money(c.com)}</td>
+     <td class="num">${money(c.act)}</td><td class="num">${money(c.eac)}</td>
+     <td class="num" style="color:${vac<0?'var(--red)':'var(--green)'}">${vac<0?'':'+'}${money(vac)}</td></tr>`;}).join('');
+  const vact=tot.bud-tot.eac;
+  return `<h2>Cost Management + EVM <span>· presupuesto → compromiso → real → pronóstico</span></h2>
+  <div class="grid g3" style="margin-bottom:16px">
+    <div class="card" style="text-align:center">${gauge(DATA.kpi.cpi,'CPI = EV/AC',DATA.kpi.cpi>=1?'#4fbf8b':'#e56a6a')}<div class="sub" style="text-align:center">Eficiencia de costo</div></div>
+    <div class="card" style="text-align:center">${gauge(DATA.kpi.spi,'SPI = EV/PV',DATA.kpi.spi>=1?'#4fbf8b':'#e8a13a')}<div class="sub" style="text-align:center">Eficiencia de tiempo</div></div>
+    <div class="card"><h3>Totales (miles USD)</h3><table>
+      <tr><td>Presupuesto (BAC)</td><td class="num">${money(tot.bud)}</td></tr>
+      <tr><td>Comprometido</td><td class="num">${money(tot.com)}</td></tr>
+      <tr><td>Real ejercido</td><td class="num">${money(tot.act)}</td></tr>
+      <tr><td>Pronóstico (EAC)</td><td class="num">${money(tot.eac)}</td></tr>
+      <tr><td>Variación al término (VAC)</td><td class="num" style="color:${vact<0?'var(--red)':'var(--green)'}">${vact<0?'':'+'}${money(vact)}</td></tr></table></div>
+  </div>
+  <div class="card"><h3>Por código de costo</h3><table>
+    <tr><th>Cost code</th><th class="num">Presupuesto</th><th class="num">Comprometido</th><th class="num">Real</th><th class="num">EAC</th><th class="num">VAC</th></tr>${rows}</table></div>`;
+};
+
+V["Calidad"]=()=>{
+  const cell=(s)=>s==='ok'?pill('✓','ok'):pill('pend','warn');
+  let rows=DATA.commx.map(c=>`<tr><td>${c.sys}</td><td>${cell(c.L1)}</td><td>${cell(c.L2)}</td><td>${cell(c.L3)}</td><td>${cell(c.L4)}</td><td>${cell(c.L5)}</td></tr>`).join('');
+  return `<h2>Calidad · Commissioning L1–L5 <span>· un sistema no está listo hasta el IST (L5)</span></h2>
+  <div class="card"><h3>Matriz de pruebas por sistema</h3>
+   <table><tr><th>Sistema / equipo</th><th>L1 FAT</th><th>L2 SAT</th><th>L3 Pre-func</th><th>L4 Funcional</th><th>L5 IST</th></tr>${rows}</table>
+   <div class="legend">El avance físico llega a 100% con la instalación; el sistema sólo se da por terminado cuando pasa el <b>L5 (Integrated Systems Test)</b> — con todo el punch cerrado.</div></div>
+  <div class="grid g3" style="margin-top:14px">
+    ${kpiCard(DATA.issues.ncr_open,'NCR abiertas','no-conformidades','var(--red)')}
+    ${kpiCard(DATA.issues.rfi_open,'RFI abiertas','preguntas técnicas','var(--amber)')}
+    ${kpiCard(DATA.issues.punch_open,'Punch abiertos','pendientes de entrega','var(--amber)')}
+  </div>`;
+};
+
+V["Contratistas"]=()=>{
+  let rows=DATA.gcs.map(g=>{const bad=g.recon!=='conciliada';
+    return `<tr class="${bad?'flag':''}"><td>${g.gc}</td><td>${g.est}</td><td>${g.period}</td>
+     <td class="num">${money(g.monto)}</td><td>${pill('CFDI '+g.cfdi,'ok')}</td>
+     <td>${bad?pill('⚠ '+g.recon,'bad'):pill(g.recon,'ok')}</td></tr>${bad?`<tr><td colspan="6" class="sub" style="color:var(--amber)">↳ ${g.note}</td></tr>`:''}`;}).join('');
+  return `<h2>Contratistas (GC) · Facturación <span>· estimación → generador → CFDI → conciliación</span></h2>
+  <p class="sub">Los GC suben su estimación y su CFDI por el portal (Power Pages). El sistema liga la factura a la estimación y la concilia contra el avance físico verificado — no la acepta a ciegas.</p>
+  <div class="card"><table><tr><th>Contratista</th><th>Estimación</th><th>Período</th><th class="num">Monto</th><th>Factura</th><th>Conciliación</th></tr>${rows}</table></div>`;
+};
+
+// ---- nav ----
+const tabs=Object.keys(V); let cur=tabs[0];
+const nav=document.getElementById('nav');
+tabs.forEach(t=>{const b=$(`<button>${t}</button>`);b.onclick=()=>{cur=t;draw();};b.dataset.t=t;nav.appendChild(b);});
+function draw(){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===cur));
+  document.getElementById('view').innerHTML=V[cur]();
+  if(cur==='Avance'){renderLines(DATA.areas[0].id);}}
+draw();
+</script></body></html>
