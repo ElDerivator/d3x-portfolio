@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>ODATA QR03 · Recon satelital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);overflow-x:hidden}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:52px 0 32px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:12px 0 10px} .hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:17px;max-width:64ch}
+.backlink{display:inline-block;margin-top:16px;font-family:"JetBrains Mono",monospace;font-size:13px}
+section{padding:34px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:22px;display:flex;align-items:baseline;gap:12px} section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 18px;max-width:72ch}
+.mapbox{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.mapbox iframe,.mapbox #esrimap{display:block;width:100%;height:440px;border:0}
+.mapbox #esrimap{background:var(--panel2)}
+@media(max-width:640px){.mapbox iframe,.mapbox #esrimap{height:340px}}
+.mapmeta{padding:12px 16px;font-size:13px;color:var(--soft);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.link{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none}
+.link:hover{border-color:var(--cyan)}
+.link b{color:var(--ink);font-size:15px} .link span{display:block;color:var(--soft);font-size:13px;margin-top:3px}
+.link .k{font-family:"JetBrains Mono";font-size:11px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase}
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{padding:9px 0 9px 30px;position:relative;color:var(--soft);font-size:14px;border-bottom:1px solid var(--line)}
+.checklist li:before{content:"\25CE";position:absolute;left:2px;top:9px;color:var(--cyan)}
+.checklist li b{color:var(--ink)}
+.warn{border-left:3px solid var(--amber);background:var(--panel);border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0;color:var(--soft);font-size:14px}
+.warn b{color:var(--ink)}
+.note{font-size:13px;color:var(--muted);font-style:italic}
+footer{padding:38px 0 58px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Recon satelital · uso interno · noindex</div>
+    <h1>QR03 <span>ODATA</span> — reconocimiento satelital</h1>
+    <p class="lede">Imágenes satelitales <b>en vivo</b> del campus QR03 (El Marqués, Querétaro) para reconocimiento previo. Dos fuentes independientes (suelen tener fechas distintas → sirve para ver el avance de obra) + enlaces a resolución completa. <b>No son archivos de foto crudos</b>: si necesitás exportar un .jpg de alta resolución, se hace desde Google Earth Pro (abajo explico).</p>
+    <a class="backlink" href="index.html">&larr; Volver al briefing</a> &nbsp;·&nbsp; <a href="plan.html">Playbook</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span> Satélite en vivo — Esri World Imagery</h2>
+    <p class="sub">Vista satelital interactiva (arrastrá y hacé zoom para ubicar el campus). El pin es <b>aproximado</b>; confirmá el edificio exacto con la vista por nombre (§02) y los enlaces (§03).</p>
+    <div class="mapbox">
+      <div id="esrimap"></div>
+      <div class="mapmeta">
+        <span><b style="color:var(--ink)">QR03</b> · Carr. Estatal 431 – Los Cues km 5.8, Parque Industrial PyME, 76246 El Marqués, Querétaro</span>
+        <span class="mono">Fuente: Esri World Imagery</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span> Ubicación por nombre — Google</h2>
+    <p class="sub">Google geolocaliza "ODATA QR03 Querétaro" por su nombre — este centro es el confiable para saber dónde está el sitio. Si ves mapa en vez de satélite, usá los enlaces de abajo para la capa satelital.</p>
+    <div class="mapbox">
+      <iframe loading="lazy" src="https://maps.google.com/maps?q=ODATA%20QR03%20Quer%C3%A9taro&t=k&z=16&output=embed" title="ODATA QR03 — Google"></iframe>
+      <div class="mapmeta">
+        <span>Centro geolocalizado por Google a partir del nombre del data center.</span>
+        <span class="mono">Fuente: Google (híbrido)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span> Abrir en resolución completa</h2>
+    <p class="sub">Para el recon de verdad: resolución alta, capas satelitales y fechas históricas. Abren en pestaña nueva.</p>
+    <div class="grid">
+      <a class="link" href="https://www.google.com/maps/search/?api=1&query=ODATA+QR03+Quer%C3%A9taro" target="_blank" rel="noopener"><span class="k">Google Maps</span><b>Satélite (por nombre) ↗</b><span>Ubica el sitio; cambiá a capa "Satélite" para máxima resolución.</span></a>
+      <a class="link" href="https://www.google.com/maps/@20.5305,-100.2453,1200m/data=!3m1!1e3" target="_blank" rel="noopener"><span class="k">Google Maps</span><b>Satélite (por coords aprox) ↗</b><span>Vista aérea directa; ajustá el encuadre si el pin cae cerca pero no exacto.</span></a>
+      <a class="link" href="https://earth.google.com/web/search/ODATA+QR03+Quer%C3%A9taro" target="_blank" rel="noopener"><span class="k">Google Earth</span><b>Vista 3D / satélite ↗</b><span>Relieve + edificios en 3D. Ideal para entender accesos y volúmenes.</span></a>
+      <a class="link" href="https://www.bing.com/maps?q=ODATA+QR03+Quer%C3%A9taro&style=h" target="_blank" rel="noopener"><span class="k">Bing Maps</span><b>Aéreo (otro proveedor) ↗</b><span>Otra fecha/proveedor — cruzá contra Google para ver diferencias de obra.</span></a>
+      <a class="link" href="https://livingatlas.arcgis.com/wayback/#mapCenter=-100.2453,20.5305,16" target="_blank" rel="noopener"><span class="k">Esri Wayback</span><b>Histórico por fecha ↗</b><span>Slider de fechas de imágenes satelitales — mirá el avance de construcción en el tiempo.</span></a>
+      <a class="link" href="https://www.google.com/maps/search/?api=1&query=Parque+Industrial+PyME+El+Marqu%C3%A9s+Quer%C3%A9taro" target="_blank" rel="noopener"><span class="k">Google Maps</span><b>Parque Industrial PyME ↗</b><span>Fallback: el parque industrial donde está el campus, si el nombre no resuelve.</span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span> Qué mirar en el recon</h2>
+    <p class="sub">Antes de pisar el sitio, esto te posiciona: accesos, energía, y qué edificios están energizados vs en obra (útil para el as-built del modelo y para logística).</p>
+    <ul class="checklist">
+      <li><b>Accesos y casetas:</b> por dónde se entra al campus, control vehicular, rutas de camiones vs personal.</li>
+      <li><b>Subestación / energía:</b> la subestación (Ammper energizó 200 MW fase 1) — buscá el patio eléctrico, líneas de alta tensión entrando al predio.</li>
+      <li><b>Edificios: energizados vs en obra:</b> de los 5 edificios del buildout (~275,000 m²), cuáles están terminados/operando y cuáles en construcción — se nota por techos, grúas y laydown.</li>
+      <li><b>Pads de expansión:</b> terreno preparado/nivelado para edificios futuros (fases siguientes).</li>
+      <li><b>Laydown / staging de obra:</b> zonas de acopio de materiales, oficinas de obra, patios de contratistas — te dice dónde está la actividad de construcción.</li>
+      <li><b>Estacionamiento / accesos peatonales:</b> escala de operación y por dónde vas a entrar vos.</li>
+      <li><b>Rutas de fibra / ductos:</b> trazas visibles de zanjas o ductos (la fibra dual subterránea Querétaro↔CDMX) — no siempre visible, pero cruzá con Wayback.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">05</span> Límites (honestidad)</h2>
+    <div class="warn"><b>No puedo entregarte un .jpg satelital crudo</b> de alta resolución: esas tiles son propietarias (Google/Maxar/Esri) y requieren API key o licencia. Para exportar una imagen: abrí el sitio en <b>Google Earth Pro</b> (gratis, escritorio) → menú <i>Archivo → Guardar → Guardar imagen</i>, o usá <b>Esri Wayback</b> (arriba) para descargar por fecha.</div>
+    <div class="warn"><b>El pin de coordenadas es aproximado.</b> La ubicación confiable es la que Google resuelve por nombre (§02); usá los enlaces para confirmar el edificio exacto antes de fiarte del encuadre.</div>
+    <div class="warn"><b>La fecha de la imagen puede estar atrasada.</b> En un sitio en construcción activa, lo que ves puede ser de hace meses. Cruzá Google vs Bing vs Wayback (distintas fechas) para estimar el avance real.</div>
+    <div class="warn"><b>Los layouts internos no se ven desde el satélite</b> (salas, one-lines, rutas internas). Eso se pide bajo NDA en sitio — está en el <a href="index.html">briefing §03</a>.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>ODATA QR03 · Recon satelital — herramienta de trabajo del equipo, no oficial de ODATA/Aligned ni de T&amp;T. Imágenes de Esri World Imagery / Google / Bing bajo sus términos; ubicación de fuentes abiertas, confirmar en sitio.</p>
+    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/recon</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  try{
+    var C=[20.5305,-100.2453];
+    var map=L.map('esrimap',{scrollWheelZoom:false}).setView(C,14);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      {maxZoom:19, attribution:'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics'}).addTo(map);
+    L.marker(C).addTo(map).bindPopup('QR03 (centro aproximado) — confirmá el edificio exacto').openPopup();
+    map.on('click',function(){map.scrollWheelZoom.enable();});
+  }catch(e){
+    var el=document.getElementById('esrimap');
+    if(el){el.innerHTML='<div style="padding:24px;color:#9fb2c0;font-size:14px">No se pudo cargar el mapa satelital. Usá los enlaces de la sección 03 para abrir la vista satelital en resolución completa.</div>';}
+  }
+})();
+</script>
+</body>
+</html>

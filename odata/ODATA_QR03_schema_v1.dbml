@@ -1,0 +1,548 @@
+// =====================================================================
+// ODATA QR03 - Sistema de interconexion (Single Source of Truth)
+// Esquema fisico v1 - Microsoft Dataverse - 48 tablas
+// MAPA DE DESARROLLO INICIAL: data types + primary keys + foreign keys
+//
+// COMO VER EL ERD VISUAL:  pega este archivo en https://dbdiagram.io  (Import > DBML)
+//
+// Convenciones (importantes para el dev):
+//  - En Dataverse cada tabla tiene un GUID como PRIMARY KEY real (<tabla>_id).
+//  - Las claves de negocio / compuestas se ENFORZAN con ALTERNATE KEYS (indexes [unique])
+//    sobre columnas ALMACENADAS (nunca sobre columnas calculadas). Max 10 AK por tabla.
+//  - Los FK son Lookups (apuntan al GUID de la tabla destino).
+//  - "calc" = columna Calculated (misma fila). "rollup" = Rollup (agrega hijos).
+//    Los agregados cross-tabla (EV/PV/AC, CPI/SPI, EAC) se computan en Power Automate/DAX.
+// =====================================================================
+
+// ---------- IDENTIDAD ----------
+Table od_project {
+  project_id     guid    [pk]
+  obdmx_code     varchar [unique, note: 'OBDMX-QR03 diferenciador de proyecto']
+  project_code   varchar
+  name           varchar
+  phase          varchar [note: 'Choice: fase de construccion']
+  tenant_env     varchar [note: 'Choice']
+}
+
+Table od_task {
+  task_id_pk     guid    [pk]
+  task_id        varchar [note: 'clave WBS legible']
+  project        guid    [ref: > od_project.project_id]
+  discipline     varchar [note: 'Choice: MEP / CSA / General']
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  planned_start  datetime
+  planned_finish datetime
+  indexes { (project, task_id) [unique, name: 'ak_od_task'] }
+}
+
+Table od_line {
+  line_id            guid    [pk]
+  task               guid    [ref: > od_task.task_id_pk]
+  line_no            int     [note: 'NO es primary key; unico via alternate key']
+  product_scope      varchar
+  uom                varchar [note: 'Choice']
+  qty_planned        decimal
+  method_of_measurement varchar [note: 'Choice: 0-100 / 50-50 / units / weighted_steps / pct (regla de credito)']
+  business_key       varchar [note: 'calc (display): OBDMX-project-task-Lline_no']
+  indexes { (task, line_no) [unique, name: 'ak_od_line'] }
+}
+
+// ---------- AWP ----------
+Table od_cwa {
+  cwa_id         guid    [pk]
+  project        guid    [ref: > od_project.project_id]
+  name           varchar
+  geo            varchar
+  area_ref       varchar
+  poc_sequence   int     [note: 'orden del Path of Construction']
+}
+
+Table od_awp_package {
+  package_id     guid    [pk]
+  cwa            guid    [ref: > od_cwa.cwa_id]
+  parent         guid    [ref: > od_awp_package.package_id, note: 'jerarquia AWP']
+  type           varchar [note: 'Choice: CWP / EWP / PWP / SWP / IWP']
+  poc_sequence   int
+  planned_start  datetime
+  planned_finish datetime
+  crew_size      int     [note: 'para IWP']
+  released       boolean [note: 'rollup = 0 constraints blocking abiertos (acreditacion)']
+}
+
+Table od_constraint {
+  constraint_id  guid    [pk]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  type           varchar [note: 'Choice: engineering/material/scaffold/permit/access/safety/quality/predecessor']
+  description    text
+  blocking       boolean
+  status         varchar [note: 'Choice: open / cleared']
+  owner          varchar [note: 'User']
+  need_by_date   date
+  cleared_date   date
+}
+
+// ---------- OPERACION / AVANCE ----------
+Table od_progress {
+  progress_id    guid    [pk]
+  line           guid    [ref: > od_line.line_id]
+  dimension      varchar [note: 'Choice: physical / financial (el financiero se DERIVA del ledger)']
+  value_pct      decimal
+  qty_installed  decimal
+  amount         money
+  sor_owner      guid    [ref: > od_department.dept_id]
+  as_of_date     date
+  captured_by    varchar [note: 'User']
+  evidence       varchar [note: 'File']
+  indexes { (line, dimension, as_of_date) [unique, name: 'ak_od_progress'] }
+}
+
+Table od_progress_step {
+  step_id        guid    [pk]
+  progress       guid    [ref: > od_progress.progress_id]
+  step           varchar
+  weight         decimal
+  done           boolean
+}
+
+Table od_reconciliation {
+  reconciliation_id guid [pk]
+  physical_ref   guid    [ref: > od_progress.progress_id, note: 'EV/BAC']
+  financial_ref  guid    [ref: > od_progress.progress_id, note: 'AC o facturado (derivado)']
+  delta          decimal [note: 'calc']
+  status         varchar [note: 'Choice']
+  resolved_by    varchar [note: 'User']
+}
+
+Table od_issue {
+  issue_code     guid    [pk]
+  type           varchar [note: 'Choice: NCR / RFI / HSE / General']
+  parent         guid    [ref: > od_issue.issue_code, note: 'linaje']
+  line           guid    [ref: > od_line.line_id]
+  document       guid    [ref: > od_document.doc_id]
+  status         varchar [note: 'Choice']
+  aging          int     [note: 'calc']
+  geo            varchar
+  photo          varchar [note: 'File']
+}
+
+Table od_document {
+  doc_id         guid    [pk]
+  version        varchar
+  model_element_id varchar [note: 'linaje BIM <-> obra']
+  type           varchar [note: 'Choice']
+  rfi_ref        guid    [ref: > od_rfi.rfi_code]
+  status         varchar [note: 'Choice']
+}
+
+// ---------- PLANNING / CRONOGRAMA ----------
+Table od_activity {
+  activity_id    guid    [pk]
+  task           guid    [ref: > od_task.task_id_pk]
+  line           guid    [ref: > od_line.line_id]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  baseline_start datetime
+  baseline_finish datetime
+  planned_start  datetime
+  planned_finish datetime
+  actual_start   datetime
+  actual_finish  datetime
+  forecast_finish datetime
+  duration       int
+  pct_complete   decimal
+  total_float    int     [note: 'calc']
+  free_float     int     [note: 'calc']
+  is_critical    boolean
+  is_milestone   boolean
+}
+
+Table od_activity_dependency {
+  dependency_id  guid    [pk]
+  predecessor    guid    [ref: > od_activity.activity_id]
+  successor      guid    [ref: > od_activity.activity_id]
+  rel_type       varchar [note: 'Choice: FS / SS / FF / SF']
+  lag            int     [note: 'dias']
+}
+
+// ---------- PMO ----------
+Table od_milestone {
+  milestone_id   guid    [pk]
+  project        guid    [ref: > od_project.project_id]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  activity       guid    [ref: > od_activity.activity_id]
+  baseline_date  date
+  forecast_date  date
+  actual_date    date
+  status         varchar [note: 'Choice']
+  variance_days  int     [note: 'calc']
+}
+
+Table od_change_order {
+  co_code        guid    [pk]
+  project        guid    [ref: > od_project.project_id]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  gc             guid    [ref: > od_gc.gc_id]
+  scope_impact   text
+  cost_impact    money
+  schedule_impact_days int
+  status         varchar [note: 'Choice: draft/submitted/approved/rejected']
+  approval_ref   guid
+}
+
+Table od_action_item {
+  action_id      guid    [pk]
+  source         varchar [note: 'Choice: meeting / email / whatsapp']
+  owner          varchar [note: 'User']
+  due            date
+  status         varchar [note: 'Choice']
+  related_line   guid    [ref: > od_line.line_id]
+  issue          guid    [ref: > od_issue.issue_code]
+  co             guid    [ref: > od_change_order.co_code]
+}
+
+Table od_risk {
+  risk_id        guid    [pk]
+  project        guid    [ref: > od_project.project_id]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  probability    varchar [note: 'Choice']
+  impact         varchar [note: 'Choice']
+  exposure       decimal [note: 'calc = prob x impacto']
+  mitigation     text
+  owner          varchar [note: 'User']
+  status         varchar [note: 'Choice: abierto/mitigado/materializado']
+}
+
+// ---------- COSTOS ----------
+Table od_cost_code {
+  cost_code      guid    [pk]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  discipline     varchar [note: 'Choice']
+  category       varchar [note: 'Choice: labor / material / equipo / subcontrato']
+}
+
+Table od_control_account {
+  ca_id          guid    [pk]
+  task           guid    [ref: > od_task.task_id_pk]
+  line           guid    [ref: > od_line.line_id]
+  cost_code      guid    [ref: > od_cost_code.cost_code]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  owner          guid    [ref: > od_department.dept_id]
+}
+
+Table od_budget {
+  budget_id      guid    [pk]
+  cost_code      guid    [ref: > od_cost_code.cost_code]
+  baseline_amount money
+  boe            text
+  locked         boolean
+  revision       int
+}
+
+Table od_commitment {
+  commitment_id  guid    [pk]
+  cost_code      guid    [ref: > od_cost_code.cost_code]
+  gc             guid    [ref: > od_gc.gc_id]
+  original_amount money
+  approved_changes money
+  revised_amount money  [note: 'calc = original + approved_changes']
+  pending_changes money
+  status         varchar [note: 'Choice']
+}
+
+Table od_cost_actual {
+  actual_id      guid    [pk]
+  cost_code      guid    [ref: > od_cost_code.cost_code]
+  commitment     guid    [ref: > od_commitment.commitment_id]
+  invoice        guid    [ref: > od_invoice.invoice_id]
+  amount         money
+  period         date
+  accrual        boolean [note: 'devengado (Yes) usado para AC del EVM']
+}
+
+Table od_forecast {
+  forecast_id    guid    [pk]
+  cost_code      guid    [ref: > od_cost_code.cost_code]
+  period         date
+  etc            money
+  eac            money   [note: 'calc = AC + ETC']
+  vac            money   [note: 'calc = budget - EAC']
+}
+
+Table od_evm {
+  evm_id         guid    [pk]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  cost_code      guid    [ref: > od_cost_code.cost_code]
+  activity       guid    [ref: > od_activity.activity_id, note: 'para el PV time-phased']
+  period         date
+  bac            money
+  pv             money   [note: 'snapshot (Power Automate/DAX)']
+  ev             money   [note: 'snapshot: %fisico x baseline']
+  ac             money   [note: 'snapshot: od_cost_actual devengado']
+  cpi            decimal [note: 'snapshot = EV/AC']
+  spi            decimal [note: 'snapshot = EV/PV']
+  eac            money   [note: 'snapshot = BAC/CPI']
+  tcpi           decimal [note: 'snapshot']
+}
+
+Table od_contingency {
+  contingency_id guid    [pk]
+  project        guid    [ref: > od_project.project_id]
+  type           varchar [note: 'Choice: contingency / management_reserve']
+  original_amount money
+  drawn_amount   money
+  remaining      money   [note: 'calc']
+  source_change_order guid [ref: > od_change_order.co_code]
+  source_risk    guid    [ref: > od_risk.risk_id]
+}
+
+// ---------- QUALITY ----------
+Table od_itp {
+  itp_code       guid    [pk]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  task           guid    [ref: > od_task.task_id_pk]
+  discipline     varchar [note: 'Choice']
+  revision       int
+  spec_refs      text
+  status         varchar [note: 'Choice']
+}
+
+Table od_inspection_point {
+  point_id       guid    [pk]
+  itp            guid    [ref: > od_itp.itp_code]
+  point_type     varchar [note: 'Choice: Hold / Witness / Review / Surveillance']
+  acceptance_criteria text
+  norm_ref       varchar
+  responsible    varchar [note: 'User']
+  record_required varchar
+}
+
+Table od_inspection {
+  inspection_id  guid    [pk]
+  inspection_point guid  [ref: > od_inspection_point.point_id]
+  line           guid    [ref: > od_line.line_id]
+  date           date
+  inspector      varchar [note: 'User']
+  result         varchar [note: 'Choice: pass / fail / condicional']
+  signature      varchar
+  photos         varchar [note: 'File']
+  indexes { (inspection_point, line, date) [unique, name: 'ak_od_inspection'] }
+}
+
+Table od_commissioning {
+  test_id        guid    [pk]
+  level          varchar [note: 'Choice: L1 FAT / L2 SAT / L3 pre-func / L4 func / L5 IST']
+  system         varchar
+  equipment_tag  varchar
+  line           guid    [ref: > od_line.line_id]
+  procedure_ref  varchar
+  acceptance_criteria text
+  result         varchar [note: 'Choice']
+  witnessed_by   varchar [note: 'User (CxA)']
+  punch_resolved boolean
+}
+
+Table od_ncr {
+  ncr_code       guid    [pk]
+  inspection_point guid  [ref: > od_inspection_point.point_id]
+  line           guid    [ref: > od_line.line_id]
+  disposition    varchar [note: 'Choice: usar-como-esta / retrabajo / reparar / rechazar']
+  root_cause     text
+  corrective_action text
+  verification   varchar
+  status         varchar [note: 'Choice']
+}
+
+Table od_punch_item {
+  punch_id       guid    [pk]
+  line           guid    [ref: > od_line.line_id]
+  system         guid    [ref: > od_commissioning.test_id]
+  status         varchar [note: 'Choice']
+  due            date
+  closed_date    date
+}
+
+// ---------- DOCUMENT CONTROL ----------
+Table od_submittal {
+  submittal_id   guid    [pk]
+  spec_section   varchar
+  type           varchar [note: 'Choice']
+  gc             guid    [ref: > od_gc.gc_id]
+  status         varchar [note: 'Choice: approved / approved-as-noted / rejected / revise-resubmit']
+  ball_in_court  varchar [note: 'User']
+  due_date       date
+}
+
+Table od_transmittal {
+  transmittal_id guid    [pk]
+  date           date
+  from_user      varchar [note: 'User']
+  to_user        varchar [note: 'User']
+  purpose        varchar
+  acknowledgment boolean
+}
+Ref: od_transmittal.transmittal_id <> od_document.doc_id  // N:N documentos movidos
+
+Table od_rfi {
+  rfi_code       guid    [pk]
+  question       text
+  response       text
+  response_due   date
+  ball_in_court  varchar [note: 'User']
+  cost_impact    money
+  schedule_impact int
+  submittal      guid    [ref: > od_submittal.submittal_id]
+  co             guid    [ref: > od_change_order.co_code]
+}
+
+// ---------- FACTURACION / GC ----------
+Table od_gc {
+  gc_id          guid    [pk]
+  name           varchar
+  contract       varchar
+}
+
+Table od_contract {
+  contract_id    guid    [pk]
+  gc             guid    [ref: > od_gc.gc_id]
+  project        guid    [ref: > od_project.project_id]
+  contract_value money
+  retention_pct  decimal [note: 'fondo de garantia (tip. 5%)']
+  anticipo_pct   decimal
+  iva_regime     varchar [note: 'Choice']
+  catalogo_ref   varchar
+  status         varchar [note: 'Choice']
+}
+
+Table od_gc_estimate {
+  estimate_id    guid    [pk]
+  gc             guid    [ref: > od_gc.gc_id]
+  contract       guid    [ref: > od_contract.contract_id]
+  awp_package    guid    [ref: > od_awp_package.package_id]
+  period         date
+  amount         money
+  status         varchar [note: 'Choice']
+  reconciled     boolean
+  indexes { (contract, period, awp_package) [unique, name: 'ak_od_gc_estimate'] }
+}
+
+Table od_estimate_line {
+  est_line_id    guid    [pk]
+  gc_estimate    guid    [ref: > od_gc_estimate.estimate_id]
+  line           guid    [ref: > od_line.line_id]
+  concepto       varchar
+  unit_price     money
+  qty_contract   decimal
+  qty_period     decimal
+  qty_accum      decimal
+}
+
+Table od_generador {
+  generador_id   guid    [pk]
+  estimate_line  guid    [ref: > od_estimate_line.est_line_id]
+  line           guid    [ref: > od_line.line_id]
+  dimensiones    text
+  qty            decimal
+  unidad         varchar
+  croquis        varchar [note: 'File']
+  ubicacion      varchar [note: 'ejes/cotas']
+  elaborado_por  varchar [note: 'User']
+  aprobado_por   varchar [note: 'User']
+  fecha          date
+}
+
+Table od_invoice {
+  invoice_id     guid    [pk]
+  gc             guid    [ref: > od_gc.gc_id]
+  gc_estimate    guid    [ref: > od_gc_estimate.estimate_id]
+  cfdi_uuid      varchar [unique, note: 'alternate key para upsert idempotente']
+  cfdi_xml       varchar [note: 'File']
+  amount         money
+  approval_ref   guid
+}
+
+Table od_cfdi {
+  cfdi_uuid      varchar [pk, note: 'UUID del SAT']
+  cfdi_type      varchar [note: 'Choice: Ingreso / Egreso / Pago / Anticipo / Retenciones']
+  metodo_pago    varchar [note: 'Choice: PUE / PPD']
+  forma_pago     varchar [note: 'Choice']
+  uso_cfdi       varchar [note: 'Choice']
+  tipo_relacion  varchar [note: 'Choice (07 = anticipo)']
+  related_uuid   varchar [ref: > od_cfdi.cfdi_uuid, note: 'self: CFDI relacionado']
+  invoice        guid    [ref: > od_invoice.invoice_id]
+  payment        guid    [ref: > od_payment.payment_id]
+  anticipo       guid    [ref: > od_anticipo.anticipo_id]
+}
+
+Table od_payment_application {
+  payapp_id      guid    [pk]
+  gc             guid    [ref: > od_gc.gc_id]
+  gc_estimate    guid    [ref: > od_gc_estimate.estimate_id, note: '1:1 con la estimacion']
+  period         date
+  gross_amount   money
+  net_amount     money   [note: 'bruto - deducciones - retencion - amort. anticipo']
+  status         varchar [note: 'Choice']
+}
+
+Table od_retention {
+  retention_id   guid    [pk]
+  payapp         guid    [ref: > od_payment_application.payapp_id]
+  pct            decimal
+  amount_held    money   [note: 'rollup']
+  amount_released money
+  release_condition varchar [note: 'finiquito + constancias SAT/IMSS/INFONAVIT']
+}
+
+Table od_payment {
+  payment_id     guid    [pk]
+  invoice        guid    [ref: > od_invoice.invoice_id]
+  amount         money
+  date           date
+  method         varchar [note: 'Choice']
+  status         varchar [note: 'Choice: scheduled / paid']
+  aging          int     [note: 'calc']
+}
+
+Table od_anticipo {
+  anticipo_id    guid    [pk]
+  gc             guid    [ref: > od_gc.gc_id]
+  amount         money
+  amortization_pct decimal
+  balance        money   [note: 'rollup de las amortizaciones']
+}
+
+Table od_anticipo_amortization {
+  amortization_id guid   [pk]
+  anticipo       guid    [ref: > od_anticipo.anticipo_id]
+  gc_estimate    guid    [ref: > od_gc_estimate.estimate_id]
+  cfdi_egreso    varchar [ref: > od_cfdi.cfdi_uuid]
+  amount         money
+}
+
+// ---------- GOBERNANZA / PROCESS MINING ----------
+Table od_department {
+  dept_id        guid    [pk]
+  name           varchar [note: 'PMO / Cost / Planning / Quality / MEP / CSA / Doc Control']
+  team           varchar [note: 'Lookup a Team/Dataverse']
+}
+
+Table od_event_log {
+  event_id       guid    [pk]
+  case_id        varchar [note: 'business key de la entidad (estimacion/issue/CO...)']
+  activity       varchar [note: 'nombre de la transicion (event log Process Mining)']
+  timestamp      datetime
+  actor          varchar [note: 'User']
+  table_ref      varchar
+  status_from    varchar
+  status_to      varchar
+}
+
+// TableGroups (para el ERD)
+TableGroup Identidad { od_project od_task od_line }
+TableGroup AWP { od_cwa od_awp_package od_constraint }
+TableGroup Operacion { od_progress od_progress_step od_reconciliation od_issue od_document }
+TableGroup Planning { od_activity od_activity_dependency }
+TableGroup PMO { od_milestone od_change_order od_action_item od_risk }
+TableGroup Costos { od_cost_code od_control_account od_budget od_commitment od_cost_actual od_forecast od_evm od_contingency }
+TableGroup Quality { od_itp od_inspection_point od_inspection od_commissioning od_ncr od_punch_item }
+TableGroup DocumentControl { od_submittal od_transmittal od_rfi }
+TableGroup Facturacion { od_gc od_contract od_gc_estimate od_estimate_line od_generador od_invoice od_cfdi od_payment_application od_retention od_payment od_anticipo od_anticipo_amortization }
+TableGroup Gobernanza { od_department od_event_log }

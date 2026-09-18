@@ -103,7 +103,13 @@ footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
 <section>
   <div class="wrap">
     <h2><span class="n">02</span> Modelo de datos · Dataverse</h2>
-    <p class="sub">Once tablas. Cada una con un dueño (System of Record) por dominio. <span style="color:var(--amber)">◼</span> núcleo de identidad · <span style="color:var(--cyan)">◼</span> operación · <span style="color:var(--violet)">◼</span> externo (GC).</p>
+    <p class="sub">Cuarenta y ocho tablas, cada una con un dueño (System of Record) por dominio: identidad, AWP, planning, operación, PMO, costos, calidad, document control, facturación/externo (GC) y process mining. <span style="color:var(--amber)">◼</span> núcleo de identidad · <span style="color:var(--cyan)">◼</span> operación (PMO · planning · costos · calidad · doc control) · <span style="color:var(--violet)">◼</span> facturación / externo (GC).</p>
+
+    <div class="callout"><p><b style="color:var(--ink)">Reglas de modelado Dataverse (correctitud, no opcional):</b><br>
+    (1) <b>Claves compuestas = alternate keys sobre columnas almacenadas</b>, no columnas calculadas: <span class="mono">od_line</span>(task+line_no), <span class="mono">od_task</span>(project+task_id), <span class="mono">od_cfdi</span>/<span class="mono">od_invoice</span>(uuid), <span class="mono">od_progress</span>(line+dimension+as_of_date). El <span class="mono">business_key</span> queda solo para display/Power BI; <span class="mono">line_no</span> NO es primary key (el GUID lo es). Máx. 10 AK/tabla; evita <span class="mono">/ &lt; &gt; * % &amp; : \ ? +</span> en el valor (rompen el upsert del portal y del parser CFDI).<br>
+    (2) <b>Los cálculos que agregan hijos o cruzan tablas NO son Calculated</b> — son <b>Rollup</b> o se computan en Power Automate/DAX y se almacenan como snapshot: EV·PV·AC, EAC·ETC, CPI·SPI, retention.amount_held, anticipo.balance. Sí son Calculated (misma fila): exposure, variance_days, aging, VAC.<br>
+    (3) <b>El financiero se DERIVA, no se captura</b>: la dimensión <span class="mono">financial</span> de od_progress sale del ledger (cost_actual / gc_estimate / invoice); el físico = od_progress con regla de crédito. Así <span class="mono">od_reconciliation</span> compara <b>EV/BAC (físico) vs AC o facturado (financiero)</b> — la historia real de CPI/SPI — en vez de dos números de la misma tabla.<br>
+    (4) <b>od_gc_estimate y od_payment_application son 1:1</b> (la estimación) — sin duplicar <span class="mono">amount</span>. <span class="mono">od_commitment</span> gana original/approved_changes/revised/pending. Al aprobarse una <span class="mono">od_change_order</span>, un flujo Power Automate revisa el budget, hace drawdown de contingencia, cambia el commitment y mueve el baseline de cronograma — para que EAC y baseline no mientan.</p></div>
 
     <div class="ent core"><div class="h"><span class="dot"></span><span class="nm">od_project</span><span class="role">Núcleo · proyecto</span></div>
       <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
@@ -121,11 +127,12 @@ footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
 
     <div class="ent core"><div class="h"><span class="dot"></span><span class="nm">od_line</span><span class="role">Núcleo · unidad granular</span></div>
       <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
-      <tr><td><b>line_no</b> <span class="pk">PK*</span></td><td>Whole #</td><td># de línea (parte de la clave compuesta)</td></tr>
+      <tr><td><b>line_no</b> <span class="pk">AK</span></td><td>Whole #</td><td># de línea; único vía <b>alternate key (task+line_no)</b>, NO es primary key (el GUID lo es)</td></tr>
       <tr><td>task</td><td><span class="fk">Lookup → od_task</span></td><td>Una task → muchas líneas</td></tr>
       <tr><td>product_scope</td><td>Text</td><td>El producto/sub-tarea que mide esta línea</td></tr>
       <tr><td>uom / qty_planned</td><td>Choice / Decimal</td><td>Unidad y cantidad planeada</td></tr>
-      <tr><td>business_key</td><td>Calculated</td><td>OBDMX · project · task_id · L{line_no}</td></tr></table></div>
+      <tr><td><b>method_of_measurement</b></td><td>Choice</td><td>0-100 · 50-50 · units · weighted_steps · pct — la regla de crédito que mata la subjetividad</td></tr>
+      <tr><td>business_key</td><td>Calculated (display)</td><td>OBDMX · project · task_id · L{line_no} — solo etiqueta legible / Power BI</td></tr></table></div>
 
     <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_awp_package</span><span class="role">Operación · AWP</span></div>
       <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
@@ -167,6 +174,229 @@ footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
       <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
       <tr><td>physical_ref / financial_ref</td><td><span class="fk">Lookups → od_progress</span></td><td>Los dos números que deberían correlacionar</td></tr>
       <tr><td>delta / status / resolved_by</td><td>Decimal / Choice / User</td><td>Marca discrepancia; el SoR desempata</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:28px 0 10px" class="mono">PROJECT MANAGEMENT (PMO) — lo que hoy muere en correo y WhatsApp, gobernado</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_milestone</span><span class="role">PMO · hitos</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>milestone_id</b> <span class="pk">PK</span></td><td>Text</td><td>Hito contractual / de fase</td></tr>
+      <tr><td>project / awp_package</td><td><span class="fk">Lookups</span></td><td>A qué proyecto y paquete pertenece</td></tr>
+      <tr><td>baseline / forecast / actual_date</td><td>Date</td><td>Los tres tiempos: alimenta EVM y el corte de fase</td></tr>
+      <tr><td>status / variance_days</td><td>Choice / Calc</td><td>Adelanto/atraso calculado</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_change_order</span><span class="role">PMO · órdenes de cambio</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>co_code</b> <span class="pk">PK</span></td><td>Text</td><td>Orden de cambio estandarizada</td></tr>
+      <tr><td>project / awp_package / gc</td><td><span class="fk">Lookups</span></td><td>Alcance afectado y contratista</td></tr>
+      <tr><td>scope_impact</td><td>Text</td><td>Qué cambia del alcance</td></tr>
+      <tr><td><b>cost_impact</b> / schedule_impact_days</td><td>Currency / Whole #</td><td>El eslabón: mueve presupuesto y cronograma a la vez</td></tr>
+      <tr><td>status / approval_ref</td><td>Choice / Lookup</td><td>draft · submitted · approved · rejected</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_action_item</span><span class="role">PMO · acciones / minutas</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>action_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td></td></tr>
+      <tr><td>source</td><td>Choice</td><td>meeting · email · whatsapp — lo captura el bot de ingesta</td></tr>
+      <tr><td>owner / due / status</td><td>User / Date / Choice</td><td>Con dueño y fecha: deja de morir en el chat</td></tr>
+      <tr><td>related_line / issue / co</td><td><span class="fk">Lookups</span></td><td>Se cuelga de la línea, del issue o de la orden de cambio</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_risk</span><span class="role">PMO · registro de riesgos</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>risk_id</b> <span class="pk">PK</span></td><td>Text</td><td></td></tr>
+      <tr><td>project / awp_package</td><td><span class="fk">Lookups</span></td><td>Dónde pega</td></tr>
+      <tr><td>probability / impact / <b>exposure</b></td><td>Choice / Choice / Calc</td><td>Exposición = probabilidad × impacto</td></tr>
+      <tr><td>mitigation / owner / status</td><td>Text / User / Choice</td><td>abierto · mitigado · materializado</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:28px 0 10px" class="mono">COST MANAGEMENT — presupuesto → compromiso → real → pronóstico (EVM)</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_cost_code</span><span class="role">Costos · CBS</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>cost_code</b> <span class="pk">PK</span></td><td>Text</td><td>Estructura de desglose de costos (CBS)</td></tr>
+      <tr><td>awp_package / discipline</td><td><span class="fk">Lookup</span> / Choice</td><td>Amarra costo ↔ AWP ↔ físico</td></tr>
+      <tr><td>category</td><td>Choice</td><td>mano de obra · material · equipo · subcontrato</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_budget</span><span class="role">Costos · presupuesto base</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>budget_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td></td></tr>
+      <tr><td>cost_code</td><td><span class="fk">Lookup → od_cost_code</span></td><td>Un baseline por código</td></tr>
+      <tr><td>baseline_amount / boe</td><td>Currency / Text</td><td>Presupuesto de control + base de estimación</td></tr>
+      <tr><td>locked / revision</td><td>Yes-No / Whole #</td><td>Snapshot: el baseline no se pisa, se versiona</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_commitment</span><span class="role">Costos · compromisos</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>commitment_id</b> <span class="pk">PK</span></td><td>Text</td><td>Contrato / PO / subcontrato</td></tr>
+      <tr><td>cost_code / gc</td><td><span class="fk">Lookups</span></td><td>Comprometido contra un código y un contratista</td></tr>
+      <tr><td>committed_amount / status</td><td>Currency / Choice</td><td>Lo que ya está contractualmente comprometido</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_cost_actual</span><span class="role">Costos · real incurrido</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>actual_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td></td></tr>
+      <tr><td>cost_code / commitment / invoice</td><td><span class="fk">Lookups</span></td><td>Liga el real al compromiso y a la factura (CFDI)</td></tr>
+      <tr><td>amount / period / accrual</td><td>Currency / Date / Yes-No</td><td>Devengado o pagado</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_forecast</span><span class="role">Costos · EAC</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>forecast_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td></td></tr>
+      <tr><td>cost_code / period</td><td><span class="fk">Lookup</span> / Date</td><td>Pronóstico por corte</td></tr>
+      <tr><td>etc / <b>eac</b> / vac</td><td>Currency / Calc / Calc</td><td>EAC = real + ETC · VAC = presupuesto − EAC</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_evm</span><span class="role">Costos · earned value (el que mata el 40/25/80)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>evm_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td>Snapshot por corte</td></tr>
+      <tr><td>awp_package / cost_code / period</td><td><span class="fk">Lookups</span> / Date</td><td></td></tr>
+      <tr><td><b>bac</b> / pv · ev · ac</td><td>Currency / Rollup</td><td>BAC habilita EAC=BAC/CPI y TCPI · EV = %físico × baseline · AC = od_cost_actual · <b>PV = baseline time-phased de od_activity</b></td></tr>
+      <tr><td><b>cpi · spi</b> / eac · tcpi</td><td>Snapshot (no Calc)</td><td>CPI=EV/AC · SPI=EV/PV — ratios de rollups: se computan en Power Automate/DAX y se almacenan por corte; dicen si el 80% financiero es real</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:28px 0 10px" class="mono">FACTURACIÓN / CUENTAS POR PAGAR — estimación → CFDI → retención → pago</h3>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">od_payment_application</span> · <span class="nm">od_retention</span> · <span class="nm">od_payment</span> · <span class="nm">od_anticipo</span><span class="role">Facturación · ciclo AP</span></div>
+      <table><tr><th>Tabla</th><th>Campos clave</th><th>Nota</th></tr>
+      <tr><td><b>od_payment_application</b></td><td>gc <span class="fk">FK</span>, estimate <span class="fk">FK</span>, period, gross_amount, status</td><td>La estimación de pago del período (liga avance ↔ cobro)</td></tr>
+      <tr><td><b>od_retention</b></td><td>payapp <span class="fk">FK</span>, pct, amount_held, amount_released, release_condition</td><td>Fondo de garantía retenido y su liberación</td></tr>
+      <tr><td><b>od_invoice</b> → <b>od_payment</b></td><td>invoice <span class="fk">FK</span>, amount, date, method, status, aging</td><td>El CFDI ya validado se paga y se le da seguimiento (aging AP)</td></tr>
+      <tr><td><b>od_anticipo</b></td><td>gc <span class="fk">FK</span>, amount, amortization_pct, balance <span style="color:var(--soft)">(rollup)</span></td><td>Anticipo amortizado; el balance es rollup de las amortizaciones, no un stored suelto</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">AWP — ÁREAS FÍSICAS Y CONSTRAINTS (acreditación calculable, no checkbox)</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_cwa</span><span class="role">AWP · Construction Work Area</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>cwa_id</b> <span class="pk">PK</span></td><td>Text</td><td>Área física: data hall, sala eléctrica, cuarto de baterías, yard</td></tr>
+      <tr><td>project / poc_sequence</td><td><span class="fk">Lookup</span> / Whole #</td><td>Secuencia según el Path of Construction</td></tr>
+      <tr><td>geo / area_ref</td><td>Text</td><td>Habilita el reporte algorítmico por frente físico</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_constraint</span><span class="role">AWP · constraint tipificado</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>constraint_id</b> <span class="pk">PK</span></td><td>Text</td><td></td></tr>
+      <tr><td>awp_package</td><td><span class="fk">Lookup → od_awp_package</span></td><td>Típicamente el IWP</td></tr>
+      <tr><td>type / blocking</td><td>Choice / Yes-No</td><td>engineering · material · scaffold · permit · access · safety · quality · predecessor</td></tr>
+      <tr><td>status / owner / need_by / cleared_date</td><td>Choice / User / Date</td><td>open · cleared</td></tr>
+      <tr><td colspan="3" style="color:var(--soft)">⟶ <b>od_awp_package.released</b> pasa a <b>Rollup calculado</b> (= 0 constraints blocking abiertos). La acreditación deja de ser un checkbox manual.</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">PLANNING / CRONOGRAMA — red CPM (sin esto no hay PV/SPI honesto ni desilo de Planning)</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_activity</span><span class="role">Planning · actividad CPM</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>activity_id</b> <span class="pk">PK</span></td><td>Text</td><td></td></tr>
+      <tr><td>task / line / awp_package</td><td><span class="fk">Lookups</span></td><td>Amarra el cronograma al WBS, la línea y el paquete</td></tr>
+      <tr><td>baseline / planned / actual / forecast (start·finish)</td><td>DateTime</td><td>El <b>baseline time-phased habilita el PV</b> del EVM</td></tr>
+      <tr><td>duration / total_float / free_float / is_critical</td><td>Whole # / Calc / Yes-No</td><td>Ruta crítica</td></tr>
+      <tr><td>pct_complete / is_milestone</td><td>Decimal / Yes-No</td><td>El milestone es una actividad de duración 0 (evita dos verdades)</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_activity_dependency</span><span class="role">Planning · dependencia (junction N:M)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td>predecessor / successor</td><td><span class="fk">Lookups → od_activity</span></td><td>La Path of Construction de AWP se materializa aquí</td></tr>
+      <tr><td>rel_type / lag</td><td>Choice / Whole #</td><td>FS · SS · FF · SF · lag en días</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">REGLA DE CRÉDITO — el fix de raíz del 40/25/80</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_progress_step</span><span class="role">Avance · pasos ponderados</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td>progress / step / weight / done</td><td><span class="fk">Lookup</span> / Text / Decimal / Yes-No</td><td>Para method = weighted steps</td></tr>
+      <tr><td colspan="3" style="color:var(--soft)">⟶ nuevo Choice <b>method_of_measurement</b> en od_line: 0-100 · 50-50 · <b>units</b> (qty_installed/qty_planned se calcula solo) · weighted_steps · pct. El físico deja de ser opinión auto-declarada.</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">CONTROL DE COSTOS — cuenta de control (WBS × CBS) + contingencia</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_control_account</span><span class="role">Costos · WBS × CBS</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>ca_id</b> <span class="pk">PK</span></td><td>Text</td><td>Intersección WBS × CBS = donde vive el EVM</td></tr>
+      <tr><td>task / line / cost_code / awp_package</td><td><span class="fk">Lookups</span></td><td>El EV se atribuye a la línea; deja de promediarse mal por paquete</td></tr>
+      <tr><td>owner</td><td><span class="fk">Lookup → od_department</span></td><td>Accountable del control account</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_contingency</span><span class="role">Costos · contingencia / reserva</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>contingency_id</b> <span class="pk">PK</span> / type</td><td>Text / Choice</td><td>contingencia · management reserve</td></tr>
+      <tr><td>original / drawn / remaining</td><td>Currency / Currency / Calc</td><td>Drawdown en el tiempo</td></tr>
+      <tr><td>source_change_order / source_risk</td><td><span class="fk">Lookups</span></td><td>Se consume por CO aprobada o riesgo materializado (cierra el loop)</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">QUALITY — ITP → inspección → commissioning L1–L5 → NCR → punch (el depto. antes flaco)</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_itp</span><span class="role">Quality · Inspection &amp; Test Plan</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>itp_code</b> <span class="pk">PK</span></td><td>Text</td><td>La secuencia QC de un paquete/disciplina (no es un checklist)</td></tr>
+      <tr><td>awp_package / task / discipline / revision / spec_refs</td><td><span class="fk">Lookups</span> / Choice / Text</td><td>Convierte specs/códigos/contrato en plan</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_inspection_point</span><span class="role">Quality · renglón del ITP</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>point_id</b> <span class="pk">PK</span> / itp</td><td>Text / <span class="fk">Lookup</span></td><td></td></tr>
+      <tr><td>point_type</td><td>Choice</td><td><b>Hold</b> (no avanza sin firma) · <b>Witness</b> · Review · Surveillance</td></tr>
+      <tr><td>acceptance_criteria / norm_ref / responsible / record_required</td><td>Text / Text / User / Text</td><td>Las NCR se ligan directo a este renglón</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_inspection</span><span class="role">Quality · inspección ejecutada</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>inspection_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td></td></tr>
+      <tr><td>inspection_point / <b>line</b></td><td><span class="fk">Lookups</span></td><td>Calidad vive en la línea como todo lo demás</td></tr>
+      <tr><td>date / inspector / result / signature / photos</td><td>Date / User / Choice / Text / File</td><td>pass · fail · condicional (alternate key: point+line+date)</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_commissioning</span><span class="role">Quality/MEP · pruebas L1–L5 (crítico para data center)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>test_id</b> <span class="pk">PK</span> / level</td><td>Text / Choice</td><td>L1 FAT · L2 SAT · L3 pre-functional · L4 functional · <b>L5 IST</b></td></tr>
+      <tr><td>system / equipment_tag / procedure_ref / acceptance_criteria</td><td>Text / <span class="fk">Lookup</span></td><td></td></tr>
+      <tr><td>result / witnessed_by (CxA) / punch_resolved</td><td>Choice / User / Yes-No</td><td>⟶ un sistema NO está 100% físico hasta pasar el IST, no cuando se factura (corrige la reconciliación)</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_ncr</span><span class="role">Quality · no-conformidad (ciclo propio)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>ncr_code</b> <span class="pk">PK</span></td><td>Text</td><td>Separada de od_issue: tiene ciclo de auditoría</td></tr>
+      <tr><td>inspection_point / line</td><td><span class="fk">Lookups</span></td><td>Al criterio de aceptación incumplido</td></tr>
+      <tr><td>disposition / root_cause / corrective_action / verification / status</td><td>Choice / Text / Choice</td><td>usar-como-está · retrabajo · reparar · rechazar → verificación → cierre</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_punch_item</span><span class="role">Quality · lista de pendientes</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>punch_id</b> <span class="pk">PK</span> / line / system</td><td>Text / <span class="fk">Lookups</span></td><td>Defectos menores de entrega/handover</td></tr>
+      <tr><td>status / due / closed_date</td><td>Choice / Date</td><td>El L5 IST exige todos los punch resueltos (gate de fase)</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">DOCUMENT CONTROL — submittal · transmittal · RFI (log numerado propio cada uno)</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_submittal</span><span class="role">Doc · aprobación de producto/método</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>submittal_id</b> <span class="pk">PK</span></td><td>Text</td><td>Shop drawings, product data, O&amp;M, method statements</td></tr>
+      <tr><td>spec_section / type / gc / status / ball_in_court / due_date</td><td>Text / Choice / <span class="fk">Lookup</span> / Date</td><td>approved · approved-as-noted · rejected · revise-resubmit</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_transmittal</span><span class="role">Doc · carátula formal (mata el correo)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>transmittal_id</b> <span class="pk">PK</span> / date / from / to / purpose</td><td>Text / Date / User</td><td>Conecta submittal + RFI + drawings + CO en una traza</td></tr>
+      <tr><td>documents / acknowledgment</td><td><span class="fk">N:N → od_document</span> / Yes-No</td><td>Qué se movió, entre quién, cuándo, con qué acuse</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_rfi</span><span class="role">Doc · Request for Information (log propio)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>rfi_code</b> <span class="pk">PK</span></td><td>Text</td><td>Separado de od_issue: timeline contractual de respuesta</td></tr>
+      <tr><td>question / response / response_due / ball_in_court</td><td>Text / Date / User</td><td></td></tr>
+      <tr><td>cost_impact / schedule_impact / links (submittal · co)</td><td>Currency / <span class="fk">Lookups</span></td><td>Liga a submittals y órdenes de cambio</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">FACTURACIÓN MX — profundidad audit-grade (contrato · generador · conceptos · CFDI)</h3>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">od_contract</span><span class="role">Facturación · contrato (todo cuelga de aquí)</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>contract_id</b> <span class="pk">PK</span></td><td>Text</td><td></td></tr>
+      <tr><td>gc / project / contract_value</td><td><span class="fk">Lookups</span> / Currency</td><td></td></tr>
+      <tr><td>retention_pct / anticipo_pct / iva_regime / catalogo_ref / status</td><td>Decimal / Choice / Text</td><td>Fondo de garantía (típ. 5% LOPSRM), anticipo, régimen fiscal, catálogo de conceptos</td></tr></table></div>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">od_estimate_line</span><span class="role">Facturación · concepto de estimación</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>est_line_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td>Las estimaciones MX se cobran concepto por concepto</td></tr>
+      <tr><td>gc_estimate / line / concepto</td><td><span class="fk">Lookups</span> / Text</td><td>Amarra al catálogo y a od_line</td></tr>
+      <tr><td>unit_price / qty_contract / qty_period / qty_accum</td><td>Currency / Decimal</td><td>Precio unitario y cantidades</td></tr></table></div>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">od_generador</span><span class="role">Facturación/Quality · número generador</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>generador_id</b> <span class="pk">PK</span></td><td>Text</td><td>Medición formal que respalda el cobro (sin él la estimación se rechaza)</td></tr>
+      <tr><td>estimate_line / line</td><td><span class="fk">Lookups</span></td><td>El puente físico→financiero a nivel línea</td></tr>
+      <tr><td>dimensiones / qty / unidad / croquis / ubicacion / elaborado_por / aprobado_por</td><td>Text / Decimal / File / User</td><td>Croquis + medidas + ubicación (ejes/cotas) + firmas</td></tr></table></div>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">od_cfdi</span> · <span class="nm">od_anticipo_amortization</span><span class="role">Facturación · CFDI tipificado + amortización</span></div>
+      <table><tr><th>Tabla</th><th>Campos clave</th><th>Nota</th></tr>
+      <tr><td><b>od_cfdi</b></td><td>uuid <span class="pk">AK</span>, cfdi_type, metodo_pago, forma_pago, uso_cfdi, tipo_relacion, related_uuid <span class="fk">self</span>, invoice/payment/anticipo <span class="fk">FK</span></td><td>Ingreso · Egreso(nota de crédito) · Pago(REP) · Anticipo. PUE/PPD. Relación 07 anticipo. IVA 16% (data center = comercial, sin exención)</td></tr>
+      <tr><td><b>od_anticipo_amortization</b></td><td>anticipo <span class="fk">FK</span>, estimate <span class="fk">FK</span>, cfdi_egreso <span class="fk">FK</span>, amount</td><td>Cada amortización es su propia fila con su CFDI de egreso; el balance del anticipo es rollup</td></tr></table></div>
+
+    <h3 style="font-size:15px;color:var(--soft);margin:30px 0 10px" class="mono">PROCESS MINING + GOBERNANZA — el event log que hoy falta</h3>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_event_log</span><span class="role">Process Mining · registro append-only</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>case_id</b> / <b>activity</b> / <b>timestamp</b></td><td>Text / Text / DateTime</td><td>El mínimo que exige Power Automate Process Mining: una fila por transición</td></tr>
+      <tr><td>actor / table_ref / status_from / status_to</td><td>User / Text / Choice</td><td>Poblado por Power Automate en cada cambio de status. Sin esto, Process Mining es imposible</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_department</span><span class="role">Gobernanza · System of Record owner</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>dept_id</b> <span class="pk">PK</span> / name / team</td><td>Text / <span class="fk">Lookup → Team</span></td><td>PMO · Cost · Planning · Quality · MEP · CSA · Doc Control</td></tr>
+      <tr><td colspan="3" style="color:var(--soft)">⟶ <b>od_progress.sor_owner</b> pasa de Choice a <b>Lookup → od_department</b> (apunta a un equipo real, no a una lista de texto).</td></tr></table></div>
   </div>
 </section>
 
@@ -193,7 +423,7 @@ footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
     <h2><span class="n">04</span> Pasos de construcción</h2>
     <p class="sub">Orden de build. Todo en una Solution única y reversible del tenant del cliente.</p>
     <ol class="steps">
-      <li><b>Modelo de datos</b><span>Crear las 11 tablas, la clave compuesta OBDMX·task·line, choices (dimension, discipline, AWP type) y las relaciones lookup. Reglas de negocio: business_key calculado, aging de issues.</span></li>
+      <li><b>Modelo de datos</b><span>Crear las 48 tablas (identidad, AWP, planning, operación, PMO, costos, calidad, doc control, facturación, process mining), la clave compuesta vía <b>alternate keys de columnas almacenadas</b> (task+line_no, project+task_id, cfdi uuid), choices (dimension, discipline, AWP type, cost category, cfdi_type, method_of_measurement) y las relaciones lookup. Reglas de negocio: released como rollup de constraints, regla de crédito por línea, EV/PV/AC/EAC/CPI/SPI como <b>rollup o snapshot</b> (no calculated cross-tabla), financiero derivado del ledger, y el <b>event log poblado por Power Automate</b> para Process Mining.</span></li>
       <li><b>App de captura (Power Apps móvil)</b><span>Formulario estandarizado: foto + issue + cantidad + geolocalización, ligado a la línea. Offline para campo. Owner obligatorio en cada registro.</span></li>
       <li><b>Flujos de gate y aprobación (Power Automate)</b><span>Gate de reconciliación físico-vs-financiero (marca discrepancia), aprobación de facturas, y el bot de ingesta desde correo/WhatsApp.</span></li>
       <li><b>Portal de GCs (Power Pages)</b><span>Form autenticado de estimaciones + carga de CFDI, escribiendo a od_gc_estimate y od_invoice con parseo AI Builder.</span></li>
@@ -235,6 +465,7 @@ footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
   <div class="wrap">
     <h2><span class="n">06</span> Timeline · 8 semanas</h2>
     <p class="sub">Tope de 2 meses para entrar a la nueva fase de construcción, incluyendo capacitación y entrega de manuales.</p>
+    <div class="callout"><p><b style="color:var(--ink)">Alcance vs. tiempo:</b> las 8 semanas son la <b>Fase 1 (MVP)</b> — el núcleo que interconecta y elimina los silos: identidad + línea, captura, reconciliación físico-vs-financiero, portal de GCs y tableros. El esquema completo (48 tablas) incorpora en <b>fases siguientes</b> lo que el research marcó como necesario para cumplir los objetivos a fondo: constraints calculables (acreditación), red de cronograma CPM (PV/SPI honestos), EVM completo (BAC/EAC), suite de Quality con commissioning L1–L5, facturación MX audit-grade (contrato/generador/CFDI tipificado) y el event log de Process Mining. El MVP arranca el valor; las fases lo vuelven defendible.</p></div>
     <div class="tl">
       <div class="wk"><div class="w">Sem 1–2</div><div class="b"><b>Fundación + piloto</b><small>Modelo de datos Dataverse · app de captura · 2 departamentos piloto probando la reconciliación físico-vs-financiero</small></div></div>
       <div class="wk"><div class="w">Sem 3–4</div><div class="b"><b>Rollout de departamentos</b><small>PMO · Planning · Quality · MEP · CSA · Document Control al mismo modelo · flujos de gate y aprobación</small></div></div>
@@ -243,6 +474,155 @@ footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
       <div class="wk"><div class="w">Sem 7</div><div class="b"><b>Proceso + endurecimiento</b><small>Process Mining sobre el event-log · pruebas · ajustes de datos</small></div></div>
       <div class="wk"><div class="w">Sem 8</div><div class="b"><b>Capacitación y entrega</b><small>Entrenamiento por departamento · manuales de operación por rol · corte para la nueva fase</small></div></div>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">07</span> Mapa de correlación de la base de datos</h2>
+    <p class="sub">Todo correlaciona alrededor de tres ejes. Abajo, el mapa completo: cada tabla y a qué se liga (lookups salientes). La suma de estas salidas ES el grafo de relaciones.</p>
+
+    <div class="callout"><p><b style="color:var(--ink)">Los tres ejes:</b><br>
+    <b>od_line</b> — eje físico: de aquí cuelgan avance, issues, inspecciones, NCR, punch, actividades, control account, conceptos de estimación y generadores. La unidad granular donde todo se mide.<br>
+    <b>od_cost_code</b> — eje de costos (CBS): budget, commitment, cost_actual, forecast, evm y control_account se etiquetan aquí; el costo se rastrea por código y por WBS/línea vía <span class="mono">od_control_account</span>.<br>
+    <b>od_contract / od_gc</b> — eje de facturación: estimaciones, generadores, CFDI, anticipos, retenciones, pagos y compromisos cuelgan del contrato con el GC. La cara externa.</p></div>
+
+    <div class="callout"><p><b style="color:var(--ink)">Mapa de desarrollo (ERD) descargable:</b> <a href="ODATA_QR03_schema_v1.dbml" download>ODATA_QR03_schema_v1.dbml</a> — el esquema físico completo: 48 tablas con <b>data types, primary keys y foreign keys</b> marcados. Es la primera versión del sistema completo. <b>Diagrama visual navegable: <a href="erd.html">abrir el ERD</a></b> (arrastra + zoom, se abre en el navegador). También puedes pegar el DBML en <span class="mono">dbdiagram.io</span>.</p></div>
+
+    <div class="ent core"><div class="h"><span class="dot"></span><span class="nm">Identidad · AWP</span><span class="role">el esqueleto</span></div>
+      <table><tr><th>Tabla</th><th>Se liga a → (lookups)</th></tr>
+      <tr><td>od_project</td><td><span style="color:var(--soft)">raíz (OBDMX)</span></td></tr>
+      <tr><td>od_task</td><td><span class="fk">od_project</span> · <span class="fk">od_awp_package</span></td></tr>
+      <tr><td>od_line</td><td><span class="fk">od_task</span></td></tr>
+      <tr><td>od_cwa</td><td><span class="fk">od_project</span></td></tr>
+      <tr><td>od_awp_package</td><td><span class="fk">od_cwa</span> · <span class="fk">self (parent)</span></td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">Operación · Planning</span><span class="role">avance, cronograma, issues</span></div>
+      <table><tr><th>Tabla</th><th>Se liga a → (lookups)</th></tr>
+      <tr><td>od_progress</td><td><span class="fk">od_line</span> · <span class="fk">od_department (sor_owner)</span></td></tr>
+      <tr><td>od_progress_step</td><td><span class="fk">od_progress</span></td></tr>
+      <tr><td>od_reconciliation</td><td><span class="fk">od_progress (físico=EV)</span> · <span style="color:var(--soft)">financiero derivado del ledger</span></td></tr>
+      <tr><td>od_issue</td><td><span class="fk">self (parent)</span> · <span class="fk">od_line</span> · <span class="fk">od_document</span></td></tr>
+      <tr><td>od_activity</td><td><span class="fk">od_task</span> · <span class="fk">od_line</span> · <span class="fk">od_awp_package</span></td></tr>
+      <tr><td>od_activity_dependency</td><td><span class="fk">od_activity (pred)</span> · <span class="fk">od_activity (succ)</span></td></tr>
+      <tr><td>od_constraint</td><td><span class="fk">od_awp_package</span></td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">PMO · Costos</span><span class="role">gobierno y dinero</span></div>
+      <table><tr><th>Tabla</th><th>Se liga a → (lookups)</th></tr>
+      <tr><td>od_milestone</td><td><span class="fk">od_project</span> · <span class="fk">od_awp_package</span> · <span class="fk">od_activity</span></td></tr>
+      <tr><td>od_change_order</td><td><span class="fk">od_project</span> · <span class="fk">od_awp_package</span> · <span class="fk">od_gc</span></td></tr>
+      <tr><td>od_action_item</td><td><span class="fk">od_line</span> · <span class="fk">od_issue</span> · <span class="fk">od_change_order</span></td></tr>
+      <tr><td>od_risk</td><td><span class="fk">od_project</span> · <span class="fk">od_awp_package</span></td></tr>
+      <tr><td>od_cost_code</td><td><span class="fk">od_awp_package</span></td></tr>
+      <tr><td>od_control_account</td><td><span class="fk">od_task</span> · <span class="fk">od_line</span> · <span class="fk">od_cost_code</span> · <span class="fk">od_awp_package</span> · <span class="fk">od_department</span></td></tr>
+      <tr><td>od_budget · od_forecast</td><td><span class="fk">od_cost_code</span></td></tr>
+      <tr><td>od_commitment</td><td><span class="fk">od_cost_code</span> · <span class="fk">od_gc</span></td></tr>
+      <tr><td>od_cost_actual</td><td><span class="fk">od_cost_code</span> · <span class="fk">od_commitment</span> · <span class="fk">od_invoice</span></td></tr>
+      <tr><td>od_evm</td><td><span class="fk">od_awp_package</span> · <span class="fk">od_cost_code</span> · <span class="fk">od_activity (PV)</span></td></tr>
+      <tr><td>od_contingency</td><td><span class="fk">od_change_order</span> · <span class="fk">od_risk</span></td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">Quality · Document control</span><span class="role">conformidad y trazabilidad</span></div>
+      <table><tr><th>Tabla</th><th>Se liga a → (lookups)</th></tr>
+      <tr><td>od_itp</td><td><span class="fk">od_awp_package</span> · <span class="fk">od_task</span></td></tr>
+      <tr><td>od_inspection_point</td><td><span class="fk">od_itp</span></td></tr>
+      <tr><td>od_inspection</td><td><span class="fk">od_inspection_point</span> · <span class="fk">od_line</span></td></tr>
+      <tr><td>od_commissioning</td><td><span class="fk">od_line / equipo</span></td></tr>
+      <tr><td>od_ncr</td><td><span class="fk">od_inspection_point</span> · <span class="fk">od_line</span></td></tr>
+      <tr><td>od_punch_item</td><td><span class="fk">od_line</span> · <span class="fk">od_commissioning</span></td></tr>
+      <tr><td>od_document</td><td><span class="fk">self (version)</span> · <span class="fk">od_rfi</span></td></tr>
+      <tr><td>od_submittal</td><td><span class="fk">od_gc</span></td></tr>
+      <tr><td>od_transmittal</td><td><span class="fk">od_document (N:N)</span></td></tr>
+      <tr><td>od_rfi</td><td><span class="fk">od_submittal</span> · <span class="fk">od_change_order</span></td></tr></table></div>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">Facturación · GC · Gobernanza</span><span class="role">la cara externa + el event log</span></div>
+      <table><tr><th>Tabla</th><th>Se liga a → (lookups)</th></tr>
+      <tr><td>od_gc · od_department</td><td><span style="color:var(--soft)">raíces</span></td></tr>
+      <tr><td>od_contract</td><td><span class="fk">od_gc</span> · <span class="fk">od_project</span></td></tr>
+      <tr><td>od_gc_estimate</td><td><span class="fk">od_gc</span> · <span class="fk">od_contract</span> · <span class="fk">od_awp_package</span></td></tr>
+      <tr><td>od_estimate_line</td><td><span class="fk">od_gc_estimate</span> · <span class="fk">od_line</span></td></tr>
+      <tr><td>od_generador</td><td><span class="fk">od_estimate_line</span> · <span class="fk">od_line</span></td></tr>
+      <tr><td>od_invoice</td><td><span class="fk">od_gc</span> · <span class="fk">od_gc_estimate</span></td></tr>
+      <tr><td>od_cfdi</td><td><span class="fk">od_invoice / payment / anticipo</span> · <span class="fk">self (related_uuid)</span></td></tr>
+      <tr><td>od_payment_application</td><td><span class="fk">od_gc</span> · <span class="fk">od_gc_estimate</span> (1:1)</td></tr>
+      <tr><td>od_retention · od_payment</td><td><span class="fk">od_payment_application</span> · <span class="fk">od_invoice</span></td></tr>
+      <tr><td>od_anticipo</td><td><span class="fk">od_gc</span></td></tr>
+      <tr><td>od_anticipo_amortization</td><td><span class="fk">od_anticipo</span> · <span class="fk">od_gc_estimate</span> · <span class="fk">od_cfdi</span></td></tr>
+      <tr><td>od_event_log</td><td><span style="color:var(--soft)">case_id = business key · table_ref (correlaciona TODO por caso)</span></td></tr></table></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">08</span> Levantamiento por departamento</h2>
+    <p class="sub">Instrumento para validar factibilidad con cada área. Por cada dato que el sistema necesita, el departamento marca su estado. Esto define qué se puede arrancar ya, qué hay que construir y qué es imposible con la información actual.</p>
+    <div class="callout"><p><b style="color:var(--ink)">Cómo responder cada renglón:</b> &nbsp; <b>☐ Sí</b> = ya lo tenemos / lo capturamos hoy &nbsp;·&nbsp; <b>☐ Posible</b> = no lo tenemos pero se puede obtener/generar &nbsp;·&nbsp; <b>☐ No</b> = imposible obtenerlo con lo actual &nbsp;·&nbsp; <b>☐ Revisar</b> = hay que discutir alcance/definición. La columna "Destino" indica dónde vive el dato en el sistema.</p></div>
+
+    <div class="callout"><p><b style="color:var(--ink)">Formatos imprimibles por departamento</b> — versión en lenguaje simple, sin jerga técnica (con "qué es · para qué sirve · ejemplo"), para imprimir, llenar a mano, escanear y devolver:<br>
+    <a href="levantamiento/ODATA_QR03_Levantamiento_PMO.pdf" download>PMO</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_Cost_Management.pdf" download>Cost Management</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_Planning.pdf" download>Planning</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_Quality.pdf" download>Quality</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_MEP.pdf" download>MEP</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_CSA.pdf" download>CSA</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_Document_Control.pdf" download>Document Control</a> &nbsp;·&nbsp;
+    <a href="levantamiento/ODATA_QR03_Levantamiento_General_Contractors.pdf" download>General Contractors</a></p></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">PMO</span><span class="role">SoR: hitos · cambios · riesgos · acciones</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Hitos contractuales con fecha baseline / forecast / actual</td><td class="mono">od_milestone</td><td>Inicio + corte</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Órdenes de cambio con impacto en costo y días de cronograma</td><td class="mono">od_change_order</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Minutas / acuerdos con dueño y fecha compromiso</td><td class="mono">od_action_item</td><td>Semanal</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Registro de riesgos con probabilidad, impacto, mitigación</td><td class="mono">od_risk</td><td>Mensual</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">Cost Management</span><span class="role">SoR: presupuesto · compromisos · costo real · EAC</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Catálogo de códigos de costo (CBS) por disciplina/categoría</td><td class="mono">od_cost_code</td><td>Inicio</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Presupuesto base bloqueado por código (baseline)</td><td class="mono">od_budget</td><td>Inicio (locked)</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Compromisos: contratos / órdenes de compra con monto</td><td class="mono">od_commitment</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Costo real incurrido (devengado), ligado a factura</td><td class="mono">od_cost_actual</td><td>Mensual</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Pronóstico ETC / EAC por corte</td><td class="mono">od_forecast</td><td>Por corte</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Bolsa de contingencia y su consumo</td><td class="mono">od_contingency</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">Planning</span><span class="role">SoR: cronograma · PV · ruta crítica</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Cronograma con actividades, duración y fechas baseline</td><td class="mono">od_activity</td><td>Inicio (baseline)</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Dependencias predecesor→sucesor (FS/SS/FF/SF) + lag</td><td class="mono">od_activity_dependency</td><td>Inicio</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Avance real de actividad + fechas actual/forecast</td><td class="mono">od_activity</td><td>Semanal</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">Quality</span><span class="role">SoR: conformidad · aceptación · commissioning</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>ITP por paquete/disciplina con puntos hold/witness</td><td class="mono">od_itp · od_inspection_point</td><td>Por paquete</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Resultados de inspección con firma y evidencia, por línea</td><td class="mono">od_inspection</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Protocolos de commissioning L1–L5 (FAT→IST) con CxA</td><td class="mono">od_commissioning</td><td>Por nivel</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>NCR con disposición y verificación de cierre</td><td class="mono">od_ncr</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Punch list con estado y cierre (gate del IST)</td><td class="mono">od_punch_item</td><td>Entrega</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">MEP</span><span class="role">SoR: instalación + pruebas mecánico/eléctrico/plomería</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Avance físico de líneas MEP con regla de crédito (units/steps)</td><td class="mono">od_line · od_progress</td><td>Semanal</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Constraints de material / ingeniería por IWP</td><td class="mono">od_constraint</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Commissioning MEP (medular para data center)</td><td class="mono">od_commissioning</td><td>Por nivel</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">CSA</span><span class="role">SoR: civil · estructura · arquitectura</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Avance físico de líneas CSA con regla de crédito</td><td class="mono">od_line · od_progress</td><td>Semanal</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Constraints (acceso, permisos, predecesores) por IWP</td><td class="mono">od_constraint</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Linaje modelo BIM ↔ obra (model_element_id)</td><td class="mono">od_document</td><td>Continuo</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">Document Control</span><span class="role">SoR: versiones · logs numerados · linaje</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Documentos con control de versión y model_element_id</td><td class="mono">od_document</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Submittals con estado y ball-in-court (log propio)</td><td class="mono">od_submittal</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Transmittals (carátula formal que conecta los logs)</td><td class="mono">od_transmittal</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>RFIs con timeline de respuesta e impacto</td><td class="mono">od_rfi</td><td>On-event</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">General Contractors (externo, por portal)</span><span class="role">SoR: su avance cobrado + facturas</span></div>
+      <table><tr><th>Información que necesitamos</th><th>Destino</th><th>Cadencia</th><th>¿Lo tienen?</th></tr>
+      <tr><td>Estimación por concepto contra catálogo (precio unit., cantidades)</td><td class="mono">od_gc_estimate · od_estimate_line</td><td>Mensual</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Número generador (medición: croquis, dimensiones, ubicación, firmas)</td><td class="mono">od_generador</td><td>Mensual</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Facturas CFDI (UUID + XML) tipificadas (ingreso/anticipo/egreso/REP)</td><td class="mono">od_invoice · od_cfdi</td><td>Mensual</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr>
+      <tr><td>Anticipos y su amortización por estimación</td><td class="mono">od_anticipo · od_anticipo_amortization</td><td>Al contratar</td><td style="color:var(--soft);font-size:12px;white-space:nowrap">☐ Sí ☐ Posible ☐ No ☐ Revisar</td></tr></table></div>
+
     <div class="pill-nav">
       <a href="sistema.html">← Vista para dirección</a>
       <a href="ticketing.html">Ticketing</a>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ERD ODATA QR03</title>
+<style>
+  :root{ --bg:#0b1015; --panel:#111820; --ink:#e8eef2; --cyan:#35c2c9; --soft:#8fa3b0; }
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  header{padding:12px 18px;border-bottom:1px solid #1e2a34;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+  header b{color:var(--cyan);font-size:16px} header small{color:var(--soft)}
+  #wrap{position:absolute;top:52px;left:0;right:0;bottom:0;overflow:hidden}
+  #diagram{width:100%;height:100%}
+  #diagram svg{max-width:none!important;height:100%!important;cursor:grab}
+  .hint{color:var(--soft);font-size:12px}
+  a{color:var(--cyan)}
+</style></head><body>
+<header>
+  <b>ODATA QR03 - Mapa de desarrollo de la base de datos (ERD)</b>
+  <small>48 tablas - data types, primary keys (PK) y foreign keys (FK)</small>
+  <span class="hint">Arrastra para mover - rueda para zoom - </span>
+  <a class="hint" href="ODATA_QR03_schema_v1.dbml" download>descargar DBML</a> <span class="hint">-</span>
+  <a class="hint" href="sistema-dev.html">volver a la documentacion</a>
+</header>
+<div id="wrap"><div id="diagram" class="mermaid">
+erDiagram
+  od_project {
+    guid project_id PK
+    varchar obdmx_code
+    varchar project_code
+    varchar name
+    varchar phase
+    varchar tenant_env
+  }
+  od_task {
+    guid task_id_pk PK
+    varchar task_id
+    guid project FK
+    varchar discipline
+    guid awp_package FK
+    datetime planned_start
+    datetime planned_finish
+  }
+  od_line {
+    guid line_id PK
+    guid task FK
+    int line_no
+    varchar product_scope
+    varchar uom
+    decimal qty_planned
+    varchar method_of_measurement
+    varchar business_key
+  }
+  od_cwa {
+    guid cwa_id PK
+    guid project FK
+    varchar name
+    varchar geo
+    varchar area_ref
+    int poc_sequence
+  }
+  od_awp_package {
+    guid package_id PK
+    guid cwa FK
+    guid parent FK
+    varchar type
+    int poc_sequence
+    datetime planned_start
+    datetime planned_finish
+    int crew_size
+    boolean released
+  }
+  od_constraint {
+    guid constraint_id PK
+    guid awp_package FK
+    varchar type
+    text description
+    boolean blocking
+    varchar status
+    varchar owner
+    date need_by_date
+    date cleared_date
+  }
+  od_progress {
+    guid progress_id PK
+    guid line FK
+    varchar dimension
+    decimal value_pct
+    decimal qty_installed
+    money amount
+    guid sor_owner FK
+    date as_of_date
+    varchar captured_by
+    varchar evidence
+  }
+  od_progress_step {
+    guid step_id PK
+    guid progress FK
+    varchar step
+    decimal weight
+    boolean done
+  }
+  od_reconciliation {
+    guid reconciliation_id PK
+    guid physical_ref FK
+    guid financial_ref FK
+    decimal delta
+    varchar status
+    varchar resolved_by
+  }
+  od_issue {
+    guid issue_code PK
+    varchar type
+    guid parent FK
+    guid line FK
+    guid document FK
+    varchar status
+    int aging
+    varchar geo
+    varchar photo
+  }
+  od_document {
+    guid doc_id PK
+    varchar version
+    varchar model_element_id
+    varchar type
+    guid rfi_ref FK
+    varchar status
+  }
+  od_activity {
+    guid activity_id PK
+    guid task FK
+    guid line FK
+    guid awp_package FK
+    datetime baseline_start
+    datetime baseline_finish
+    datetime planned_start
+    datetime planned_finish
+    datetime actual_start
+    datetime actual_finish
+    datetime forecast_finish
+    int duration
+    decimal pct_complete
+    int total_float
+    int free_float
+    boolean is_critical
+    boolean is_milestone
+  }
+  od_activity_dependency {
+    guid dependency_id PK
+    guid predecessor FK
+    guid successor FK
+    varchar rel_type
+    int lag
+  }
+  od_milestone {
+    guid milestone_id PK
+    guid project FK
+    guid awp_package FK
+    guid activity FK
+    date baseline_date
+    date forecast_date
+    date actual_date
+    varchar status
+    int variance_days
+  }
+  od_change_order {
+    guid co_code PK
+    guid project FK
+    guid awp_package FK
+    guid gc FK
+    text scope_impact
+    money cost_impact
+    int schedule_impact_days
+    varchar status
+    guid approval_ref
+  }
+  od_action_item {
+    guid action_id PK
+    varchar source
+    varchar owner
+    date due
+    varchar status
+    guid related_line FK
+    guid issue FK
+    guid co FK
+  }
+  od_risk {
+    guid risk_id PK
+    guid project FK
+    guid awp_package FK
+    varchar probability
+    varchar impact
+    decimal exposure
+    text mitigation
+    varchar owner
+    varchar status
+  }
+  od_cost_code {
+    guid cost_code PK
+    guid awp_package FK
+    varchar discipline
+    varchar category
+  }
+  od_control_account {
+    guid ca_id PK
+    guid task FK
+    guid line FK
+    guid cost_code FK
+    guid awp_package FK
+    guid owner FK
+  }
+  od_budget {
+    guid budget_id PK
+    guid cost_code FK
+    money baseline_amount
+    text boe
+    boolean locked
+    int revision
+  }
+  od_commitment {
+    guid commitment_id PK
+    guid cost_code FK
+    guid gc FK
+    money original_amount
+    money approved_changes
+    money revised_amount
+    money pending_changes
+    varchar status
+  }
+  od_cost_actual {
+    guid actual_id PK
+    guid cost_code FK
+    guid commitment FK
+    guid invoice FK
+    money amount
+    date period
+    boolean accrual
+  }
+  od_forecast {
+    guid forecast_id PK
+    guid cost_code FK
+    date period
+    money etc
+    money eac
+    money vac
+  }
+  od_evm {
+    guid evm_id PK
+    guid awp_package FK
+    guid cost_code FK
+    guid activity FK
+    date period
+    money bac
+    money pv
+    money ev
+    money ac
+    decimal cpi
+    decimal spi
+    money eac
+    decimal tcpi
+  }
+  od_contingency {
+    guid contingency_id PK
+    guid project FK
+    varchar type
+    money original_amount
+    money drawn_amount
+    money remaining
+    guid source_change_order FK
+    guid source_risk FK
+  }
+  od_itp {
+    guid itp_code PK
+    guid awp_package FK
+    guid task FK
+    varchar discipline
+    int revision
+    text spec_refs
+    varchar status
+  }
+  od_inspection_point {
+    guid point_id PK
+    guid itp FK
+    varchar point_type
+    text acceptance_criteria
+    varchar norm_ref
+    varchar responsible
+    varchar record_required
+  }
+  od_inspection {
+    guid inspection_id PK
+    guid inspection_point FK
+    guid line FK
+    date date
+    varchar inspector
+    varchar result
+    varchar signature
+    varchar photos
+  }
+  od_commissioning {
+    guid test_id PK
+    varchar level
+    varchar system
+    varchar equipment_tag
+    guid line FK
+    varchar procedure_ref
+    text acceptance_criteria
+    varchar result
+    varchar witnessed_by
+    boolean punch_resolved
+  }
+  od_ncr {
+    guid ncr_code PK
+    guid inspection_point FK
+    guid line FK
+    varchar disposition
+    text root_cause
+    text corrective_action
+    varchar verification
+    varchar status
+  }
+  od_punch_item {
+    guid punch_id PK
+    guid line FK
+    guid system FK
+    varchar status
+    date due
+    date closed_date
+  }
+  od_submittal {
+    guid submittal_id PK
+    varchar spec_section
+    varchar type
+    guid gc FK
+    varchar status
+    varchar ball_in_court
+    date due_date
+  }
+  od_transmittal {
+    guid transmittal_id PK
+    date date
+    varchar from_user
+    varchar to_user
+    varchar purpose
+    boolean acknowledgment
+  }
+  od_rfi {
+    guid rfi_code PK
+    text question
+    text response
+    date response_due
+    varchar ball_in_court
+    money cost_impact
+    int schedule_impact
+    guid submittal FK
+    guid co FK
+  }
+  od_gc {
+    guid gc_id PK
+    varchar name
+    varchar contract
+  }
+  od_contract {
+    guid contract_id PK
+    guid gc FK
+    guid project FK
+    money contract_value
+    decimal retention_pct
+    decimal anticipo_pct
+    varchar iva_regime
+    varchar catalogo_ref
+    varchar status
+  }
+  od_gc_estimate {
+    guid estimate_id PK
+    guid gc FK
+    guid contract FK
+    guid awp_package FK
+    date period
+    money amount
+    varchar status
+    boolean reconciled
+  }
+  od_estimate_line {
+    guid est_line_id PK
+    guid gc_estimate FK
+    guid line FK
+    varchar concepto
+    money unit_price
+    decimal qty_contract
+    decimal qty_period
+    decimal qty_accum
+  }
+  od_generador {
+    guid generador_id PK
+    guid estimate_line FK
+    guid line FK
+    text dimensiones
+    decimal qty
+    varchar unidad
+    varchar croquis
+    varchar ubicacion
+    varchar elaborado_por
+    varchar aprobado_por
+    date fecha
+  }
+  od_invoice {
+    guid invoice_id PK
+    guid gc FK
+    guid gc_estimate FK
+    varchar cfdi_uuid
+    varchar cfdi_xml
+    money amount
+    guid approval_ref
+  }
+  od_cfdi {
+    varchar cfdi_uuid PK
+    varchar cfdi_type
+    varchar metodo_pago
+    varchar forma_pago
+    varchar uso_cfdi
+    varchar tipo_relacion
+    varchar related_uuid FK
+    guid invoice FK
+    guid payment FK
+    guid anticipo FK
+  }
+  od_payment_application {
+    guid payapp_id PK
+    guid gc FK
+    guid gc_estimate FK
+    date period
+    money gross_amount
+    money net_amount
+    varchar status
+  }
+  od_retention {
+    guid retention_id PK
+    guid payapp FK
+    decimal pct
+    money amount_held
+    money amount_released
+    varchar release_condition
+  }
+  od_payment {
+    guid payment_id PK
+    guid invoice FK
+    money amount
+    date date
+    varchar method
+    varchar status
+    int aging
+  }
+  od_anticipo {
+    guid anticipo_id PK
+    guid gc FK
+    money amount
+    decimal amortization_pct
+    money balance
+  }
+  od_anticipo_amortization {
+    guid amortization_id PK
+    guid anticipo FK
+    guid gc_estimate FK
+    varchar cfdi_egreso FK
+    money amount
+  }
+  od_department {
+    guid dept_id PK
+    varchar name
+    varchar team
+  }
+  od_event_log {
+    guid event_id PK
+    varchar case_id
+    varchar activity
+    datetime timestamp
+    varchar actor
+    varchar table_ref
+    varchar status_from
+    varchar status_to
+  }
+  od_project ||--o{ od_task : "project"
+  od_awp_package ||--o{ od_task : "awp_package"
+  od_task ||--o{ od_line : "task"
+  od_project ||--o{ od_cwa : "project"
+  od_cwa ||--o{ od_awp_package : "cwa"
+  od_awp_package ||--o{ od_awp_package : "parent"
+  od_awp_package ||--o{ od_constraint : "awp_package"
+  od_line ||--o{ od_progress : "line"
+  od_department ||--o{ od_progress : "sor_owner"
+  od_progress ||--o{ od_progress_step : "progress"
+  od_progress ||--o{ od_reconciliation : "physical_ref"
+  od_progress ||--o{ od_reconciliation : "financial_ref"
+  od_issue ||--o{ od_issue : "parent"
+  od_line ||--o{ od_issue : "line"
+  od_document ||--o{ od_issue : "document"
+  od_rfi ||--o{ od_document : "rfi_ref"
+  od_task ||--o{ od_activity : "task"
+  od_line ||--o{ od_activity : "line"
+  od_awp_package ||--o{ od_activity : "awp_package"
+  od_activity ||--o{ od_activity_dependency : "predecessor"
+  od_activity ||--o{ od_activity_dependency : "successor"
+  od_project ||--o{ od_milestone : "project"
+  od_awp_package ||--o{ od_milestone : "awp_package"
+  od_activity ||--o{ od_milestone : "activity"
+  od_project ||--o{ od_change_order : "project"
+  od_awp_package ||--o{ od_change_order : "awp_package"
+  od_gc ||--o{ od_change_order : "gc"
+  od_line ||--o{ od_action_item : "related_line"
+  od_issue ||--o{ od_action_item : "issue"
+  od_change_order ||--o{ od_action_item : "co"
+  od_project ||--o{ od_risk : "project"
+  od_awp_package ||--o{ od_risk : "awp_package"
+  od_awp_package ||--o{ od_cost_code : "awp_package"
+  od_task ||--o{ od_control_account : "task"
+  od_line ||--o{ od_control_account : "line"
+  od_cost_code ||--o{ od_control_account : "cost_code"
+  od_awp_package ||--o{ od_control_account : "awp_package"
+  od_department ||--o{ od_control_account : "owner"
+  od_cost_code ||--o{ od_budget : "cost_code"
+  od_cost_code ||--o{ od_commitment : "cost_code"
+  od_gc ||--o{ od_commitment : "gc"
+  od_cost_code ||--o{ od_cost_actual : "cost_code"
+  od_commitment ||--o{ od_cost_actual : "commitment"
+  od_invoice ||--o{ od_cost_actual : "invoice"
+  od_cost_code ||--o{ od_forecast : "cost_code"
+  od_awp_package ||--o{ od_evm : "awp_package"
+  od_cost_code ||--o{ od_evm : "cost_code"
+  od_activity ||--o{ od_evm : "activity"
+  od_project ||--o{ od_contingency : "project"
+  od_change_order ||--o{ od_contingency : "source_change_order"
+  od_risk ||--o{ od_contingency : "source_risk"
+  od_awp_package ||--o{ od_itp : "awp_package"
+  od_task ||--o{ od_itp : "task"
+  od_itp ||--o{ od_inspection_point : "itp"
+  od_inspection_point ||--o{ od_inspection : "inspection_point"
+  od_line ||--o{ od_inspection : "line"
+  od_line ||--o{ od_commissioning : "line"
+  od_inspection_point ||--o{ od_ncr : "inspection_point"
+  od_line ||--o{ od_ncr : "line"
+  od_line ||--o{ od_punch_item : "line"
+  od_commissioning ||--o{ od_punch_item : "system"
+  od_gc ||--o{ od_submittal : "gc"
+  od_transmittal }o--o{ od_document : "transmittal_id"
+  od_submittal ||--o{ od_rfi : "submittal"
+  od_change_order ||--o{ od_rfi : "co"
+  od_gc ||--o{ od_contract : "gc"
+  od_project ||--o{ od_contract : "project"
+  od_gc ||--o{ od_gc_estimate : "gc"
+  od_contract ||--o{ od_gc_estimate : "contract"
+  od_awp_package ||--o{ od_gc_estimate : "awp_package"
+  od_gc_estimate ||--o{ od_estimate_line : "gc_estimate"
+  od_line ||--o{ od_estimate_line : "line"
+  od_estimate_line ||--o{ od_generador : "estimate_line"
+  od_line ||--o{ od_generador : "line"
+  od_gc ||--o{ od_invoice : "gc"
+  od_gc_estimate ||--o{ od_invoice : "gc_estimate"
+  od_cfdi ||--o{ od_cfdi : "related_uuid"
+  od_invoice ||--o{ od_cfdi : "invoice"
+  od_payment ||--o{ od_cfdi : "payment"
+  od_anticipo ||--o{ od_cfdi : "anticipo"
+  od_gc ||--o{ od_payment_application : "gc"
+  od_gc_estimate ||--o{ od_payment_application : "gc_estimate"
+  od_payment_application ||--o{ od_retention : "payapp"
+  od_invoice ||--o{ od_payment : "invoice"
+  od_gc ||--o{ od_anticipo : "gc"
+  od_anticipo ||--o{ od_anticipo_amortization : "anticipo"
+  od_gc_estimate ||--o{ od_anticipo_amortization : "gc_estimate"
+  od_cfdi ||--o{ od_anticipo_amortization : "cfdi_egreso"
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/svg-pan-zoom/3.6.1/svg-pan-zoom.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad:false, theme:'dark', securityLevel:'loose',
+    er:{ layoutDirection:'LR', entityPadding:8, useMaxWidth:false } });
+  (async () => {
+    await mermaid.run({ querySelector:'#diagram' });
+    const svg = document.querySelector('#diagram svg');
+    if (svg && window.svgPanZoom){
+      svg.setAttribute('width','100%'); svg.setAttribute('height','100%');
+      svgPanZoom(svg, { controlIconsEnabled:true, fit:true, center:true, minZoom:0.1, maxZoom:20 });
+    }
+  })();
+</script>
+</body></html>
