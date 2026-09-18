@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>ODATA QR03 · Documentación técnica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b; --violet:#9b8cff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 85% -5%, rgba(53,194,201,.07) 0%, transparent 60%);overflow-x:hidden;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:56px 0 36px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(28px,5.5vw,46px);font-weight:700;margin:14px 0 10px}
+.hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:17px;max-width:66ch}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chip{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--soft);background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+.chip b{color:var(--ink)}
+section{padding:42px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:25px;font-weight:600;display:flex;align-items:baseline;gap:12px}
+section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 22px;max-width:78ch}
+.code{font-family:"JetBrains Mono",monospace;font-size:13px;background:#070c11;border:1px solid var(--line);border-radius:11px;padding:16px 18px;color:var(--soft);overflow-x:auto;white-space:pre;line-height:1.7}
+.code .c{color:var(--cyan)} .code .a{color:var(--amber)} .code .g{color:var(--green)} .code .m{color:var(--muted)} .code .v{color:var(--violet)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono";font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+td b{color:var(--ink)} td .pk{color:var(--amber);font-family:"JetBrains Mono";font-size:11px} td .fk{color:var(--cyan);font-family:"JetBrains Mono";font-size:11px}
+.ent{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 4px 4px;margin-bottom:16px;overflow:hidden}
+.ent .h{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--line)}
+.ent .h .nm{font-family:"JetBrains Mono";font-weight:600;color:var(--ink);font-size:14px}
+.ent .h .role{font-size:12px;color:var(--muted);margin-left:auto}
+.ent .h .dot{width:9px;height:9px;border-radius:3px;background:var(--cyan)}
+.ent.core .h .dot{background:var(--amber)} .ent.ext .h .dot{background:var(--violet)}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,1fr)}@media(max-width:820px){.g2{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{font-size:15px;margin-bottom:5px} .card p{color:var(--soft);font-size:13.5px;margin:0}
+.callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--cyan-dim);border-radius:11px;padding:16px 18px;margin-top:16px}
+.callout p{color:var(--soft);font-size:14px;margin:0}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:11px}
+ol.steps li{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 15px 14px 52px;position:relative}
+ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:14px;width:25px;height:25px;border-radius:8px;background:var(--cyan-dim);color:var(--ink);font-family:"JetBrains Mono";font-weight:600;display:flex;align-items:center;justify-content:center;font-size:12px}
+ol.steps li b{font-family:"Space Grotesk"} ol.steps li span{color:var(--soft);font-size:13px;display:block;margin-top:3px}
+tr.total td{border-top:2px solid var(--cyan-dim);font-weight:600;color:var(--ink)}
+.num{font-family:"JetBrains Mono";text-align:right;white-space:nowrap}
+.tl{display:grid;gap:9px;margin-top:6px}
+.tl .wk{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:start}
+.tl .wk .w{font-family:"JetBrains Mono";font-size:12px;color:var(--cyan);padding-top:2px}
+.tl .wk .b{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-size:13.5px}
+.tl .wk .b b{font-family:"Space Grotesk"} .tl .wk .b small{color:var(--muted);display:block;font-size:12px;margin-top:2px}
+footer{padding:38px 0 70px;color:var(--muted);font-size:13px}
+.pill-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill-nav a{font-family:"JetBrains Mono";font-size:12px;text-decoration:none;color:var(--soft);border:1px solid var(--line);border-radius:100px;padding:6px 13px;background:var(--panel)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">ODATA QR03 · Documentación técnica · para el desarrollador</div>
+    <h1>Cómo se <span>construye</span> el sistema</h1>
+    <p class="lede">Todo lo necesario para desarrollar la plataforma en el tenant Microsoft del cliente: sistema de identidad y códigos, modelo de datos completo en Dataverse con la granularidad que ya usan, conectores, pasos de construcción, cotización, y el plan de 2 meses con capacitación y manuales.</p>
+    <div class="meta-row">
+      <span class="chip">Stack: <b>Dataverse · Power Apps · Automate · BI · Pages</b></span>
+      <span class="chip">Identidad: <b>OBDMX · task_id · line#</b></span>
+      <span class="chip">Timeline: <b>8 semanas</b></span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span> Sistema de identidad y códigos</h2>
+    <p class="sub">Respetamos la codificación que ODATA ya construyó. La unidad granular no es la tarea — es la <b style="color:var(--soft)">línea</b>: una task_id se descompone en múltiples productos/tareas, cada uno una línea, y se mide por número de línea. El prefijo <b style="color:var(--soft)">OBDMX</b> ancla a qué proyecto pertenece.</p>
+    <div class="code"><span class="m"># Clave de negocio compuesta (business key) — única por línea de trabajo</span>
+<span class="c">OBDMX</span>-<span class="a">QR03</span> · <span class="v">&lt;project_code&gt;</span> · <span class="g">&lt;task_id&gt;</span> · L<span class="c">&lt;line_no&gt;</span>
+
+<span class="m"># Ejemplo real</span>
+<span class="c">OBDMX</span>-<span class="a">QR03</span> · <span class="v">C-1420</span> · <span class="g">TSK-1042</span> · L<span class="c">03</span>
+   │        │           │            │        └─ línea 3 de esa task (un producto/sub-tarea medible)
+   │        │           │            └─ task id (una tarea del WBS)
+   │        │           └─ project code (el proyecto dentro de la obra)
+   │        └─ diferenciador de proyecto (a qué proyecto sigue)
+   └─ prefijo de familia ODATA México</div>
+    <div class="callout"><p>Por qué importa: el avance (físico y financiero), los issues, las estimaciones del GC y las facturas <b style="color:var(--ink)">se cuelgan de la línea</b>, no de la tarea. Así una task_id parcialmente instalada reporta % real por producto, y nada se promedia a ciegas. Es la granularidad que hace posible el reporting algorítmico.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span> Modelo de datos · Dataverse</h2>
+    <p class="sub">Once tablas. Cada una con un dueño (System of Record) por dominio. <span style="color:var(--amber)">◼</span> núcleo de identidad · <span style="color:var(--cyan)">◼</span> operación · <span style="color:var(--violet)">◼</span> externo (GC).</p>
+
+    <div class="ent core"><div class="h"><span class="dot"></span><span class="nm">od_project</span><span class="role">Núcleo · proyecto</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>obdmx_code</b> <span class="pk">PK</span></td><td>Text</td><td>OBDMX-QR03 — diferenciador de proyecto</td></tr>
+      <tr><td>project_code</td><td>Text</td><td>Código de proyecto (ODATA)</td></tr>
+      <tr><td>name / phase / tenant_env</td><td>Text / Choice</td><td>Fase de construcción (para el corte de la nueva fase)</td></tr></table></div>
+
+    <div class="ent core"><div class="h"><span class="dot"></span><span class="nm">od_task</span><span class="role">Núcleo · WBS</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>task_id</b> <span class="pk">PK</span></td><td>Text</td><td>Tarea del WBS</td></tr>
+      <tr><td>project</td><td><span class="fk">Lookup → od_project</span></td><td>Hereda el OBDMX</td></tr>
+      <tr><td>discipline</td><td>Choice</td><td>MEP · CSA · General</td></tr>
+      <tr><td>awp_package</td><td><span class="fk">Lookup → od_awp_package</span></td><td>A qué paquete AWP pertenece</td></tr>
+      <tr><td>planned_start / finish</td><td>DateTime</td><td>Del cronograma (SoR: Planning)</td></tr></table></div>
+
+    <div class="ent core"><div class="h"><span class="dot"></span><span class="nm">od_line</span><span class="role">Núcleo · unidad granular</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>line_no</b> <span class="pk">PK*</span></td><td>Whole #</td><td># de línea (parte de la clave compuesta)</td></tr>
+      <tr><td>task</td><td><span class="fk">Lookup → od_task</span></td><td>Una task → muchas líneas</td></tr>
+      <tr><td>product_scope</td><td>Text</td><td>El producto/sub-tarea que mide esta línea</td></tr>
+      <tr><td>uom / qty_planned</td><td>Choice / Decimal</td><td>Unidad y cantidad planeada</td></tr>
+      <tr><td>business_key</td><td>Calculated</td><td>OBDMX · project · task_id · L{line_no}</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_awp_package</span><span class="role">Operación · AWP</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>package_id</b> <span class="pk">PK</span></td><td>Text</td><td>Paquete de trabajo</td></tr>
+      <tr><td>type</td><td>Choice</td><td>CWP · EWP · PWP · SWP · IWP</td></tr>
+      <tr><td>parent</td><td><span class="fk">Lookup → self</span></td><td>Jerarquía AWP</td></tr>
+      <tr><td>constraints / released</td><td>Text / Yes-No</td><td>Regla de acreditación: se libera solo si constraint-free</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_progress</span><span class="role">Operación · avance</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>progress_id</b> <span class="pk">PK</span></td><td>Autonumber</td><td></td></tr>
+      <tr><td>line</td><td><span class="fk">Lookup → od_line</span></td><td>El avance cuelga de la línea</td></tr>
+      <tr><td><b>dimension</b></td><td>Choice</td><td><b>physical</b> · <b>financial</b> — la etiqueta que mata el 40/25/80</td></tr>
+      <tr><td>value_pct / qty_installed / amount</td><td>Decimal</td><td>Según dimensión</td></tr>
+      <tr><td>sor_owner</td><td>Choice</td><td>Quién es Accountable de este número</td></tr>
+      <tr><td>as_of_date / captured_by / evidence</td><td>Date / User / File</td><td>Foto o doc de respaldo</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_issue</span><span class="role">Operación · issues / linaje</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>issue_code</b> <span class="pk">PK</span></td><td>Text</td><td>Código estandarizado + estatus + aging</td></tr>
+      <tr><td>type</td><td>Choice</td><td>NCR · RFI · HSE · General</td></tr>
+      <tr><td>parent</td><td><span class="fk">Lookup → self</span></td><td>Linaje: de qué punto se deriva</td></tr>
+      <tr><td>line / document</td><td><span class="fk">Lookups</span></td><td>Liga a la línea y al documento/modelo</td></tr>
+      <tr><td>status / aging / geo / photo</td><td>Choice / Calc / Text / File</td><td>Trazable hasta cierre</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_document</span><span class="role">Operación · doc control</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td><b>doc_id</b> <span class="pk">PK</span> / version</td><td>Text</td><td>Control de versiones</td></tr>
+      <tr><td>model_element_id</td><td>Text</td><td>Linaje modelo BIM ↔ obra</td></tr>
+      <tr><td>type / rfi_ref / status</td><td>Choice / Lookup</td><td></td></tr></table></div>
+
+    <div class="ent ext"><div class="h"><span class="dot"></span><span class="nm">od_gc</span> · <span class="nm">od_gc_estimate</span> · <span class="nm">od_invoice</span><span class="role">Externo · General Contractors</span></div>
+      <table><tr><th>Tabla</th><th>Campos clave</th><th>Nota</th></tr>
+      <tr><td><b>od_gc</b></td><td>gc_id, name, contract</td><td>El contratista externo</td></tr>
+      <tr><td><b>od_gc_estimate</b></td><td>gc <span class="fk">FK</span>, package, pct, amount, period, status, reconciled</td><td>Entra por el portal, etiquetada por dimensión</td></tr>
+      <tr><td><b>od_invoice</b></td><td>gc <span class="fk">FK</span>, cfdi_uuid, cfdi_xml (file), amount, estimate <span class="fk">FK</span>, approval_ref</td><td>CFDI ligado a su estimación y paquete</td></tr></table></div>
+
+    <div class="ent"><div class="h"><span class="dot"></span><span class="nm">od_reconciliation</span><span class="role">Operación · el gate</span></div>
+      <table><tr><th>Campo</th><th>Tipo</th><th>Nota</th></tr>
+      <tr><td>physical_ref / financial_ref</td><td><span class="fk">Lookups → od_progress</span></td><td>Los dos números que deberían correlacionar</td></tr>
+      <tr><td>delta / status / resolved_by</td><td>Decimal / Choice / User</td><td>Marca discrepancia; el SoR desempata</td></tr></table></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span> Conectores</h2>
+    <p class="sub">Qué conectar y para qué. Todo dentro de Power Platform salvo la ingesta de mensajería y el parseo de CFDI.</p>
+    <table>
+      <tr><th>Conector</th><th>Uso</th><th>Nota</th></tr>
+      <tr><td><b>Microsoft Dataverse</b></td><td>Fuente única de verdad</td><td>El modelo de datos. Para Process Mining se lee vía OData</td></tr>
+      <tr><td><b>Power Apps</b> (canvas + model-driven)</td><td>Captura de campo + backoffice</td><td>App móvil offline para obra; app de escritorio para PMO/Costos</td></tr>
+      <tr><td><b>Power Automate</b></td><td>Flujos: aprobaciones, ingesta, gate</td><td>Premium ($15/u); bot desatendido para ingesta ($150/bot)</td></tr>
+      <tr><td><b>Power BI</b></td><td>Tableros y reporte al cliente</td><td>Conector Dataverse / DirectQuery; las queries del cliente en DAX</td></tr>
+      <tr><td><b>Power Pages</b></td><td>Portal externo de GCs</td><td>Form de estimaciones + carga de facturas, autenticado</td></tr>
+      <tr><td><b>Office 365 Outlook / Gmail</b></td><td>Ingesta de correo</td><td>El bot lee correos y normaliza a Dataverse</td></tr>
+      <tr><td><b>WhatsApp</b> (Twilio / 360dialog custom)</td><td>Ingesta de mensajería</td><td>Conector personalizado; migración gradual desde WhatsApp</td></tr>
+      <tr><td><b>AI Builder</b> / parser CFDI</td><td>Leer facturas XML/PDF</td><td>Extrae UUID, montos y liga a la estimación</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span> Pasos de construcción</h2>
+    <p class="sub">Orden de build. Todo en una Solution única y reversible del tenant del cliente.</p>
+    <ol class="steps">
+      <li><b>Modelo de datos</b><span>Crear las 11 tablas, la clave compuesta OBDMX·task·line, choices (dimension, discipline, AWP type) y las relaciones lookup. Reglas de negocio: business_key calculado, aging de issues.</span></li>
+      <li><b>App de captura (Power Apps móvil)</b><span>Formulario estandarizado: foto + issue + cantidad + geolocalización, ligado a la línea. Offline para campo. Owner obligatorio en cada registro.</span></li>
+      <li><b>Flujos de gate y aprobación (Power Automate)</b><span>Gate de reconciliación físico-vs-financiero (marca discrepancia), aprobación de facturas, y el bot de ingesta desde correo/WhatsApp.</span></li>
+      <li><b>Portal de GCs (Power Pages)</b><span>Form autenticado de estimaciones + carga de CFDI, escribiendo a od_gc_estimate y od_invoice con parseo AI Builder.</span></li>
+      <li><b>Tableros (Power BI)</b><span>Medidas DAX por dimensión: avance físico por sistema, curva-S financiera vs física, issues abiertos por frente. El formato del cliente como query.</span></li>
+      <li><b>Process Mining</b><span>Conectar el event-log de Dataverse (vía OData) para medir cuellos de botella del flujo real. Fase posterior — es el add-on caro.</span></li>
+      <li><b>Capacitación y manuales</b><span>Entrenamiento por departamento + manuales de operación por rol. Corte para la nueva fase de construcción.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">05</span> Cotización</h2>
+    <p class="sub">Estimado, a validar contra el licenciamiento existente del cliente (pueden ya tener E5/Power Platform). Precios de lista Microsoft 2026. Supuesto: ~40 usuarios (campo + oficina), ~15 viewers de BI.</p>
+    <h3 style="font-size:15px;color:var(--soft);margin:6px 0 8px" class="mono">LICENCIAMIENTO · recurrente mensual (USD)</h3>
+    <table>
+      <tr><th>Componente</th><th>Base</th><th class="num">Mensual</th></tr>
+      <tr><td>Power Apps Premium</td><td>$20 / usuario × ~40</td><td class="num">~$800</td></tr>
+      <tr><td>Power Automate Pro <span style="color:var(--green)">(incluye Process Mining)</span></td><td>$220 / año ≈ $18/mes</td><td class="num">~$18</td></tr>
+      <tr><td>Power Pages (portal GC)</td><td>sitio + usuarios auth</td><td class="num">~$250</td></tr>
+      <tr><td>Power BI Pro</td><td>$14 / usuario × ~15</td><td class="num">~$210</td></tr>
+      <tr><td>Dataverse — base de datos</td><td>~20 GB incluidos por las 40 licencias; overage ~$40/GB</td><td class="num">~$0–120</td></tr>
+      <tr><td>Dataverse — archivos (fotos + CFDI)</td><td>~100 GB incluidos; overage ~$2/GB conforme crecen fotos</td><td class="num">~$0–150</td></tr>
+      <tr class="total"><td>Total operación mensual</td><td></td><td class="num">~$1,278 – $1,548</td></tr>
+    </table>
+    <h3 style="font-size:15px;color:var(--soft);margin:24px 0 8px" class="mono">DESARROLLO · una sola vez (USD)</h3>
+    <table>
+      <tr><th>Componente</th><th>Esfuerzo</th><th class="num">Estimado</th></tr>
+      <tr><td>Desarrollo de la plataforma (1 desarrollador full)</td><td>~8 semanas · ~320 h</td><td class="num">$12,800 – $25,600</td></tr>
+      <tr><td>Parser CFDI + portal GC + Process Mining setup</td><td>incluido en las 8 sem</td><td class="num">—</td></tr>
+      <tr><td>Capacitación + manuales de operación</td><td>Semana 8</td><td class="num">incluido</td></tr>
+      <tr class="total"><td>Desarrollo total (rango $40–$80/h)</td><td></td><td class="num">$12,800 – $25,600</td></tr>
+    </table>
+    <div class="callout"><p><b style="color:var(--ink)">Notas:</b> (1) Process Mining ya viene en Power Automate Pro (~$220/año), no es el add-on de tenant de $5,000/mes — arranca barato. (2) El Dataverse: las 40 licencias Power Apps ya traen capacidad incluida (~20 GB base de datos + ~100 GB archivos); el costo variable a vigilar es el <b style="color:var(--soft)">archivo de fotos</b>, que crece con la obra a ~$2/GB una vez pasado lo incluido. (3) El desarrollo se puede cotizar como fee fijo; si Derivator es el desarrollador interno, se absorbe y solo queda el licenciamiento (~$1,278/mes al arrancar).</p></div>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="wrap">
+    <h2><span class="n">06</span> Timeline · 8 semanas</h2>
+    <p class="sub">Tope de 2 meses para entrar a la nueva fase de construcción, incluyendo capacitación y entrega de manuales.</p>
+    <div class="tl">
+      <div class="wk"><div class="w">Sem 1–2</div><div class="b"><b>Fundación + piloto</b><small>Modelo de datos Dataverse · app de captura · 2 departamentos piloto probando la reconciliación físico-vs-financiero</small></div></div>
+      <div class="wk"><div class="w">Sem 3–4</div><div class="b"><b>Rollout de departamentos</b><small>PMO · Planning · Quality · MEP · CSA · Document Control al mismo modelo · flujos de gate y aprobación</small></div></div>
+      <div class="wk"><div class="w">Sem 5</div><div class="b"><b>Portal de GCs</b><small>Power Pages: estimaciones + carga de CFDI con parser · reconciliación de facturas</small></div></div>
+      <div class="wk"><div class="w">Sem 6</div><div class="b"><b>Reporte</b><small>Tableros Power BI para dirección y cliente · medidas DAX por dimensión</small></div></div>
+      <div class="wk"><div class="w">Sem 7</div><div class="b"><b>Proceso + endurecimiento</b><small>Process Mining sobre el event-log · pruebas · ajustes de datos</small></div></div>
+      <div class="wk"><div class="w">Sem 8</div><div class="b"><b>Capacitación y entrega</b><small>Entrenamiento por departamento · manuales de operación por rol · corte para la nueva fase</small></div></div>
+    </div>
+    <div class="pill-nav">
+      <a href="sistema.html">← Vista para dirección</a>
+      <a href="ticketing.html">Ticketing</a>
+      <a href="captura.html">Captura</a>
+      <a href="index.html">Briefing</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">ODATA QR03 · Documentación técnica de desarrollo · Derivator · Documento de trabajo interno · noindex</div></footer>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>ODATA QR03 · Sistema de Interconexión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+  --accent:var(--cyan);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Inter",system-ui,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%);
+  overflow-x:hidden;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan)}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
+header.hero{padding:60px 0 40px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
+.hero h1{font-size:clamp(30px,6vw,52px);font-weight:700;margin:14px 0 12px}
+.hero h1 span{color:var(--cyan)}
+.hero .lede{color:var(--soft);font-size:18px;max-width:64ch}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.chip{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--soft);background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+.chip b{color:var(--ink)}
+section{padding:46px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:27px;font-weight:600;display:flex;align-items:baseline;gap:12px}
+section h2 .n{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--cyan-dim)}
+.sub{color:var(--soft);margin:8px 0 26px;max-width:74ch}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.card p{color:var(--soft);font-size:14px;margin:0}
+.card .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase}
+.card .owns{color:var(--muted);font-size:12.5px;margin-top:9px;border-top:1px dashed var(--line);padding-top:9px}
+.card .owns b{color:var(--soft);font-weight:600}
+/* flow diagram */
+.flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+.flow .box{flex:1;min-width:150px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px;text-align:center}
+.flow .box .k{font-family:"JetBrains Mono";font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:.1em}
+.flow .box .t{font-family:"Space Grotesk";font-weight:600;font-size:15px;margin-top:5px}
+.flow .box .d{color:var(--muted);font-size:12.5px;margin-top:5px}
+.flow .arrow{display:flex;align-items:center;color:var(--cyan-dim);font-size:22px}
+@media(max-width:820px){.flow{flex-direction:column}.flow .arrow{transform:rotate(90deg);justify-content:center;padding:2px 0}}
+.box.sor{border-color:var(--cyan-dim);background:linear-gradient(180deg,rgba(53,194,201,.09),var(--panel))}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"JetBrains Mono";font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+td b{color:var(--ink)}
+.callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:18px 20px}
+.callout h3{font-size:17px;margin-bottom:6px}
+.callout p{color:var(--soft);font-size:14.5px;margin:0}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--cyan);color:#06232a;font-family:"Space Grotesk";font-weight:700;font-size:15px;text-decoration:none;padding:13px 22px;border-radius:11px;margin-top:6px}
+.cta.ghost{background:transparent;color:var(--cyan);border:1px solid var(--cyan-dim)}
+.cta small{font-weight:500;font-family:"JetBrains Mono";font-size:11px;opacity:.85}
+.two-num{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+.two-num .n{flex:1;min-width:180px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px}
+.two-num .n .big{font-family:"Space Grotesk";font-size:26px;font-weight:700}
+.two-num .phys .big{color:var(--green)} .two-num .fin .big{color:var(--amber)}
+.two-num .n small{color:var(--muted);font-size:12.5px;display:block;margin-top:4px}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+ol.steps li{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 16px 15px 54px;position:relative}
+ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:15px;top:15px;width:26px;height:26px;border-radius:8px;background:var(--cyan-dim);color:var(--ink);font-family:"JetBrains Mono";font-weight:600;display:flex;align-items:center;justify-content:center;font-size:13px}
+ol.steps li b{font-family:"Space Grotesk"}
+ol.steps li span{color:var(--soft);font-size:13.5px;display:block;margin-top:3px}
+footer{padding:40px 0 70px;color:var(--muted);font-size:13px}
+.pill-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill-nav a{font-family:"JetBrains Mono";font-size:12px;text-decoration:none;color:var(--soft);border:1px solid var(--line);border-radius:100px;padding:6px 13px;background:var(--panel)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">ODATA QR03 · Los Cues, El Marqués · Turner &amp; Townsend</div>
+    <h1>Una sola <span>fuente de verdad</span> para todo el proyecto</h1>
+    <p class="lede">Hoy cada equipo es una micro-empresa: procesos propios, formatos distintos, y la única forma de saber si el trabajo de otro te afecta es tocar puertas. Este sistema conecta a todos los departamentos sobre Microsoft — capturan una vez, y todos ven el avance real en tiempo real.</p>
+    <div class="meta-row">
+      <span class="chip">Base: <b>Dataverse · Power Platform</b></span>
+      <span class="chip">Frameworks: <b>AWP · Earned Value · Lineage</b></span>
+      <span class="chip">Arranque: <b>≤ 2 meses</b></span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">01</span> El problema, en tres síntomas</h2>
+    <p class="sub">Los tres son la misma enfermedad: no existe una fuente única de verdad con trazabilidad. Cada equipo genera su propia versión de la realidad y nada las reconcilia.</p>
+    <div class="grid g3">
+      <div class="card"><div class="tag">Aislamiento</div><h3>No se conectan</h3><p>Cada equipo reporta a su manera y no intercambia información. Enterarte de un cambio de otra área depende de ir a preguntar.</p></div>
+      <div class="card"><div class="tag">Captura</div><h3>Cada quien captura distinto</h3><p>No hay un método estandarizado. La misma realidad se registra de siete formas, y ninguna alimenta un tablero común.</p></div>
+      <div class="card"><div class="tag">Pérdida</div><h3>La info se muere</h3><p>Lo que se resuelve se resuelve; lo demás se pierde en un correo o un WhatsApp. Al final del proyecto no hay registro para medir ni aprender.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">02</span> Cómo funciona</h2>
+    <p class="sub">El dato entra una sola vez desde la obra, aterriza en Dataverse como fuente única, se reconcilia, y sale como reporte en tiempo real. Nadie pierde su proceso; todos escriben su verdad a un solo lugar.</p>
+    <div class="flow">
+      <div class="box"><div class="k">1 · Captura</div><div class="t">Power App móvil</div><div class="d">Foto + issue + ubicación, desde cualquier punto de obra</div></div>
+      <div class="arrow">→</div>
+      <div class="box sor"><div class="k">2 · Fuente única</div><div class="t">Dataverse</div><div class="d">Un dueño por cada dato. Código y linaje por cada punto</div></div>
+      <div class="arrow">→</div>
+      <div class="box"><div class="k">3 · Reconciliación</div><div class="t">Físico vs financiero</div><div class="d">Marca discrepancias; el dueño del dato desempata</div></div>
+      <div class="arrow">→</div>
+      <div class="box"><div class="k">4 · Reporte</div><div class="t">Power BI</div><div class="d">Manager, cliente y áreas ven lo mismo, en vivo</div></div>
+    </div>
+    <p class="sub" style="margin-top:24px">Un canal paralelo: un <b style="color:var(--soft)">bot de Power Automate</b> ingiere lo que hoy vive en WhatsApp y correo, para no obligar a nadie a cambiar de canal de golpe. Y <b style="color:var(--soft)">Process Mining</b> mide dónde se atora el proceso — convierte el "tocar puertas" en un cuello de botella cuantificado.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">03</span> Los departamentos</h2>
+    <p class="sub">Cada departamento es dueño de un dominio de dato (su System of Record) y consumidor de los demás. El sistema le da, en tiempo real, lo que hoy tiene que ir a buscar.</p>
+    <div class="grid g2">
+      <div class="card"><div class="tag">PMO</div><h3>Project Management</h3><p>Integra, prioriza y reporta al cliente. Deja de perseguir versiones: opera la reconciliación y arma el reporte como consulta sobre el dato.</p><div class="owns"><b>Dueño de:</b> estructura del proyecto, decisiones, reporte integrado</div></div>
+      <div class="card"><div class="tag">Cost Management</div><h3>Cost Management</h3><p>Registra el avance financiero etiquetado como financiero, sin pretender que es físico. El gate lo concilia contra el avance en obra.</p><div class="owns"><b>Dueño de:</b> costo, earned value, valorizaciones</div></div>
+      <div class="card"><div class="tag">Planning</div><h3>Planning</h3><p>Publica el cronograma y los paquetes de trabajo (AWP). Libera trabajo solo cuando el físico confirma que las restricciones están resueltas.</p><div class="owns"><b>Dueño de:</b> cronograma, paquetes AWP, fechas y secuencia</div></div>
+      <div class="card"><div class="tag">Quality</div><h3>Quality</h3><p>Levanta no-conformidades e inspecciones con código y estatus. Cada hallazgo es trazable hasta su cierre, no se pierde en un formato suelto.</p><div class="owns"><b>Dueño de:</b> NCRs, inspecciones, checklists de calidad</div></div>
+      <div class="card"><div class="tag">MEP</div><h3>Mechanical · Electrical · Plumbing</h3><p>Captura el avance físico de sus sistemas desde el punto de instalación. Es la fuente de verdad de su work-in-place, ligado al modelo BIM.</p><div class="owns"><b>Dueño de:</b> avance físico e issues de sistemas MEP</div></div>
+      <div class="card"><div class="tag">CSA</div><h3>Civil · Structural · Architectural</h3><p>Igual que MEP para obra civil, estructura y arquitectura: cantidades instaladas verificadas, no estimadas, ligadas a su paquete y elemento.</p><div class="owns"><b>Dueño de:</b> avance físico e issues de obra CSA</div></div>
+      <div class="card"><div class="tag">Document Control</div><h3>Document Control</h3><p>Gobierna documentos, versiones, transmittals y RFIs. Liga cada punto de obra al documento y al modelo — el linaje entre el papel y el fierro.</p><div class="owns"><b>Dueño de:</b> documentos, versiones, RFIs, transmittals</div></div>
+      <div class="card" style="border-color:var(--amber)"><div class="tag" style="color:var(--amber)">Externo</div><h3>General Contractors</h3><p>No están dentro del tenant, pero suben su avance y sus facturas por un formulario controlado. Su número entra etiquetado y se concilia — abajo el detalle.</p><div class="owns"><b>Entrega:</b> estimaciones de avance + facturas</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">04</span> Contratistas externos (General Contractors)</h2>
+    <p class="sub">El reto: los GC son externos y hoy reportan en su propio formato (el 40% que no cuadra con nadie). La solución no los mete al tenant — les da una puerta controlada.</p>
+    <div class="grid g2">
+      <div class="card"><div class="tag">Formulario</div><h3>Portal de estimaciones</h3><p>Un Power Apps Portal (o form de Power Pages) donde el GC captura su avance por frente/paquete. Entra a Dataverse etiquetado por <b style="color:var(--soft)">dimensión</b> y <b style="color:var(--soft)">dueño</b>, listo para reconciliar contra el físico de obra.</p></div>
+      <div class="card"><div class="tag">Facturación</div><h3>Carga de facturas</h3><p>El GC sube su factura (PDF/XML CFDI) por el mismo portal. Un flujo de Power Automate la lee, la liga a su estimación y a su paquete, y la manda al gate de aprobación de Costos. Nada llega por correo suelto.</p></div>
+    </div>
+    <p class="sub" style="margin-top:20px">Resultado: el GC sigue trabajando afuera, pero su avance y su dinero entran <b style="color:var(--soft)">al mismo modelo</b>, con código y trazabilidad, y se validan contra la realidad de obra en lugar de aceptarse a ciegas.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">05</span> El fin del "40% vs 25% vs 80%"</h2>
+    <p class="sub">El General Contractor reporta 40%, Supervisión 25%, Costos 80%. No mienten — miden dimensiones distintas y nadie lo etiqueta. El sistema separa las dos verdades:</p>
+    <div class="two-num">
+      <div class="n phys"><div class="big">Físico</div><small>Work-in-place verificado. Lo acredita obra (MEP/CSA) y solo cuando el paquete cumple su regla AWP: instalado, no estimado.</small></div>
+      <div class="n fin"><div class="big">Financiero</div><small>Earned value / costo. Lo acredita Cost Management sobre su propia base, sin pretender que es avance físico.</small></div>
+    </div>
+    <p class="sub" style="margin-top:20px">Cada número lleva su etiqueta y su dueño. Cuando el financiero se adelanta al físico, el sistema <b style="color:var(--soft)">marca la discrepancia</b> y la manda a revisión — la validación posterior de quién está más cerca de la realidad, que hoy no existe.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">06</span> Sobre qué se construye</h2>
+    <p class="sub">100% Microsoft, en el tenant del cliente, como una solución única y reversible. Sin herramientas nuevas que aprender fuera del ecosistema que ya usan.</p>
+    <div class="grid g4">
+      <div class="card"><div class="tag">Datos</div><h3>Dataverse</h3><p>La fuente única de verdad. Un modelo de datos con dueño por dominio.</p></div>
+      <div class="card"><div class="tag">Captura</div><h3>Power Apps</h3><p>Formularios móviles estandarizados para campo, offline.</p></div>
+      <div class="card"><div class="tag">Automatización</div><h3>Power Automate</h3><p>Bot de ingesta, aprobaciones, y Process Mining (versión Pro).</p></div>
+      <div class="card"><div class="tag">Reporte</div><h3>Power BI</h3><p>Tableros en vivo. El formato del cliente sale como consulta.</p></div>
+    </div>
+    <div class="callout" style="margin-top:22px">
+      <h3>El diferenciador</h3>
+      <p>Si capturamos a la <b style="color:var(--ink)">granularidad correcta</b> — cada punto con su código, dimensión, dueño y liga al paquete y al modelo — el formato específico que pida el cliente deja de importar: se genera como una ecuación sobre el dato, no como un reporte que alguien rehace a mano. Somos dueños de la verdad granular; los reportes son derivaciones.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">07</span> Plan de arranque · ≤ 2 meses</h2>
+    <p class="sub">Se implementa en el tenant del cliente a tiempo para la nueva fase de construcción, incluyendo capacitación y manuales de operación.</p>
+    <ol class="steps">
+      <li><b>Semanas 1–2 · Fundación y piloto</b><span>Modelo de datos en Dataverse + Power App de captura, con 2 departamentos piloto para probar la reconciliación físico-vs-financiero.</span></li>
+      <li><b>Semanas 3–5 · Rollout de departamentos</b><span>Se suman PMO, Planning, Quality, MEP, CSA y Document Control al mismo modelo. Portal de GCs para estimaciones y facturas.</span></li>
+      <li><b>Semanas 6–7 · Reporte y proceso</b><span>Tableros Power BI para dirección y cliente. Process Mining sobre el event-log para medir cuellos de botella.</span></li>
+      <li><b>Semana 8 · Capacitación y entrega</b><span>Entrenamiento por departamento, manuales de operación entregados, y arranque en la nueva fase.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="wrap">
+    <h2><span class="n">08</span> Para dirección</h2>
+    <p class="sub">Presentación ejecutiva en inglés, lista para descargar y compartir con los directivos.</p>
+    <a class="cta" href="ODATA_QR03_Single_Source_of_Truth.pptx" download>⬇ Descargar PowerPoint (EN) <small>ODATA_QR03_Single_Source_of_Truth.pptx</small></a>
+    <div class="pill-nav">
+      <a href="index.html">← Briefing</a>
+      <a href="plan.html">Plan</a>
+      <a href="ticketing.html">Ticketing</a>
+      <a href="sistema-dev.html">Documentación técnica →</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">ODATA QR03 · Sistema de interconexión de equipos · Documento de trabajo interno · noindex</div></footer>
+</body>
+</html>
