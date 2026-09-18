@@ -110,7 +110,7 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
       <span class="chip">Lentes: <b>entrega/PM · datos · H&amp;S</b></span>
     </div>
     <p class="note" style="margin-top:18px">Página fantasma — no indexada, no listada en d3x.biz. Uso interno del equipo para la visita.</p>
-    <p class="mono" style="margin-top:14px;font-size:13px">Herramientas del engagement: <a href="sistema.html">Sistema de interconexión (vista para dirección)</a> &nbsp;·&nbsp; <a href="sistema-dev.html">Documentación técnica (esquemas + cotización)</a> &nbsp;·&nbsp; <a href="plan.html">Playbook de campo (día por día + KPIs + preguntas)</a> &nbsp;·&nbsp; <a href="captura.html">Captura de fuentes de dato (registro en vivo)</a> &nbsp;·&nbsp; <a href="recon.html">Recon satelital de QR03</a> &nbsp;·&nbsp; <a href="encuesta.html">Encuesta de captura por departamento</a> &nbsp;·&nbsp; <a href="ticketing.html">Ticketing MVP — arquitectura</a> &nbsp;·&nbsp; <a href="competencia.html">Posicionamiento competitivo</a></p>
+    <p class="mono" style="margin-top:14px;font-size:13px">Herramientas del engagement: <a href="sistema.html">Sistema de interconexión (vista para dirección)</a> &nbsp;·&nbsp; <a href="sistema-dev.html">Documentación técnica (48 tablas + cotización)</a> &nbsp;·&nbsp; <a href="erd.html">ERD interactivo de la base de datos</a> &nbsp;·&nbsp; <a href="plan.html">Playbook de campo (día por día + KPIs + preguntas)</a> &nbsp;·&nbsp; <a href="captura.html">Captura de fuentes de dato (registro en vivo)</a> &nbsp;·&nbsp; <a href="recon.html">Recon satelital de QR03</a> &nbsp;·&nbsp; <a href="encuesta.html">Encuesta de captura por departamento</a> &nbsp;·&nbsp; <a href="ticketing.html">Ticketing MVP — arquitectura</a> &nbsp;·&nbsp; <a href="competencia.html">Posicionamiento competitivo</a></p>
   </div>
 </header>
 
@@ -253,6 +253,29 @@ footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
       <li><b>Medir:</b> cuántas fuentes tienen dueño claro vs difuso, y cuántos datos están duplicados — es tu baseline del engagement.</li>
       <li><b>Cerrar cada día:</b> un entregable por día (ver <a href="plan.html">Playbook</a>) para no salir con las manos vacías.</li>
     </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="n">10</span> El sistema de interconexión — entregable</h2>
+    <p class="sub">Del diagnóstico al blueprint: el modelo de datos completo del single source of truth, su ERD navegable, y el instrumento para levantar con cada departamento qué información pueden aportar.</p>
+    <div class="grid g3" style="margin-bottom:18px">
+      <div class="card"><h3>Modelo de datos · 48 tablas</h3><p>El esquema completo en Dataverse — identidad, AWP, planning, costos/EVM, calidad (commissioning L1–L5), facturación MX y process mining — con la codificación granular OBDMX·task·línea y las reglas de correctitud. <a href="sistema-dev.html">Ver documentación técnica →</a></p></div>
+      <div class="card"><h3>ERD interactivo</h3><p>El mapa de desarrollo navegable: las 48 tablas con sus <b>data types, primary keys y foreign keys</b>. Arrastra para mover, rueda o controles para zoom. <a href="erd.html">Abrir el ERD →</a> &nbsp;·&nbsp; <a href="ODATA_QR03_schema_v1.dbml" download>DBML</a></p></div>
+      <div class="card"><h3>Mapa de correlación</h3><p>Cómo se ligan las 48 tablas alrededor de los tres ejes (línea física · costos · facturación), con el detalle de cada relación y las reglas de modelado Dataverse. <a href="sistema-dev.html">En la doc técnica →</a></p></div>
+    </div>
+    <div class="prio high"><span class="tag">Levantamiento por departamento</span><h3>8 formatos imprimibles — qué información puede aportar cada área</h3><p>En lenguaje de obra (sin jerga técnica ni nombres de tablas): cada dato con su formato y una casilla para marcar si el equipo <b>ya lo tiene · lo puede obtener · no es posible · hay que revisarlo</b>. Para imprimir, llenar a mano, escanear y devolver. Así sabemos, campo por campo, qué se puede poblar hoy.</p>
+    <p class="mono" style="font-size:13px;margin-top:10px">
+      <a href="levantamiento/ODATA_QR03_Levantamiento_PMO.pdf" download>PMO</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_Cost_Management.pdf" download>Cost Management</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_Planning.pdf" download>Planning</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_Quality.pdf" download>Quality</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_MEP.pdf" download>MEP</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_CSA.pdf" download>CSA</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_Document_Control.pdf" download>Document Control</a> &nbsp;·&nbsp;
+      <a href="levantamiento/ODATA_QR03_Levantamiento_General_Contractors.pdf" download>General Contractors</a>
+    </p></div>
   </div>
 </section>
 
