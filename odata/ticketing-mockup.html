@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>ODATA QR03 · Ticketing (demo)</title>
+<style>
+:root{--bg:#0b1015;--panel:#111a22;--panel2:#0e161d;--line:#1f2c37;--ink:#e8eef2;--soft:#9fb2c0;--mute:#6b8090;
+--cyan:#35c2c9;--amber:#e8a13a;--green:#4fbf8b;--red:#e56a6a;--violet:#9a8cff;}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,sans-serif}
+header{padding:14px 22px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header .t{font-weight:700}header .t b{color:var(--cyan)}header .proj{color:var(--soft);font-size:13px;font-family:ui-monospace,Consolas,monospace}
+.badge{margin-left:auto;font-size:11px;color:var(--green);border:1px solid var(--green);border-radius:20px;padding:3px 10px}
+.badge.demo{color:var(--amber);border-color:var(--amber);margin-left:8px}
+nav{display:flex;gap:4px;padding:10px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:var(--panel2)}
+nav button{background:transparent;border:1px solid transparent;color:var(--soft);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600}
+nav button:hover{color:var(--ink)}nav button.on{background:var(--panel);color:var(--cyan);border-color:var(--line)}
+main{padding:20px 22px;max-width:1240px}
+.grid{display:grid;gap:14px}.g5{grid-template-columns:repeat(5,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi .n{font-size:32px;font-weight:800;line-height:1}.kpi .l{color:var(--soft);font-size:12px;margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
+h2{font-size:16px;margin:6px 0 14px;font-weight:700}h2 span{color:var(--mute);font-weight:600;font-size:13px}
+h3{font-size:12px;color:var(--mute);margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:11px;text-transform:uppercase}td.num,th.num{text-align:right;font-family:ui-monospace,Consolas,monospace}
+.pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;white-space:nowrap}
+.ok{background:rgba(79,191,139,.15);color:var(--green)}.warn{background:rgba(232,161,58,.15);color:var(--amber)}
+.bad{background:rgba(229,106,106,.16);color:var(--red)}.mut{background:rgba(155,140,255,.14);color:var(--violet)}.cy{background:rgba(53,194,201,.14);color:var(--cyan)}
+.cols{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.col{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;min-height:120px}
+.col h3{display:flex;justify-content:space-between}
+.tk{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:9px;cursor:pointer;border-left:3px solid var(--line)}
+.tk:hover{border-color:var(--cyan)}.tk.p-Alta{border-left-color:var(--red)}.tk.p-Media{border-left-color:var(--amber)}.tk.p-Baja{border-left-color:var(--mute)}
+.tk .id{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--mute)}
+.tk .ti{font-size:13px;margin:3px 0 6px}.tk .m{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--soft)}
+.sub{color:var(--soft);font-size:13px;margin:0 0 10px}
+.callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--soft)}
+.flag{border-left:3px solid var(--red)!important}
+.det{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--panel);border-left:1px solid var(--line);padding:20px;transform:translateX(100%);transition:.25s;overflow:auto;z-index:10}
+.det.on{transform:none}.det .x{float:right;cursor:pointer;color:var(--mute);font-size:20px}
+.det .kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}.det .kv b{color:var(--soft);font-weight:600}
+.tree{border-left:2px solid var(--line);margin-left:10px;padding-left:16px}
+.node{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0}
+.footer{color:var(--mute);font-size:11px;padding:14px 22px;border-top:1px solid var(--line);font-family:ui-monospace,Consolas,monospace}
+</style></head><body>
+<header><div><div class="t">ODATA QR03 · <b>Ticketing de ingenieria</b></div><div class="proj">El loop que regresa · dueno + aging + lineage</div></div>
+<span class="badge">● en vivo</span><span class="badge demo">DEMO · data simulada</span></header>
+<nav id="nav"></nav><main id="view"></main>
+<div class="det" id="det"></div>
+<div class="footer">Demo interactivo · tickets simulados · d3x.biz/odata · Turner &amp; Townsend</div>
+<script>
+const DATA={"tickets": [{"id": "TKT-101", "type": "Problema", "title": "Filtracion detectada en Data Hall 1", "dept": "PMO", "asig": "PMO", "owner": "L. Arroyo", "estado": "En revision", "prio": "Alta", "aging": 6, "sla": 10, "parent": null, "children": ["TKT-102", "TKT-103", "TKT-104"]}, {"id": "TKT-102", "type": "RFI", "title": "Revisar ruteo de tuberia sobre losa DH1", "dept": "PMO", "asig": "MEP", "owner": "J. Rangel", "estado": "Asignado", "prio": "Alta", "aging": 4, "sla": 7, "parent": "TKT-101"}, {"id": "TKT-103", "type": "NCR", "title": "Sello de impermeabilizacion fuera de norma", "dept": "PMO", "asig": "CSA", "owner": "M. Diaz", "estado": "Resuelto", "prio": "Alta", "aging": 3, "sla": 7, "parent": "TKT-101"}, {"id": "TKT-104", "type": "NCR", "title": "Verificar prueba de estanqueidad", "dept": "PMO", "asig": "Quality", "owner": "P. Luna", "estado": "Abierto", "prio": "Media", "aging": 2, "sla": 7, "parent": "TKT-101"}, {"id": "TKT-088", "type": "RFI", "title": "Altura de dintel puerta SE1", "dept": "CSA", "asig": "Doc Control", "owner": "A. Vega", "estado": "Asignado", "prio": "Media", "aging": 9, "sla": 7, "parent": null}, {"id": "TKT-090", "type": "Cambio", "title": "Tablero adicional en Sala Electrica 1", "dept": "Cost", "asig": "PMO", "owner": "L. Arroyo", "estado": "En revision", "prio": "Alta", "aging": 5, "sla": 10, "parent": null}, {"id": "TKT-091", "type": "Constraint", "title": "Material de tableros MT en fabrica", "dept": "MEP", "asig": "Procura", "owner": "R. Soto", "estado": "Abierto", "prio": "Alta", "aging": 12, "sla": 8, "parent": null}, {"id": "TKT-084", "type": "RFI", "title": "Especificacion de piso tecnico DH2", "dept": "Planning", "asig": "Doc Control", "owner": "A. Vega", "estado": "Cerrado", "prio": "Baja", "aging": 1, "sla": 7, "parent": null}, {"id": "TKT-079", "type": "NCR", "title": "Soldadura de charola fuera de tolerancia", "dept": "Quality", "asig": "MEP", "owner": "J. Rangel", "estado": "Resuelto", "prio": "Media", "aging": 4, "sla": 7, "parent": null}, {"id": "TKT-095", "type": "Cambio", "title": "Reubicacion de PDU en DH1", "dept": "MEP", "asig": "Cost", "owner": "C. Mena", "estado": "Abierto", "prio": "Media", "aging": 3, "sla": 10, "parent": null}, {"id": "TKT-071", "type": "RFI", "title": "Detalle de anclaje estructural yard", "dept": "CSA", "asig": "CSA", "owner": "M. Diaz", "estado": "Cerrado", "prio": "Baja", "aging": 2, "sla": 7, "parent": null}, {"id": "TKT-097", "type": "Constraint", "title": "Acceso a zona norte pendiente permiso", "dept": "CSA", "asig": "PMO", "owner": "L. Arroyo", "estado": "Asignado", "prio": "Alta", "aging": 8, "sla": 8, "parent": null}]};const T=DATA.tickets;
+const byId=id=>T.find(t=>t.id===id);
+const $=h=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild;};
+const STATES=["Abierto","Asignado","En revision","Resuelto","Cerrado"];
+const over=t=>t.estado!=="Cerrado"&&t.aging>t.sla;
+const stCls=s=>({"Abierto":"warn","Asignado":"cy","En revision":"mut","Resuelto":"ok","Cerrado":"ok"}[s]||"mut");
+const pill=(t,c)=>`<span class="pill ${c}">${t}</span>`;
+function agingPill(t){return over(t)?pill("⚠ "+t.aging+"d / SLA "+t.sla,"bad"):pill(t.aging+"d / SLA "+t.sla,"ok");}
+
+function openDet(id){const t=byId(id);const kids=(t.children||[]).map(byId);
+ const d=document.getElementById('det');
+ d.innerHTML=`<span class="x" onclick="document.getElementById('det').classList.remove('on')">✕</span>
+  <div class="id" style="font-family:ui-monospace;color:var(--mute);font-size:12px">${t.id} · ${t.type}</div>
+  <h2 style="margin:6px 0 12px">${t.title}</h2>
+  <div class="kv"><b>Estado</b>${pill(t.estado,stCls(t.estado))}</div>
+  <div class="kv"><b>Prioridad</b>${pill(t.prio,t.prio==="Alta"?"bad":t.prio==="Media"?"warn":"mut")}</div>
+  <div class="kv"><b>Origen</b><span>${t.dept}</span></div>
+  <div class="kv"><b>Asignado a (dueno)</b><span>${t.asig} · ${t.owner}</span></div>
+  <div class="kv"><b>Aging / SLA</b>${agingPill(t)}</div>
+  ${t.parent?`<div class="kv"><b>Padre</b><span style="cursor:pointer;color:var(--cyan)" onclick="openDet('${t.parent}')">${t.parent}</span></div>`:''}
+  ${kids.length?`<div style="margin-top:12px"><h3>Hijos (cascada por disciplina)</h3>${kids.map(k=>`<div class="node" style="cursor:pointer" onclick="openDet('${k.id}')"><b>${k.id}</b> ${pill(k.asig,'cy')} ${pill(k.estado,stCls(k.estado))}<div class="sub" style="margin:4px 0 0">${k.title}</div></div>`).join('')}
+    <div class="callout" style="margin-top:10px">Cuando los ${kids.length} hijos cierran, el padre cierra y la resolucion <b>regresa al origen</b> (${t.dept}) — el loop se cierra, no muere en un correo.</div></div>`:''}`;
+ d.classList.add('on');
+}
+window.openDet=openDet;
+
+const V={};
+V["Tablero"]=()=>{
+ let cols=STATES.map(s=>{const ts=T.filter(t=>t.estado===s);
+   let cards=ts.map(t=>`<div class="tk p-${t.prio}" onclick="openDet('${t.id}')">
+     <div class="id">${t.id} · ${t.type}${t.parent?' · ⤷ '+t.parent:''}${(t.children||[]).length?' · ⦿ padre':''}</div>
+     <div class="ti">${t.title}</div>
+     <div class="m"><span>${t.asig} · ${t.owner}</span>${over(t)?pill(t.aging+'d','bad'):`<span>${t.aging}d</span>`}</div></div>`).join('');
+   return `<div class="col"><h3>${s} <span>${ts.length}</span></h3>${cards||'<div class="sub" style="color:var(--mute)">—</div>'}</div>`;}).join('');
+ return `<h2>Tablero de tickets <span>· clic en un ticket para ver detalle, dueno y cascada</span></h2>
+  <p class="sub">Cada ticket tiene <b>estado, dueno y aging</b>; el borde marca prioridad; el rojo del aging marca SLA vencido. Ningun ticket queda huerfano.</p>
+  <div class="cols">${cols}</div>`;
+};
+
+V["Aging & SLA"]=()=>{
+ const open=T.filter(t=>t.estado!=="Cerrado");const esc=T.filter(over);
+ const depts=[...new Set(T.map(t=>t.asig))];
+ const byDept=depts.map(d=>({label:d,v:T.filter(t=>t.asig===d&&t.estado!=="Cerrado").length}));
+ const compliance=Math.round((1-esc.length/Math.max(open.length,1))*100);
+ let bars=svgBars(byDept.map(d=>({label:d.label.slice(0,6),v:d.v})),640,190,Math.max(...byDept.map(d=>d.v),1));
+ let rows=[...T].filter(t=>t.estado!=="Cerrado").sort((a,b)=>b.aging-a.aging).map(t=>`<tr class="${over(t)?'flag':''}">
+   <td>${t.id}</td><td>${t.title}</td><td>${pill(t.asig,'cy')}</td><td>${pill(t.estado,stCls(t.estado))}</td>
+   <td class="num">${t.aging}d</td><td class="num">${t.sla}d</td><td>${over(t)?pill('⚠ ESCALADO','bad'):pill('en SLA','ok')}</td></tr>`).join('');
+ return `<h2>Aging &amp; escalacion <span>· el gate que avisa antes de que se pudra</span></h2>
+  <div class="grid g4" style="margin-bottom:16px">
+   ${kc(open.length,'Tickets abiertos','var(--cyan)')}
+   ${kc(esc.length,'Escalados (SLA vencido)','var(--red)')}
+   ${kc(Math.round(open.reduce((s,t)=>s+t.aging,0)/Math.max(open.length,1))+'d','Aging promedio','var(--amber)')}
+   ${kc(compliance+'%','Cumplimiento SLA',compliance>=80?'var(--green)':'var(--amber)')}
+  </div>
+  <div class="grid g2">
+   <div class="card"><h3>Carga abierta por departamento</h3>${bars}</div>
+   <div class="card"><h3>Cola por aging (escalados en rojo)</h3><div style="max-height:260px;overflow:auto"><table>
+     <tr><th>ID</th><th>Asunto</th><th>Dueno</th><th>Estado</th><th class="num">Aging</th><th class="num">SLA</th><th>Gate</th></tr>${rows}</table></div></div>
+  </div>`;
+};
+function kc(n,l,c){return `<div class="card kpi"><div class="n" style="color:${c}">${n}</div><div class="l">${l}</div></div>`;}
+function svgBars(items,w=560,h=190,max=100){const pad=30,n=items.length,bw=(w-pad-10)/n*0.6;
+ let o=`<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
+ const X=i=>pad+i*(w-pad-10)/n+((w-pad-10)/n-bw)/2,Y=v=>h-22-(v/max)*(h-42);
+ items.forEach((it,i)=>{const y=Y(it.v);o+=`<rect x="${X(i)}" y="${y}" width="${bw}" height="${h-22-y}" rx="3" fill="#35c2c9"/>
+  <text x="${X(i)+bw/2}" y="${y-5}" fill="#e8eef2" font-size="11" text-anchor="middle">${it.v}</text>
+  <text x="${X(i)+bw/2}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${it.label}</text>`;});
+ return o+'</svg>';}
+
+V["Lineage · cascada"]=()=>{
+ const p=byId("TKT-101");const kids=(p.children||[]).map(byId);
+ return `<h2>Lineage: un problema grande, hijos por disciplina <span>· cascada → el loop regresa</span></h2>
+  <p class="sub">Un problema se atomiza en hijos por disciplina, cada uno con su dueno. La info no se pierde: cuando todos cierran, el padre cierra y la resolucion <b>regresa al origen</b>.</p>
+  <div class="card">
+   <div class="node" style="border-left:3px solid var(--red);cursor:pointer" onclick="openDet('${p.id}')">
+     <div class="id" style="font-family:ui-monospace;color:var(--mute);font-size:12px">${p.id} · ${p.type} · origen ${p.dept}</div>
+     <b>${p.title}</b> &nbsp;${pill(p.estado,stCls(p.estado))} ${pill('Alta','bad')}
+     <div class="sub" style="margin:5px 0 0">Dueno del problema: ${p.owner} — coordina el cierre de los hijos.</div></div>
+   <div class="tree">${kids.map(k=>`<div class="node" style="cursor:pointer" onclick="openDet('${k.id}')">
+     <div class="id" style="font-family:ui-monospace;color:var(--mute);font-size:12px">${k.id} · ${k.type} → ${k.asig}</div>
+     <b>${k.title}</b> &nbsp;${pill(k.estado,stCls(k.estado))}
+     <div class="sub" style="margin:5px 0 0">Dueno: ${k.owner} · aging ${k.aging}d / SLA ${k.sla}d</div></div>`).join('')}</div>
+   <div class="callout" style="margin-top:14px">Estado del loop: 1 resuelto, 1 asignado, 1 abierto. El padre <b>no cierra hasta que los 3 hijos cierren</b>; al cerrar, PMO (el origen) recibe la confirmacion automatica. Asi la info <b>regresa</b> en vez de morir en un correo o WhatsApp.</div>
+  </div>`;
+};
+
+const tabs=Object.keys(V);let cur=tabs[0];const nav=document.getElementById('nav');
+tabs.forEach(t=>{const b=$(`<button>${t}</button>`);b.dataset.t=t;b.onclick=()=>{cur=t;draw();};nav.appendChild(b);});
+function draw(){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===cur));
+ document.getElementById('view').innerHTML=V[cur]();document.getElementById('det').classList.remove('on');}
+draw();
+</script></body></html>
