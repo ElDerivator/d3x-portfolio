@@ -5,37 +5,39 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#0a0f14;--panel:#111a22;--panel2:#0e161d;--panel3:#0c141b;--line:#1f2c37;--line2:#2a3a48;
---ink:#e8eef2;--soft:#9fb2c0;--mute:#6b8090;
---cyan:#35c2c9;--amber:#e8a13a;--green:#4fbf8b;--red:#e56a6a;--violet:#9a8cff;--gold:#e5b769;}
+:root{--bg:#0a1120;--panel:#12203a;--panel2:#0e1a30;--panel3:#0b1524;--line:#22344f;--line2:#2f4568;
+--ink:#e9eef4;--soft:#a5b4c9;--mute:#7c8ba6;
+--navy:#1e4479;--cyan:#33a6e3;--blue2:#80c8ee;--green:#3fb37f;--amber:#e5b23d;--red:#e0655f;--violet:#80c8ee;--gold:#e5b23d;}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;
-background-image:radial-gradient(60% 45% at 82% -8%,rgba(53,194,201,.10) 0%,transparent 60%);}
+background-image:radial-gradient(58% 44% at 82% -8%,rgba(30,68,121,.55) 0%,transparent 60%);}
 .mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
 h2{font-family:"Space Grotesk",sans-serif;font-size:17px;margin:26px 0 12px;font-weight:600;letter-spacing:.01em}
 h2 span{color:var(--mute);font-weight:500;font-size:13px;font-family:Inter}
 h3{font-size:12px;color:var(--soft);margin:0 0 10px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 
 /* header */
-header{padding:15px 24px 13px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:linear-gradient(180deg,var(--panel2),transparent)}
-.brand{display:flex;align-items:center;gap:12px}
-.mark{width:34px;height:34px;flex:none}
-.brand .t{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em}
+header{padding:15px 24px 13px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:linear-gradient(180deg,#0e1c33,transparent)}
+.brand{display:flex;align-items:center;gap:14px}
+.wordmark{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;color:#fff;letter-spacing:.004em;white-space:nowrap}
+.wordmark .amp{color:var(--cyan);font-weight:500}
+.vdiv{width:1px;align-self:stretch;min-height:30px;background:var(--line2)}
+.brand .t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:16px;letter-spacing:.01em}
 .brand .t b{color:var(--cyan);font-weight:700}
 .brand .sub{color:var(--soft);font-size:11.5px;letter-spacing:.02em;margin-top:1px}
 .badges{margin-left:auto;display:flex;gap:8px;align-items:center}
 .badge{font-size:11px;border-radius:20px;padding:4px 11px;font-weight:600;font-family:"JetBrains Mono",monospace;display:inline-flex;align-items:center;gap:6px}
-.badge.live{color:var(--green);border:1px solid rgba(79,191,139,.4)}
-.badge.live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(79,191,139,.6);animation:pulse 2.4s infinite}
-.badge.demo{color:var(--amber);border:1px solid rgba(232,161,58,.4)}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,191,139,.5)}70%{box-shadow:0 0 0 7px rgba(79,191,139,0)}100%{box-shadow:0 0 0 0 rgba(79,191,139,0)}}
+.badge.live{color:var(--green);border:1px solid rgba(63,179,127,.4)}
+.badge.live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(63,179,127,.6);animation:pulse 2.4s infinite}
+.badge.demo{color:var(--amber);border:1px solid rgba(229,178,61,.4)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,179,127,.5)}70%{box-shadow:0 0 0 7px rgba(63,179,127,0)}100%{box-shadow:0 0 0 0 rgba(63,179,127,0)}}
 
 /* ribbon */
 .ribbon{display:flex;gap:10px;flex-wrap:wrap;padding:10px 24px;border-bottom:1px solid var(--line);background:var(--panel3);font-size:12.5px}
 .ribbon span{color:var(--ink);font-family:"JetBrains Mono",monospace;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:5px 11px}
 .ribbon span i{color:var(--mute);font-style:normal;margin-right:7px;text-transform:uppercase;letter-spacing:.06em;font-size:10.5px}
-.ribbon .flagchip{color:var(--amber);border-color:rgba(232,161,58,.4)}
+.ribbon .flagchip{color:var(--amber);border-color:rgba(229,178,61,.4)}
 
 /* nav */
 nav{display:flex;gap:4px;padding:9px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:var(--panel2);position:sticky;top:0;z-index:5}
@@ -73,8 +75,8 @@ tr.det>td{padding:0;border-bottom:1px solid var(--line)}
 .det-in{padding:14px 16px;background:var(--panel3);display:grid;gap:12px}
 
 .pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;white-space:nowrap}
-.ok{background:rgba(79,191,139,.15);color:var(--green)}.warn{background:rgba(232,161,58,.15);color:var(--amber)}
-.bad{background:rgba(229,106,106,.16);color:var(--red)}.mut{background:rgba(155,140,255,.14);color:var(--violet)}
+.ok{background:rgba(63,179,127,.15);color:var(--green)}.warn{background:rgba(229,178,61,.15);color:var(--amber)}
+.bad{background:rgba(224,101,95,.16);color:var(--red)}.mut{background:rgba(128,200,238,.14);color:var(--blue2)}
 .bar{height:9px;background:var(--panel3);border-radius:6px;overflow:hidden;margin-top:6px}
 .bar>i{display:block;height:100%;border-radius:6px;width:0;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .row-fx{display:flex;gap:8px;align-items:center}
@@ -85,9 +87,9 @@ select{background:var(--panel);color:var(--ink);border:1px solid var(--line2);bo
 .callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:10px;padding:13px 15px;font-size:13.5px;color:var(--soft)}
 
 /* alert (hero discrepancy) */
-.alert{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(180deg,rgba(229,106,106,.09),var(--panel));border:1px solid rgba(229,106,106,.35);border-radius:14px;padding:18px 20px;margin-bottom:6px}
+.alert{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(180deg,rgba(224,101,95,.09),var(--panel));border:1px solid rgba(224,101,95,.35);border-radius:14px;padding:18px 20px;margin-bottom:6px}
 .alert.pulse{animation:al 3s ease-in-out infinite}
-@keyframes al{0%,100%{box-shadow:0 0 0 0 rgba(229,106,106,0)}50%{box-shadow:0 0 22px -6px rgba(229,106,106,.35)}}
+@keyframes al{0%,100%{box-shadow:0 0 0 0 rgba(224,101,95,0)}50%{box-shadow:0 0 22px -6px rgba(224,101,95,.35)}}
 .alert-ic{font-size:22px;line-height:1;color:var(--red);flex:none;margin-top:1px}
 .alert-body{flex:1;min-width:0}
 .alert-t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:16px;color:var(--ink)}
@@ -100,16 +102,15 @@ select{background:var(--panel);color:var(--ink);border:1px solid var(--line2);bo
 .tri .mb>i{display:block;height:100%;border-radius:4px;width:0;transition:width 1s cubic-bezier(.22,1,.36,1)}
 .alert-note{font-size:13px;color:var(--soft);margin-top:4px}
 .alert-cta{flex:none;align-self:center;background:transparent;border:1px solid var(--red);color:var(--red);border-radius:9px;padding:9px 14px;font-weight:700;font-size:13px;cursor:pointer;transition:background .15s}
-.alert-cta:hover{background:rgba(229,106,106,.12)}
+.alert-cta:hover{background:rgba(224,101,95,.12)}
 
 /* svg */
 .chart text{font-family:"JetBrains Mono",monospace}
 .chart circle.pt{transition:r .12s}
 .chart g.hit:hover circle.pt{r:4.5}
-path.draw{transition:none}
 
 /* lineage popover */
-#pop{position:absolute;z-index:50;display:none;width:288px;background:#0d1720;border:1px solid var(--line2);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.55);padding:14px 15px;font-size:13px}
+#pop{position:absolute;z-index:50;display:none;width:288px;background:#0d1a2e;border:1px solid var(--line2);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.55);padding:14px 15px;font-size:13px}
 #pop .pop-h{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
 #pop .pop-v{font-family:"Space Grotesk";font-size:19px;font-weight:600;margin:3px 0 10px}
 #pop table{font-size:12.5px}#pop td{padding:5px 0;border-bottom:1px solid var(--line)}
@@ -124,11 +125,8 @@ path.draw{transition:none}
 </style></head><body>
 <header>
   <div class="brand">
-    <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <circle cx="20" cy="20" r="18.5" stroke="#1f2c37"/>
-      <circle cx="20" cy="8.5" r="3.1" fill="#35c2c9"/><circle cx="9.5" cy="26" r="3.1" fill="#4fbf8b"/><circle cx="30.5" cy="26" r="3.1" fill="#e5b769"/>
-      <path d="M20 8.5 9.5 26M20 8.5 30.5 26M9.5 26h21" stroke="#35c2c9" stroke-width="1.3" opacity=".55"/>
-    </svg>
+    <span class="wordmark">turner <span class="amp">&amp;</span> townsend</span>
+    <span class="vdiv"></span>
     <div><div class="t">ODATA QR03 · <b>Single Source of Truth</b></div><div class="sub">One source · one owner · one version — everything reconciled</div></div>
   </div>
   <div class="badges"><span class="badge live"><span class="dot"></span>live</span><span class="badge demo">demo · simulated data</span></div>
@@ -137,7 +135,7 @@ path.draw{transition:none}
 <nav id="nav"></nav>
 <main id="view"></main>
 <div id="pop"></div>
-<div class="footer"><span>Interactive demo · simulated data to illustrate the system · Turner &amp; Townsend</span><span>Click any KPI to trace its source · d3x.biz/odata</span></div>
+<div class="footer"><span>Interactive demo · simulated data · Turner &amp; Townsend · ODATA QR03</span><span>Click any KPI to trace its source</span></div>
 <script>
 const DATA = {"proj": "OBDMX-QR03 · Phase 1 (200 MW)", "areas": [{"id": "DH1", "name": "Data Hall 1", "fis": 72, "fin": 78, "disc": "MEP+CSA"}, {"id": "DH2", "name": "Data Hall 2", "fis": 38, "fin": 41, "disc": "MEP+CSA"}, {"id": "SE1", "name": "Electrical Room 1", "fis": 25, "fin": 80, "disc": "MEP", "flag": true, "gc": 40}, {"id": "BAT", "name": "Battery Room", "fis": 54, "fin": 57, "disc": "MEP"}, {"id": "YRD", "name": "Yard / Exterior works", "fis": 61, "fin": 59, "disc": "CSA"}], "lines": {"DH1": [["L001 Main AC duct", "MEP", "m", 120, 96, "units"], ["L002 Cable tray", "MEP", "m", 200, 150, "units"], ["L003 Partition wall", "CSA", "m²", 340, 300, "units"], ["L004 Raised floor", "CSA", "m²", 500, 320, "weighted"]], "DH2": [["L010 AC duct", "MEP", "m", 120, 40, "units"], ["L011 Cable tray", "MEP", "m", 200, 72, "units"], ["L012 Wall", "CSA", "m²", 340, 150, "units"]], "SE1": [["L020 MV switchboards", "MEP", "pcs", 8, 2, "steps"], ["L021 Conduit", "MEP", "m", 90, 70, "units"], ["L022 Earthing bar", "MEP", "m", 60, 15, "units"]], "BAT": [["L030 Battery racks", "MEP", "pcs", 24, 13, "units"], ["L031 Ventilation", "MEP", "m", 80, 44, "units"]], "YRD": [["L040 Paving", "CSA", "m²", 1200, 760, "units"], ["L041 Drainage", "CSA", "m", 300, 180, "units"]]}, "packages": [{"id": "IWP-DH1-03", "area": "DH1", "type": "IWP", "released": true, "constraints": 0}, {"id": "IWP-DH2-01", "area": "DH2", "type": "IWP", "released": false, "constraints": 2, "cnote": "material + drawing rev"}, {"id": "IWP-SE1-02", "area": "SE1", "type": "IWP", "released": false, "constraints": 1, "cnote": "switchboards in factory"}, {"id": "IWP-BAT-01", "area": "BAT", "type": "IWP", "released": true, "constraints": 0}, {"id": "IWP-YRD-04", "area": "YRD", "type": "IWP", "released": true, "constraints": 0}], "costcodes": [{"cc": "CSA-CONCRETE", "bud": 8200, "com": 8000, "act": 6100, "eac": 8300}, {"cc": "CSA-FINISHES", "bud": 3400, "com": 3100, "act": 1200, "eac": 3350}, {"cc": "MEP-DUCTS", "bud": 3500, "com": 3400, "act": 2100, "eac": 3700}, {"cc": "MEP-PIPING", "bud": 2600, "com": 2500, "act": 1500, "eac": 2600}, {"cc": "ELEC-SWITCHGEAR", "bud": 5200, "com": 5000, "act": 4400, "eac": 5600}, {"cc": "ELEC-UPS", "bud": 4100, "com": 4000, "act": 1900, "eac": 4050}], "evm": {"period": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"], "pv": [1200, 3100, 5600, 8900, 12500, 16200, 19800, 23000], "ev": [1000, 2800, 5100, 8200, 11400, 14800, 18100, 20900], "ac": [1100, 3000, 5500, 8800, 12300, 16000, 19600, 22300]}, "gcs": [{"gc": "Norte Construction", "est": "EST-08", "period": "Aug", "monto": 4200, "cfdi": "OK", "recon": "reconciled"}, {"gc": "MEP Solutions", "est": "EST-06", "period": "Aug", "monto": 2600, "cfdi": "OK", "recon": "reconciled"}, {"gc": "Electro QR", "est": "EST-05", "period": "Aug", "monto": 3100, "cfdi": "OK", "recon": "DISCREPANCY", "note": "billing 40% vs 25% physical in SE1"}], "commx": [{"sys": "UPS-A", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "ok", "L5": "pend"}, {"sys": "UPS-B", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "pend", "L5": "pend"}, {"sys": "Delta³ Cooling", "L1": "ok", "L2": "ok", "L3": "pend", "L4": "pend", "L5": "pend"}, {"sys": "MV Switchboard SE1", "L1": "ok", "L2": "pend", "L3": "pend", "L4": "pend", "L5": "pend"}, {"sys": "Fire detection", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "ok", "L5": "ok"}], "issues": {"ncr_open": 4, "rfi_open": 7, "punch_open": 23, "constraints_open": 3}, "kpi": {"fisico": 52, "financiero": 61, "cpi": 0.94, "spi": 0.91, "hitos_atraso": 2, "paquetes_liberados": 3, "paquetes_total": 5}};
 const TRACE={
@@ -146,6 +144,7 @@ const TRACE={
  cpi:{v:'CPI 0.94',src:'Earned Value (EV / AC)',own:'Project Controls',upd:'today',ver:'auto'},
  spi:{v:'SPI 0.91',src:'Schedule (P6) vs earned value',own:'Planning',upd:'today',ver:'auto'}
 };
+const C={grid:'#1a2942',track:'#22344f',pv:'#80c8ee',ev:'#3fb37f',ac:'#e5b23d',ink:'#e9eef4',mute:'#7c8ba6',blue:'#33a6e3',green:'#3fb37f',red:'#e0655f',amber:'#e5b23d',areaEv:'rgba(63,179,127,.10)'};
 const ICONS={
  "Summary":'<svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.3"/><rect x="9" y="1" width="6" height="6" rx="1.3"/><rect x="1" y="9" width="6" height="6" rx="1.3"/><rect x="9" y="9" width="6" height="6" rx="1.3"/></svg>',
  "Reconciliation":'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v12M3 5h10"/><path d="M3 5 1 9.5h4zM13 5l-2 4.5h4z"/></svg>',
@@ -173,16 +172,15 @@ function svgLine(series,w=560,h=190){
   const n=series.labels.length,pad=36;
   const X=i=>pad+i*(w-pad-12)/(n-1),Y=v=>h-26-(v/max)*(h-48);
   let out=`<svg class="chart" viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
-  for(let g=0;g<=4;g++){const yy=22+g*(h-48)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-12}" y2="${yy}" stroke="#182430"/>`;}
-  series.labels.forEach((l,i)=>out+=`<text x="${X(i)}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${l}</text>`);
-  const cols={pv:'#9a8cff',ev:'#4fbf8b',ac:'#e8a13a'};
-  // area under EV
-  if(series.data.ev){const d=series.data.ev;let a=`M${X(0)} ${Y(0)*0+ (h-26)} `;a=`M${X(0)} ${h-26} `;d.forEach((v,i)=>a+=`L${X(i)} ${Y(v)} `);a+=`L${X(n-1)} ${h-26} Z`;
-    out+=`<path d="${a}" fill="rgba(79,191,139,.10)"/>`;}
+  for(let g=0;g<=4;g++){const yy=22+g*(h-48)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-12}" y2="${yy}" stroke="${C.grid}"/>`;}
+  series.labels.forEach((l,i)=>out+=`<text x="${X(i)}" y="${h-6}" fill="${C.mute}" font-size="10" text-anchor="middle">${l}</text>`);
+  const cols={pv:C.pv,ev:C.ev,ac:C.ac};
+  if(series.data.ev){const d=series.data.ev;let a=`M${X(0)} ${h-26} `;d.forEach((v,i)=>a+=`L${X(i)} ${Y(v)} `);a+=`L${X(n-1)} ${h-26} Z`;
+    out+=`<path d="${a}" fill="${C.areaEv}"/>`;}
   for(const k in series.data){const d=series.data[k];let p='';d.forEach((v,i)=>p+=(i?'L':'M')+X(i)+' '+Y(v)+' ');
-    out+=`<path class="draw" d="${p}" fill="none" stroke="${cols[k]||'#35c2c9'}" stroke-width="2.6" stroke-linejoin="round"/>`;
+    out+=`<path class="draw" d="${p}" fill="none" stroke="${cols[k]||C.blue}" stroke-width="2.6" stroke-linejoin="round"/>`;
     d.forEach((v,i)=>{const last=i===n-1;
-      out+=`<g class="hit"><circle class="pt" cx="${X(i)}" cy="${Y(v)}" r="${last?4:2.7}" fill="${cols[k]||'#35c2c9'}"/><title>${series.labels[i]} · ${k.toUpperCase()} ${money(v)}</title></g>`;
+      out+=`<g class="hit"><circle class="pt" cx="${X(i)}" cy="${Y(v)}" r="${last?4:2.7}" fill="${cols[k]||C.blue}"/><title>${series.labels[i]} · ${k.toUpperCase()} ${money(v)}</title></g>`;
       if(last)out+=`<text x="${X(i)}" y="${Y(v)-9}" fill="${cols[k]}" font-size="10.5" text-anchor="end">${money(v)}</text>`;});}
   out+='</svg>';return out;
 }
@@ -190,18 +188,18 @@ function svgBars(items,w=560,h=200){
   const max=100,pad=30,n=items.length,bw=(w-pad-10)/n*0.6;
   let out=`<svg class="chart" viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
   const X=i=>pad+i*(w-pad-10)/n+((w-pad-10)/n-bw)/2,Y=v=>h-22-(v/max)*(h-42);
-  for(let g=0;g<=4;g++){const yy=18+g*(h-40)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-8}" y2="${yy}" stroke="#182430"/>`;}
+  for(let g=0;g<=4;g++){const yy=18+g*(h-40)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-8}" y2="${yy}" stroke="${C.grid}"/>`;}
   items.forEach((it,i)=>{const y=Y(it.v),bh=h-22-y;
-    out+=`<rect x="${X(i)}" y="${y}" width="${bw}" height="${bh}" rx="3.5" fill="${it.c||'#35c2c9'}"><animate attributeName="height" from="0" to="${bh}" dur="0.7s" fill="freeze" begin="0.05s" calcMode="spline" keySplines="0.22 1 0.36 1" keyTimes="0;1" values="0;${bh}"/><animate attributeName="y" from="${h-22}" to="${y}" dur="0.7s" fill="freeze" begin="0.05s" calcMode="spline" keySplines="0.22 1 0.36 1" keyTimes="0;1" values="${h-22};${y}"/></rect>`;
-    out+=`<text x="${X(i)+bw/2}" y="${y-6}" fill="#e8eef2" font-size="11" text-anchor="middle">${it.v}%</text>`;
-    out+=`<text x="${X(i)+bw/2}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${it.label}</text>`;});
+    out+=`<rect x="${X(i)}" y="${y}" width="${bw}" height="${bh}" rx="3.5" fill="${it.c||C.blue}"><animate attributeName="height" from="0" to="${bh}" dur="0.7s" fill="freeze" begin="0.05s" calcMode="spline" keySplines="0.22 1 0.36 1" keyTimes="0;1" values="0;${bh}"/><animate attributeName="y" from="${h-22}" to="${y}" dur="0.7s" fill="freeze" begin="0.05s" calcMode="spline" keySplines="0.22 1 0.36 1" keyTimes="0;1" values="${h-22};${y}"/></rect>`;
+    out+=`<text x="${X(i)+bw/2}" y="${y-6}" fill="${C.ink}" font-size="11" text-anchor="middle">${it.v}%</text>`;
+    out+=`<text x="${X(i)+bw/2}" y="${h-6}" fill="${C.mute}" font-size="10" text-anchor="middle">${it.label}</text>`;});
   out+='</svg>';return out;
 }
 function gauge(v,label,color){const r=42,c=2*Math.PI*r,off=c*(1-Math.min(v,1.3)/1.3);
-  return `<svg viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="#1f2c37" stroke-width="10"/>
+  return `<svg viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="${C.track}" stroke-width="10"/>
    <circle cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
-   <text x="60" y="58" fill="#e8eef2" font-size="22" font-weight="700" text-anchor="middle" font-family="Space Grotesk">${v.toFixed(2)}</text>
-   <text x="60" y="76" fill="#9fb2c0" font-size="10" text-anchor="middle" font-family="JetBrains Mono">${label}</text></svg>`;
+   <text x="60" y="58" fill="${C.ink}" font-size="22" font-weight="700" text-anchor="middle" font-family="Space Grotesk">${v.toFixed(2)}</text>
+   <text x="60" y="76" fill="#a5b4c9" font-size="10" text-anchor="middle" font-family="JetBrains Mono">${label}</text></svg>`;
 }
 function kpiCard(display,label,sub,color,opt){opt=opt||{};
   const cnt=opt.count!=null?` data-count="${opt.count}" data-dec="${opt.dec||0}" data-suf="${opt.suf||''}"`:'';
@@ -234,10 +232,10 @@ V["Summary"]=()=>{const k=DATA.kpi,is=DATA.issues;
   </div>
   <h2>S-curve · Earned Value <span>(USD thousands, cumulative)</span></h2>
   <div class="card">${svgLine({labels:DATA.evm.period,data:{pv:DATA.evm.pv,ev:DATA.evm.ev,ac:DATA.evm.ac}})}
-    <div class="legend"><span style="color:var(--violet)">■</span> PV planned &nbsp; <span style="color:var(--green)">■</span> EV earned &nbsp; <span style="color:var(--amber)">■</span> AC actual &nbsp;·&nbsp; EV below PV = behind; AC above EV = over cost. Hover a point for detail.</div>
+    <div class="legend"><span style="color:var(--blue2)">■</span> PV planned &nbsp; <span style="color:var(--green)">■</span> EV earned &nbsp; <span style="color:var(--amber)">■</span> AC actual &nbsp;·&nbsp; EV below PV = behind; AC above EV = over cost. Hover a point for detail.</div>
   </div>
   <div class="grid g2" style="margin-top:14px">
-    <div class="card"><h3>Physical progress by area</h3>${svgBars(DATA.areas.map(a=>({label:a.id,v:a.fis,c:a.flag?'var(--red)':'var(--cyan)'})))}</div>
+    <div class="card"><h3>Physical progress by area</h3>${svgBars(DATA.areas.map(a=>({label:a.id,v:a.fis,c:a.flag?'var(--red)':C.blue})))}</div>
     <div class="card"><h3>Project status</h3>
       <table><tr><td>AWP packages released (constraint-free)</td><td class="num">${k.paquetes_liberados}/${k.paquetes_total}</td></tr>
       <tr><td>Milestones behind</td><td class="num">${pill(k.hitos_atraso,'warn')}</td></tr>
@@ -298,8 +296,8 @@ V["Cost / EVM"]=()=>{
   const vact=tot.bud-tot.eac;
   return `<h2>Cost Management + EVM <span>· budget → commitment → actual → forecast</span></h2>
   <div class="grid g3" style="margin-bottom:16px">
-    <div class="card" style="text-align:center">${gauge(DATA.kpi.cpi,'CPI = EV/AC',DATA.kpi.cpi>=1?'#4fbf8b':'#e56a6a')}<div class="sub" style="text-align:center;margin:0">Cost efficiency</div></div>
-    <div class="card" style="text-align:center">${gauge(DATA.kpi.spi,'SPI = EV/PV',DATA.kpi.spi>=1?'#4fbf8b':'#e8a13a')}<div class="sub" style="text-align:center;margin:0">Schedule efficiency</div></div>
+    <div class="card" style="text-align:center">${gauge(DATA.kpi.cpi,'CPI = EV/AC',DATA.kpi.cpi>=1?C.green:C.red)}<div class="sub" style="text-align:center;margin:0">Cost efficiency</div></div>
+    <div class="card" style="text-align:center">${gauge(DATA.kpi.spi,'SPI = EV/PV',DATA.kpi.spi>=1?C.green:C.amber)}<div class="sub" style="text-align:center;margin:0">Schedule efficiency</div></div>
     <div class="card"><h3>Totals (USD thousands)</h3><table>
       <tr><td>Budget (BAC)</td><td class="num">${money(tot.bud)}</td></tr>
       <tr><td>Committed</td><td class="num">${money(tot.com)}</td></tr>
