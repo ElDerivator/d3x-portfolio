@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex, nofollow">
-<title>ODATA QR03 · Sistema de Interconexión</title>
+<title>ODATA QR03 · Interconnection System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -13,7 +13,7 @@
 :root{
   --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
   --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
-  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b; --gold:#e5b769;
   --accent:var(--cyan);
 }
 *{box-sizing:border-box}
@@ -76,7 +76,11 @@ td b{color:var(--ink)}
 ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
 ol.steps li{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 16px 15px 54px;position:relative}
 ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:15px;top:15px;width:26px;height:26px;border-radius:8px;background:var(--cyan-dim);color:var(--ink);font-family:"JetBrains Mono";font-weight:600;display:flex;align-items:center;justify-content:center;font-size:13px}
+ol.steps li.anchor{border-color:var(--gold);background:linear-gradient(180deg,rgba(229,183,105,.08),var(--panel))}
+ol.steps li.anchor::before{background:var(--gold);color:#2a1f06}
 ol.steps li b{font-family:"Space Grotesk"}
+ol.steps li .mo{font-family:"JetBrains Mono";font-size:11px;color:var(--cyan);text-transform:uppercase;letter-spacing:.08em}
+ol.steps li.anchor .mo{color:var(--gold)}
 ol.steps li span{color:var(--soft);font-size:13.5px;display:block;margin-top:3px}
 footer{padding:40px 0 70px;color:var(--muted);font-size:13px}
 .pill-nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -87,130 +91,132 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:13px}
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow">ODATA QR03 · Los Cues, El Marqués · Turner &amp; Townsend</div>
-    <h1>Una sola <span>fuente de verdad</span> para todo el proyecto</h1>
-    <p class="lede">Hoy cada equipo es una micro-empresa: procesos propios, formatos distintos, y la única forma de saber si el trabajo de otro te afecta es tocar puertas. Este sistema conecta a todos los departamentos sobre Microsoft — capturan una vez, y todos ven el avance real en tiempo real.</p>
+    <h1>One <span>source of truth</span> for the whole project</h1>
+    <p class="lede">Today every team runs like its own small company: their own process, their own formats — and the only way to know whether someone else's work affects yours is to knock on their door. This system connects every department on Microsoft — capture once, and everyone sees real progress in real time.</p>
     <div class="meta-row">
-      <span class="chip">Base: <b>Dataverse · Power Platform</b></span>
+      <span class="chip">Built on: <b>Dataverse · Power Platform</b></span>
       <span class="chip">Frameworks: <b>AWP · Earned Value · Lineage</b></span>
-      <span class="chip">Arranque: <b>≤ 2 meses</b></span>
+      <span class="chip">Build: <b>~2 months</b></span>
+      <span class="chip">Full rollout: <b>4–6 months</b></span>
     </div>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">01</span> El problema, en tres síntomas</h2>
-    <p class="sub">Los tres son la misma enfermedad: no existe una fuente única de verdad con trazabilidad. Cada equipo genera su propia versión de la realidad y nada las reconcilia.</p>
+    <h2><span class="n">01</span> The problem, in three symptoms</h2>
+    <p class="sub">All three are the same disease: there is no single source of truth with traceability. Each team produces its own version of reality, and nothing reconciles them.</p>
     <div class="grid g3">
-      <div class="card"><div class="tag">Aislamiento</div><h3>No se conectan</h3><p>Cada equipo reporta a su manera y no intercambia información. Enterarte de un cambio de otra área depende de ir a preguntar.</p></div>
-      <div class="card"><div class="tag">Captura</div><h3>Cada quien captura distinto</h3><p>No hay un método estandarizado. La misma realidad se registra de siete formas, y ninguna alimenta un tablero común.</p></div>
-      <div class="card"><div class="tag">Pérdida</div><h3>La info se muere</h3><p>Lo que se resuelve se resuelve; lo demás se pierde en un correo o un WhatsApp. Al final del proyecto no hay registro para medir ni aprender.</p></div>
+      <div class="card"><div class="tag">Isolation</div><h3>They don't connect</h3><p>Each team reports its own way and shares nothing. Finding out about a change in another area means going to ask — and if that person isn't there, it waits until the next day.</p></div>
+      <div class="card"><div class="tag">Capture</div><h3>Everyone captures differently</h3><p>There is no standard method. The same reality is recorded seven ways, and none of them feeds a common dashboard.</p></div>
+      <div class="card"><div class="tag">Loss</div><h3>Information dies</h3><p>What gets resolved gets resolved; the rest is lost in an email or a WhatsApp. By the end of the project there is no record to measure or learn from.</p></div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">02</span> Cómo funciona</h2>
-    <p class="sub">El dato entra una sola vez desde la obra, aterriza en Dataverse como fuente única, se reconcilia, y sale como reporte en tiempo real. Nadie pierde su proceso; todos escriben su verdad a un solo lugar.</p>
+    <h2><span class="n">02</span> How it works</h2>
+    <p class="sub">Data enters once from the field, lands in Dataverse as the single source, gets reconciled, and comes out as a real-time report. No one loses their process; everyone writes their truth to one place.</p>
     <div class="flow">
-      <div class="box"><div class="k">1 · Captura</div><div class="t">Power App móvil</div><div class="d">Foto + issue + ubicación, desde cualquier punto de obra</div></div>
+      <div class="box"><div class="k">1 · Capture</div><div class="t">Mobile Power App</div><div class="d">Photo + issue + location, from anywhere on site</div></div>
       <div class="arrow">→</div>
-      <div class="box sor"><div class="k">2 · Fuente única</div><div class="t">Dataverse</div><div class="d">Un dueño por cada dato. Código y linaje por cada punto</div></div>
+      <div class="box sor"><div class="k">2 · Single source</div><div class="t">Dataverse</div><div class="d">One owner per data point. A code and lineage for each</div></div>
       <div class="arrow">→</div>
-      <div class="box"><div class="k">3 · Reconciliación</div><div class="t">Físico vs financiero</div><div class="d">Marca discrepancias; el dueño del dato desempata</div></div>
+      <div class="box"><div class="k">3 · Reconciliation</div><div class="t">Physical vs financial</div><div class="d">Flags discrepancies; the data owner breaks the tie</div></div>
       <div class="arrow">→</div>
-      <div class="box"><div class="k">4 · Reporte</div><div class="t">Power BI</div><div class="d">Manager, cliente y áreas ven lo mismo, en vivo</div></div>
+      <div class="box"><div class="k">4 · Report</div><div class="t">Power BI</div><div class="d">Manager, client and teams see the same thing, live</div></div>
     </div>
-    <p class="sub" style="margin-top:24px">Un canal paralelo: un <b style="color:var(--soft)">bot de Power Automate</b> ingiere lo que hoy vive en WhatsApp y correo, para no obligar a nadie a cambiar de canal de golpe. Y <b style="color:var(--soft)">Process Mining</b> mide dónde se atora el proceso — convierte el "tocar puertas" en un cuello de botella cuantificado.</p>
+    <p class="sub" style="margin-top:24px">A parallel channel: a <b style="color:var(--soft)">Power Automate bot</b> ingests what lives today in WhatsApp and email, so no one is forced to switch channels overnight. And <b style="color:var(--soft)">Process Mining</b> measures where the process gets stuck — turning "knocking on doors" into a quantified bottleneck.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">03</span> Los departamentos</h2>
-    <p class="sub">Cada departamento es dueño de un dominio de dato (su System of Record) y consumidor de los demás. El sistema le da, en tiempo real, lo que hoy tiene que ir a buscar.</p>
+    <h2><span class="n">03</span> The departments</h2>
+    <p class="sub">Each department owns a data domain (its System of Record) and consumes the others. The system gives it, in real time, what it has to go chase today.</p>
     <div class="grid g2">
-      <div class="card"><div class="tag">PMO</div><h3>Project Management</h3><p>Integra, prioriza y reporta al cliente. Deja de perseguir versiones: opera la reconciliación y arma el reporte como consulta sobre el dato.</p><div class="owns"><b>Dueño de:</b> estructura del proyecto, decisiones, reporte integrado</div></div>
-      <div class="card"><div class="tag">Cost Management</div><h3>Cost Management</h3><p>Registra el avance financiero etiquetado como financiero, sin pretender que es físico. El gate lo concilia contra el avance en obra.</p><div class="owns"><b>Dueño de:</b> costo, earned value, valorizaciones</div></div>
-      <div class="card"><div class="tag">Planning</div><h3>Planning</h3><p>Publica el cronograma y los paquetes de trabajo (AWP). Libera trabajo solo cuando el físico confirma que las restricciones están resueltas.</p><div class="owns"><b>Dueño de:</b> cronograma, paquetes AWP, fechas y secuencia</div></div>
-      <div class="card"><div class="tag">Quality</div><h3>Quality</h3><p>Levanta no-conformidades e inspecciones con código y estatus. Cada hallazgo es trazable hasta su cierre, no se pierde en un formato suelto.</p><div class="owns"><b>Dueño de:</b> NCRs, inspecciones, checklists de calidad</div></div>
-      <div class="card"><div class="tag">MEP</div><h3>Mechanical · Electrical · Plumbing</h3><p>Captura el avance físico de sus sistemas desde el punto de instalación. Es la fuente de verdad de su work-in-place, ligado al modelo BIM.</p><div class="owns"><b>Dueño de:</b> avance físico e issues de sistemas MEP</div></div>
-      <div class="card"><div class="tag">CSA</div><h3>Civil · Structural · Architectural</h3><p>Igual que MEP para obra civil, estructura y arquitectura: cantidades instaladas verificadas, no estimadas, ligadas a su paquete y elemento.</p><div class="owns"><b>Dueño de:</b> avance físico e issues de obra CSA</div></div>
-      <div class="card"><div class="tag">Document Control</div><h3>Document Control</h3><p>Gobierna documentos, versiones, transmittals y RFIs. Liga cada punto de obra al documento y al modelo — el linaje entre el papel y el fierro.</p><div class="owns"><b>Dueño de:</b> documentos, versiones, RFIs, transmittals</div></div>
-      <div class="card" style="border-color:var(--amber)"><div class="tag" style="color:var(--amber)">Externo</div><h3>General Contractors</h3><p>No están dentro del tenant, pero suben su avance y sus facturas por un formulario controlado. Su número entra etiquetado y se concilia — abajo el detalle.</p><div class="owns"><b>Entrega:</b> estimaciones de avance + facturas</div></div>
+      <div class="card"><div class="tag">PMO</div><h3>Project Management</h3><p>Integrates, prioritizes and reports to the client. Stops chasing versions: it runs the reconciliation and builds the report as a query over the data.</p><div class="owns"><b>Owns:</b> project structure, decisions, integrated report</div></div>
+      <div class="card"><div class="tag">Cost Management</div><h3>Cost Management</h3><p>Records financial progress tagged as financial, without pretending it is physical. The gate reconciles it against site progress.</p><div class="owns"><b>Owns:</b> cost, earned value, valuations</div></div>
+      <div class="card"><div class="tag">Planning</div><h3>Planning</h3><p>Publishes the schedule and work packages (AWP). Releases work only when physical confirms the constraints are cleared.</p><div class="owns"><b>Owns:</b> schedule, AWP packages, dates and sequence</div></div>
+      <div class="card"><div class="tag">Quality</div><h3>Quality</h3><p>Raises non-conformances and inspections with a code and a status. Every finding is traceable to its closure — not lost in a stray form.</p><div class="owns"><b>Owns:</b> NCRs, inspections, quality checklists</div></div>
+      <div class="card"><div class="tag">MEP</div><h3>Mechanical · Electrical · Plumbing</h3><p>Captures the physical progress of its systems at the point of installation. It is the source of truth for its work-in-place, tied to the BIM model.</p><div class="owns"><b>Owns:</b> physical progress and issues for MEP systems</div></div>
+      <div class="card"><div class="tag">CSA</div><h3>Civil · Structural · Architectural</h3><p>Same as MEP for civil, structure and architecture: verified installed quantities, not estimated, tied to their package and element.</p><div class="owns"><b>Owns:</b> physical progress and issues for CSA works</div></div>
+      <div class="card"><div class="tag">Document Control</div><h3>Document Control</h3><p>Governs documents, versions, transmittals and RFIs. Ties each site point to its document and model — the lineage between the paper and the steel.</p><div class="owns"><b>Owns:</b> documents, versions, RFIs, transmittals</div></div>
+      <div class="card" style="border-color:var(--amber)"><div class="tag" style="color:var(--amber)">External</div><h3>General Contractors</h3><p>They are not inside the tenant, but they submit their progress and invoices through a controlled form. Their number enters tagged and gets reconciled — detail below.</p><div class="owns"><b>Delivers:</b> progress estimates + invoices</div></div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">04</span> Contratistas externos (General Contractors)</h2>
-    <p class="sub">El reto: los GC son externos y hoy reportan en su propio formato (el 40% que no cuadra con nadie). La solución no los mete al tenant — les da una puerta controlada.</p>
+    <h2><span class="n">04</span> External contractors (General Contractors)</h2>
+    <p class="sub">The challenge: GCs are external and today report in their own format (the 40% that doesn't match anyone). The solution doesn't put them inside the tenant — it gives them a controlled door.</p>
     <div class="grid g2">
-      <div class="card"><div class="tag">Formulario</div><h3>Portal de estimaciones</h3><p>Un Power Apps Portal (o form de Power Pages) donde el GC captura su avance por frente/paquete. Entra a Dataverse etiquetado por <b style="color:var(--soft)">dimensión</b> y <b style="color:var(--soft)">dueño</b>, listo para reconciliar contra el físico de obra.</p></div>
-      <div class="card"><div class="tag">Facturación</div><h3>Carga de facturas</h3><p>El GC sube su factura (PDF/XML CFDI) por el mismo portal. Un flujo de Power Automate la lee, la liga a su estimación y a su paquete, y la manda al gate de aprobación de Costos. Nada llega por correo suelto.</p></div>
+      <div class="card"><div class="tag">Form</div><h3>Estimates portal</h3><p>A Power Apps Portal (or a Power Pages form) where the GC captures progress by front/package. It enters Dataverse tagged by <b style="color:var(--soft)">dimension</b> and <b style="color:var(--soft)">owner</b>, ready to reconcile against site physical.</p></div>
+      <div class="card"><div class="tag">Billing</div><h3>Invoice upload</h3><p>The GC uploads its invoice (PDF/XML CFDI) through the same portal. A Power Automate flow reads it, ties it to its estimate and package, and sends it to Cost's approval gate. Nothing arrives by stray email.</p></div>
     </div>
-    <p class="sub" style="margin-top:20px">Resultado: el GC sigue trabajando afuera, pero su avance y su dinero entran <b style="color:var(--soft)">al mismo modelo</b>, con código y trazabilidad, y se validan contra la realidad de obra en lugar de aceptarse a ciegas.</p>
+    <p class="sub" style="margin-top:20px">The result: the GC keeps working outside, but its progress and its money enter <b style="color:var(--soft)">the same model</b>, with a code and traceability, and are validated against site reality instead of accepted blindly.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">05</span> El fin del "40% vs 25% vs 80%"</h2>
-    <p class="sub">El General Contractor reporta 40%, Supervisión 25%, Costos 80%. No mienten — miden dimensiones distintas y nadie lo etiqueta. El sistema separa las dos verdades:</p>
+    <h2><span class="n">05</span> The end of "40% vs 25% vs 80%"</h2>
+    <p class="sub">The General Contractor reports 40%, Supervision 25%, Cost 80%. They are not lying — they measure different dimensions, and no one tags it. The system separates the two truths:</p>
     <div class="two-num">
-      <div class="n phys"><div class="big">Físico</div><small>Work-in-place verificado. Lo acredita obra (MEP/CSA) y solo cuando el paquete cumple su regla AWP: instalado, no estimado.</small></div>
-      <div class="n fin"><div class="big">Financiero</div><small>Earned value / costo. Lo acredita Cost Management sobre su propia base, sin pretender que es avance físico.</small></div>
+      <div class="n phys"><div class="big">Physical</div><small>Verified work-in-place. Credited by site (MEP/CSA), and only when the package meets its AWP rule: installed, not estimated.</small></div>
+      <div class="n fin"><div class="big">Financial</div><small>Earned value / cost. Credited by Cost Management on its own base, without pretending it is physical progress.</small></div>
     </div>
-    <p class="sub" style="margin-top:20px">Cada número lleva su etiqueta y su dueño. Cuando el financiero se adelanta al físico, el sistema <b style="color:var(--soft)">marca la discrepancia</b> y la manda a revisión — la validación posterior de quién está más cerca de la realidad, que hoy no existe.</p>
+    <p class="sub" style="margin-top:20px">Every number carries its tag and its owner. When financial runs ahead of physical, the system <b style="color:var(--soft)">flags the discrepancy</b> and sends it to review — the follow-up check from whoever is closest to reality, which doesn't exist today.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">06</span> Sobre qué se construye</h2>
-    <p class="sub">100% Microsoft, en el tenant del cliente, como una solución única y reversible. Sin herramientas nuevas que aprender fuera del ecosistema que ya usan.</p>
+    <h2><span class="n">06</span> What it's built on</h2>
+    <p class="sub">100% Microsoft, in the client's own tenant, as a single reversible solution. No new tools to learn outside the ecosystem they already use.</p>
     <div class="grid g4">
-      <div class="card"><div class="tag">Datos</div><h3>Dataverse</h3><p>La fuente única de verdad. Un modelo de datos con dueño por dominio.</p></div>
-      <div class="card"><div class="tag">Captura</div><h3>Power Apps</h3><p>Formularios móviles estandarizados para campo, offline.</p></div>
-      <div class="card"><div class="tag">Automatización</div><h3>Power Automate</h3><p>Bot de ingesta, aprobaciones, y Process Mining (versión Pro).</p></div>
-      <div class="card"><div class="tag">Reporte</div><h3>Power BI</h3><p>Tableros en vivo. El formato del cliente sale como consulta.</p></div>
+      <div class="card"><div class="tag">Data</div><h3>Dataverse</h3><p>The single source of truth. A data model with an owner per domain.</p></div>
+      <div class="card"><div class="tag">Capture</div><h3>Power Apps</h3><p>Standardized mobile forms for the field, offline-capable.</p></div>
+      <div class="card"><div class="tag">Automation</div><h3>Power Automate</h3><p>Ingestion bot, approvals, and Process Mining (Pro).</p></div>
+      <div class="card"><div class="tag">Report</div><h3>Power BI</h3><p>Live dashboards. The client's format comes out as a query.</p></div>
     </div>
     <div class="callout" style="margin-top:22px">
-      <h3>El diferenciador</h3>
-      <p>Si capturamos a la <b style="color:var(--ink)">granularidad correcta</b> — cada punto con su código, dimensión, dueño y liga al paquete y al modelo — el formato específico que pida el cliente deja de importar: se genera como una ecuación sobre el dato, no como un reporte que alguien rehace a mano. Somos dueños de la verdad granular; los reportes son derivaciones.</p>
+      <h3>The differentiator</h3>
+      <p>If we capture at the <b style="color:var(--ink)">right granularity</b> — each point with its code, dimension, owner and link to the package and model — the specific format the client asks for stops mattering: it is generated as an equation over the data, not a report someone rebuilds by hand. We own the granular truth; the reports are derivations.</p>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2><span class="n">07</span> Plan de arranque · ≤ 2 meses</h2>
-    <p class="sub">Se implementa en el tenant del cliente a tiempo para la nueva fase de construcción, incluyendo capacitación y manuales de operación.</p>
+    <h2><span class="n">07</span> The roadmap · 4 to 6 months</h2>
+    <p class="sub">Paced to your build. About two months to design and build, ready to go live the moment your next construction stage begins — and fully embedded by month six. The clock starts on approval and data access.</p>
     <ol class="steps">
-      <li><b>Semanas 1–2 · Fundación y piloto</b><span>Modelo de datos en Dataverse + Power App de captura, con 2 departamentos piloto para probar la reconciliación físico-vs-financiero.</span></li>
-      <li><b>Semanas 3–5 · Rollout de departamentos</b><span>Se suman PMO, Planning, Quality, MEP, CSA y Document Control al mismo modelo. Portal de GCs para estimaciones y facturas.</span></li>
-      <li><b>Semanas 6–7 · Reporte y proceso</b><span>Tableros Power BI para dirección y cliente. Process Mining sobre el event-log para medir cuellos de botella.</span></li>
-      <li><b>Semana 8 · Capacitación y entrega</b><span>Entrenamiento por departamento, manuales de operación entregados, y arranque en la nueva fase.</span></li>
+      <li><span class="mo">Weeks 1–4 · Build</span><b>Foundation &amp; pilot</b><span>Data model in Dataverse + the mobile capture app, with two pilot departments to prove physical-vs-financial reconciliation on real data.</span></li>
+      <li><span class="mo">Weeks 5–8 · Build</span><b>Full platform</b><span>The rest onboard the same model — PMO, Planning, Quality, MEP, CSA and Document Control — plus the GC portal for estimates and invoices, and Power BI dashboards for management and client. Deliverable: a working platform on real project data.</span></li>
+      <li class="anchor"><span class="mo">Month 3 · the anchor</span><b>Go live with the new stage</b><span>The next construction stage begins — and the platform is its backbone from day one. A clean start, no old mess carried in, with each department trained as they pick it up, and operating manuals delivered.</span></li>
+      <li><span class="mo">Months 4–6 · Embed</span><b>Day-to-day, team by team</b><span>Rolled out into daily operations across all eight teams — reconciliation, earned value and Process Mining keeping themselves up to date until it is the daily single source of truth. Full adoption.</span></li>
     </ol>
   </div>
 </section>
 
 <section style="border-bottom:none">
   <div class="wrap">
-    <h2><span class="n">08</span> Para dirección</h2>
-    <p class="sub">Presentación ejecutiva en inglés, lista para descargar y compartir con los directivos.</p>
-    <a class="cta" href="ODATA_QR03_Single_Source_of_Truth.pptx" download>⬇ Descargar PowerPoint (EN) <small>ODATA_QR03_Single_Source_of_Truth.pptx</small></a>
+    <h2><span class="n">08</span> For the board</h2>
+    <p class="sub">Executive presentation in English, ready to download and share with the directors.</p>
+    <a class="cta" href="ODATA_QR03_Single_Source_of_Truth.pptx" download>⬇ Download PowerPoint (EN) <small>ODATA_QR03_Single_Source_of_Truth.pptx</small></a>
     <div class="pill-nav">
       <a href="index.html">← Briefing</a>
       <a href="plan.html">Plan</a>
       <a href="ticketing.html">Ticketing</a>
-      <a href="sistema-dev.html">Documentación técnica →</a>
+      <a href="mockup.html">Interactive demo</a>
+      <a href="sistema-dev.html">Technical docs →</a>
     </div>
   </div>
 </section>
 
-<footer><div class="wrap">ODATA QR03 · Sistema de interconexión de equipos · Documento de trabajo interno · noindex</div></footer>
+<footer><div class="wrap">ODATA QR03 · Team interconnection system · Internal working document · noindex</div></footer>
 </body>
 </html>

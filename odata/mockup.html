@@ -1,103 +1,240 @@
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title>ODATA QR03 · System (demo)</title>
+<title>ODATA QR03 · Single Source of Truth (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#0b1015;--panel:#111a22;--panel2:#0e161d;--line:#1f2c37;--ink:#e8eef2;--soft:#9fb2c0;--mute:#6b8090;
---cyan:#35c2c9;--amber:#e8a13a;--green:#4fbf8b;--red:#e56a6a;--violet:#9a8cff;}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,sans-serif}
-header{padding:14px 22px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-header .t{font-weight:700} header .t b{color:var(--cyan)} header .proj{color:var(--soft);font-size:13px;font-family:ui-monospace,Consolas,monospace}
-.badge{margin-left:auto;font-size:11px;color:var(--green);border:1px solid var(--green);border-radius:20px;padding:3px 10px}
-.badge.demo{color:var(--amber);border-color:var(--amber);margin-left:8px}
-nav{display:flex;gap:4px;padding:10px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:var(--panel2)}
-nav button{background:transparent;border:1px solid transparent;color:var(--soft);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600}
-nav button:hover{color:var(--ink)} nav button.on{background:var(--panel);color:var(--cyan);border-color:var(--line)}
-main{padding:20px 22px;max-width:1200px}
+:root{--bg:#0a0f14;--panel:#111a22;--panel2:#0e161d;--panel3:#0c141b;--line:#1f2c37;--line2:#2a3a48;
+--ink:#e8eef2;--soft:#9fb2c0;--mute:#6b8090;
+--cyan:#35c2c9;--amber:#e8a13a;--green:#4fbf8b;--red:#e56a6a;--violet:#9a8cff;--gold:#e5b769;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;
+background-image:radial-gradient(60% 45% at 82% -8%,rgba(53,194,201,.10) 0%,transparent 60%);}
+.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+h2{font-family:"Space Grotesk",sans-serif;font-size:17px;margin:26px 0 12px;font-weight:600;letter-spacing:.01em}
+h2 span{color:var(--mute);font-weight:500;font-size:13px;font-family:Inter}
+h3{font-size:12px;color:var(--soft);margin:0 0 10px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+
+/* header */
+header{padding:15px 24px 13px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:linear-gradient(180deg,var(--panel2),transparent)}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:34px;height:34px;flex:none}
+.brand .t{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;letter-spacing:.01em}
+.brand .t b{color:var(--cyan);font-weight:700}
+.brand .sub{color:var(--soft);font-size:11.5px;letter-spacing:.02em;margin-top:1px}
+.badges{margin-left:auto;display:flex;gap:8px;align-items:center}
+.badge{font-size:11px;border-radius:20px;padding:4px 11px;font-weight:600;font-family:"JetBrains Mono",monospace;display:inline-flex;align-items:center;gap:6px}
+.badge.live{color:var(--green);border:1px solid rgba(79,191,139,.4)}
+.badge.live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(79,191,139,.6);animation:pulse 2.4s infinite}
+.badge.demo{color:var(--amber);border:1px solid rgba(232,161,58,.4)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,191,139,.5)}70%{box-shadow:0 0 0 7px rgba(79,191,139,0)}100%{box-shadow:0 0 0 0 rgba(79,191,139,0)}}
+
+/* ribbon */
+.ribbon{display:flex;gap:10px;flex-wrap:wrap;padding:10px 24px;border-bottom:1px solid var(--line);background:var(--panel3);font-size:12.5px}
+.ribbon span{color:var(--ink);font-family:"JetBrains Mono",monospace;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:5px 11px}
+.ribbon span i{color:var(--mute);font-style:normal;margin-right:7px;text-transform:uppercase;letter-spacing:.06em;font-size:10.5px}
+.ribbon .flagchip{color:var(--amber);border-color:rgba(232,161,58,.4)}
+
+/* nav */
+nav{display:flex;gap:4px;padding:9px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:var(--panel2);position:sticky;top:0;z-index:5}
+nav button{background:transparent;border:1px solid transparent;color:var(--soft);padding:9px 15px;border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:background .15s,color .15s,border-color .15s;font-family:Inter}
+nav button svg{width:15px;height:15px;opacity:.7;transition:opacity .15s}
+nav button:hover{color:var(--ink);background:rgba(255,255,255,.03)}
+nav button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+nav button.on{background:var(--panel);color:var(--cyan);border-color:var(--line2)}
+nav button.on svg{opacity:1}
+
+main{padding:22px 24px 40px;max-width:1180px}
+
+/* cards */
 .grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpi .n{font-size:34px;font-weight:800;line-height:1}.kpi .l{color:var(--soft);font-size:12px;margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
-.kpi .s{font-size:12px;margin-top:4px}
-h2{font-size:16px;margin:26px 0 12px;font-weight:700}h2 span{color:var(--mute);font-weight:600;font-size:13px}
-h3{font-size:13px;color:var(--soft);margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em}
-table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
-th{color:var(--mute);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
-td.num,th.num{text-align:right;font-family:ui-monospace,Consolas,monospace}
-.pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700}
-.ok{background:rgba(79,191,139,.15);color:var(--green)}.warn{background:rgba(232,161,58,.15);color:var(--amber)}.bad{background:rgba(229,106,106,.16);color:var(--red)}.mut{background:rgba(155,140,255,.14);color:var(--violet)}
-.bar{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;margin-top:6px}.bar>i{display:block;height:100%;border-radius:6px}
-.row-fx{display:flex;gap:6px;align-items:center}
-.sub{color:var(--soft);font-size:13px;margin:0 0 6px}
+@media(max-width:860px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}}
+@media(max-width:560px){.g4{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;transition:border-color .15s,transform .15s}
+.kpi{position:relative}
+.kpi .n{font-family:"Space Grotesk",sans-serif;font-size:36px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .l{color:var(--soft);font-size:12px;margin-top:7px;text-transform:uppercase;letter-spacing:.05em}
+.kpi .s{font-size:12px;margin-top:4px;color:var(--soft)}
+.kpi.trace{cursor:pointer}
+.kpi.trace:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.tracehint{position:absolute;top:12px;right:13px;font-size:10px;color:var(--mute);font-family:"JetBrains Mono",monospace;opacity:0;transition:opacity .15s}
+.kpi.trace:hover .tracehint{opacity:1}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+td.num,th.num{text-align:right;font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}
+tr.exp{cursor:pointer}tr.exp:hover td{background:rgba(255,255,255,.02)}
+tr.exp td:first-child::before{content:"▸";color:var(--mute);margin-right:8px;display:inline-block;transition:transform .15s}
+tr.exp.open td:first-child::before{transform:rotate(90deg);color:var(--cyan)}
+tr.det>td{padding:0;border-bottom:1px solid var(--line)}
+.det-in{padding:14px 16px;background:var(--panel3);display:grid;gap:12px}
+
+.pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;white-space:nowrap}
+.ok{background:rgba(79,191,139,.15);color:var(--green)}.warn{background:rgba(232,161,58,.15);color:var(--amber)}
+.bad{background:rgba(229,106,106,.16);color:var(--red)}.mut{background:rgba(155,140,255,.14);color:var(--violet)}
+.bar{height:9px;background:var(--panel3);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar>i{display:block;height:100%;border-radius:6px;width:0;transition:width .9s cubic-bezier(.22,1,.36,1)}
+.row-fx{display:flex;gap:8px;align-items:center}
+.sub{color:var(--soft);font-size:13px;margin:0 0 8px}
 .flag{border-left:3px solid var(--red)}
-.legend{font-size:12px;color:var(--mute);margin-top:8px}
-select{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
-.callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--soft)}
-.footer{color:var(--mute);font-size:11px;padding:14px 22px;border-top:1px solid var(--line);font-family:ui-monospace,Consolas,monospace}
+.legend{font-size:12px;color:var(--mute);margin-top:9px}
+select{background:var(--panel);color:var(--ink);border:1px solid var(--line2);border-radius:9px;padding:8px 11px;font-size:13px;font-family:Inter}
+.callout{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:10px;padding:13px 15px;font-size:13.5px;color:var(--soft)}
+
+/* alert (hero discrepancy) */
+.alert{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(180deg,rgba(229,106,106,.09),var(--panel));border:1px solid rgba(229,106,106,.35);border-radius:14px;padding:18px 20px;margin-bottom:6px}
+.alert.pulse{animation:al 3s ease-in-out infinite}
+@keyframes al{0%,100%{box-shadow:0 0 0 0 rgba(229,106,106,0)}50%{box-shadow:0 0 22px -6px rgba(229,106,106,.35)}}
+.alert-ic{font-size:22px;line-height:1;color:var(--red);flex:none;margin-top:1px}
+.alert-body{flex:1;min-width:0}
+.alert-t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:16px;color:var(--ink)}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:12px 0 8px}
+@media(max-width:640px){.tri{grid-template-columns:1fr}}
+.tri>div{background:var(--panel3);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.tri span{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.tri b{font-family:"Space Grotesk";font-size:20px;display:block;margin-top:2px}
+.tri .mb{height:6px;border-radius:4px;background:var(--panel);overflow:hidden;margin:7px 0 0}
+.tri .mb>i{display:block;height:100%;border-radius:4px;width:0;transition:width 1s cubic-bezier(.22,1,.36,1)}
+.alert-note{font-size:13px;color:var(--soft);margin-top:4px}
+.alert-cta{flex:none;align-self:center;background:transparent;border:1px solid var(--red);color:var(--red);border-radius:9px;padding:9px 14px;font-weight:700;font-size:13px;cursor:pointer;transition:background .15s}
+.alert-cta:hover{background:rgba(229,106,106,.12)}
+
+/* svg */
+.chart text{font-family:"JetBrains Mono",monospace}
+.chart circle.pt{transition:r .12s}
+.chart g.hit:hover circle.pt{r:4.5}
+path.draw{transition:none}
+
+/* lineage popover */
+#pop{position:absolute;z-index:50;display:none;width:288px;background:#0d1720;border:1px solid var(--line2);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.55);padding:14px 15px;font-size:13px}
+#pop .pop-h{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+#pop .pop-v{font-family:"Space Grotesk";font-size:19px;font-weight:600;margin:3px 0 10px}
+#pop table{font-size:12.5px}#pop td{padding:5px 0;border-bottom:1px solid var(--line)}
+#pop td:first-child{color:var(--mute);text-transform:uppercase;font-size:10.5px;letter-spacing:.05em;width:88px}
+#pop td:last-child{color:var(--ink);font-family:"JetBrains Mono",monospace;text-align:right}
+#pop .pop-f{margin-top:10px;font-size:11.5px;color:var(--green)}
+#pop .pop-f b{color:var(--green)}
+
+.footer{color:var(--mute);font-size:11.5px;padding:16px 24px;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
 <header>
-  <div><div class="t">ODATA QR03 · <b>Single Source of Truth</b></div><div class="proj" id="projlbl"></div></div>
-  <span class="badge">● live</span><span class="badge demo">DEMO · simulated data</span>
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <circle cx="20" cy="20" r="18.5" stroke="#1f2c37"/>
+      <circle cx="20" cy="8.5" r="3.1" fill="#35c2c9"/><circle cx="9.5" cy="26" r="3.1" fill="#4fbf8b"/><circle cx="30.5" cy="26" r="3.1" fill="#e5b769"/>
+      <path d="M20 8.5 9.5 26M20 8.5 30.5 26M9.5 26h21" stroke="#35c2c9" stroke-width="1.3" opacity=".55"/>
+    </svg>
+    <div><div class="t">ODATA QR03 · <b>Single Source of Truth</b></div><div class="sub">One source · one owner · one version — everything reconciled</div></div>
+  </div>
+  <div class="badges"><span class="badge live"><span class="dot"></span>live</span><span class="badge demo">demo · simulated data</span></div>
 </header>
+<div class="ribbon" id="ribbon"></div>
 <nav id="nav"></nav>
 <main id="view"></main>
-<div class="footer">Interactive demo · simulated data to illustrate the system · d3x.biz/odata · Turner &amp; Townsend</div>
+<div id="pop"></div>
+<div class="footer"><span>Interactive demo · simulated data to illustrate the system · Turner &amp; Townsend</span><span>Click any KPI to trace its source · d3x.biz/odata</span></div>
 <script>
 const DATA = {"proj": "OBDMX-QR03 · Phase 1 (200 MW)", "areas": [{"id": "DH1", "name": "Data Hall 1", "fis": 72, "fin": 78, "disc": "MEP+CSA"}, {"id": "DH2", "name": "Data Hall 2", "fis": 38, "fin": 41, "disc": "MEP+CSA"}, {"id": "SE1", "name": "Electrical Room 1", "fis": 25, "fin": 80, "disc": "MEP", "flag": true, "gc": 40}, {"id": "BAT", "name": "Battery Room", "fis": 54, "fin": 57, "disc": "MEP"}, {"id": "YRD", "name": "Yard / Exterior works", "fis": 61, "fin": 59, "disc": "CSA"}], "lines": {"DH1": [["L001 Main AC duct", "MEP", "m", 120, 96, "units"], ["L002 Cable tray", "MEP", "m", 200, 150, "units"], ["L003 Partition wall", "CSA", "m²", 340, 300, "units"], ["L004 Raised floor", "CSA", "m²", 500, 320, "weighted"]], "DH2": [["L010 AC duct", "MEP", "m", 120, 40, "units"], ["L011 Cable tray", "MEP", "m", 200, 72, "units"], ["L012 Wall", "CSA", "m²", 340, 150, "units"]], "SE1": [["L020 MV switchboards", "MEP", "pcs", 8, 2, "steps"], ["L021 Conduit", "MEP", "m", 90, 70, "units"], ["L022 Earthing bar", "MEP", "m", 60, 15, "units"]], "BAT": [["L030 Battery racks", "MEP", "pcs", 24, 13, "units"], ["L031 Ventilation", "MEP", "m", 80, 44, "units"]], "YRD": [["L040 Paving", "CSA", "m²", 1200, 760, "units"], ["L041 Drainage", "CSA", "m", 300, 180, "units"]]}, "packages": [{"id": "IWP-DH1-03", "area": "DH1", "type": "IWP", "released": true, "constraints": 0}, {"id": "IWP-DH2-01", "area": "DH2", "type": "IWP", "released": false, "constraints": 2, "cnote": "material + drawing rev"}, {"id": "IWP-SE1-02", "area": "SE1", "type": "IWP", "released": false, "constraints": 1, "cnote": "switchboards in factory"}, {"id": "IWP-BAT-01", "area": "BAT", "type": "IWP", "released": true, "constraints": 0}, {"id": "IWP-YRD-04", "area": "YRD", "type": "IWP", "released": true, "constraints": 0}], "costcodes": [{"cc": "CSA-CONCRETE", "bud": 8200, "com": 8000, "act": 6100, "eac": 8300}, {"cc": "CSA-FINISHES", "bud": 3400, "com": 3100, "act": 1200, "eac": 3350}, {"cc": "MEP-DUCTS", "bud": 3500, "com": 3400, "act": 2100, "eac": 3700}, {"cc": "MEP-PIPING", "bud": 2600, "com": 2500, "act": 1500, "eac": 2600}, {"cc": "ELEC-SWITCHGEAR", "bud": 5200, "com": 5000, "act": 4400, "eac": 5600}, {"cc": "ELEC-UPS", "bud": 4100, "com": 4000, "act": 1900, "eac": 4050}], "evm": {"period": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"], "pv": [1200, 3100, 5600, 8900, 12500, 16200, 19800, 23000], "ev": [1000, 2800, 5100, 8200, 11400, 14800, 18100, 20900], "ac": [1100, 3000, 5500, 8800, 12300, 16000, 19600, 22300]}, "gcs": [{"gc": "Norte Construction", "est": "EST-08", "period": "Aug", "monto": 4200, "cfdi": "OK", "recon": "reconciled"}, {"gc": "MEP Solutions", "est": "EST-06", "period": "Aug", "monto": 2600, "cfdi": "OK", "recon": "reconciled"}, {"gc": "Electro QR", "est": "EST-05", "period": "Aug", "monto": 3100, "cfdi": "OK", "recon": "DISCREPANCY", "note": "billing 40% vs 25% physical in SE1"}], "commx": [{"sys": "UPS-A", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "ok", "L5": "pend"}, {"sys": "UPS-B", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "pend", "L5": "pend"}, {"sys": "Delta³ Cooling", "L1": "ok", "L2": "ok", "L3": "pend", "L4": "pend", "L5": "pend"}, {"sys": "MV Switchboard SE1", "L1": "ok", "L2": "pend", "L3": "pend", "L4": "pend", "L5": "pend"}, {"sys": "Fire detection", "L1": "ok", "L2": "ok", "L3": "ok", "L4": "ok", "L5": "ok"}], "issues": {"ncr_open": 4, "rfi_open": 7, "punch_open": 23, "constraints_open": 3}, "kpi": {"fisico": 52, "financiero": 61, "cpi": 0.94, "spi": 0.91, "hitos_atraso": 2, "paquetes_liberados": 3, "paquetes_total": 5}};
-document.getElementById('projlbl').textContent = DATA.proj;
+const TRACE={
+ fisico:{v:'52% physical',src:'On-site verification (line-level)',own:'Quality',upd:'2h ago',ver:'v4 of 4'},
+ financiero:{v:'61% financial',src:'Cost ledger + GC estimates',own:'Cost Management',upd:'today',ver:'v7 of 7'},
+ cpi:{v:'CPI 0.94',src:'Earned Value (EV / AC)',own:'Project Controls',upd:'today',ver:'auto'},
+ spi:{v:'SPI 0.91',src:'Schedule (P6) vs earned value',own:'Planning',upd:'today',ver:'auto'}
+};
+const ICONS={
+ "Summary":'<svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.3"/><rect x="9" y="1" width="6" height="6" rx="1.3"/><rect x="1" y="9" width="6" height="6" rx="1.3"/><rect x="9" y="9" width="6" height="6" rx="1.3"/></svg>',
+ "Reconciliation":'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v12M3 5h10"/><path d="M3 5 1 9.5h4zM13 5l-2 4.5h4z"/></svg>',
+ "Progress":'<svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="9" width="3" height="6" rx=".8"/><rect x="6.5" y="5" width="3" height="10" rx=".8"/><rect x="12" y="2" width="3" height="13" rx=".8"/></svg>',
+ "Cost / EVM":'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13 6 8l3 2 5-7"/><path d="M11 3h3v3"/></svg>',
+ "Quality":'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5 6.3 12 13 4"/></svg>',
+ "Contractors":'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 1.5h6L13 4.5v10H4z"/><path d="M6 7h5M6 10h5"/></svg>'
+};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $=(h)=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild;};
-const pct=(v)=>v+'%'; const money=(v)=>'$'+v.toLocaleString()+'k';
+const money=(v)=>'$'+v.toLocaleString()+'k';
 const barColor=(v)=>v>=66?'var(--green)':v>=33?'var(--amber)':'var(--red)';
-function bar(v,c){return `<div class="bar"><i style="width:${Math.min(v,100)}%;background:${c||barColor(v)}"></i></div>`;}
+function bar(v,c){return `<div class="bar"><i data-w="${Math.min(v,100)}" style="background:${c||barColor(v)}"></i></div>`;}
 function pill(txt,cls){return `<span class="pill ${cls}">${txt}</span>`;}
+function mb(v,c){return `<div class="mb"><i data-w="${v}" style="background:${c}"></i></div>`;}
 
-// ---- SVG charts (no libs) ----
-function svgLine(series, w=560, h=180){
-  const all=[].concat(...Object.values(series.data)); const max=Math.max(...all)*1.08;
-  const n=series.labels.length, pad=34;
-  const X=i=>pad+i*(w-pad-10)/(n-1), Y=v=>h-24-(v/max)*(h-44);
-  let out=`<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
-  for(let g=0;g<=4;g++){const yy=24+g*(h-48)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-10}" y2="${yy}" stroke="#1f2c37"/>`;}
+// ---- ribbon ----
+const flags=DATA.areas.filter(a=>a.flag).length+DATA.gcs.filter(g=>g.recon!=='reconciled').length;
+document.getElementById('ribbon').innerHTML=
+ `<span><i>Project</i>OBDMX-QR03</span><span><i>Phase</i>1 · 200 MW</span><span><i>Last sync</i>2h ago</span><span><i>Source</i>reconciled</span><span class="flagchip">⚠ ${flags} flagged by the system</span>`;
+
+// ---- SVG charts ----
+function svgLine(series,w=560,h=190){
+  const all=[].concat(...Object.values(series.data));const max=Math.max(...all)*1.08;
+  const n=series.labels.length,pad=36;
+  const X=i=>pad+i*(w-pad-12)/(n-1),Y=v=>h-26-(v/max)*(h-48);
+  let out=`<svg class="chart" viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
+  for(let g=0;g<=4;g++){const yy=22+g*(h-48)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-12}" y2="${yy}" stroke="#182430"/>`;}
   series.labels.forEach((l,i)=>out+=`<text x="${X(i)}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${l}</text>`);
   const cols={pv:'#9a8cff',ev:'#4fbf8b',ac:'#e8a13a'};
+  // area under EV
+  if(series.data.ev){const d=series.data.ev;let a=`M${X(0)} ${Y(0)*0+ (h-26)} `;a=`M${X(0)} ${h-26} `;d.forEach((v,i)=>a+=`L${X(i)} ${Y(v)} `);a+=`L${X(n-1)} ${h-26} Z`;
+    out+=`<path d="${a}" fill="rgba(79,191,139,.10)"/>`;}
   for(const k in series.data){const d=series.data[k];let p='';d.forEach((v,i)=>p+=(i?'L':'M')+X(i)+' '+Y(v)+' ');
-    out+=`<path d="${p}" fill="none" stroke="${cols[k]||'#35c2c9'}" stroke-width="2.5"/>`;
-    d.forEach((v,i)=>out+=`<circle cx="${X(i)}" cy="${Y(v)}" r="2.6" fill="${cols[k]||'#35c2c9'}"/>`);}
+    out+=`<path class="draw" d="${p}" fill="none" stroke="${cols[k]||'#35c2c9'}" stroke-width="2.6" stroke-linejoin="round"/>`;
+    d.forEach((v,i)=>{const last=i===n-1;
+      out+=`<g class="hit"><circle class="pt" cx="${X(i)}" cy="${Y(v)}" r="${last?4:2.7}" fill="${cols[k]||'#35c2c9'}"/><title>${series.labels[i]} · ${k.toUpperCase()} ${money(v)}</title></g>`;
+      if(last)out+=`<text x="${X(i)}" y="${Y(v)-9}" fill="${cols[k]}" font-size="10.5" text-anchor="end">${money(v)}</text>`;});}
   out+='</svg>';return out;
 }
-function svgBars(items, w=560, h=200){ // items:[{label,v}]
-  const max=100,pad=30,n=items.length,bw=(w-pad-10)/n*0.62;
-  let out=`<svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
-  const X=i=>pad+i*(w-pad-10)/n+((w-pad-10)/n-bw)/2, Y=v=>h-22-(v/max)*(h-40);
+function svgBars(items,w=560,h=200){
+  const max=100,pad=30,n=items.length,bw=(w-pad-10)/n*0.6;
+  let out=`<svg class="chart" viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px">`;
+  const X=i=>pad+i*(w-pad-10)/n+((w-pad-10)/n-bw)/2,Y=v=>h-22-(v/max)*(h-42);
+  for(let g=0;g<=4;g++){const yy=18+g*(h-40)/4;out+=`<line x1="${pad}" y1="${yy}" x2="${w-8}" y2="${yy}" stroke="#182430"/>`;}
   items.forEach((it,i)=>{const y=Y(it.v),bh=h-22-y;
-    out+=`<rect x="${X(i)}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${it.c||'#35c2c9'}"/>`;
-    out+=`<text x="${X(i)+bw/2}" y="${y-5}" fill="#e8eef2" font-size="11" text-anchor="middle">${it.v}%</text>`;
+    out+=`<rect x="${X(i)}" y="${y}" width="${bw}" height="${bh}" rx="3.5" fill="${it.c||'#35c2c9'}"><animate attributeName="height" from="0" to="${bh}" dur="0.7s" fill="freeze" begin="0.05s" calcMode="spline" keySplines="0.22 1 0.36 1" keyTimes="0;1" values="0;${bh}"/><animate attributeName="y" from="${h-22}" to="${y}" dur="0.7s" fill="freeze" begin="0.05s" calcMode="spline" keySplines="0.22 1 0.36 1" keyTimes="0;1" values="${h-22};${y}"/></rect>`;
+    out+=`<text x="${X(i)+bw/2}" y="${y-6}" fill="#e8eef2" font-size="11" text-anchor="middle">${it.v}%</text>`;
     out+=`<text x="${X(i)+bw/2}" y="${h-6}" fill="#6b8090" font-size="10" text-anchor="middle">${it.label}</text>`;});
   out+='</svg>';return out;
 }
-function gauge(v,label,color){ // 0-100 style but shows ratio
-  const r=42,c=2*Math.PI*r,off=c*(1-Math.min(v,1.3)/1.3);
-  return `<svg viewBox="0 0 120 120" width="120" height="120">
-   <circle cx="60" cy="60" r="${r}" fill="none" stroke="#1f2c37" stroke-width="10"/>
-   <circle cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="10" stroke-linecap="round"
-     stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
-   <text x="60" y="58" fill="#e8eef2" font-size="22" font-weight="800" text-anchor="middle">${v.toFixed(2)}</text>
-   <text x="60" y="76" fill="#9fb2c0" font-size="10" text-anchor="middle">${label}</text></svg>`;
+function gauge(v,label,color){const r=42,c=2*Math.PI*r,off=c*(1-Math.min(v,1.3)/1.3);
+  return `<svg viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="#1f2c37" stroke-width="10"/>
+   <circle cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
+   <text x="60" y="58" fill="#e8eef2" font-size="22" font-weight="700" text-anchor="middle" font-family="Space Grotesk">${v.toFixed(2)}</text>
+   <text x="60" y="76" fill="#9fb2c0" font-size="10" text-anchor="middle" font-family="JetBrains Mono">${label}</text></svg>`;
+}
+function kpiCard(display,label,sub,color,opt){opt=opt||{};
+  const cnt=opt.count!=null?` data-count="${opt.count}" data-dec="${opt.dec||0}" data-suf="${opt.suf||''}"`:'';
+  const tr=opt.trace?` data-trace="${opt.trace}"`:'';
+  return `<div class="card kpi${opt.trace?' trace':''}"${tr}><div class="n" style="color:${color}"${cnt}>${display}</div><div class="l">${label}</div><div class="s">${sub}</div>${opt.trace?'<div class="tracehint">⌕ click to trace</div>':''}</div>`;
 }
 
 // ---- VIEWS ----
-const V = {};
+const V={};
 V["Summary"]=()=>{const k=DATA.kpi,is=DATA.issues;
   return `
-  <div class="grid g4">
-    ${kpiCard(k.fisico+'%','Physical progress','verified on site','var(--green)')}
-    ${kpiCard(k.financiero+'%','Financial progress','from the ledger','var(--amber)')}
-    ${kpiCard(k.cpi,'CPI (cost)',k.cpi>=1?'on budget':'over cost',k.cpi>=1?'var(--green)':'var(--red)')}
-    ${kpiCard(k.spi,'SPI (schedule)',k.spi>=1?'on schedule':'behind',k.spi>=1?'var(--green)':'var(--amber)')}
+  <div class="alert pulse">
+    <div class="alert-ic">⚠</div>
+    <div class="alert-body">
+      <div class="alert-t">The system caught a discrepancy — Electrical Room 1</div>
+      <div class="tri">
+        <div><span>GC billing</span><b style="color:var(--amber)">40%</b>${mb(40,'var(--amber)')}</div>
+        <div><span>Verified on site</span><b style="color:var(--green)">25%</b>${mb(25,'var(--green)')}</div>
+        <div><span>Cost spent</span><b style="color:var(--red)">80%</b>${mb(80,'var(--red)')}</div>
+      </div>
+      <div class="alert-note">Three truths that used to travel untagged. Now each is tagged, tied to an owner, and reconciled — <b style="color:var(--ink)">before</b> it reaches the client report.</div>
+    </div>
+    <button class="alert-cta" onclick="go('Reconciliation')">See how &rarr;</button>
   </div>
-  <h2>The 40 / 25 / 80 <span>· the discrepancy the system catches on its own</span></h2>
-  <div class="callout flag">In <b>Electrical Room 1</b>: the GC bills <b style="color:var(--amber)">40%</b> (estimate) · site reports <b style="color:var(--green)">25%</b> verified physical · cost is <b style="color:var(--red)">80%</b> spent. Three untagged truths. The system tags them, ties each to its owner, and <b>flags the discrepancy</b> before it reaches the client report. → see the Reconciliation tab.</div>
+  <div class="grid g4" style="margin-top:16px">
+    ${kpiCard('52%','Physical progress','verified on site','var(--green)',{count:52,suf:'%',trace:'fisico'})}
+    ${kpiCard('61%','Financial progress','from the ledger','var(--amber)',{count:61,suf:'%',trace:'financiero'})}
+    ${kpiCard('0.94','CPI · cost','over cost','var(--red)',{count:0.94,dec:2,trace:'cpi'})}
+    ${kpiCard('0.91','SPI · schedule','behind','var(--amber)',{count:0.91,dec:2,trace:'spi'})}
+  </div>
   <h2>S-curve · Earned Value <span>(USD thousands, cumulative)</span></h2>
   <div class="card">${svgLine({labels:DATA.evm.period,data:{pv:DATA.evm.pv,ev:DATA.evm.ev,ac:DATA.evm.ac}})}
-    <div class="legend"><span style="color:var(--violet)">■</span> PV (planned) &nbsp; <span style="color:var(--green)">■</span> EV (earned) &nbsp; <span style="color:var(--amber)">■</span> AC (actual). EV below PV = behind; AC above EV = over cost.</div>
+    <div class="legend"><span style="color:var(--violet)">■</span> PV planned &nbsp; <span style="color:var(--green)">■</span> EV earned &nbsp; <span style="color:var(--amber)">■</span> AC actual &nbsp;·&nbsp; EV below PV = behind; AC above EV = over cost. Hover a point for detail.</div>
   </div>
   <div class="grid g2" style="margin-top:14px">
     <div class="card"><h3>Physical progress by area</h3>${svgBars(DATA.areas.map(a=>({label:a.id,v:a.fis,c:a.flag?'var(--red)':'var(--cyan)'})))}</div>
@@ -111,55 +248,58 @@ V["Summary"]=()=>{const k=DATA.kpi,is=DATA.issues;
     </div>
   </div>`;
 };
-function kpiCard(n,l,s,c){return `<div class="card kpi"><div class="n" style="color:${c}">${n}</div><div class="l">${l}</div><div class="s" style="color:var(--soft)">${s}</div></div>`;}
 
 V["Reconciliation"]=()=>{
   let rows=DATA.areas.map(a=>{const d=a.fin-a.fis;const flag=Math.abs(d)>=20;
-    return `<tr class="${flag?'flag':''}"><td>${a.name}</td>
+    const main=`<tr class="${flag?'flag exp':''}"${flag?' data-exp':''}><td>${a.name}</td>
       <td class="num" style="color:var(--green)">${a.fis}%</td>
       <td class="num" style="color:var(--amber)">${a.fin}%</td>
       <td class="num" style="color:${flag?'var(--red)':'var(--soft)'}">${d>0?'+':''}${d} pp</td>
-      <td>${flag?pill('⚠ DISCREPANCY','bad'):pill('reconciled','ok')}</td></tr>`;}).join('');
+      <td>${flag?pill('⚠ DISCREPANCY','bad'):pill('reconciled','ok')}</td></tr>`;
+    const det=flag?`<tr class="det"><td colspan="5"><div class="det-in">
+       <div class="tri"><div><span>GC billing</span><b style="color:var(--amber)">40%</b>${mb(40,'var(--amber)')}</div>
+       <div><span>Verified on site</span><b style="color:var(--green)">25%</b>${mb(25,'var(--green)')}</div>
+       <div><span>Cost spent</span><b style="color:var(--red)">80%</b>${mb(80,'var(--red)')}</div></div>
+       <div class="sub" style="margin:0">Root cause: switchboards still in the factory — installed 2 of 8 (L020). The GC estimate ran ahead of verified installation. Owners notified: <b style="color:var(--ink)">Cost Management</b> (estimate) &amp; <b style="color:var(--ink)">Quality</b> (site verification). Held out of the client report until reconciled.</div>
+       </div></td></tr>`:'';
+    return main+det;}).join('');
   return `<h2>Physical vs financial reconciliation <span>· the gate</span></h2>
-  <p class="sub">Every number carries its owner and its tag. When financial runs more than 20 points ahead of physical, the system flags it — the missing check from whoever is closest to reality.</p>
-  <div class="card"><table><tr><th>Area</th><th class="num">Physical (site)</th><th class="num">Financial (ledger/GC)</th><th class="num">Delta</th><th>Status</th></tr>${rows}</table></div>
-  <div class="callout" style="margin-top:14px">Electrical Room 1 trips the alarm: the GC bills 40% but site only verifies 25% installed (switchboards still in the factory). The 80% cost spent is advance + commitment, not physical progress. Without the system, that 40% went into the client report unquestioned.</div>`;
+  <p class="sub">Every number carries its owner and its tag. When financial runs more than 20 points ahead of physical, the system flags it — and holds it. <b style="color:var(--soft)">Click the flagged row to open the breakdown.</b></p>
+  <div class="card"><table><tr><th>Area</th><th class="num">Physical (site)</th><th class="num">Financial (ledger/GC)</th><th class="num">Delta</th><th>Status</th></tr>${rows}</table></div>`;
 };
 
 V["Progress"]=()=>{
   const opts=DATA.areas.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');
   return `<h2>Progress by area <span>· down to the line (granular unit)</span></h2>
-  <div class="row-fx" style="margin-bottom:12px"><span class="sub">Area:</span> <select id="areasel" onchange="renderLines(this.value)">${opts}</select>
-  <span class="sub" style="margin-left:auto">Every progress figure hangs off the line, with a credit rule (units/steps) — not "by eye".</span></div>
+  <div class="row-fx" style="margin-bottom:12px"><span class="sub" style="margin:0">Area:</span> <select id="areasel" onchange="renderLines(this.value)">${opts}</select>
+  <span class="sub" style="margin:0 0 0 auto">Every figure hangs off a line, with a credit rule (units/steps) — not "by eye".</span></div>
   <div id="lineswrap"></div>`;
 };
 function renderLines(aid){
-  const ls=DATA.lines[aid]||[]; const pkgs=DATA.packages.filter(p=>p.area===aid);
-  let prows=pkgs.map(p=>`<tr><td>${p.id}</td><td>${p.type}</td>
-     <td>${p.released?pill('released','ok'):pill(p.constraints+' constraint(s): '+(p.cnote||''),'bad')}</td></tr>`).join('');
+  const ls=DATA.lines[aid]||[];const pkgs=DATA.packages.filter(p=>p.area===aid);
+  let prows=pkgs.map(p=>`<tr><td>${p.id}</td><td>${p.type}</td><td>${p.released?pill('released','ok'):pill(p.constraints+' constraint(s): '+(p.cnote||''),'bad')}</td></tr>`).join('');
   let lrows=ls.map(l=>{const [nm,disc,uom,plan,inst,method]=l;const v=Math.round(inst/plan*100);
     return `<tr><td>${nm}</td><td>${pill(disc,'mut')}</td><td class="num">${inst}/${plan} ${uom}</td>
-     <td style="width:180px"><div class="row-fx">${bar(v)}<span class="num" style="min-width:38px">${v}%</span></div></td>
+     <td style="width:190px"><div class="row-fx">${bar(v)}<span class="num" style="min-width:40px">${v}%</span></div></td>
      <td><span class="pill mut">${method}</span></td></tr>`;}).join('');
   document.getElementById('lineswrap').innerHTML=`
    <div class="card" style="margin-bottom:14px"><h3>AWP packages · crediting (constraint-free)</h3>
      <table><tr><th>Package</th><th>Type</th><th>Release status</th></tr>${prows}</table></div>
    <div class="card"><h3>Lines · verified physical progress</h3>
      <table><tr><th>Line (product)</th><th>Discipline</th><th class="num">Installed / plan</th><th>Progress</th><th>Credit rule</th></tr>${lrows}</table></div>`;
+  enhance(document.getElementById('lineswrap'));
 }
 
 V["Cost / EVM"]=()=>{
   let tot={bud:0,com:0,act:0,eac:0};
-  let rows=DATA.costcodes.map(c=>{tot.bud+=c.bud;tot.com+=c.com;tot.act+=c.act;tot.eac+=c.eac;
-    const vac=c.bud-c.eac;
-    return `<tr><td>${c.cc}</td><td class="num">${money(c.bud)}</td><td class="num">${money(c.com)}</td>
-     <td class="num">${money(c.act)}</td><td class="num">${money(c.eac)}</td>
+  let rows=DATA.costcodes.map(c=>{tot.bud+=c.bud;tot.com+=c.com;tot.act+=c.act;tot.eac+=c.eac;const vac=c.bud-c.eac;
+    return `<tr><td>${c.cc}</td><td class="num">${money(c.bud)}</td><td class="num">${money(c.com)}</td><td class="num">${money(c.act)}</td><td class="num">${money(c.eac)}</td>
      <td class="num" style="color:${vac<0?'var(--red)':'var(--green)'}">${vac<0?'':'+'}${money(vac)}</td></tr>`;}).join('');
   const vact=tot.bud-tot.eac;
   return `<h2>Cost Management + EVM <span>· budget → commitment → actual → forecast</span></h2>
   <div class="grid g3" style="margin-bottom:16px">
-    <div class="card" style="text-align:center">${gauge(DATA.kpi.cpi,'CPI = EV/AC',DATA.kpi.cpi>=1?'#4fbf8b':'#e56a6a')}<div class="sub" style="text-align:center">Cost efficiency</div></div>
-    <div class="card" style="text-align:center">${gauge(DATA.kpi.spi,'SPI = EV/PV',DATA.kpi.spi>=1?'#4fbf8b':'#e8a13a')}<div class="sub" style="text-align:center">Schedule efficiency</div></div>
+    <div class="card" style="text-align:center">${gauge(DATA.kpi.cpi,'CPI = EV/AC',DATA.kpi.cpi>=1?'#4fbf8b':'#e56a6a')}<div class="sub" style="text-align:center;margin:0">Cost efficiency</div></div>
+    <div class="card" style="text-align:center">${gauge(DATA.kpi.spi,'SPI = EV/PV',DATA.kpi.spi>=1?'#4fbf8b':'#e8a13a')}<div class="sub" style="text-align:center;margin:0">Schedule efficiency</div></div>
     <div class="card"><h3>Totals (USD thousands)</h3><table>
       <tr><td>Budget (BAC)</td><td class="num">${money(tot.bud)}</td></tr>
       <tr><td>Committed</td><td class="num">${money(tot.com)}</td></tr>
@@ -171,36 +311,72 @@ V["Cost / EVM"]=()=>{
     <tr><th>Cost code</th><th class="num">Budget</th><th class="num">Committed</th><th class="num">Actual</th><th class="num">EAC</th><th class="num">VAC</th></tr>${rows}</table></div>`;
 };
 
-V["Quality"]=()=>{
-  const cell=(s)=>s==='ok'?pill('✓','ok'):pill('pending','warn');
+V["Quality"]=()=>{const cell=(s)=>s==='ok'?pill('✓','ok'):pill('pending','warn');
   let rows=DATA.commx.map(c=>`<tr><td>${c.sys}</td><td>${cell(c.L1)}</td><td>${cell(c.L2)}</td><td>${cell(c.L3)}</td><td>${cell(c.L4)}</td><td>${cell(c.L5)}</td></tr>`).join('');
   return `<h2>Quality · Commissioning L1–L5 <span>· a system isn't done until the IST (L5)</span></h2>
   <div class="card"><h3>Test matrix by system</h3>
    <table><tr><th>System / equipment</th><th>L1 FAT</th><th>L2 SAT</th><th>L3 Pre-func</th><th>L4 Functional</th><th>L5 IST</th></tr>${rows}</table>
-   <div class="legend">Physical progress reaches 100% at installation; the system is only considered complete once it passes <b>L5 (Integrated Systems Test)</b> — with all punch items closed.</div></div>
+   <div class="legend">Physical progress reaches 100% at installation; a system is only complete once it passes <b>L5 (Integrated Systems Test)</b> — with all punch items closed.</div></div>
   <div class="grid g3" style="margin-top:14px">
-    ${kpiCard(DATA.issues.ncr_open,'NCRs open','non-conformances','var(--red)')}
-    ${kpiCard(DATA.issues.rfi_open,'RFIs open','technical questions','var(--amber)')}
-    ${kpiCard(DATA.issues.punch_open,'Punch items open','handover pending','var(--amber)')}
+    ${kpiCard(4,'NCRs open','non-conformances','var(--red)',{count:4})}
+    ${kpiCard(7,'RFIs open','technical questions','var(--amber)',{count:7})}
+    ${kpiCard(23,'Punch items open','handover pending','var(--amber)',{count:23})}
   </div>`;
 };
 
 V["Contractors"]=()=>{
   let rows=DATA.gcs.map(g=>{const bad=g.recon!=='reconciled';
-    return `<tr class="${bad?'flag':''}"><td>${g.gc}</td><td>${g.est}</td><td>${g.period}</td>
-     <td class="num">${money(g.monto)}</td><td>${pill('CFDI '+g.cfdi,'ok')}</td>
-     <td>${bad?pill('⚠ '+g.recon,'bad'):pill(g.recon,'ok')}</td></tr>${bad?`<tr><td colspan="6" class="sub" style="color:var(--amber)">↳ ${g.note}</td></tr>`:''}`;}).join('');
+    return `<tr class="${bad?'flag':''}"><td>${g.gc}</td><td>${g.est}</td><td>${g.period}</td><td class="num">${money(g.monto)}</td><td>${pill('CFDI '+g.cfdi,'ok')}</td>
+     <td>${bad?pill('⚠ '+g.recon,'bad'):pill(g.recon,'ok')}</td></tr>${bad?`<tr><td colspan="6" class="sub" style="color:var(--amber);padding-top:0">↳ ${g.note}</td></tr>`:''}`;}).join('');
   return `<h2>Contractors (GC) · Billing <span>· estimate → backup → CFDI → reconciliation</span></h2>
   <p class="sub">GCs upload their estimate and CFDI invoice through the portal (Power Pages). The system ties the invoice to the estimate and reconciles it against verified physical progress — it doesn't accept it blindly.</p>
   <div class="card"><table><tr><th>Contractor</th><th>Estimate</th><th>Period</th><th class="num">Amount</th><th>Invoice</th><th>Reconciliation</th></tr>${rows}</table></div>`;
 };
 
+// ---- animations / interactions ----
+function animateCount(el){const to=parseFloat(el.dataset.count),dec=+(el.dataset.dec||0),suf=el.dataset.suf||'';
+  if(reduce){el.textContent=to.toFixed(dec)+suf;return;}
+  const dur=750,t0=performance.now();
+  (function step(t){let p=Math.min((t-t0)/dur,1);p=1-Math.pow(1-p,3);
+   el.textContent=(to*p).toFixed(dec)+suf;if(p<1)requestAnimationFrame(step);})(t0);
+}
+function enhance(root){root=root||document;
+  root.querySelectorAll('.bar>i[data-w],.mb>i[data-w]').forEach(i=>{
+    if(reduce){i.style.width=i.dataset.w+'%';return;}
+    i.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{i.style.width=i.dataset.w+'%';}));});
+  root.querySelectorAll('[data-count]').forEach(animateCount);
+  root.querySelectorAll('path.draw').forEach(p=>{const len=p.getTotalLength();
+    if(reduce){return;} p.style.strokeDasharray=len;p.style.strokeDashoffset=len;p.getBoundingClientRect();
+    requestAnimationFrame(()=>{p.style.transition='stroke-dashoffset 1.1s ease';p.style.strokeDashoffset=0;});});
+}
+
+// ---- lineage popover ----
+const pop=document.getElementById('pop');
+function openTrace(el){const t=TRACE[el.dataset.trace];if(!t)return;
+  pop.innerHTML=`<div class="pop-h">Data lineage</div><div class="pop-v">${t.v}</div>
+   <table><tr><td>Source</td><td>${t.src}</td></tr><tr><td>Owner</td><td>${t.own}</td></tr><tr><td>Updated</td><td>${t.upd}</td></tr><tr><td>Version</td><td>${t.ver}</td></tr></table>
+   <div class="pop-f"><b>✓</b> one source · one owner · one version</div>`;
+  pop.style.display='block';const r=el.getBoundingClientRect();
+  let x=r.left+scrollX,y=r.bottom+scrollY+8;const pw=288;
+  if(x+pw>scrollX+innerWidth-12)x=scrollX+innerWidth-pw-12;if(x<8)x=8;
+  pop.style.left=x+'px';pop.style.top=y+'px';
+}
+document.addEventListener('click',e=>{
+  const tr=e.target.closest('[data-trace]');if(tr){e.stopPropagation();openTrace(tr);return;}
+  const ex=e.target.closest('tr[data-exp]');if(ex){const d=ex.nextElementSibling;if(d&&d.classList.contains('det')){const open=d.style.display==='table-row';d.style.display=open?'none':'table-row';ex.classList.toggle('open',!open);if(!open)enhance(d);}return;}
+  if(!e.target.closest('#pop'))pop.style.display='none';
+});
+window.addEventListener('scroll',()=>pop.style.display='none',{passive:true});
+
 // ---- nav ----
-const tabs=Object.keys(V); let cur=tabs[0];
+function go(t){cur=t;draw();}
+const tabs=Object.keys(V);let cur=tabs[0];
 const nav=document.getElementById('nav');
-tabs.forEach(t=>{const b=$(`<button>${t}</button>`);b.onclick=()=>{cur=t;draw();};b.dataset.t=t;nav.appendChild(b);});
+tabs.forEach(t=>{const b=$(`<button data-t="${t}">${ICONS[t]||''}<span>${t}</span></button>`);b.onclick=()=>go(t);nav.appendChild(b);});
 function draw(){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===cur));
+  document.querySelectorAll('.det').forEach(d=>d.style.display='none');
   document.getElementById('view').innerHTML=V[cur]();
-  if(cur==='Progress'){renderLines(DATA.areas[0].id);}}
+  if(cur==='Progress'){renderLines(DATA.areas[0].id);}
+  enhance();window.scrollTo({top:0});}
 draw();
 </script></body></html>
