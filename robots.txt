@@ -1,0 +1,6 @@
+# d3x.biz — internal demo assets kept out of crawlers.
+# HTML pages carry <meta name="robots" content="noindex"> (must stay crawlable to be honored).
+# PDFs/images can't carry meta, so they are disallowed here.
+User-agent: *
+Disallow: /odata/FirstMVPColo2b/pdf/
+Disallow: /odata/FirstMVPColo2b/thumbs/

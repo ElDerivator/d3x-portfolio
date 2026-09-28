@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet">
+<title>First MVP — Colo 2B</title>
+<meta name="description" content="Internal demo · not production.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37; --line2:#2a3a48;
+  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
+  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b; --violet:#8b7ff0;
+  --accent:var(--cyan);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Inter",system-ui,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(70% 50% at 82% -8%, rgba(53,194,201,.09) 0%, transparent 60%);
+  overflow-x:hidden;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.14;text-wrap:balance;margin:0}
+.mono{font-family:"JetBrains Mono",monospace}
+a{color:var(--cyan);text-decoration:none}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(11,16,21,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .row{display:flex;align-items:center;gap:14px;height:56px}
+.brand{font-family:"Space Grotesk";font-weight:700;letter-spacing:.02em;font-size:15px}
+.brand span{color:var(--cyan)}
+.badge{margin-left:auto;font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;color:#ffd9a0;background:rgba(232,161,58,.12);border:1px solid rgba(232,161,58,.4);padding:5px 9px;border-radius:5px;white-space:nowrap}
+.nav{display:none;gap:20px;font-size:13px;color:var(--soft)}
+.nav a{color:var(--soft)} .nav a:hover{color:var(--ink)}
+@media(min-width:860px){.nav{display:flex}}
+
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.stitle{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.stitle h2{font-size:clamp(22px,3.2vw,30px)}
+.lead{color:var(--soft);max-width:62ch}
+
+/* hero */
+.hero{padding:64px 0 60px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(34px,7vw,64px);letter-spacing:-.01em}
+.hero h1 .b{color:var(--cyan)}
+.hero .sub{font-family:"JetBrains Mono";font-size:13px;letter-spacing:.06em;color:var(--soft);margin-top:14px}
+.hero p.desc{color:var(--soft);font-size:clamp(15px,2vw,18px);margin:22px 0 0;max-width:60ch}
+.hero p.desc b{color:var(--ink);font-weight:600}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:"Space Grotesk";font-weight:600;font-size:14px;padding:12px 18px;border-radius:8px;border:1px solid var(--line2);color:var(--ink);background:var(--panel);cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--cyan);color:#fff}
+.btn.primary{background:linear-gradient(180deg,#1c6d72,#155257);border-color:#2a8f96;color:#eafeff}
+.btn.primary:hover{filter:brightness(1.12)}
+.btn.sm{font-size:12px;padding:8px 12px}
+
+/* chain / big numbers */
+.chain{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.node{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px 15px;position:relative}
+.node .k{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.node .v{font-family:"Space Grotesk";font-weight:700;font-size:26px;margin-top:6px;line-height:1}
+.node .u{font-size:12px;color:var(--soft);margin-top:4px}
+.node.report{border-color:rgba(232,161,58,.5)} .node.report .v{color:var(--amber)}
+.node.verify{border-color:rgba(79,191,139,.5)} .node.verify .v{color:var(--green)}
+.node.official{border-color:rgba(53,194,201,.6);box-shadow:0 0 0 1px rgba(53,194,201,.25)} .node.official .v{color:var(--cyan)}
+.node .op{position:absolute;right:-11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;z-index:2}
+.tag{display:inline-block;font-family:"JetBrains Mono";font-size:9px;letter-spacing:.08em;padding:2px 6px;border-radius:4px;margin-top:9px}
+.tag.claim{color:#ffd9a0;background:rgba(232,161,58,.12)} .tag.auth{color:#bff6f8;background:rgba(53,194,201,.14)}
+.qlane{margin-top:16px;display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.qcard{flex:1;min-width:220px;background:var(--panel2);border:1px dashed rgba(224,90,90,.45);border-radius:11px;padding:15px}
+.qcard .k{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.09em;color:#f0a3a3}
+.qcard b{color:var(--red)}
+.callout{margin-top:16px;border-left:3px solid var(--cyan);background:rgba(53,194,201,.06);padding:12px 16px;border-radius:0 8px 8px 0;color:var(--soft);font-size:14px}
+.callout b{color:var(--ink)}
+
+/* gate */
+.gate{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:760px){.gate{grid-template-columns:repeat(4,1fr)}}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 16px;cursor:pointer;transition:.16s;position:relative}
+.step:hover,.step.on{border-color:var(--cyan);transform:translateY(-2px)}
+.step .n{font-family:"JetBrains Mono";font-size:11px;color:var(--muted)}
+.step h3{font-size:15px;margin:8px 0 6px}
+.step .d{font-family:"JetBrains Mono";font-size:12px;color:var(--soft)}
+.step .arw{display:none}
+@media(min-width:760px){.step .arw{display:block;position:absolute;right:-15px;top:50%;transform:translateY(-50%);color:var(--line2);z-index:2;font-size:18px}.step:last-child .arw{display:none}}
+.gatemsg{margin-top:16px;text-align:center;font-family:"JetBrains Mono";font-size:13px;color:var(--soft)}
+.gatemsg b.r{color:var(--amber)} .gatemsg b.v{color:var(--green)} .gatemsg b.o{color:var(--cyan)}
+
+/* data model */
+.reduce{display:grid;grid-template-columns:1fr;gap:14px;align-items:center}
+@media(min-width:720px){.reduce{grid-template-columns:1fr auto 1.4fr}}
+.rbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.rbox .big{font-family:"Space Grotesk";font-weight:700;font-size:40px;line-height:1;color:var(--ink)}
+.rbox.full .big{color:var(--muted)}
+.rbox.v1 .big{color:var(--cyan)}
+.rbox .cap{font-size:13px;color:var(--soft);margin-top:8px}
+.rarrow{font-family:"JetBrains Mono";color:var(--muted);text-align:center;font-size:13px}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px}
+.grp{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 12px}
+.grp .c{font-family:"Space Grotesk";font-weight:700;font-size:20px;color:var(--cyan)}
+.grp .l{font-size:12px;color:var(--soft);margin-top:2px}
+/* relational diagram */
+.erd{margin-top:26px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:20px;overflow-x:auto}
+.erd svg{display:block;min-width:640px;width:100%;height:auto}
+.ent rect{fill:#111a22;stroke:#2a3a48}
+.ent.core rect{stroke:var(--cyan)}
+.ent.q rect{stroke:rgba(224,90,90,.7)}
+.ent.chg rect{stroke:rgba(139,127,240,.7)}
+.ent text{fill:#e6edf3;font-family:"JetBrains Mono";font-size:12px}
+.ent .sub{fill:#6b8090;font-size:9.5px}
+.edge{stroke:#33475a;stroke-width:1.4;fill:none}
+.edge.hot{stroke:var(--cyan)}
+.elab{fill:#6b8090;font-family:"JetBrains Mono";font-size:9px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--soft)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid}
+.li-core i{border-color:var(--cyan)} .li-chg i{border-color:var(--violet)} .li-q i{border-color:var(--red)} .li-cat i{border-color:var(--line2)}
+
+/* forms */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card .thumb{aspect-ratio:4/3;background:#fff;overflow:hidden;border-bottom:1px solid var(--line)}
+.card .thumb img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.card .body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card .code{font-family:"JetBrains Mono";font-size:11px;color:var(--muted)}
+.card h3{font-size:15px}
+.tbadge{font-family:"JetBrains Mono";font-size:9px;letter-spacing:.08em;padding:3px 7px;border-radius:5px;align-self:flex-start}
+.tb-report{color:#ffd9a0;background:rgba(232,161,58,.13)}
+.tb-verify{color:#bff6f8;background:rgba(53,194,201,.14)}
+.tb-quality{color:#f0a3a3;background:rgba(224,90,90,.13)}
+.tb-change{color:#c9c2ff;background:rgba(139,127,240,.14)}
+.card .btns{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+.card .btns a{flex:1;text-align:center}
+
+/* architecture */
+.arch{display:flex;flex-direction:column;gap:10px;align-items:center}
+.alayer{width:100%;max-width:620px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 16px;text-align:center;font-family:"JetBrains Mono";font-size:13px;color:var(--soft)}
+.alayer b{color:var(--ink);font-family:"Space Grotesk"}
+.alayer.accent{border-color:var(--cyan-dim);color:var(--ink)}
+.adown{color:var(--muted);font-size:16px}
+.paper{margin-top:18px;background:var(--panel2);border:1px dashed var(--line2);border-radius:10px;padding:13px 16px;text-align:center;font-family:"JetBrains Mono";font-size:13px;color:var(--soft)}
+.paper b{color:var(--amber)}
+
+/* capture channels */
+.chan{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:700px){.chan{grid-template-columns:1fr 1fr}}
+.chcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.chcard h3{font-size:16px;display:flex;align-items:center;gap:8px}
+.chcard .flow{font-family:"JetBrains Mono";font-size:12.5px;color:var(--soft);margin-top:12px;line-height:1.9}
+.chcard.dig{border-color:var(--cyan-dim)}
+.chmsg{text-align:center;margin-top:16px;font-family:"Space Grotesk";font-weight:600;color:var(--ink)}
+
+/* built vs not */
+.two{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:700px){.two{grid-template-columns:1fr 1fr}}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.col.built{border-color:rgba(79,191,139,.4)}
+.col.todo{border-color:rgba(232,161,58,.4)}
+.col h3{font-size:14px;font-family:"JetBrains Mono";letter-spacing:.06em}
+.col.built h3{color:var(--green)} .col.todo h3{color:var(--amber)}
+.col ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:8px}
+.col li{font-size:14px;color:var(--soft);padding-left:22px;position:relative}
+.col.built li:before{content:"✓";position:absolute;left:0;color:var(--green)}
+.col.todo li:before{content:"○";position:absolute;left:0;color:var(--amber)}
+
+/* details */
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 20px;margin-top:8px}
+details[open]{padding-bottom:18px}
+summary{cursor:pointer;padding:18px 0;font-family:"Space Grotesk";font-weight:600;font-size:16px;list-style:none;display:flex;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"+";color:var(--cyan);font-size:20px;line-height:1}
+details[open] summary:before{content:"–"}
+.tdl{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:640px){.tdl{grid-template-columns:1fr 1fr}}
+.tdl .item{border-left:2px solid var(--line2);padding:2px 0 2px 14px}
+.tdl .item .h{font-family:"JetBrains Mono";font-size:12px;color:var(--cyan)}
+.tdl .item .p{font-size:13px;color:var(--soft);margin-top:3px}
+
+footer{padding:34px 0 48px;color:var(--muted);font-size:13px}
+footer .fb{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+footer .badge{margin-left:0}
+.disc{margin-top:14px;font-size:12px;color:var(--muted);max-width:70ch}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap row">
+  <div class="brand">D3X · <span>ODATA</span></div>
+  <nav class="nav">
+    <a href="#demo">Demo</a><a href="#gate">Human Gate</a><a href="#model">Modelo</a><a href="#forms">Formularios</a><a href="#status">Estado</a>
+  </nav>
+  <div class="badge">INTERNAL DEMO · NOT PRODUCTION</div>
+</div></div>
+
+<!-- HERO -->
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">ODATA QR03 · Colo 2B</div>
+  <h1 style="margin-top:14px">FIRST MVP — <span class="b">COLO 2B</span></h1>
+  <div class="sub">Field Progress · Human Verification · Quality · Change Control</div>
+  <p class="desc">Un GC reporta avance de campo. Un supervisor <b>verifica la realidad física</b>. Solo el avance <b>acreditado</b> se vuelve oficial — conservando evidencia, cambios, calidad e historia.</p>
+  <div class="cta">
+    <a class="btn primary" href="#gate">Ver recorrido del MVP →</a>
+    <a class="btn" href="#forms">Ver formularios</a>
+  </div>
+</div></header>
+
+<!-- DEMO -->
+<section id="demo"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">Escenario demo</div><h2>Sala de Interconexión N2</h2></div>
+  <p class="lead" style="margin-bottom:22px">Línea <span class="mono" style="color:var(--ink)">EL-00452 · Cable Tray</span>. Las cantidades son <b>acumuladas a la fecha</b> — cada verdad se mide por separado y nunca se colapsa en un solo %.</p>
+  <div class="chain">
+    <div class="node"><div class="k">Baseline</div><div class="v">1,000</div><div class="u">m · congelado</div><span class="op">+</span></div>
+    <div class="node"><div class="k">CO-017</div><div class="v" style="color:var(--violet)">+250</div><div class="u">m · cambio aprobado</div><span class="op">=</span></div>
+    <div class="node"><div class="k">Current Approved</div><div class="v">1,250</div><div class="u">m · alcance vigente</div><span class="op">→</span></div>
+    <div class="node report"><div class="k">GC Reported</div><div class="v">850</div><div class="u">m · declarado</div><span class="tag claim">CLAIM · no oficial</span><span class="op">→</span></div>
+    <div class="node verify"><div class="k">Supervisor Verified</div><div class="v">760</div><div class="u">m · físico</div><span class="op">→</span></div>
+    <div class="node official"><div class="k">Official</div><div class="v">760</div><div class="u">m · 60.8%</div><span class="tag auth">ACREDITADO</span></div>
+  </div>
+  <div class="callout">Variance <b>Reported vs Verified = +90 m</b>. El reportado y el verificado se conservan ambos; el oficial acreditado es <b>760 m (60.8%)</b>.</div>
+
+  <div class="qlane">
+    <div class="qcard"><div class="k">Quality · carril paralelo</div><div style="margin-top:8px;font-size:15px">Inspection <b>FAIL</b> → <b>NCR-000045 OPEN</b></div></div>
+    <div class="qcard" style="border-style:solid;border-color:var(--line)"><div class="k" style="color:var(--soft)">Forecast</div><div style="margin-top:8px;font-size:15px;color:var(--ink)">Finish · <span class="mono">Dec 12</span></div></div>
+  </div>
+  <div class="callout" style="border-color:var(--red);background:rgba(224,90,90,.06)"><b>Quality ≠ Physical Progress.</b> Un NCR abierto no borra automáticamente los <b>760 m</b> acreditados mientras esa política siga siendo una decisión de negocio. Esa separación ya forma parte del contrato V1.</div>
+</div></section>
+
+<!-- HUMAN GATE -->
+<section id="gate"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">El corazón del sistema</div><h2>Human Gate</h2></div>
+  <p class="lead" style="margin-bottom:22px">Reported ≠ Verified ≠ Official. La acreditación oficial la produce <b>solo el Flow F2</b>, tras la verificación humana. <span class="mono" style="color:var(--soft)">OfficialProgress</span> es un ledger <b>append-only</b>.</p>
+  <div class="gate" id="gateEl">
+    <div class="step on" data-m="0"><div class="n">01 · GC</div><h3>GC Reports</h3><div class="d">850 m + evidencia</div><span class="arw">→</span></div>
+    <div class="step" data-m="1"><div class="n">02 · Supervisor</div><h3>Supervisor Verifies</h3><div class="d">760 m (físico)</div><span class="arw">→</span></div>
+    <div class="step" data-m="2"><div class="n">03 · System (F2)</div><h3>System Accredits</h3><div class="d">OfficialProgress = 760 m</div><span class="arw">→</span></div>
+    <div class="step" data-m="3"><div class="n">04 · PMO / BI</div><h3>PMO / BI</h3><div class="d">60.8% + variance + NCR</div></div>
+  </div>
+  <div class="gatemsg" id="gateMsg"><b class="r">Reported 850</b> — lo que el GC declara; aún no es verdad oficial.</div>
+</div></section>
+
+<!-- DATA MODEL / ERD -->
+<section id="model"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">Modelo de datos</div><h2>Del ERD completo a una V1 construible</h2></div>
+  <p class="lead" style="margin-bottom:22px">El ERD conceptual del ticketing tiene <b>55 tablas</b>. Para el MVP "un cuarto" se destila a <b>23 Lists de dominio</b> (+ Evidence + Counters) que Power Platform puede construir hoy y migrar a Dataverse sin re-key.</p>
+  <div class="reduce">
+    <div class="rbox full"><div class="big">55</div><div class="cap">tablas · ERD completo (modelo conceptual QR03)</div></div>
+    <div class="rarrow">destilado&nbsp;→</div>
+    <div class="rbox v1">
+      <div class="big">23</div><div class="cap">Lists de dominio · V1 construible + <span class="mono">OD_Evidence</span> + <span class="mono">OD_Counters</span></div>
+      <div class="groups">
+        <div class="grp"><div class="c">9</div><div class="l">Catálogos</div></div>
+        <div class="grp"><div class="c">4</div><div class="l">Plan / Quality</div></div>
+        <div class="grp"><div class="c">6</div><div class="l">Núcleo del loop</div></div>
+        <div class="grp"><div class="c">2</div><div class="l">Gobernanza</div></div>
+        <div class="grp"><div class="c">2</div><div class="l">Calidad</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="erd">
+    <div class="eyebrow" style="margin-bottom:12px">Cómo se relacionan · núcleo del loop</div>
+    <svg viewBox="0 0 720 360" role="img" aria-label="Diagrama relacional del núcleo">
+      <!-- edges -->
+      <path class="edge hot" d="M150,70 H250"/><text class="elab" x="168" y="62">1─∞</text>
+      <path class="edge hot" d="M370,70 H470"/><text class="elab" x="388" y="62">1─1</text>
+      <path class="edge hot" d="M560,90 V150"/><text class="elab" x="566" y="124">acredita</text>
+      <path class="edge" d="M150,90 V250 H250"/><text class="elab" x="158" y="150">línea</text>
+      <path class="edge chg" d="M110,110 V300 H250"/><text class="elab" x="118" y="210">Δ delta</text>
+      <path class="edge chg" d="M370,300 H470"/><text class="elab" x="392" y="292">crea</text>
+      <path class="edge" d="M560,250 V190"/>
+      <path class="edge q" d="M90,70 H70 V330 H250"/>
+      <!-- Line -->
+      <g class="ent core"><rect x="30" y="46" width="120" height="48" rx="7"/><text x="42" y="70">od_line</text><text class="sub" x="42" y="85">EL-00452 · 1,250</text></g>
+      <!-- Submission -->
+      <g class="ent core"><rect x="250" y="46" width="120" height="48" rx="7"/><text x="262" y="70">Submission</text><text class="sub" x="262" y="85">reported 850</text></g>
+      <!-- Review -->
+      <g class="ent core"><rect x="470" y="46" width="130" height="48" rx="7"/><text x="482" y="70">Review</text><text class="sub" x="482" y="85">verified 760 · gate</text></g>
+      <!-- OfficialProgress -->
+      <g class="ent core"><rect x="470" y="150" width="130" height="50" rx="7"/><text x="482" y="174">OfficialProgress</text><text class="sub" x="482" y="189">760 · append-only</text></g>
+      <!-- ChangeOrder -->
+      <g class="ent chg"><rect x="250" y="276" width="120" height="48" rx="7"/><text x="262" y="300">ChangeOrder</text><text class="sub" x="262" y="315">CO-017 +250</text></g>
+      <!-- PlanRevision -->
+      <g class="ent chg"><rect x="470" y="276" width="130" height="48" rx="7"/><text x="482" y="300">PlanRevision</text><text class="sub" x="482" y="315">baseline intacto</text></g>
+      <!-- Activity / Snapshot -->
+      <g class="ent"><rect x="30" y="150" width="120" height="48" rx="7"/><text x="42" y="174">Activity</text><text class="sub" x="42" y="189">forecast Dec 12</text></g>
+      <g class="ent"><rect x="30" y="230" width="120" height="48" rx="7"/><text x="42" y="254">PlanSnapshot</text><text class="sub" x="42" y="269">inmutable · as-of</text></g>
+      <path class="edge" d="M90,198 V230"/>
+      <!-- Quality -->
+      <g class="ent q"><rect x="250" y="150" width="120" height="48" rx="7"/><text x="262" y="174">Inspection</text><text class="sub" x="262" y="189">FAIL</text></g>
+      <g class="ent q"><rect x="250" y="210" width="120" height="42" rx="7"/><text x="262" y="232">NCR · OPEN</text></g>
+      <path class="edge q" d="M310,198 V210"/>
+      <path class="edge q" d="M250,174 H150"/>
+    </svg>
+    <div class="legend">
+      <span class="li-core"><i></i>Núcleo (Reported→Verified→Official)</span>
+      <span class="li-chg"><i></i>Cambio (no reescribe baseline)</span>
+      <span class="li-q"><i></i>Calidad (carril paralelo)</span>
+      <span class="li-cat"><i></i>Plan / catálogo</span>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:18px">Relaciones portables por <span class="mono" style="color:var(--ink)">RowGuid</span> (= row id de Dataverse) y <span class="mono" style="color:var(--ink)">BusinessKey</span> (alternate key). Un <b>Change Order no reescribe</b> el baseline ni la historia: el alcance vigente = <span class="mono">baseline + Σ deltas aprobados</span>.</div>
+</div></section>
+
+<!-- FORMS -->
+<section id="forms"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">Field forms — digital o papel</div><h2>Un diseño, dos canales</h2></div>
+  <p class="lead" style="margin-bottom:22px">Los 5 formularios controlados (print-test 1 pág. Carta). Cada uno representa <b>una sola verdad</b> — nunca se mezclan.</p>
+  <div class="cards">
+    <div class="card">
+      <div class="thumb"><img src="thumbs/F-GC-01.png" alt="F-GC-01 preview" loading="lazy"></div>
+      <div class="body"><div class="code">F-GC-01</div><h3>GC Progress Report</h3><span class="tbadge tb-report">REPORTED</span>
+        <div class="btns"><a class="btn sm" href="pdf/F-GC-01_DEMO.pdf" target="_blank" rel="noopener">Demo PDF</a><a class="btn sm" href="pdf/F-GC-01_BLANK.pdf" target="_blank" rel="noopener">Blank</a></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb"><img src="thumbs/F-SUP-01.png" alt="F-SUP-01 preview" loading="lazy"></div>
+      <div class="body"><div class="code">F-SUP-01</div><h3>Supervisor Verification</h3><span class="tbadge tb-verify">VERIFIED + DECISION</span>
+        <div class="btns"><a class="btn sm" href="pdf/F-SUP-01_DEMO.pdf" target="_blank" rel="noopener">Demo PDF</a><a class="btn sm" href="pdf/F-SUP-01_BLANK.pdf" target="_blank" rel="noopener">Blank</a></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb"><img src="thumbs/F-QA-01.png" alt="F-QA-01 preview" loading="lazy"></div>
+      <div class="body"><div class="code">F-QA-01</div><h3>Inspection Record</h3><span class="tbadge tb-quality">QUALITY</span>
+        <div class="btns"><a class="btn sm" href="pdf/F-QA-01_DEMO.pdf" target="_blank" rel="noopener">Demo PDF</a><a class="btn sm" href="pdf/F-QA-01_BLANK.pdf" target="_blank" rel="noopener">Blank</a></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb"><img src="thumbs/F-QA-02.png" alt="F-QA-02 preview" loading="lazy"></div>
+      <div class="body"><div class="code">F-QA-02</div><h3>NCR</h3><span class="tbadge tb-quality">QUALITY</span>
+        <div class="btns"><a class="btn sm" href="pdf/F-QA-02_DEMO.pdf" target="_blank" rel="noopener">Demo PDF</a><a class="btn sm" href="pdf/F-QA-02_BLANK.pdf" target="_blank" rel="noopener">Blank</a></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb"><img src="thumbs/F-PMO-01.png" alt="F-PMO-01 preview" loading="lazy"></div>
+      <div class="body"><div class="code">F-PMO-01</div><h3>Change Order / Detail</h3><span class="tbadge tb-change">CHANGE</span>
+        <div class="btns"><a class="btn sm" href="pdf/F-PMO-01_DEMO.pdf" target="_blank" rel="noopener">Demo PDF</a><a class="btn sm" href="pdf/F-PMO-01_BLANK.pdf" target="_blank" rel="noopener">Blank</a></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ARCHITECTURE -->
+<section id="arch"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">Arquitectura del MVP</div><h2>Capas · Power Platform</h2></div>
+  <div class="arch">
+    <div class="alayer"><b>GC</b> · <b>Supervisor</b> · <b>PMO</b> · <b>Quality</b></div><div class="adown">↓</div>
+    <div class="alayer accent"><b>Power Apps</b> — Canvas (captura, Human Gate)</div><div class="adown">↓</div>
+    <div class="alayer"><b>SharePoint Lists</b> + Evidence Library</div><div class="adown">↓</div>
+    <div class="alayer accent"><b>Power Automate</b> — Flows (F1–F4 + auxiliares)</div><div class="adown">↓</div>
+    <div class="alayer"><b>OfficialProgress</b> · Snapshots · PDFs</div><div class="adown">↓</div>
+    <div class="alayer"><b>Power BI</b> — 6 verdades, sin colapsar</div>
+  </div>
+  <div class="paper">Papel → <b>Scan / Upload</b> → la <b>misma capa de datos</b>. La verdad estructurada vive en Lists/Dataverse; el PDF es evidencia.</div>
+</div></section>
+
+<!-- CAPTURE CHANNELS -->
+<section id="channels"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">Mismo control, dos canales</div><h2>Digital-first · Paper-first</h2></div>
+  <div class="chan">
+    <div class="chcard dig"><h3>🖥️ Digital-first</h3><div class="flow">Power Apps → Human Gate → Official</div></div>
+    <div class="chcard"><h3>📄 Paper-first</h3><div class="flow">Print PDF → Fill / Sign → Scan → Upload → Human Gate → Official</div></div>
+  </div>
+  <div class="chmsg">Same control model. Different capture channel.</div>
+</div></section>
+
+<!-- STATUS -->
+<section id="status"><div class="wrap">
+  <div class="stitle"><div class="eyebrow">Sin vender humo</div><h2>Qué existe hoy</h2></div>
+  <div class="two">
+    <div class="col built"><h3>BUILT / DEMONSTRATED</h3><ul>
+      <li>Arquitectura + specs</li><li>Data contract</li><li>Diseño Power Apps</li>
+      <li>Build spec de Power Automate</li><li>Modelo de seguridad</li><li>Provisioning manifest</li>
+      <li>5 formularios de papel</li><li>Validación de PDF impreso (print-test)</li>
+    </ul></div>
+    <div class="col todo"><h3>NOT DEPLOYED YET</h3><ul>
+      <li>SharePoint Lists provisionadas</li><li>Canvas App productiva</li><li>Flows productivos</li>
+      <li>Power BI dataset</li><li>Azure QR function</li><li>Deployment TEST / PROD</li>
+    </ul></div>
+  </div>
+  <p class="disc">Esto es una <b>demo de diseño clickable</b>, no la aplicación desplegada. El Build Runbook trata provisioning, testing y deployment como pasos aún pendientes.</p>
+</div></section>
+
+<!-- TECHNICAL DRAWER -->
+<section id="tech" style="border-bottom:none"><div class="wrap">
+  <details>
+    <summary>How it works — detalles técnicos</summary>
+    <div class="tdl">
+      <div class="item"><div class="h">RowGuid portable</div><div class="p">Identidad = row id de Dataverse; las relaciones no se re-key en la migración.</div></div>
+      <div class="item"><div class="h">BusinessKey</div><div class="p">Clave humana única (SUB-000384, CO-017, NCR-000045) = alternate key.</div></div>
+      <div class="item"><div class="h">Human Gate</div><div class="p">Reported → Verified → Official. La acreditación la produce solo el Flow, no la app.</div></div>
+      <div class="item"><div class="h">OfficialProgress append-only</div><div class="p">Cada acreditación es una fila inmutable; el "vigente" es una proyección, nunca un update.</div></div>
+      <div class="item"><div class="h">Evidencia</div><div class="p">Archivos en una Library; la relación autoritativa vive en metadata portable (record_guid).</div></div>
+      <div class="item"><div class="h">Snapshots inmutables</div><div class="p">Foto as-of por corte; bi-temporal (valid-time + knowledge-time). Nunca se recomputa.</div></div>
+      <div class="item"><div class="h">Change orders</div><div class="p">No reescriben baseline ni historia: alcance vigente = baseline + Σ deltas aprobados.</div></div>
+      <div class="item"><div class="h">Migración Dataverse</div><div class="p">V1 diseñada portable (GUID + BusinessKey + choices catálogo) para migrar sin re-key.</div></div>
+    </div>
+    <p class="disc" style="margin-top:16px">Todos los valores son <b>demo</b> (EL-00452, Colo 2B). Sin correos, tenant IDs, tokens, app IDs, GUIDs reales ni URLs internas.</p>
+  </details>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fb"><span class="badge" style="color:#ffd9a0;background:rgba(232,161,58,.12);border:1px solid rgba(232,161,58,.4);padding:5px 9px;border-radius:5px;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em">INTERNAL DEMO · NOT PRODUCTION</span>
+    <span>D3X · ODATA QR03 · Colo 2B</span></div>
+  <p class="disc">Demo visual del diseño MVP. No representa un sistema productivo desplegado. Turner &amp; Townsend / Derivator.</p>
+</div></footer>
+
+<script>
+(function(){
+  var msgs=[
+    ['<b class="r">Reported 850</b> — lo que el GC declara; aún no es verdad oficial.'],
+    ['<b class="v">Verified 760</b> — el supervisor verifica la realidad física. Reported ≠ Verified.'],
+    ['<b class="o">Official 760</b> — F2 acredita en OfficialProgress (append-only). Verified → Official.'],
+    ['<b class="o">60.8% oficial</b> + variance +90 + NCR como excepción. Reported ≠ Verified ≠ Official.']
+  ];
+  var steps=document.querySelectorAll('#gateEl .step'), msg=document.getElementById('gateMsg');
+  steps.forEach(function(s){
+    s.addEventListener('click',function(){
+      steps.forEach(function(x){x.classList.remove('on')}); s.classList.add('on');
+      msg.innerHTML=msgs[+s.dataset.m][0];
+    });
+    s.addEventListener('mouseenter',function(){msg.innerHTML=msgs[+s.dataset.m][0];});
+  });
+})();
+</script>
+</body>
+</html>
