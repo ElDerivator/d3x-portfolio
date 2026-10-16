@@ -3,220 +3,204 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
-<meta name="googlebot" content="noindex, nofollow">
-<title>ODATA Querétaro · Captura de fuentes de dato</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<title>Captura ODATA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
 <style>
-:root{
-  --bg:#0b1015; --panel:#111a22; --panel2:#0e161d; --line:#1f2c37;
-  --ink:#e6edf3; --soft:#9fb2c0; --muted:#6b8090;
-  --cyan:#35c2c9; --cyan-dim:#1c6d72; --amber:#e8a13a; --red:#e05a5a; --green:#4fbf8b;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.55;
-  background-image:radial-gradient(70% 50% at 80% -5%, rgba(53,194,201,.08) 0%, transparent 60%)}
-h1,h2,h3{font-family:"Space Grotesk",sans-serif;margin:0;line-height:1.15}
-.mono{font-family:"JetBrains Mono",monospace}
-a{color:var(--cyan)}
-.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
-.eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan)}
-header.hero{padding:44px 0 26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent)}
-.hero h1{font-size:clamp(26px,4.5vw,38px)} .hero h1 span{color:var(--cyan)}
-.hero .lede{color:var(--soft);font-size:16px;max-width:64ch;margin-top:10px}
-.backlink{display:inline-block;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:13px}
-section{padding:26px 0;border-bottom:1px solid var(--line)}
-label{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
-input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);
-  font-family:"Inter",sans-serif;font-size:14px;padding:9px 11px}
-textarea{resize:vertical;min-height:52px}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
-.field.req label:after{content:" *";color:var(--red)}
-.owner-row{display:flex;gap:8px} .owner-row input{flex:1}
-.btn{font-family:"JetBrains Mono",monospace;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
-  border-radius:8px;padding:9px 15px;cursor:pointer}
-.btn:hover{border-color:var(--cyan)} .btn.primary{background:var(--cyan-dim);border-color:var(--cyan);color:#eaffff}
-.btn.ghost{color:var(--soft)} .btn.warn{border-color:var(--amber);color:var(--amber)}
-.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.hint{color:var(--muted);font-size:12px;margin-top:4px}
-.rule{border-left:3px solid var(--amber);background:var(--panel);border-radius:0 8px 8px 0;padding:10px 14px;margin:14px 0;color:var(--soft);font-size:14px}
-.rule b{color:var(--ink)}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-td{color:var(--soft)} td b{color:var(--ink)}
-.tag{font-family:"JetBrains Mono",monospace;font-size:10px;padding:2px 7px;border-radius:100px;border:1px solid var(--line)}
-.tag.gap{color:var(--amber);border-color:var(--amber)} .tag.unk{color:var(--red);border-color:var(--red)} .tag.ok{color:var(--green);border-color:var(--green)}
-.stat{display:inline-block;margin-right:18px;font-size:13px;color:var(--soft)} .stat b{font-family:"Space Grotesk";color:var(--cyan);font-size:20px}
-.del{color:var(--muted);cursor:pointer;font-family:"JetBrains Mono";font-size:12px} .del:hover{color:var(--red)}
-footer{padding:34px 0 56px;color:var(--muted);font-size:13px}
-.saved{color:var(--green);font-size:13px;font-family:"JetBrains Mono";margin-left:8px;opacity:0;transition:opacity .3s}
-.saved.show{opacity:1}
+  :root {
+    --ink: #121418;
+    --muted: #66717d;
+    --line: #d7e3e0;
+    --paper: #eef5f2;
+    --panel: #ffffff;
+    --teal: #0a8f8a;
+    --shadow: 0 14px 34px rgba(22,27,34,0.075);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e2e8f0; --muted: #94a3b8; --line: #2d3748;
+      --paper: #0f1319; --panel: #1a202c; --teal: #38d9a9;
+      --shadow: 0 14px 34px rgba(0,0,0,0.4);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e2e8f0; --muted: #94a3b8; --line: #2d3748;
+    --paper: #0f1319; --panel: #1a202c; --teal: #38d9a9;
+    --shadow: 0 14px 34px rgba(0,0,0,0.4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      linear-gradient(90deg, rgba(18,20,24,0.035) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(18,20,24,0.035) 1px, transparent 1px),
+      var(--paper);
+    background-size: 34px 34px;
+    padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 860px;
+    padding: 48px 0 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--teal); }
+  .sub {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  textarea {
+    width: 100%;
+    min-height: 55vh;
+    padding: 20px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+    tab-size: 2;
+  }
+  textarea:focus { border-color: var(--teal); }
+  textarea::placeholder { color: var(--muted); opacity: 0.6; }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 9px 22px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--teal);
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn.outline {
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+  }
+  .btn.outline:hover { color: var(--ink); border-color: var(--muted); }
+  .status {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+  .count {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Herramienta de captura · BIM Manager · en sitio · noindex</div>
-    <h1>Captura de fuentes de dato <span>ODATA Querétaro</span></h1>
-    <p class="lede">Formulario para levantar el <b>registro de fuentes de dato</b> del proyecto en el viaje. Fuerza un dueño (quién la actualiza) por fuente — si no sabés, queda <span class="mono">UNKNOWN</span> + gap visible, nunca en blanco — marca si el número <b>reconcilia</b>, y detectá cuando el mismo dato vive en <b>varias bases</b> (el riesgo #1). Guarda en este navegador y exporta JSONL y CSV. Sin conexión requerida.</p>
-    <a class="backlink" href="plan.html">&larr; Playbook</a> &nbsp;·&nbsp; <a href="index.html">Briefing</a>
-  </div>
-</header>
+<div class="wrap">
+  <h1><span>ODATA</span> · Captura</h1>
+  <p class="sub">Pega aquí la información que necesites guardar. Sin límite de caracteres. Se guarda automáticamente en el navegador.</p>
 
-<section>
-  <div class="wrap">
-    <h2 style="font-size:20px">Nueva fuente de dato</h2>
-    <div class="rule"><b>Regla dura:</b> nada se descarta por incompleto. Owner vacío &rarr; <b>UNKNOWN</b> + gap. Evidencia vacía &rarr; gap + confianza &le; 0.5. Si no reconcilia (o no se verificó) &rarr; gap de calidad. Lo incompleto queda visible y priorizado, no se pierde.</div>
-    <div class="grid">
-      <div class="field req"><label>Nombre de la fuente</label><input id="f_name" placeholder="ej. Avance físico por disciplina"></div>
-      <div class="field"><label>Función de controles</label>
-        <select id="f_category">
-          <option value="bim">BIM / modelo (data drop)</option><option value="cde">información / CDE</option>
-          <option value="programa" selected>programa / schedule</option><option value="costo">costo / commercial</option>
-          <option value="riesgo">riesgo</option><option value="cambios">cambios / change</option>
-          <option value="procura">procura / long-lead</option><option value="doc-control">document control</option>
-          <option value="hs">H&amp;S / HSE</option><option value="reporte">reporte al cliente</option><option value="other">otra</option>
-        </select></div>
-      <div class="field"><label>Sistema (dónde vive)</label><input id="f_system" placeholder="P6 / MS Project / cost tool / Excel / DCIM / Aconex…"></div>
-      <div class="field req"><label>Owner — quién la actualiza (obligatorio)</label>
-        <div class="owner-row"><input id="f_owner" placeholder="nombre / rol"><button class="btn warn" type="button" onclick="setUnknown()">No sé → UNKNOWN</button></div>
-        <div class="hint">El responsable de que el dato esté al día. Si nadie responde por esta fuente, dejalo UNKNOWN: eso ES el hallazgo.</div></div>
-      <div class="field"><label>Consumidor (a qué reporte/decisión alimenta)</label><input id="f_consumer" placeholder="reporte cliente / dashboard PM / programa…"></div>
-      <div class="field"><label>¿Reconcilia con otras fuentes?</label>
-        <select id="f_reconcile"><option value="?" selected>? (sin verificar)</option><option value="si">sí</option><option value="parcial">parcial</option><option value="no">no cuadra</option></select></div>
-      <div class="field"><label>Frecuencia de actualización</label><input id="f_frequency" placeholder="diario / semanal / mensual / por evento / ?"></div>
-      <div class="field"><label>Formato</label><input id="f_format" placeholder="sistema / Excel / PDF / manual / correo"></div>
-      <div class="field"><label>Impacto si falla</label>
-        <select id="f_risk"><option value="low">low</option><option value="med" selected>med</option><option value="high">high</option><option value="critical">critical</option></select></div>
-      <div class="field"><label>Evidencia (screenshot, link, referencia)</label><input id="f_evidence" placeholder="doc / link / referencia — vacío = gap"></div>
-      <div class="field"><label>Depende de (otras fuentes/sistemas)</label><input id="f_dependencies" placeholder="otras fuentes/sistemas (coma)"></div>
-      <div class="field" style="grid-column:1/-1"><label>Gaps de calidad (qué falta / qué no cierra)</label><textarea id="f_gaps" placeholder="dato duplicado en otra base, no cuadra, desactualizada, recaptura manual, sin dueño…"></textarea></div>
-      <div class="field"><label>Notas</label><input id="f_notes" placeholder="libre"></div>
-      <div class="field"><label>Capturado por</label><input id="f_by" placeholder="tu nombre"></div>
-    </div>
-    <div class="btnrow">
-      <button class="btn primary" type="button" onclick="addSource()">Guardar fuente</button>
-      <button class="btn ghost" type="button" onclick="clearForm()">Limpiar</button>
-      <span id="saved" class="saved">guardado ✓</span>
-    </div>
-  </div>
-</section>
+  <textarea id="cap" placeholder="Pega aquí tu contenido..."></textarea>
 
-<section>
-  <div class="wrap">
-    <h2 style="font-size:20px">Registro capturado <span id="counts" class="mono" style="font-size:13px;color:var(--muted)"></span></h2>
-    <div id="stats" style="margin:12px 0"></div>
-    <div class="btnrow" style="margin-top:0">
-      <button class="btn primary" type="button" onclick="exportJSONL()">Export JSONL</button>
-      <button class="btn primary" type="button" onclick="exportCSV()">Export CSV</button>
-      <button class="btn warn" type="button" onclick="wipe()">Borrar todo</button>
-    </div>
-    <div style="overflow-x:auto">
-      <table><thead><tr><th>Fuente</th><th>Función</th><th>Owner</th><th>¿Recon?</th><th>Flags</th><th></th></tr></thead>
-      <tbody id="rows"></tbody></table>
-    </div>
-    <p class="hint" style="margin-top:12px">Los datos viven solo en este navegador (localStorage). Exportá JSONL/CSV para llevártelos. Schema: source_id, name, category, system, owner, consumer, reconciles, frequency, format, evidence[], dependencies[], gaps[], risk, notes, captured_by, captured_at (UTC), confidence.</p>
+  <div class="bar">
+    <button class="btn" onclick="saveNow()">Guardar</button>
+    <button class="btn outline" onclick="copyAll()">Copiar todo</button>
+    <button class="btn outline" onclick="clearAll()">Limpiar</button>
+    <span class="count" id="count">0 caracteres</span>
+    <span class="status" id="status"></span>
   </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <p>ODATA Querétaro · Captura de fuentes de dato — herramienta de trabajo del equipo BIM (BIM Manager), no oficial de ODATA/Aligned ni de T&amp;T. Datos locales al navegador; exportá para conservarlos. La ingesta al sistema del equipo es un paso separado y gobernado (lo capturado se trata como no confiable hasta validarlo).</p>
-    <p class="mono" style="margin-top:8px;color:var(--cyan-dim)">Página privada · noindex · d3x.biz/odata/captura</p>
-  </div>
-</footer>
+</div>
 
 <script>
-const KEY="odata_source_register_v1";
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
-function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-function uid(){return "src_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
-function setUnknown(){document.getElementById("f_owner").value="UNKNOWN"}
-function val(id){return (document.getElementById(id).value||"").trim()}
-function splitList(s){return s? s.split(",").map(x=>x.trim()).filter(Boolean):[]}
+  const ta = document.getElementById('cap');
+  const st = document.getElementById('status');
+  const ct = document.getElementById('count');
+  const KEY = 'odata_captura_v1';
+  let timer = null;
 
-function addSource(){
-  const name=val("f_name");
-  if(!name){alert("El nombre de la fuente es obligatorio.");return;}
-  let owner=val("f_owner");
-  const gaps=splitList(val("f_gaps").replace(/\n/g,","));
-  // REGLA DURA: owner nunca en blanco -> UNKNOWN + gap
-  if(!owner){owner="UNKNOWN"; if(!gaps.includes("owner desconocido")) gaps.push("owner desconocido");}
-  const evidence=splitList(val("f_evidence"));
-  const reconcile=val("f_reconcile");
-  let confidence=0.8;
-  if(evidence.length===0){ if(!gaps.includes("sin evidencia")) gaps.push("sin evidencia"); confidence=0.5; }
-  if(reconcile==="no" && !gaps.includes("no reconcilia")) gaps.push("no reconcilia");
-  if(reconcile==="?"){ if(!gaps.includes("reconciliación sin verificar")) gaps.push("reconciliación sin verificar"); confidence=Math.min(confidence,0.6); }
-  if(owner==="UNKNOWN") confidence=Math.min(confidence,0.5);
-  const rec={
-    source_id:uid(), name:name, category:val("f_category"), system:val("f_system")||null, owner:owner,
-    consumer:val("f_consumer")||null, reconciles:reconcile, frequency:val("f_frequency")||null, format:val("f_format")||null,
-    evidence:evidence, dependencies:splitList(val("f_dependencies")), gaps:gaps,
-    risk:val("f_risk"), notes:val("f_notes")||null, captured_by:val("f_by")||null,
-    captured_at:new Date().toISOString(), confidence:confidence
-  };
-  const a=load(); a.push(rec); save(a); render(); clearForm(true);
-  const s=document.getElementById("saved"); s.classList.add("show"); setTimeout(()=>s.classList.remove("show"),1400);
-}
-function clearForm(keepBy){
-  ["f_name","f_system","f_owner","f_consumer","f_frequency","f_format","f_evidence","f_dependencies","f_gaps","f_notes"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("f_reconcile").value="?";
-  if(!keepBy) document.getElementById("f_by").value="";
-  document.getElementById("f_name").focus();
-}
-function del(id){const a=load().filter(r=>r.source_id!==id); save(a); render();}
-function reconLabel(v){return v==="si"?'<span style="color:var(--green)">sí</span>':v==="no"?'<span style="color:var(--red)">no</span>':v==="parcial"?'<span style="color:var(--amber)">parcial</span>':'<span style="color:var(--muted)">?</span>';}
-function render(){
-  const a=load(); const tb=document.getElementById("rows"); tb.innerHTML="";
-  let unk=0,gap=0,norec=0;
-  a.forEach(r=>{
-    if(r.owner==="UNKNOWN")unk++; if((r.gaps||[]).length)gap++; if(r.reconciles==="no")norec++;
-    const flags=[];
-    if(r.owner==="UNKNOWN")flags.push('<span class="tag unk">UNKNOWN</span>');
-    (r.gaps||[]).forEach(g=>flags.push('<span class="tag gap">'+escapeHtml(g)+'</span>'));
-    if(!flags.length)flags.push('<span class="tag ok">OK</span>');
-    const tr=document.createElement("tr");
-    tr.innerHTML='<td><b>'+escapeHtml(r.name)+'</b><br><span class="mono" style="color:var(--muted);font-size:11px">'+escapeHtml(r.system||"?")+' · '+escapeHtml(r.frequency||"?")+' · conf '+r.confidence+'</span></td>'+
-      '<td>'+escapeHtml(r.category)+'</td><td>'+escapeHtml(r.owner)+'</td><td>'+reconLabel(r.reconciles)+'</td>'+
-      '<td>'+flags.join(" ")+'</td><td><span class="del" onclick="del(\''+r.source_id+'\')">borrar</span></td>';
-    tb.appendChild(tr);
-  });
-  document.getElementById("counts").textContent="· "+a.length+" fuentes";
-  document.getElementById("stats").innerHTML=
-    '<span class="stat"><b>'+a.length+'</b> total</span>'+
-    '<span class="stat"><b style="color:var(--red)">'+unk+'</b> sin owner (UNKNOWN)</span>'+
-    '<span class="stat"><b style="color:var(--amber)">'+gap+'</b> con gaps de calidad</span>'+
-    '<span class="stat"><b style="color:var(--red)">'+norec+'</b> no reconcilian</span>';
-}
-function escapeHtml(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function download(fn,txt,type){
-  const b=new Blob([txt],{type:type}); const u=URL.createObjectURL(b);
-  const a=document.createElement("a"); a.href=u; a.download=fn; document.body.appendChild(a); a.click();
-  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(u)},200);
-}
-function exportJSONL(){
-  const a=load(); if(!a.length){alert("Nada capturado aún.");return;}
-  download("odata_source_register_"+stamp()+".jsonl", a.map(r=>JSON.stringify(r)).join("\n")+"\n","application/x-ndjson");
-}
-function csvCell(v){v=(v==null?"":String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
-function exportCSV(){
-  const a=load(); if(!a.length){alert("Nada capturado aún.");return;}
-  const cols=["source_id","name","category","system","owner","consumer","reconciles","frequency","format","evidence","dependencies","gaps","risk","notes","captured_by","captured_at","confidence"];
-  const lines=[cols.join(",")];
-  a.forEach(r=>lines.push([r.source_id,r.name,r.category,r.system,r.owner,r.consumer,r.reconciles,r.frequency,r.format,
-    (r.evidence||[]).join("; "),(r.dependencies||[]).join("; "),(r.gaps||[]).join("; "),r.risk,r.notes,r.captured_by,r.captured_at,r.confidence].map(csvCell).join(",")));
-  download("odata_source_register_"+stamp()+".csv", lines.join("\n")+"\n","text/csv");
-}
-function stamp(){return new Date().toISOString().replace(/[:.]/g,"").slice(0,15)+"Z"}
-function wipe(){if(confirm("¿Borrar TODAS las fuentes capturadas de este navegador? (exportá antes)")){save([]);render();}}
-render();
+  function load() {
+    try {
+      const saved = localStorage.getItem(KEY);
+      if (saved) ta.value = saved;
+    } catch(e) {}
+    updateCount();
+  }
+
+  function saveNow() {
+    try {
+      localStorage.setItem(KEY, ta.value);
+      flash('Guardado');
+    } catch(e) {
+      flash('Error al guardar');
+    }
+  }
+
+  function autoSave() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      try {
+        localStorage.setItem(KEY, ta.value);
+        flash('Autoguardado');
+      } catch(e) {}
+    }, 800);
+    updateCount();
+  }
+
+  function copyAll() {
+    if (!ta.value) return flash('Nada que copiar');
+    navigator.clipboard.writeText(ta.value).then(
+      () => flash('Copiado al portapapeles'),
+      () => { ta.select(); flash('Seleccionado — usa Ctrl+C'); }
+    );
+  }
+
+  function clearAll() {
+    ta.value = '';
+    try { localStorage.removeItem(KEY); } catch(e) {}
+    updateCount();
+    flash('Limpiado');
+  }
+
+  function flash(msg) {
+    st.textContent = msg;
+    setTimeout(() => { st.textContent = ''; }, 2500);
+  }
+
+  function updateCount() {
+    const n = ta.value.length;
+    ct.textContent = n.toLocaleString('es-MX') + ' caracteres';
+  }
+
+  ta.addEventListener('input', autoSave);
+  load();
 </script>
 </body>
 </html>

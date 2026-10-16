@@ -4,3 +4,6 @@
 User-agent: *
 Disallow: /odata/FirstMVPColo2b/pdf/
 Disallow: /odata/FirstMVPColo2b/thumbs/
+# ODATA QR03 internal design docs (.md/.dbml no pueden llevar meta noindex) — fuera de crawlers.
+Disallow: /odata/ODATA_QR03_
+Disallow: /odata/forms/
