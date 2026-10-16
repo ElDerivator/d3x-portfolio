@@ -4,29 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Captura ODATA</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
   :root {
-    --ink: #121418;
-    --muted: #66717d;
-    --line: #d7e3e0;
-    --paper: #eef5f2;
-    --panel: #ffffff;
-    --teal: #0a8f8a;
-    --shadow: 0 14px 34px rgba(22,27,34,0.075);
+    --ink: #121418; --muted: #66717d; --line: #d7e3e0;
+    --paper: #eef5f2; --panel: #ffffff; --teal: #0a8f8a;
+    --red: #a84f49; --shadow: 0 14px 34px rgba(22,27,34,0.075);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --ink: #e2e8f0; --muted: #94a3b8; --line: #2d3748;
       --paper: #0f1319; --panel: #1a202c; --teal: #38d9a9;
-      --shadow: 0 14px 34px rgba(0,0,0,0.4);
+      --red: #e57373; --shadow: 0 14px 34px rgba(0,0,0,0.4);
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
     --ink: #e2e8f0; --muted: #94a3b8; --line: #2d3748;
     --paper: #0f1319; --panel: #1a202c; --teal: #38d9a9;
-    --shadow: 0 14px 34px rgba(0,0,0,0.4);
+    --red: #e57373; --shadow: 0 14px 34px rgba(0,0,0,0.4);
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
@@ -40,167 +36,262 @@
       var(--paper);
     background-size: 34px 34px;
     padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column; align-items: center;
     min-height: 100vh;
   }
   .wrap {
-    width: 100%;
-    max-width: 860px;
-    padding: 48px 0 64px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    width: 100%; max-width: 900px;
+    padding: 40px 0 80px;
+    display: flex; flex-direction: column; gap: 16px;
   }
-  h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
+  h1 { margin: 0; font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
   h1 span { color: var(--teal); }
-  .sub {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
+  .sub { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
   textarea {
-    width: 100%;
-    min-height: 55vh;
-    padding: 20px;
+    width: 100%; min-height: 30vh; padding: 16px;
     font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
-    font-size: 0.82rem;
-    line-height: 1.65;
-    color: var(--ink);
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.15s;
-    tab-size: 2;
+    font-size: 0.8rem; line-height: 1.6;
+    color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: var(--shadow); resize: vertical; outline: none;
+    transition: border-color 0.15s; tab-size: 2;
   }
   textarea:focus { border-color: var(--teal); }
-  textarea::placeholder { color: var(--muted); opacity: 0.6; }
-  .bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
+  textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  .bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .btn {
-    padding: 9px 22px;
-    font-family: inherit;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #fff;
-    background: var(--teal);
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: opacity 0.15s;
+    padding: 8px 18px; font-family: inherit; font-size: 0.78rem;
+    font-weight: 600; color: #fff; background: var(--teal);
+    border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s;
   }
   .btn:hover { opacity: 0.85; }
-  .btn.outline {
-    color: var(--muted);
-    background: transparent;
-    border: 1px solid var(--line);
-  }
+  .btn.outline { color: var(--muted); background: transparent; border: 1px solid var(--line); }
   .btn.outline:hover { color: var(--ink); border-color: var(--muted); }
-  .status {
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-left: auto;
+  .btn.danger { background: var(--red); }
+  .btn:disabled { opacity: 0.4; cursor: default; }
+  .status { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
+  .count { font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  h2 { margin: 24px 0 0; font-size: 1rem; font-weight: 600; }
+  .hint { font-size: 0.75rem; color: var(--muted); margin: 0; }
+  .empty { font-size: 0.82rem; color: var(--muted); padding: 24px 0; text-align: center; }
+  .entries { display: flex; flex-direction: column; gap: 10px; }
+  .entry {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(22,27,34,0.04);
   }
-  .count {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
+  .entry-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-bottom: 1px solid var(--line);
+    font-size: 0.75rem; color: var(--muted);
   }
+  .entry-head .ts { font-weight: 500; }
+  .entry-head .chars { font-variant-numeric: tabular-nums; }
+  .entry-head .actions { margin-left: auto; display: flex; gap: 6px; }
+  .entry-head button {
+    padding: 3px 10px; font-family: inherit; font-size: 0.7rem;
+    font-weight: 500; border-radius: 4px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+    transition: all 0.15s;
+  }
+  .entry-head button:hover { color: var(--ink); border-color: var(--muted); }
+  .entry-head button.del:hover { color: var(--red); border-color: var(--red); }
+  .entry-body {
+    padding: 12px 14px; font-family: 'SF Mono', 'Cascadia Code', monospace;
+    font-size: 0.75rem; line-height: 1.55; white-space: pre-wrap;
+    word-break: break-word; max-height: 200px; overflow-y: auto;
+    color: var(--ink);
+  }
+  .divider { border: none; border-top: 1px solid var(--line); margin: 8px 0; }
+  .import-zone {
+    display: none; flex-direction: column; gap: 10px;
+    padding: 16px; background: var(--panel); border: 2px dashed var(--line);
+    border-radius: 8px;
+  }
+  .import-zone.show { display: flex; }
+  .import-zone textarea { min-height: 15vh; }
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <h1><span>ODATA</span> · Captura</h1>
-  <p class="sub">Pega aquí la información que necesites guardar. Sin límite de caracteres. Se guarda automáticamente en el navegador.</p>
+  <p class="sub">Pega tu contenido, guárdalo como entrada. Copia todo para llevarlo a otra máquina o importa desde una exportación previa.</p>
 
   <textarea id="cap" placeholder="Pega aquí tu contenido..."></textarea>
 
   <div class="bar">
-    <button class="btn" onclick="saveNow()">Guardar</button>
-    <button class="btn outline" onclick="copyAll()">Copiar todo</button>
-    <button class="btn outline" onclick="clearAll()">Limpiar</button>
+    <button class="btn" onclick="saveEntry()">Guardar entrada</button>
+    <button class="btn outline" onclick="exportAll()">Copiar todo</button>
+    <button class="btn outline" onclick="toggleImport()">Importar</button>
+    <button class="btn outline danger" onclick="clearAll()">Borrar todo</button>
     <span class="count" id="count">0 caracteres</span>
     <span class="status" id="status"></span>
   </div>
+
+  <div class="import-zone" id="importZone">
+    <p class="sub">Pega aquí el texto exportado desde otra máquina:</p>
+    <textarea id="importTa" placeholder="Pegar exportación aquí..."></textarea>
+    <div class="bar">
+      <button class="btn" onclick="doImport()">Importar entradas</button>
+      <button class="btn outline" onclick="toggleImport()">Cancelar</button>
+    </div>
+  </div>
+
+  <h2>Registro <span id="total" style="font-weight:400;color:var(--muted);font-size:0.82rem"></span></h2>
+  <div id="list"></div>
 </div>
 
 <script>
+  const KEY = 'odata_captura_entries_v2';
   const ta = document.getElementById('cap');
   const st = document.getElementById('status');
   const ct = document.getElementById('count');
-  const KEY = 'odata_captura_v1';
-  let timer = null;
+  const list = document.getElementById('list');
+  const total = document.getElementById('total');
 
-  function load() {
-    try {
-      const saved = localStorage.getItem(KEY);
-      if (saved) ta.value = saved;
-    } catch(e) {}
+  function getEntries() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+    catch(e) { return []; }
+  }
+
+  function setEntries(entries) {
+    try { localStorage.setItem(KEY, JSON.stringify(entries)); } catch(e) {}
+  }
+
+  function saveEntry() {
+    const text = ta.value.trim();
+    if (!text) return flash('Nada que guardar');
+    const entries = getEntries();
+    entries.unshift({ ts: new Date().toISOString(), text });
+    setEntries(entries);
+    ta.value = '';
     updateCount();
+    render();
+    flash('Entrada guardada');
   }
 
-  function saveNow() {
-    try {
-      localStorage.setItem(KEY, ta.value);
-      flash('Guardado');
-    } catch(e) {
-      flash('Error al guardar');
-    }
+  function deleteEntry(i) {
+    const entries = getEntries();
+    entries.splice(i, 1);
+    setEntries(entries);
+    render();
+    flash('Entrada eliminada');
   }
 
-  function autoSave() {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      try {
-        localStorage.setItem(KEY, ta.value);
-        flash('Autoguardado');
-      } catch(e) {}
-    }, 800);
-    updateCount();
-  }
-
-  function copyAll() {
-    if (!ta.value) return flash('Nada que copiar');
-    navigator.clipboard.writeText(ta.value).then(
-      () => flash('Copiado al portapapeles'),
-      () => { ta.select(); flash('Seleccionado — usa Ctrl+C'); }
+  function copyEntry(i) {
+    const entries = getEntries();
+    const text = entries[i]?.text || '';
+    navigator.clipboard.writeText(text).then(
+      () => flash('Copiado'),
+      () => flash('Error al copiar')
     );
   }
 
+  function exportAll() {
+    const entries = getEntries();
+    if (!entries.length) return flash('No hay entradas');
+    const separator = '\n═══════════════════════════════════════\n';
+    const out = entries.map((e, i) => {
+      const d = new Date(e.ts);
+      const label = d.toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' })
+        + ' ' + d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
+      return `[Entrada ${entries.length - i} · ${label}]\n${e.text}`;
+    }).join(separator);
+
+    const header = `ODATA Captura — ${entries.length} entradas — Exportado ${new Date().toLocaleString('es-MX')}\n${'═'.repeat(39)}\n\n`;
+    navigator.clipboard.writeText(header + out).then(
+      () => flash(`${entries.length} entradas copiadas al portapapeles`),
+      () => flash('Error al copiar')
+    );
+  }
+
+  function toggleImport() {
+    document.getElementById('importZone').classList.toggle('show');
+  }
+
+  function doImport() {
+    const raw = document.getElementById('importTa').value.trim();
+    if (!raw) return flash('Nada que importar');
+    const parts = raw.split(/\n═{3,}\n/);
+    const entries = getEntries();
+    let count = 0;
+    for (const part of parts) {
+      const match = part.match(/^\[Entrada.*?\]\n([\s\S]+)$/);
+      const text = match ? match[1].trim() : part.trim();
+      if (text && !text.startsWith('ODATA Captura —')) {
+        entries.unshift({ ts: new Date().toISOString(), text, imported: true });
+        count++;
+      }
+    }
+    if (count === 0) {
+      entries.unshift({ ts: new Date().toISOString(), text: raw });
+      count = 1;
+    }
+    setEntries(entries);
+    document.getElementById('importTa').value = '';
+    toggleImport();
+    render();
+    flash(`${count} entrada(s) importada(s)`);
+  }
+
   function clearAll() {
-    ta.value = '';
-    try { localStorage.removeItem(KEY); } catch(e) {}
-    updateCount();
-    flash('Limpiado');
+    const entries = getEntries();
+    if (!entries.length) return flash('Ya está vacío');
+    setEntries([]);
+    render();
+    flash('Todo eliminado');
+  }
+
+  function render() {
+    const entries = getEntries();
+    total.textContent = entries.length ? `· ${entries.length} entrada${entries.length > 1 ? 's' : ''}` : '';
+    if (!entries.length) {
+      list.innerHTML = '<p class="empty">Sin entradas guardadas</p>';
+      return;
+    }
+    list.innerHTML = '';
+    const container = document.createElement('div');
+    container.className = 'entries';
+    entries.forEach((e, i) => {
+      const d = new Date(e.ts);
+      const label = d.toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' })
+        + ' · ' + d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
+      const chars = e.text.length.toLocaleString('es-MX');
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.innerHTML = `
+        <div class="entry-head">
+          <span class="ts">${label}</span>
+          <span class="chars">${chars} chars</span>
+          ${e.imported ? '<span style="color:var(--teal)">importada</span>' : ''}
+          <span class="actions">
+            <button onclick="copyEntry(${i})">Copiar</button>
+            <button class="del" onclick="deleteEntry(${i})">Borrar</button>
+          </span>
+        </div>
+        <div class="entry-body">${escapeHtml(e.text)}</div>`;
+      container.appendChild(div);
+    });
+    list.appendChild(container);
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
   function flash(msg) {
     st.textContent = msg;
-    setTimeout(() => { st.textContent = ''; }, 2500);
+    setTimeout(() => { st.textContent = ''; }, 3000);
   }
 
   function updateCount() {
-    const n = ta.value.length;
-    ct.textContent = n.toLocaleString('es-MX') + ' caracteres';
+    ct.textContent = ta.value.length.toLocaleString('es-MX') + ' caracteres';
   }
 
-  ta.addEventListener('input', autoSave);
-  load();
+  ta.addEventListener('input', updateCount);
+  updateCount();
+  render();
 </script>
 </body>
 </html>
