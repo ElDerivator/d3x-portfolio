@@ -4,19 +4,422 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Captura ODATA</title>
-<meta http-equiv="refresh" content="0;url=https://claude.ai/artifact/Rs2WVyTY7wY4yQ1BDg2XgF">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
-  body {
-    margin: 0; font-family: Inter, system-ui, sans-serif;
-    display: flex; align-items: center; justify-content: center;
-    min-height: 100vh; background: #eef5f2; color: #121418;
+  :root {
+    --ink: #121418; --muted: #66717d; --line: #d7e3e0;
+    --paper: #eef5f2; --panel: #ffffff; --teal: #0a8f8a;
+    --red: #a84f49; --shadow: 0 14px 34px rgba(22,27,34,0.075);
   }
-  a { color: #0a8f8a; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e2e8f0; --muted: #94a3b8; --line: #2d3748;
+      --paper: #0f1319; --panel: #1a202c; --teal: #38d9a9;
+      --red: #e57373; --shadow: 0 14px 34px rgba(0,0,0,0.4);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e2e8f0; --muted: #94a3b8; --line: #2d3748;
+    --paper: #0f1319; --panel: #1a202c; --teal: #38d9a9;
+    --red: #e57373; --shadow: 0 14px 34px rgba(0,0,0,0.4);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: Inter, system-ui, sans-serif; color: var(--ink);
+    background:
+      linear-gradient(90deg, rgba(18,20,24,0.035) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(18,20,24,0.035) 1px, transparent 1px),
+      var(--paper);
+    background-size: 34px 34px;
+    padding: 0 16px; display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh;
+  }
+  .wrap { width: 100%; max-width: 900px; padding: 40px 0 80px; display: flex; flex-direction: column; gap: 16px; }
+  h1 { margin: 0; font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
+  h1 span { color: var(--teal); }
+  .sub { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+  textarea {
+    width: 100%; min-height: 30vh; padding: 16px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.8rem; line-height: 1.6;
+    color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: var(--shadow); resize: vertical; outline: none;
+    transition: border-color 0.15s; tab-size: 2;
+  }
+  textarea:focus { border-color: var(--teal); }
+  textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  .bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    padding: 8px 18px; font-family: inherit; font-size: 0.78rem;
+    font-weight: 600; color: #fff; background: var(--teal);
+    border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn.outline { color: var(--muted); background: transparent; border: 1px solid var(--line); }
+  .btn.outline:hover { color: var(--ink); border-color: var(--muted); }
+  .btn.danger { color: var(--red); border-color: var(--red); }
+  .btn:disabled { opacity: 0.4; cursor: default; }
+  .status { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
+  .count { font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  h2 { margin: 24px 0 0; font-size: 1rem; font-weight: 600; }
+  .empty { font-size: 0.82rem; color: var(--muted); padding: 24px 0; text-align: center; }
+  .entries { display: flex; flex-direction: column; gap: 10px; }
+  .entry {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(22,27,34,0.04);
+  }
+  .entry-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-bottom: 1px solid var(--line);
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .entry-head .ts { font-weight: 500; }
+  .entry-head .chars { font-variant-numeric: tabular-nums; }
+  .entry-head .actions { margin-left: auto; display: flex; gap: 6px; }
+  .entry-head button {
+    padding: 3px 10px; font-family: inherit; font-size: 0.7rem;
+    font-weight: 500; border-radius: 4px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+    transition: all 0.15s;
+  }
+  .entry-head button:hover { color: var(--ink); border-color: var(--muted); }
+  .entry-head button.del:hover { color: var(--red); border-color: var(--red); }
+  .entry-body {
+    padding: 12px 14px; font-family: 'SF Mono', 'Cascadia Code', monospace;
+    font-size: 0.75rem; line-height: 1.55; white-space: pre-wrap;
+    word-break: break-word; max-height: 200px; overflow-y: auto;
+    color: var(--ink);
+  }
+  .setup-box {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    padding: 20px; box-shadow: var(--shadow);
+  }
+  .setup-box label { display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 8px; }
+  .setup-box input {
+    width: 100%; padding: 10px 12px; font-family: monospace; font-size: 0.78rem;
+    border: 1px solid var(--line); border-radius: 6px; background: var(--paper);
+    color: var(--ink); outline: none;
+  }
+  .setup-box input:focus { border-color: var(--teal); }
+  .setup-box .hint { font-size: 0.72rem; color: var(--muted); margin-top: 6px; }
+  .connected { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; background: var(--teal); color: #fff; }
+  .syncing { color: var(--teal); font-size: 0.75rem; font-weight: 500; }
 </style>
 </head>
 <body>
-<p>Redirigiendo... <a href="https://claude.ai/artifact/Rs2WVyTY7wY4yQ1BDg2XgF">Click aquí si no redirige</a></p>
-<script>location.replace("https://claude.ai/artifact/Rs2WVyTY7wY4yQ1BDg2XgF");</script>
+
+<div class="wrap">
+  <h1><span>ODATA</span> · Captura</h1>
+
+  <!-- Setup: token input -->
+  <div id="setupBox" class="setup-box" style="display:none">
+    <label>GitHub Personal Access Token (scope: gist)</label>
+    <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <p class="hint">
+      Crea uno en GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens.<br>
+      Solo necesita permiso de <strong>Gists</strong> (Read and Write). Se guarda en tu navegador, nunca sale de aquí.
+    </p>
+    <div class="bar" style="margin-top:12px">
+      <button class="btn" onclick="saveToken()">Conectar</button>
+      <span class="status" id="setupStatus"></span>
+    </div>
+  </div>
+
+  <!-- Main editor -->
+  <div id="mainApp" style="display:none">
+    <p class="sub">
+      <span class="connected" id="connBadge">Conectado a GitHub Gist</span>
+      <span style="margin-left:8px;font-size:0.72rem;color:var(--muted);cursor:pointer" onclick="disconnect()">Desconectar</span>
+    </p>
+    <p class="sub" style="margin-top:8px">Pega tu contenido y guárdalo. Los datos viven en un Gist privado — accesibles desde cualquier computadora.</p>
+
+    <textarea id="cap" placeholder="Pega aquí tu contenido..."></textarea>
+
+    <div class="bar">
+      <button class="btn" id="btnSave" onclick="saveEntry()">Guardar entrada</button>
+      <button class="btn outline" onclick="copyAll()">Copiar todo</button>
+      <button class="btn outline danger" onclick="clearAll()">Borrar todo</button>
+      <span class="count" id="count">0 caracteres</span>
+      <span class="status" id="status"></span>
+    </div>
+
+    <h2>Registro <span id="total" style="font-weight:400;color:var(--muted);font-size:0.82rem"></span></h2>
+    <div id="list"><p class="empty">Cargando...</p></div>
+  </div>
+</div>
+
+<script>
+var TOKEN_KEY = 'odata_gh_token';
+var GIST_KEY = 'odata_gh_gist_id';
+var GIST_FILE = 'odata_captura.json';
+var API = 'https://api.github.com';
+var entries = [];
+var gistId = null;
+var gistVersion = null;
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function flash(el, msg) { el.textContent = msg; setTimeout(function(){ el.textContent = ''; }, 3500); }
+function getToken() { try { return localStorage.getItem(TOKEN_KEY); } catch(e) { return null; } }
+
+// --- GitHub Gist API ---
+function ghFetch(path, opts) {
+  opts = opts || {};
+  var headers = {
+    'Accept': 'application/vnd.github+json',
+    'Authorization': 'Bearer ' + getToken(),
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  if (opts.body) headers['Content-Type'] = 'application/json';
+  return fetch(API + path, {
+    method: opts.method || 'GET',
+    headers: headers,
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+}
+
+async function findOrCreateGist() {
+  var saved = null;
+  try { saved = localStorage.getItem(GIST_KEY); } catch(e) {}
+
+  if (saved) {
+    var r = await ghFetch('/gists/' + saved);
+    if (r.ok) {
+      var g = await r.json();
+      gistId = g.id;
+      return g;
+    }
+    try { localStorage.removeItem(GIST_KEY); } catch(e) {}
+  }
+
+  // Search existing gists
+  var page = 1;
+  while (page <= 5) {
+    var r2 = await ghFetch('/gists?per_page=30&page=' + page);
+    if (!r2.ok) break;
+    var list = await r2.json();
+    if (!list.length) break;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].files && list[i].files[GIST_FILE]) {
+        gistId = list[i].id;
+        try { localStorage.setItem(GIST_KEY, gistId); } catch(e) {}
+        var full = await ghFetch('/gists/' + gistId);
+        return full.ok ? full.json() : null;
+      }
+    }
+    page++;
+  }
+
+  // Create new gist
+  var r3 = await ghFetch('/gists', {
+    method: 'POST',
+    body: {
+      description: 'ODATA Captura — almacén de entradas',
+      public: false,
+      files: { [GIST_FILE]: { content: JSON.stringify({ entries: [] }) } }
+    }
+  });
+  if (!r3.ok) return null;
+  var g3 = await r3.json();
+  gistId = g3.id;
+  try { localStorage.setItem(GIST_KEY, gistId); } catch(e) {}
+  return g3;
+}
+
+function parseGist(gist) {
+  if (!gist || !gist.files || !gist.files[GIST_FILE]) return [];
+  try {
+    var data = JSON.parse(gist.files[GIST_FILE].content);
+    return data.entries || [];
+  } catch(e) { return []; }
+}
+
+async function syncGist(newEntries) {
+  if (!gistId) return false;
+  var r = await ghFetch('/gists/' + gistId, {
+    method: 'PATCH',
+    body: { files: { [GIST_FILE]: { content: JSON.stringify({ entries: newEntries }, null, 2) } } }
+  });
+  return r.ok;
+}
+
+// --- UI ---
+function render() {
+  var totalEl = document.getElementById('total');
+  var listEl = document.getElementById('list');
+  totalEl.textContent = entries.length ? '· ' + entries.length + ' entrada' + (entries.length > 1 ? 's' : '') : '';
+  if (!entries.length) {
+    listEl.innerHTML = '<p class="empty">Sin entradas guardadas</p>';
+    return;
+  }
+  var container = document.createElement('div');
+  container.className = 'entries';
+  entries.forEach(function(e) {
+    var d = new Date(e.ts);
+    var label = d.toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' })
+      + ' · ' + d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
+    var chars = e.text.length.toLocaleString('es-MX');
+    var div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML =
+      '<div class="entry-head">' +
+        '<span class="ts">' + esc(label) + '</span>' +
+        '<span class="chars">' + chars + ' chars</span>' +
+        '<span class="actions">' +
+          '<button data-id="' + esc(e.id) + '" data-action="copy">Copiar</button>' +
+          '<button class="del" data-id="' + esc(e.id) + '" data-action="del">Borrar</button>' +
+        '</span>' +
+      '</div>' +
+      '<div class="entry-body">' + esc(e.text) + '</div>';
+    container.appendChild(div);
+  });
+  container.addEventListener('click', function(ev) {
+    var btn = ev.target.closest('button[data-action]');
+    if (!btn) return;
+    var id = btn.dataset.id;
+    if (btn.dataset.action === 'copy') {
+      var found = entries.find(function(x) { return x.id === id; });
+      if (found) navigator.clipboard.writeText(found.text).then(
+        function() { flash(document.getElementById('status'), 'Copiado'); },
+        function() { flash(document.getElementById('status'), 'Error'); }
+      );
+    }
+    if (btn.dataset.action === 'del') deleteEntry(id);
+  });
+  listEl.innerHTML = '';
+  listEl.appendChild(container);
+}
+
+function updateCount() {
+  document.getElementById('count').textContent = document.getElementById('cap').value.length.toLocaleString('es-MX') + ' caracteres';
+}
+
+async function saveEntry() {
+  var ta = document.getElementById('cap');
+  var st = document.getElementById('status');
+  var text = ta.value.trim();
+  if (!text) return flash(st, 'Nada que guardar');
+
+  var btn = document.getElementById('btnSave');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+  var id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  entries.unshift({ id: id, ts: new Date().toISOString(), text: text });
+
+  var ok = await syncGist(entries);
+  btn.disabled = false;
+  btn.textContent = 'Guardar entrada';
+  if (ok) {
+    ta.value = '';
+    updateCount();
+    render();
+    flash(st, 'Guardado en Gist');
+  } else {
+    entries.shift();
+    flash(st, 'Error al guardar');
+  }
+}
+
+async function deleteEntry(id) {
+  var st = document.getElementById('status');
+  var idx = entries.findIndex(function(x) { return x.id === id; });
+  if (idx === -1) return;
+  var removed = entries.splice(idx, 1)[0];
+  render();
+  var ok = await syncGist(entries);
+  if (ok) {
+    flash(st, 'Eliminada');
+  } else {
+    entries.splice(idx, 0, removed);
+    render();
+    flash(st, 'Error al eliminar');
+  }
+}
+
+function copyAll() {
+  var st = document.getElementById('status');
+  if (!entries.length) return flash(st, 'No hay entradas');
+  var sep = '\n' + '═'.repeat(39) + '\n';
+  var out = entries.map(function(e, i) {
+    var d = new Date(e.ts);
+    var label = d.toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' })
+      + ' ' + d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
+    return '[Entrada ' + (entries.length - i) + ' · ' + label + ']\n' + e.text;
+  }).join(sep);
+  var header = 'ODATA Captura — ' + entries.length + ' entradas\n' + '═'.repeat(39) + '\n\n';
+  navigator.clipboard.writeText(header + out).then(
+    function() { flash(st, entries.length + ' entradas copiadas'); },
+    function() { flash(st, 'Error al copiar'); }
+  );
+}
+
+async function clearAll() {
+  var st = document.getElementById('status');
+  if (!entries.length) return flash(st, 'Ya está vacío');
+  entries = [];
+  var ok = await syncGist(entries);
+  render();
+  flash(st, ok ? 'Todo eliminado' : 'Error');
+}
+
+// --- Token management ---
+async function saveToken() {
+  var input = document.getElementById('tokenInput');
+  var st = document.getElementById('setupStatus');
+  var token = input.value.trim();
+  if (!token) return flash(st, 'Pega tu token');
+
+  flash(st, 'Verificando...');
+  try { localStorage.setItem(TOKEN_KEY, token); } catch(e) {}
+
+  var r = await ghFetch('/user');
+  if (!r.ok) {
+    try { localStorage.removeItem(TOKEN_KEY); } catch(e) {}
+    flash(st, 'Token inválido');
+    return;
+  }
+  input.value = '';
+  init();
+}
+
+function disconnect() {
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(GIST_KEY);
+  } catch(e) {}
+  gistId = null;
+  entries = [];
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('setupBox').style.display = 'block';
+}
+
+async function init() {
+  var token = getToken();
+  if (!token) {
+    document.getElementById('setupBox').style.display = 'block';
+    document.getElementById('mainApp').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('setupBox').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  document.getElementById('list').innerHTML = '<p class="empty">Cargando desde GitHub...</p>';
+
+  var gist = await findOrCreateGist();
+  if (!gist) {
+    document.getElementById('list').innerHTML = '<p class="empty">Error al conectar con GitHub. <span style="color:var(--teal);cursor:pointer" onclick="disconnect()">Reintentar</span></p>';
+    return;
+  }
+  entries = parseGist(gist);
+  render();
+}
+
+document.getElementById('cap').addEventListener('input', updateCount);
+updateCount();
+init();
+</script>
 </body>
 </html>
