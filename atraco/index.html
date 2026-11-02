@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Aprendé SQL desde cero resolviendo los golpes de Catwoman, con un motor SQLite real en el navegador.">
+<style>
+  :root { color-scheme: light; padding-top: env(safe-area-inset-top,0px); padding-bottom: env(safe-area-inset-bottom,0px); }
+  body { margin: 0; font: 14px/1.5 system-ui, sans-serif; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Atraco en Gotham</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Spline+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+/* ── Atraco en Gotham · lab SQL para principiantes ──────────────────────────
+   Identidad: noir de Gotham. Fondo noche azul-negra, acento ámbar (el botín,
+   el farol) y violeta (Catwoman). Consolas siempre "terminal oscura" en ambos
+   temas, para el vibe de hackear una caja fuerte. Layout: columna de lectura
+   ~64ch, capítulos apilados, consola interactiva embebida por ejercicio.
+   Dark-first (es noir): valores oscuros en :root; claro bajo prefers/​[data-theme]. */
+:root {
+  --bg: #0b0d14;
+  --surface: #141826;
+  --surface-2: #1b2032;
+  --line: #2a3144;
+  --fg: #e9ebf3;
+  --muted: #9aa1b6;
+  --accent: #f5b942;      /* ámbar: botín / farol */
+  --accent-soft: rgba(245,185,66,.14);
+  --violet: #b78cf2;      /* Catwoman */
+  --violet-soft: rgba(183,140,242,.14);
+  --good: #52e08a;
+  --bad: #ff7a7a;
+  /* consola terminal (fija en ambos temas) */
+  --term-bg: #0a0c12;
+  --term-surface: #10131d;
+  --term-line: #262c3d;
+  --term-fg: #e7eaf4;
+  --term-muted: #8b92a8;
+  --radius: 14px;
+  --shadow: 0 18px 50px -24px rgba(0,0,0,.8);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #eceef4;
+    --surface: #ffffff;
+    --surface-2: #f4f6fb;
+    --line: #d8dce8;
+    --fg: #181b25;
+    --muted: #596074;
+    --accent: #a56a12;
+    --accent-soft: rgba(165,106,18,.12);
+    --violet: #6d45c4;
+    --violet-soft: rgba(109,69,196,.12);
+    --good: #15803d;
+    --bad: #c23434;
+    --shadow: 0 18px 44px -26px rgba(30,40,70,.45);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #eceef4;
+  --surface: #ffffff;
+  --surface-2: #f4f6fb;
+  --line: #d8dce8;
+  --fg: #181b25;
+  --muted: #596074;
+  --accent: #a56a12;
+  --accent-soft: rgba(165,106,18,.12);
+  --violet: #6d45c4;
+  --violet-soft: rgba(109,69,196,.12);
+  --good: #15803d;
+  --bad: #c23434;
+  --shadow: 0 18px 44px -26px rgba(30,40,70,.45);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Spline Sans", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { /* pinta la franja bajo la barra del sistema (safe-area top) */
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 60; background: var(--surface);
+}
+.wrap {
+  width: 100%; max-width: 860px; margin: 0 auto;
+  padding-left: max(18px, env(safe-area-inset-left, 0px));
+  padding-right: max(18px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: "Oswald", "Arial Narrow", sans-serif; font-weight: 600; text-wrap: balance; line-height: 1.12; margin: 0; }
+a { color: var(--accent); }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace; }
+p code, li code {
+  font-size: .9em; background: var(--surface-2); border: 1px solid var(--line);
+  padding: .08em .38em; border-radius: 6px; color: var(--fg);
+}
+
+/* ── top bar ── */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 61;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-in {
+  display: flex; align-items: center; gap: 12px;
+  padding-block: 10px; min-height: 52px;
+}
+.brand { display: flex; align-items: center; gap: 9px; font-family: "Oswald", sans-serif; font-weight: 600; letter-spacing: .04em; font-size: 1.02rem; }
+.brand .mask { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.brand small { color: var(--muted); font-family: "Spline Sans", sans-serif; font-weight: 500; letter-spacing: 0; font-size: .72rem; display: none; }
+@media (min-width: 620px) { .brand small { display: inline; } }
+.spacer { flex: 1 1 auto; }
+.progress-chip {
+  font-family: "JetBrains Mono", monospace; font-size: .74rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; white-space: nowrap;
+}
+.progress-chip b { color: var(--accent); }
+.iconbtn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--surface-2); color: var(--fg); border: 1px solid var(--line);
+  border-radius: 10px; padding: 7px 10px; cursor: pointer; font: inherit; font-size: .82rem;
+}
+.iconbtn:hover { border-color: var(--accent); }
+.iconbtn svg { width: 16px; height: 16px; }
+
+/* ── hero ── */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero::before { /* resplandor de farol / luna */
+  content: ""; position: absolute; top: -140px; right: -80px; width: 460px; height: 460px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%); pointer-events: none;
+}
+.hero::after {
+  content: ""; position: absolute; bottom: -180px; left: -120px; width: 420px; height: 420px;
+  background: radial-gradient(circle, var(--violet-soft), transparent 68%); pointer-events: none;
+}
+.hero-in { position: relative; padding-block: 44px 40px; }
+.kicker { font-family: "JetBrains Mono", monospace; font-size: .76rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.hero h1 { font-size: clamp(2.5rem, 9vw, 4.4rem); font-weight: 700; letter-spacing: .01em; }
+.hero h1 .v { color: var(--violet); }
+.hero-emblem { width: 76px; height: 76px; color: var(--accent); margin-bottom: 8px; }
+.lead { font-size: 1.12rem; color: var(--fg); max-width: 60ch; margin-top: 16px; }
+.lead b { color: var(--accent); font-weight: 600; }
+.sub { color: var(--muted); max-width: 62ch; margin-top: 10px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font: inherit;
+  font-weight: 600; border-radius: 11px; padding: 11px 18px; border: 1px solid transparent; text-decoration: none;
+}
+.btn-primary { background: var(--accent); color: #1a1205; }
+.btn-primary:hover { filter: brightness(1.07); }
+.btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--accent); }
+.btn svg { width: 17px; height: 17px; }
+
+/* ── secciones de contenido ── */
+section.block { padding-block: 30px; border-bottom: 1px solid var(--line); }
+.note {
+  border: 1px solid var(--line); border-left: 3px solid var(--violet);
+  background: var(--surface); border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 18px; margin: 18px 0;
+}
+.note h3 { font-size: 1rem; letter-spacing: .02em; margin-bottom: 6px; color: var(--violet); }
+.prose p { margin: 0 0 14px; }
+.prose ul { margin: 0 0 14px; padding-left: 20px; }
+.prose li { margin: 5px 0; }
+
+/* mini-mapa de tablas */
+.schema-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 8px; }
+.tbl-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.tbl-card h4 { font-family: "JetBrains Mono", monospace; font-size: .86rem; margin: 0; padding: 9px 12px; background: var(--surface-2); color: var(--accent); border-bottom: 1px solid var(--line); display:flex; justify-content: space-between; }
+.tbl-card h4 span { color: var(--muted); font-weight: 400; }
+.tbl-card ul { list-style: none; margin: 0; padding: 8px 12px; font-family: "JetBrains Mono", monospace; font-size: .78rem; }
+.tbl-card li { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; color: var(--fg); }
+.tbl-card li em { color: var(--muted); font-style: normal; }
+.tbl-card li.key b { color: var(--violet); font-weight: 500; }
+
+/* ── capítulo / lección ── */
+.lesson { padding-block: 34px; border-bottom: 1px solid var(--line); scroll-margin-top: 70px; }
+.ch-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+.ch-num { font-family: "Oswald", sans-serif; font-size: 2.4rem; font-weight: 700; color: var(--accent); line-height: 1; opacity: .9; }
+.ch-kicker { font-family: "JetBrains Mono", monospace; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.lesson h2 { font-size: clamp(1.5rem, 4.4vw, 2rem); margin: 2px 0 14px; }
+.lesson h2 .done { color: var(--good); font-size: 1.1rem; margin-left: 8px; }
+.story { color: var(--muted); font-style: italic; border-left: 2px solid var(--violet); padding-left: 14px; margin: 0 0 18px; }
+.kw { color: var(--accent); font-weight: 600; font-family: "JetBrains Mono", monospace; font-size: .92em; }
+
+/* ── consola SQL (terminal, fija oscura) ── */
+.console { background: var(--term-surface); border: 1px solid var(--term-line); border-radius: var(--radius); overflow: hidden; margin: 16px 0; box-shadow: var(--shadow); }
+.console-bar { display: flex; align-items: center; gap: 7px; padding: 9px 13px; background: var(--term-bg); border-bottom: 1px solid var(--term-line); }
+.dot { width: 11px; height: 11px; border-radius: 50%; }
+.dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+.console-bar .label { margin-left: 8px; color: var(--term-muted); font-family: "JetBrains Mono", monospace; font-size: .74rem; letter-spacing: .04em; }
+.editor-wrap { position: relative; }
+textarea.editor {
+  width: 100%; border: 0; resize: vertical; min-height: 92px;
+  background: var(--term-bg); color: var(--term-fg);
+  font-family: "JetBrains Mono", monospace; font-size: .86rem; line-height: 1.55;
+  padding: 14px; display: block; tab-size: 2;
+}
+textarea.editor:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+.console-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 11px 13px; background: var(--term-surface); border-top: 1px solid var(--term-line); align-items: center; }
+.run-btn { background: var(--accent); color: #1a1205; border: 0; border-radius: 9px; padding: 8px 16px; font: inherit; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.run-btn:hover { filter: brightness(1.08); }
+.run-btn svg { width: 14px; height: 14px; }
+.mini-btn { background: transparent; color: var(--term-fg); border: 1px solid var(--term-line); border-radius: 9px; padding: 8px 13px; font: inherit; font-size: .82rem; cursor: pointer; }
+.mini-btn:hover { border-color: var(--accent); color: var(--accent); }
+.hint-txt { color: var(--term-muted); font-size: .8rem; margin-left: auto; font-family: "Spline Sans", sans-serif; }
+kbd { font-family: "JetBrains Mono", monospace; font-size: .72em; background: var(--term-line); border-radius: 5px; padding: 1px 5px; color: var(--term-fg); }
+
+/* resultado */
+.result { border-top: 1px solid var(--term-line); }
+.result-status { padding: 9px 13px; font-family: "JetBrains Mono", monospace; font-size: .78rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.result-status.ok { color: var(--good); } .result-status.err { color: var(--bad); } .result-status.info { color: var(--term-muted); }
+.badge { font-weight: 700; border-radius: 6px; padding: 2px 8px; font-size: .72rem; }
+.badge.match { background: rgba(82,224,138,.16); color: var(--good); border: 1px solid rgba(82,224,138,.4); }
+.badge.nomatch { background: rgba(255,122,122,.14); color: var(--bad); border: 1px solid rgba(255,122,122,.4); }
+.grid-scroll { overflow-x: auto; }
+table.rs { border-collapse: collapse; width: 100%; font-family: "JetBrains Mono", monospace; font-size: .8rem; }
+table.rs th { text-align: left; background: var(--term-bg); color: var(--accent); padding: 7px 12px; border-bottom: 1px solid var(--term-line); white-space: nowrap; position: sticky; top: 0; }
+table.rs td { padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--term-fg); white-space: nowrap; }
+table.rs td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.rs tr:hover td { background: rgba(245,185,66,.05); }
+.expected-wrap { padding: 2px 13px 13px; }
+.expected-wrap .cap { font-family: "JetBrains Mono", monospace; font-size: .72rem; color: var(--term-muted); margin: 10px 0 6px; letter-spacing: .06em; text-transform: uppercase; }
+
+/* reveal */
+.reveal-box { padding: 0 13px 14px; }
+.reveal-box pre { background: var(--term-bg); border: 1px solid var(--term-line); border-radius: 10px; padding: 12px; overflow-x: auto; margin: 10px 0 0; }
+.reveal-box pre code { color: var(--term-fg); font-size: .82rem; line-height: 1.55; }
+.reveal-box .why { color: var(--term-muted); font-size: .86rem; margin-top: 10px; font-family: "Spline Sans", sans-serif; }
+.reveal-box .why b { color: var(--accent); }
+
+/* drawer schema */
+.fab { position: fixed; right: max(16px, env(safe-area-inset-right,0px)); bottom: calc(16px + env(safe-area-inset-bottom,0px)); z-index: 55;
+  background: var(--violet); color: #fff; border: 0; border-radius: 999px; padding: 12px 18px; font: inherit; font-weight: 600; cursor: pointer; box-shadow: var(--shadow); display: inline-flex; gap: 8px; align-items: center; }
+.fab svg { width: 18px; height: 18px; }
+.drawer-bg { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 70; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.drawer-bg.open { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 92vw); z-index: 71; background: var(--surface); border-left: 1px solid var(--line);
+  transform: translateX(100%); transition: transform .24s ease; overflow-y: auto; padding: 20px 18px calc(28px + env(safe-area-inset-bottom,0px));
+  padding-right: max(18px, env(safe-area-inset-right,0px)); }
+.drawer.open { transform: translateX(0); }
+.drawer h3 { font-size: 1.3rem; margin-bottom: 4px; }
+.drawer .close { position: absolute; top: 14px; right: 14px; }
+
+.footer { padding-block: 30px 40px; color: var(--muted); font-size: .86rem; }
+.footer .tag { font-family: "JetBrains Mono", monospace; font-size: .72rem; letter-spacing: .1em; color: var(--accent); }
+.footer a { color: var(--violet); }
+
+.boot-overlay { position: fixed; inset: 0; z-index: 90; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 20px; }
+.boot-overlay .mono { color: var(--muted); font-size: .84rem; }
+.spinner { width: 34px; height: 34px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="boot-overlay" id="boot">
+  <svg class="hero-emblem" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 10l9 12a20 18 0 0 1 18 0l9-12-3 18a19 17 0 1 1-30 0z" fill="currentColor" opacity=".9"/><circle cx="25" cy="38" r="3" fill="#0b0d14"/><circle cx="39" cy="38" r="3" fill="#0b0d14"/><path d="M8 40l12 3M8 46l12 0M56 40l-12 3M56 46l-12 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <div class="spinner" aria-hidden="true"></div>
+  <div class="mono">Forzando la caja fuerte… cargando el motor SQLite</div>
+</div>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <span class="brand">
+      <svg class="mask" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 10l9 12a20 18 0 0 1 18 0l9-12-3 18a19 17 0 1 1-30 0z" fill="currentColor"/><circle cx="25" cy="38" r="3" fill="#0b0d14"/><circle cx="39" cy="38" r="3" fill="#0b0d14"/></svg>
+      Atraco en Gotham <small>· SQL desde cero</small>
+    </span>
+    <span class="spacer"></span>
+    <span class="progress-chip" id="progress">golpes <b>0</b>/<span id="total-ch">0</span></span>
+    <button class="iconbtn" id="theme-btn" aria-label="Cambiar tema"><svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-in">
+    <svg class="hero-emblem" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 10l9 12a20 18 0 0 1 18 0l9-12-3 18a19 17 0 1 1-30 0z" fill="currentColor"/><circle cx="25" cy="38" r="3.4" fill="#0b0d14"/><circle cx="39" cy="38" r="3.4" fill="#0b0d14"/><path d="M6 40l14 3M6 47l14 -1M58 40l-14 3M58 47l-14 -1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".8"/></svg>
+    <div class="kicker">Gotham · 2 a.m.</div>
+    <h1>El atraco empieza<br>con una <span class="v">pregunta</span>.</h1>
+    <p class="lead">Selina Kyle te acaba de reclutar. No para forzar cajas fuertes — para algo más poderoso: <b>leer la base de datos de la banda</b> y decirle, antes de cada golpe, exactamente qué sabe y qué no.</p>
+    <p class="sub">Esa herramienta se llama <strong>SQL</strong>, y acá la vas a aprender desde absolutamente cero. Nada de teoría muerta: en cada capítulo escribís una consulta de verdad y un motor SQLite real —corriendo dentro de esta misma página— te responde al instante. Si te equivocás, te lo dice. Si aciertas, te lo marca.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#cap-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Empezar el primer golpe</a>
+      <a class="btn btn-ghost" href="#consola-libre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6-6-6M12 19h8"/></svg>Consola libre</a>
+    </div>
+  </div>
+</section>
+
+<section class="block"><div class="wrap prose" id="intro">
+  <div class="ch-head"><span class="ch-kicker">Antes de entrar · lo mínimo</span></div>
+  <h2>¿Qué es una base de datos?</h2>
+  <p>Imaginá el archivo de la banda como un cajón de <strong>planillas de Excel</strong>. Cada planilla es una <strong>tabla</strong>: tiene un tema (la crew, los golpes, el botín). Eso es todo lo que es una base de datos: un grupo de tablas relacionadas.</p>
+  <ul>
+    <li>Cada <strong>fila</strong> es un registro: <em>un</em> miembro de la banda, <em>un</em> golpe.</li>
+    <li>Cada <strong>columna</strong> es un dato de ese registro: su alias, su especialidad, su tarifa.</li>
+    <li>Las tablas se <strong>conectan</strong> por claves: cada golpe guarda el <code>patron_id</code> de quién lo encargó, así se enlaza con la tabla de patrones. (Lo vemos en el capítulo del <span class="kw">JOIN</span>.)</li>
+  </ul>
+  <p><strong>SQL</strong> (se dice "és-cu-ele" o "sícuel") es el idioma para hacerle preguntas a ese cajón. Una consulta SQL es literalmente una frase: <em>"mostrame estas columnas, de esta tabla, donde se cumpla esta condición"</em>. Eso es el 90% del trabajo de un analista de datos, y es lo que vas a saber hacer al terminar.</p>
+  <div class="note">
+    <h3>Las 6 tablas del archivo</h3>
+    <p>Este es el mapa de la operación. Tenélo a mano — abajo a la derecha hay un botón <strong>Mapa de tablas</strong> que lo abre en cualquier momento. La flecha <code>→</code> marca la columna que conecta una tabla con otra.</p>
+  </div>
+  <div class="schema-grid" id="schema-grid"></div>
+</div></section>
+
+<main class="wrap" id="lessons"></main>
+
+<section class="block"><div class="wrap prose" id="consola-libre">
+  <div class="ch-head"><span class="ch-kicker">Zona de práctica</span></div>
+  <h2>Consola libre</h2>
+  <p>Acá no hay ejercicio ni respuesta correcta: es tu patio. Escribí cualquier consulta sobre las 6 tablas y corréla. Probá, rompé, experimentá — la base se reinicia si recargás la página, así que no hay forma de arruinar nada.</p>
+</div></section>
+
+<footer class="block footer"><div class="wrap">
+  <div class="tag">D3X · lab de datos</div>
+  <p style="margin-top:8px">Hecho con cariño como sorpresa para que entrenes SQL. El motor es <strong>SQLite real</strong> (vía WebAssembly) corriendo entero en tu navegador: nada se envía a ningún servidor, funciona sin internet una vez cargado.</p>
+  <p>Todos los personajes, golpes y cifras son <strong>100% ficción sintética</strong> (semilla aleatoria fija). Catwoman y Gotham son de DC Comics; esto es un homenaje con fines educativos, sin afiliación.</p>
+</div></footer>
+
+<button class="fab" id="schema-fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>Mapa de tablas</button>
+<div class="drawer-bg" id="drawer-bg"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="iconbtn close" id="drawer-close" aria-label="Cerrar">✕</button>
+  <h3>Mapa de tablas</h3>
+  <p style="color:var(--muted);font-size:.86rem;margin:4px 0 14px">Las 6 tablas y sus columnas. <span style="color:var(--violet)">●</span> clave que conecta.</p>
+  <div class="schema-grid" id="schema-grid-drawer"></div>
+</aside>
+
+<script src="sql-wasm.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ── esquema para el mapa de tablas ──────────────────────────────────────
+  const SCHEMA = [
+    { t: "patrons", d: "quién encarga", cols: [
+      ["patron_id", "nº", true], ["alias", "nombre"], ["specialty", "jewels / art / tech…"],
+      ["city", "ciudad"], ["first_contact", "fecha"] ] },
+    { t: "heists", d: "los golpes", cols: [
+      ["heist_id", "nº", true], ["patron_id", "→ patrons"], ["codename", "nombre clave"],
+      ["target_type", "museum / bank…"], ["start_date", "fecha"], ["end_date", "fecha o NULL"],
+      ["status", "planning / active…"], ["take_estimate", "botín USD"] ] },
+    { t: "crew", d: "la banda", cols: [
+      ["crew_id", "nº", true], ["alias", "nombre"], ["specialty_role", "hacker / driver…"],
+      ["rank", "rookie→legend"], ["cut_rate", "tajada/hora USD"], ["joined", "fecha"] ] },
+    { t: "jobs", d: "tareas del golpe", cols: [
+      ["job_id", "nº", true], ["heist_id", "→ heists"], ["job_name", "descripción"],
+      ["job_type", "casing / vault…"], ["planned_hours", "horas"] ] },
+    { t: "shifts", d: "horas trabajadas", cols: [
+      ["shift_id", "nº", true], ["job_id", "→ jobs"], ["crew_id", "→ crew"],
+      ["work_date", "fecha"], ["hours", "horas"], ["on_the_books", "1 ó 0"] ] },
+    { t: "gear", d: "gastos del golpe", cols: [
+      ["gear_id", "nº", true], ["heist_id", "→ heists"], ["gear_type", "tools / bribe…"],
+      ["cost", "USD"], ["acquired", "fecha"] ] },
+  ];
+
+  function buildSchema(container) {
+    SCHEMA.forEach(function (s) {
+      const card = document.createElement("div");
+      card.className = "tbl-card";
+      const lis = s.cols.map(function (c) {
+        const key = c[2] ? " class=\"key\"" : "";
+        const name = c[2] ? "<b>" + c[0] + "</b>" : c[0];
+        return "<li" + key + "><span>" + name + "</span><em>" + c[1] + "</em></li>";
+      }).join("");
+      card.innerHTML = "<h4>" + s.t + " <span>" + s.d + "</span></h4><ul>" + lis + "</ul>";
+      container.appendChild(card);
+    });
+  }
+  buildSchema(document.getElementById("schema-grid"));
+  buildSchema(document.getElementById("schema-grid-drawer"));
+
+  // ── lecciones ───────────────────────────────────────────────────────────
+  // ordered:true  → el orden de las filas es parte de la respuesta (hay ORDER BY).
+  const LESSONS = [
+    {
+      id: "select", kicker: "Leer el expediente", title: "SELECT — pedir columnas",
+      story: "“Antes de confiar en vos, quiero ver qué sabés leer. Abrí el expediente de la banda.” — Selina",
+      concept:
+        "<p>Toda consulta arranca con dos palabras: <span class='kw'>SELECT</span> (qué columnas querés ver) y <span class='kw'>FROM</span> (de qué tabla). Leelo como una orden en español:</p>" +
+        "<p><span class='kw'>SELECT</span> <code>alias, rank</code> <span class='kw'>FROM</span> <code>crew</code> = “mostrame el alias y el rango, de la tabla crew”.</p>" +
+        "<p>Si querés <em>todas</em> las columnas, usá <code>*</code> (un asterisco = “todo”). Y sí: el <code>;</code> al final cierra la frase.</p>",
+      example: "SELECT * FROM crew;",
+      exampleNote: "Corré esto tal cual. Vas a ver las 12 filas de la banda con todas sus columnas. Fijate en Selina Kyle, la jefa (crew_id 1).",
+      challenge: "Mostrá solo dos columnas de la banda: el <code>alias</code> y su <code>specialty_role</code> (su especialidad). Todas las filas.",
+      hint: "SELECT columna1, columna2 FROM crew;",
+      solution: "SELECT alias, specialty_role\nFROM crew;",
+      ordered: false,
+      why: "<b>SELECT</b> elige columnas; <b>FROM</b> elige la tabla. Nombrás las columnas separadas por coma. Nada más. Este par es el esqueleto de todas las consultas que siguen."
+    },
+    {
+      id: "where", kicker: "Filtrar sospechosos", title: "WHERE — quedarte solo con lo que importa",
+      story: "“No me interesa toda la banda. Solo los que ya probaron ser leyendas.” — Selina",
+      concept:
+        "<p><span class='kw'>WHERE</span> agrega una condición: SQL te devuelve solo las filas que la cumplen. Va después del <code>FROM</code>.</p>" +
+        "<ul><li>Números: <code>cut_rate &gt; 300</code>, <code>hours = 4</code></li>" +
+        "<li>Texto: va entre <strong>comillas simples</strong> → <code>rank = 'legend'</code> (¡comillas simples, no dobles!)</li>" +
+        "<li>Combinás con <code>AND</code> / <code>OR</code>: <code>rank = 'pro' AND cut_rate &gt; 250</code></li></ul>",
+      example: "SELECT alias, specialty_role, cut_rate\nFROM crew\nWHERE cut_rate > 300;",
+      exampleNote: "Solo la crew que cobra más de 300 por hora. Cambiá el 300 por otro número y volvé a correr para ver cómo cambia.",
+      challenge: "Traé el <code>alias</code>, <code>specialty_role</code> y <code>cut_rate</code> de la crew cuyo <code>rank</code> sea exactamente <code>'legend'</code>.",
+      hint: "El texto va entre comillas simples: WHERE rank = 'legend'",
+      solution: "SELECT alias, specialty_role, cut_rate\nFROM crew\nWHERE rank = 'legend';",
+      ordered: false,
+      why: "<b>WHERE</b> filtra <b>filas</b>. Dos leyendas: Selina (acrobat) y Jinx (safecracker). El error más común de principiante es usar comillas dobles en texto — en SQL el texto siempre va entre <b>comillas simples</b>."
+    },
+    {
+      id: "order", kicker: "Poner orden", title: "ORDER BY y LIMIT — ranking y recorte",
+      story: "“¿Quién se lleva la tajada más gorda? Ordenámelos de mayor a menor. Solo el top 3.” — Selina",
+      concept:
+        "<p><span class='kw'>ORDER BY</span> ordena el resultado por una columna. <code>DESC</code> = de mayor a menor, <code>ASC</code> (o nada) = de menor a mayor.</p>" +
+        "<p><span class='kw'>LIMIT</span> recorta a las primeras N filas. Juntos arman un “top”.</p>" +
+        "<p>Van al final, en este orden: <code>FROM … WHERE … ORDER BY … LIMIT …</code></p>",
+      example: "SELECT alias, cut_rate\nFROM crew\nORDER BY cut_rate DESC;",
+      exampleNote: "Toda la banda, del que más cobra al que menos. Ahora agregale una última línea: LIMIT 3.",
+      challenge: "El <strong>top 3</strong> de la crew por <code>cut_rate</code> (de mayor a menor). Mostrá <code>alias</code> y <code>cut_rate</code>.",
+      hint: "ORDER BY cut_rate DESC va antes de LIMIT 3",
+      solution: "SELECT alias, cut_rate\nFROM crew\nORDER BY cut_rate DESC\nLIMIT 3;",
+      ordered: true,
+      why: "<b>ORDER BY … DESC</b> ordena de mayor a menor; <b>LIMIT 3</b> corta. Acá el orden <em>es</em> la respuesta, así que sin el ORDER BY no cuenta. Top: Selina (500), Jinx (450), Whiskers (320)."
+    },
+    {
+      id: "agg", kicker: "Las cuentas", title: "COUNT, SUM, AVG — resumir muchas filas en un número",
+      story: "“No me leas los 10 golpes uno por uno. Decime el total. ¿Cuánto hay en juego?” — Selina",
+      concept:
+        "<p>Las <strong>funciones de agregación</strong> aplastan muchas filas en un solo número:</p>" +
+        "<ul><li><code>COUNT(*)</code> → cuántas filas hay</li>" +
+        "<li><code>SUM(columna)</code> → suma</li>" +
+        "<li><code>AVG(columna)</code> → promedio · <code>MIN</code> / <code>MAX</code> → menor / mayor</li></ul>" +
+        "<p>Podés renombrar el resultado con <span class='kw'>AS</span>: <code>SUM(take_estimate) AS botin_total</code>. Queda más legible.</p>",
+      example: "SELECT COUNT(*) AS cuantos_golpes,\n       SUM(take_estimate) AS botin_total\nFROM heists;",
+      exampleNote: "Una sola fila con el total. COUNT(*) cuenta golpes; SUM suma el botín estimado de todos.",
+      challenge: "De la tabla <code>crew</code>: ¿cuántos miembros hay (<code>COUNT</code>) y cuál es el <code>AVG</code> de su <code>cut_rate</code>? Nombralos <code>miembros</code> y <code>tarifa_promedio</code>.",
+      hint: "SELECT COUNT(*) AS miembros, AVG(cut_rate) AS tarifa_promedio FROM crew;",
+      solution: "SELECT COUNT(*) AS miembros,\n       AVG(cut_rate) AS tarifa_promedio\nFROM crew;",
+      ordered: false,
+      why: "Las funciones de agregación colapsan la tabla entera en una fila. <b>AS</b> le pone nombre a la columna calculada — sin eso, el encabezado sería el feo <code>AVG(cut_rate)</code>."
+    },
+    {
+      id: "groupby", kicker: "Agrupar", title: "GROUP BY — un total por cada grupo",
+      story: "“Pero no quiero un solo número. Quiero el total por tipo de blanco. Museos aparte, bancos aparte.” — Selina",
+      concept:
+        "<p>Acá está la idea más importante de todo el lab. <span class='kw'>GROUP BY</span> junta las filas que comparten un valor y calcula un agregado <strong>por cada grupo</strong>.</p>" +
+        "<p>Regla de oro: lo que ponés en <code>GROUP BY</code> va también en el <code>SELECT</code>, y el resto son funciones de agregación. Es decir: <em>“por cada status, contame y sumá”</em>.</p>",
+      example: "SELECT status,\n       COUNT(*) AS cuantos,\n       SUM(take_estimate) AS botin\nFROM heists\nGROUP BY status;",
+      exampleNote: "Una fila por cada status (planning, active, pulled_off, busted), con su conteo y su botín sumado.",
+      challenge: "Por cada <code>target_type</code> (museum, bank…), contá cuántos golpes hay (<code>cuantos</code>) y sumá su <code>take_estimate</code> (<code>botin</code>). Ordenalo por <code>botin</code> de mayor a menor.",
+      hint: "GROUP BY target_type, y al final ORDER BY botin DESC",
+      solution: "SELECT target_type,\n       COUNT(*) AS cuantos,\n       SUM(take_estimate) AS botin\nFROM heists\nGROUP BY target_type\nORDER BY botin DESC;",
+      ordered: true,
+      why: "<b>GROUP BY</b> parte la tabla en grupos y agrega cada uno por separado. Todo lo del SELECT que no sea una función de agregación tiene que estar en el GROUP BY — es la regla que más cuesta al principio y la que más vas a usar."
+    },
+    {
+      id: "having", kicker: "Filtrar grupos", title: "HAVING — WHERE, pero para grupos",
+      story: "“Mostrame solo los tipos de blanco donde ya dimos más de dos golpes. El resto no me sirve.” — Selina",
+      concept:
+        "<p>Ya sabés que <code>WHERE</code> filtra filas. Pero, ¿y si querés filtrar <strong>grupos</strong> por su total? Para eso está <span class='kw'>HAVING</span>: es como un WHERE que corre <em>después</em> del GROUP BY, sobre el resultado agregado.</p>" +
+        "<ul><li><code>WHERE</code> → filtra filas <em>antes</em> de agrupar.</li>" +
+        "<li><code>HAVING</code> → filtra grupos <em>después</em> de agrupar (puede usar <code>COUNT</code>, <code>SUM</code>…).</li></ul>",
+      example: "SELECT target_type, COUNT(*) AS cuantos\nFROM heists\nGROUP BY target_type\nHAVING COUNT(*) > 2;",
+      exampleNote: "Solo los tipos de blanco con más de 2 golpes. Cambiá el > 2 por >= 3 para ver la diferencia.",
+      challenge: "Por cada <code>status</code>, contá los golpes y quedate solo con los status que tengan un <code>SUM(take_estimate)</code> mayor a 2000000 (2 millones). Mostrá <code>status</code> y el <code>botin</code>.",
+      hint: "GROUP BY status … HAVING SUM(take_estimate) > 2000000",
+      solution: "SELECT status,\n       SUM(take_estimate) AS botin\nFROM heists\nGROUP BY status\nHAVING SUM(take_estimate) > 2000000;",
+      ordered: false,
+      why: "<b>HAVING</b> filtra sobre lo agregado; <b>WHERE</b> no puede, porque corre antes de que exista la suma. Truco para recordar: W de WHERE viene antes en el alfabeto y antes en la ejecución que H de HAVING."
+    },
+    {
+      id: "join", kicker: "Conectar tablas", title: "JOIN — cruzar dos tablas por su clave",
+      story: "“Cada golpe lo encargó alguien. Quiero ver el golpe Y el nombre del patrón, juntos en una línea.” — Selina",
+      concept:
+        "<p>Hasta ahora leíste una tabla por vez. <span class='kw'>JOIN</span> pega dos tablas usando la columna que comparten. La tabla <code>heists</code> guarda un <code>patron_id</code>; la tabla <code>patrons</code> tiene ese mismo <code>patron_id</code>. El <span class='kw'>ON</span> dice por dónde se enganchan.</p>" +
+        "<p>Como las columnas pueden repetir nombre entre tablas, se les pone un <strong>alias</strong> corto: <code>heists h</code>, <code>patrons p</code>, y después <code>h.codename</code>, <code>p.alias</code>.</p>",
+      example: "SELECT h.codename, p.alias AS patron, h.status\nFROM heists h\nJOIN patrons p ON h.patron_id = p.patron_id;",
+      exampleNote: "Cada golpe pegado con quién lo encargó. El alias (h, p) solo acorta la escritura.",
+      challenge: "Mostrá el <code>codename</code> del golpe y el <code>alias</code> del patrón que lo encargó (nombralo <code>patron</code>), pero solo para los golpes con <code>status = 'active'</code>.",
+      hint: "JOIN patrons p ON h.patron_id = p.patron_id … WHERE h.status = 'active'",
+      solution: "SELECT h.codename, p.alias AS patron\nFROM heists h\nJOIN patrons p ON h.patron_id = p.patron_id\nWHERE h.status = 'active';",
+      ordered: false,
+      why: "<b>JOIN … ON</b> enlaza dos tablas por la columna que tienen en común (acá <code>patron_id</code>). Los alias <code>h</code> y <code>p</code> evitan ambigüedad y escritura de más. Es la operación que convierte tablas sueltas en información."
+    },
+    {
+      id: "join3", kicker: "El golpe completo", title: "JOIN de 3 tablas + GROUP BY",
+      story: "“El dato que de verdad me importa: cuántas horas ‘en los libros’ metió la banda en cada golpe. Eso vive a dos saltos de distancia.” — Selina",
+      concept:
+        "<p>Las horas (<code>shifts</code>) no apuntan directo al golpe: apuntan a un <code>job</code>, y el job apunta al <code>heist</code>. Hay que encadenar dos JOIN: <code>shifts → jobs → heists</code>.</p>" +
+        "<p>Después agrupás por golpe y sumás. <code>on_the_books = 1</code> son las horas oficiales (las que cuentan para el reparto).</p>",
+      example: "SELECT h.codename, SUM(s.hours) AS horas\nFROM shifts s\nJOIN jobs j ON s.job_id = j.job_id\nJOIN heists h ON j.heist_id = h.heist_id\nGROUP BY h.codename\nORDER BY horas DESC;",
+      exampleNote: "Horas totales por golpe. Ahora tu versión filtra solo las oficiales.",
+      challenge: "Igual que el ejemplo, pero contando <strong>solo</strong> las horas con <code>on_the_books = 1</code>. Mostrá <code>codename</code> y total <code>horas</code>, de mayor a menor.",
+      hint: "Agregá WHERE s.on_the_books = 1 antes del GROUP BY",
+      solution: "SELECT h.codename, SUM(s.hours) AS horas\nFROM shifts s\nJOIN jobs j ON s.job_id = j.job_id\nJOIN heists h ON j.heist_id = h.heist_id\nWHERE s.on_the_books = 1\nGROUP BY h.codename\nORDER BY horas DESC;",
+      ordered: true,
+      why: "Encadenás JOINs siguiendo las claves: <code>shifts.job_id → jobs.job_id</code>, <code>jobs.heist_id → heists.heist_id</code>. Este patrón —tabla de hechos a dos saltos de la tabla que te interesa— es el pan de cada día del análisis real. Gana Velvet Claw."
+    },
+    {
+      id: "leftjoin", kicker: "Lo que falta", title: "LEFT JOIN — incluir a los que no tienen nada",
+      story: "“Ojo: hay golpes en planeamiento que todavía no compraron ni un destornillador. No quiero que desaparezcan del reporte.” — Selina",
+      concept:
+        "<p>Un <code>JOIN</code> normal solo devuelve filas que matchean en <em>ambas</em> tablas. Si un golpe no tiene nada de <code>gear</code>, desaparece. <span class='kw'>LEFT JOIN</span> dice: “traé <strong>todo</strong> lo de la izquierda; si no hay match a la derecha, poné <code>NULL</code>”.</p>" +
+        "<p><code>NULL</code> = “no hay dato”. Para contar bien, <code>COUNT(g.gear_id)</code> cuenta solo las piezas reales (ignora los NULL).</p>",
+      example: "SELECT h.codename, COUNT(g.gear_id) AS piezas\nFROM heists h\nLEFT JOIN gear g ON h.heist_id = g.heist_id\nGROUP BY h.codename\nORDER BY piezas DESC;",
+      exampleNote: "Todos los golpes, incluso los de 0 piezas. Con un JOIN normal, los de 0 no aparecerían.",
+      challenge: "Listá los golpes que <strong>no tienen gear comprado</strong>: <code>codename</code> y <code>piezas</code>, pero solo donde <code>piezas</code> sea 0. (Pista: filtrá el resultado del conteo con HAVING.)",
+      hint: "LEFT JOIN … GROUP BY h.codename HAVING COUNT(g.gear_id) = 0",
+      solution: "SELECT h.codename, COUNT(g.gear_id) AS piezas\nFROM heists h\nLEFT JOIN gear g ON h.heist_id = g.heist_id\nGROUP BY h.codename\nHAVING COUNT(g.gear_id) = 0;",
+      ordered: false,
+      why: "<b>LEFT JOIN</b> conserva las filas de la izquierda aunque no haya match. Sin él, Catwalk y Copper Wren (ambos en planeamiento, sin gear) se perderían — justo lo que Selina no quiere. Detectar “lo que falta” es tan importante como contar lo que hay."
+    },
+    {
+      id: "cte", kicker: "El golpe maestro", title: "CTE (WITH) — armar el cálculo por partes",
+      story: "“Dato final, y el más jugoso: ¿cuánto cuesta de verdad cada golpe? La mano de obra más el equipo. Armámelo prolijo.” — Selina",
+      concept:
+        "<p>Cuando un cálculo es grande, lo partís en pasos con nombre usando <span class='kw'>WITH</span>. Cada bloque es una <strong>CTE</strong> (una tabla temporal con nombre) que después usás como si fuera una tabla más.</p>" +
+        "<ul><li><code>labor</code>: horas × tarifa de cada quien, sumado por golpe.</li>" +
+        "<li><code>equipo</code>: el gasto de <code>gear</code> por golpe.</li></ul>" +
+        "<p>Y al final los juntás. <code>COALESCE(x, 0)</code> convierte los <code>NULL</code> en 0, para que un golpe sin gear no rompa la suma.</p>",
+      example:
+        "WITH labor AS (\n  SELECT j.heist_id, SUM(s.hours * c.cut_rate) AS mano_obra\n  FROM shifts s\n  JOIN jobs j ON s.job_id = j.job_id\n  JOIN crew c ON s.crew_id = c.crew_id\n  GROUP BY j.heist_id\n)\nSELECT h.codename, labor.mano_obra\nFROM heists h\nLEFT JOIN labor ON h.heist_id = labor.heist_id\nORDER BY labor.mano_obra DESC;",
+      exampleNote: "Primero solo la mano de obra (horas × tarifa). Tu reto agrega el costo del equipo y el total.",
+      challenge: "Costo total por golpe. Mostrá <code>codename</code>, <code>mano_obra</code>, <code>equipo</code> y <code>total</code> (la suma de ambos), de mayor a menor total. Usá dos CTEs (una de labor, una de gear) y <code>COALESCE(…, 0)</code> para los golpes sin datos.",
+      hint: "Agregá una segunda CTE: equipo AS (SELECT heist_id, SUM(cost) AS equipo FROM gear GROUP BY heist_id), y en el SELECT final COALESCE(labor.mano_obra,0)+COALESCE(e.equipo,0) AS total",
+      solution:
+        "WITH labor AS (\n  SELECT j.heist_id, SUM(s.hours * c.cut_rate) AS mano_obra\n  FROM shifts s\n  JOIN jobs j ON s.job_id = j.job_id\n  JOIN crew c ON s.crew_id = c.crew_id\n  GROUP BY j.heist_id\n),\nequipo AS (\n  SELECT heist_id, SUM(cost) AS equipo\n  FROM gear\n  GROUP BY heist_id\n)\nSELECT h.codename,\n       COALESCE(labor.mano_obra, 0) AS mano_obra,\n       COALESCE(equipo.equipo, 0) AS equipo,\n       COALESCE(labor.mano_obra, 0) + COALESCE(equipo.equipo, 0) AS total\nFROM heists h\nLEFT JOIN labor ON h.heist_id = labor.heist_id\nLEFT JOIN equipo ON h.heist_id = equipo.heist_id\nORDER BY total DESC;",
+      ordered: true,
+      why: "Dos CTEs separadas evitan mezclar <code>shifts</code> y <code>gear</code> en un solo JOIN (eso duplicaría filas e inflaría las sumas). <b>WITH</b> hace el SQL legible: cada paso tiene nombre y se lee de arriba a abajo. Este es el nivel de un analista que ya se defiende solo."
+    },
+    {
+      id: "window", kicker: "Truco de leyenda", title: "RANK() OVER — ranking sin perder las filas",
+      story: "“Última prueba. Dentro de cada especialidad, quiero saber quién manda. El mejor hacker, el mejor acróbata… cada uno en su liga.” — Selina",
+      concept:
+        "<p>Una <strong>window function</strong> calcula algo <em>a través de un grupo</em> pero sin aplastar las filas (a diferencia de GROUP BY). <span class='kw'>RANK() OVER (PARTITION BY … ORDER BY …)</span> numera cada fila dentro de su grupo según un orden.</p>" +
+        "<p><code>PARTITION BY specialty_role</code> = “reiniciá el ranking en cada especialidad”. <code>ORDER BY horas DESC</code> = “el que más horas tiene es el nº 1”.</p>" +
+        "<p>Primero armamos las horas por persona en una CTE; después rankeamos.</p>",
+      example:
+        "WITH t AS (\n  SELECT c.alias, c.specialty_role, SUM(s.hours) AS horas\n  FROM shifts s JOIN crew c ON s.crew_id = c.crew_id\n  WHERE s.on_the_books = 1\n  GROUP BY c.alias, c.specialty_role\n)\nSELECT specialty_role, alias, horas,\n       RANK() OVER (PARTITION BY specialty_role ORDER BY horas DESC) AS puesto\nFROM t\nORDER BY specialty_role, puesto;",
+      exampleNote: "Este ya es el ejercicio completo: corré el ejemplo, entendé qué devuelve, y la respuesta es exactamente esta consulta.",
+      challenge: "Corré el ejemplo y, cuando entiendas qué hace, pegá <strong>la misma consulta</strong> acá y dale a Comprobar. El resultado: por cada especialidad, la crew rankeada por horas oficiales, con su <code>puesto</code> (1 = el que más metió).",
+      hint: "Es la misma consulta del ejemplo de arriba. Copiala tal cual.",
+      solution:
+        "WITH t AS (\n  SELECT c.alias, c.specialty_role, SUM(s.hours) AS horas\n  FROM shifts s JOIN crew c ON s.crew_id = c.crew_id\n  WHERE s.on_the_books = 1\n  GROUP BY c.alias, c.specialty_role\n)\nSELECT specialty_role, alias, horas,\n       RANK() OVER (PARTITION BY specialty_role ORDER BY horas DESC) AS puesto\nFROM t\nORDER BY specialty_role, puesto;",
+      ordered: true,
+      why: "<b>RANK() OVER (PARTITION BY … ORDER BY …)</b> rankea dentro de cada grupo sin colapsar las filas — cada persona sigue siendo una fila, pero gana su puesto. Es el tipo de consulta que, en una entrevista, muestra que pasaste de principiante a alguien que piensa en datos. Selina lidera a los acróbatas."
+    }
+  ];
+
+  // ── estado / progreso ────────────────────────────────────────────────────
+  const LS_KEY = "atraco_gotham_progreso_v1";
+  let done = new Set();
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) done = new Set(JSON.parse(raw));
+  } catch (e) {}
+  document.getElementById("total-ch").textContent = LESSONS.length;
+
+  function saveProgress() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify([...done])); } catch (e) {}
+    document.querySelector("#progress b").textContent = done.size;
+  }
+  document.querySelector("#progress b").textContent = done.size;
+
+  // ── tema ──────────────────────────────────────────────────────────────────
+  const root = document.documentElement;
+  const themeBtn = document.getElementById("theme-btn");
+  try {
+    const saved = localStorage.getItem("atraco_theme");
+    if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+  } catch (e) {}
+  function currentDark() {
+    const attr = root.getAttribute("data-theme");
+    if (attr) return attr === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function paintThemeIcon() {
+    const dark = currentDark();
+    document.getElementById("theme-icon").innerHTML = dark
+      ? '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>'
+      : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+  }
+  paintThemeIcon();
+  themeBtn.addEventListener("click", function () {
+    const dark = currentDark();
+    const next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("atraco_theme", next); } catch (e) {}
+    paintThemeIcon();
+  });
+
+  // ── drawer schema ──────────────────────────────────────────────────────────
+  const drawer = document.getElementById("drawer");
+  const drawerBg = document.getElementById("drawer-bg");
+  function openDrawer() { drawer.classList.add("open"); drawerBg.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); }
+  function closeDrawer() { drawer.classList.remove("open"); drawerBg.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); }
+  document.getElementById("schema-fab").addEventListener("click", openDrawer);
+  document.getElementById("drawer-close").addEventListener("click", closeDrawer);
+  drawerBg.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDrawer(); });
+
+  // ── utilidades de resultado ────────────────────────────────────────────────
+  function normCell(v) {
+    if (v === null || v === undefined) return "∅";
+    if (typeof v === "number") { return (Math.round(v * 100) / 100).toString(); }
+    return String(v);
+  }
+  function fmtCell(v) {
+    if (v === null || v === undefined) return '<em style="opacity:.5">NULL</em>';
+    if (typeof v === "number") {
+      const r = Math.round(v * 100) / 100;
+      return Number.isInteger(r) ? r.toLocaleString("es") : r.toLocaleString("es", { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+    }
+    return String(v).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; });
+  }
+  function isNumCol(res, i) {
+    return res.values.some(function (r) { return typeof r[i] === "number"; });
+  }
+  function renderGrid(res, maxRows) {
+    if (!res || !res.columns) return "";
+    const cap = maxRows || 200;
+    const nums = res.columns.map(function (_, i) { return isNumCol(res, i); });
+    let html = '<div class="grid-scroll"><table class="rs"><thead><tr>';
+    res.columns.forEach(function (c) { html += "<th>" + c + "</th>"; });
+    html += "</tr></thead><tbody>";
+    res.values.slice(0, cap).forEach(function (row) {
+      html += "<tr>";
+      row.forEach(function (cell, i) { html += '<td class="' + (nums[i] ? "num" : "") + '">' + fmtCell(cell) + "</td>"; });
+      html += "</tr>";
+    });
+    html += "</tbody></table></div>";
+    if (res.values.length > cap) html += '<div class="result-status info">… ' + (res.values.length - cap) + " filas más (recortado)</div>";
+    return html;
+  }
+  function gridKey(res, ordered) {
+    if (!res || !res.columns) return "∅vacío";
+    const rows = res.values.map(function (r) { return r.map(normCell).join("\u0001"); });
+    const body = ordered ? rows : rows.slice().sort();
+    return res.columns.length + "§" + rows.length + "§" + body.join("\u0002");
+  }
+
+  // ── motor SQL ────────────────────────────────────────────────────────────
+  let db = null;
+  function execOne(sql) {
+    // devuelve el ÚLTIMO result-set con columnas, o null si no hubo SELECT
+    const out = db.exec(sql);
+    if (!out || !out.length) return null;
+    for (let i = out.length - 1; i >= 0; i--) { if (out[i].columns && out[i].columns.length) return out[i]; }
+    return null;
+  }
+
+  // ── componente consola ─────────────────────────────────────────────────────
+  function makeConsole(opts) {
+    // opts: { label, value, solution, ordered, lessonId, check }
+    const wrap = document.createElement("div");
+    wrap.className = "console";
+    wrap.innerHTML =
+      '<div class="console-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>' +
+      '<span class="label">' + (opts.label || "sqlite › gotham.db") + "</span></div>" +
+      '<div class="editor-wrap"><textarea class="editor" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea></div>' +
+      '<div class="console-actions">' +
+        '<button class="run-btn" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>Correr</button>' +
+        (opts.check ? '<button class="mini-btn btn-check" type="button">Comprobar</button><button class="mini-btn btn-reveal" type="button">Ver solución</button>' : "") +
+        '<span class="hint-txt"><kbd>Ctrl</kbd>+<kbd>Enter</kbd> corre</span>' +
+      "</div>" +
+      '<div class="result" hidden></div>' +
+      (opts.check ? '<div class="reveal-box" hidden></div>' : "");
+
+    const ta = wrap.querySelector(".editor");
+    ta.value = opts.value || "";
+    const resultEl = wrap.querySelector(".result");
+    const runBtn = wrap.querySelector(".run-btn");
+
+    function showResult(html) { resultEl.innerHTML = html; resultEl.hidden = false; }
+
+    function run() {
+      if (!db) { showResult('<div class="result-status info">El motor todavía está cargando… probá en un segundo.</div>'); return; }
+      const sql = ta.value.trim();
+      if (!sql) { showResult('<div class="result-status info">Escribí una consulta y dale a Correr.</div>'); return null; }
+      try {
+        const res = execOne(sql);
+        if (!res) { showResult('<div class="result-status ok">✔ Ejecutado. (Sin filas para mostrar.)</div>'); return null; }
+        showResult('<div class="result-status ok">✔ ' + res.values.length + " fila(s)</div>" + renderGrid(res));
+        return res;
+      } catch (e) {
+        showResult('<div class="result-status err">✖ SQLite dice: ' + String(e.message || e).replace(/[<>]/g, "") + "</div>");
+        return null;
+      }
+    }
+    runBtn.addEventListener("click", run);
+    ta.addEventListener("keydown", function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); if (opts.check) check(); else run(); }
+    });
+
+    function check() {
+      if (!db) return;
+      const sql = ta.value.trim();
+      if (!sql) { showResult('<div class="result-status info">Escribí tu consulta primero.</div>'); return; }
+      let userRes, solRes;
+      try { userRes = execOne(sql); }
+      catch (e) { showResult('<div class="result-status err">✖ Tu consulta tiene un error. SQLite dice: ' + String(e.message || e).replace(/[<>]/g, "") + "</div>"); return; }
+      try { solRes = execOne(opts.solution); } catch (e) { solRes = null; }
+      const match = gridKey(userRes, opts.ordered) === gridKey(solRes, opts.ordered);
+      if (match) {
+        showResult('<div class="result-status ok"><span class="badge match">✔ Golpe limpio</span> Tu resultado coincide con el esperado.</div>' + renderGrid(userRes));
+        markDone(opts.lessonId);
+      } else {
+        let html = '<div class="result-status err"><span class="badge nomatch">✖ Todavía no</span> Tu resultado no coincide con el esperado. Compará las dos tablas:</div>';
+        html += '<div class="expected-wrap"><div class="cap">Tu resultado</div>' + (userRes ? renderGrid(userRes) : '<div class="result-status info">— sin filas —</div>') + "</div>";
+        html += '<div class="expected-wrap"><div class="cap">Resultado esperado</div>' + renderGrid(solRes) + "</div>";
+        showResult(html);
+      }
+    }
+    if (opts.check) {
+      wrap.querySelector(".btn-check").addEventListener("click", check);
+      const revealBox = wrap.querySelector(".reveal-box");
+      wrap.querySelector(".btn-reveal").addEventListener("click", function () {
+        if (!revealBox.hidden) { revealBox.hidden = true; return; }
+        revealBox.innerHTML =
+          '<pre><code>' + opts.solution.replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }) + "</code></pre>" +
+          '<div class="why"><b>Por qué funciona.</b> ' + opts.why + "</div>" +
+          '<div class="console-actions" style="padding-left:0;padding-right:0;background:transparent;border:0"><button class="mini-btn btn-fill" type="button">Copiar al editor</button></div>';
+        revealBox.hidden = false;
+        revealBox.querySelector(".btn-fill").addEventListener("click", function () { ta.value = opts.solution; ta.focus(); });
+      });
+    }
+    return { wrap: wrap, run: run };
+  }
+
+  function markDone(id) {
+    if (done.has(id)) return;
+    done.add(id);
+    saveProgress();
+    const h = document.getElementById("cap-" + id + "-title");
+    if (h && !h.querySelector(".done")) {
+      const s = document.createElement("span");
+      s.className = "done"; s.textContent = "✔"; s.title = "Resuelto";
+      h.appendChild(s);
+    }
+  }
+
+  // ── render de lecciones ────────────────────────────────────────────────────
+  const host = document.getElementById("lessons");
+  LESSONS.forEach(function (L, idx) {
+    const sec = document.createElement("section");
+    sec.className = "lesson";
+    sec.id = "cap-" + (idx + 1);
+
+    const head = document.createElement("div");
+    head.innerHTML =
+      '<div class="ch-head"><span class="ch-num">' + String(idx + 1).padStart(2, "0") + '</span>' +
+      '<span class="ch-kicker">' + L.kicker + "</span></div>" +
+      '<h2 id="cap-' + L.id + '-title">' + L.title + "</h2>" +
+      '<p class="story">' + L.story + "</p>" +
+      '<div class="prose">' + L.concept + "</div>";
+    sec.appendChild(head);
+
+    const exLabel = document.createElement("p");
+    exLabel.className = "prose";
+    exLabel.innerHTML = "<strong>Ejemplo —</strong> " + L.exampleNote;
+    sec.appendChild(exLabel);
+
+    const exConsole = makeConsole({ label: "ejemplo › gotham.db", value: L.example, check: false });
+    sec.appendChild(exConsole.wrap);
+
+    const chLabel = document.createElement("div");
+    chLabel.className = "note";
+    chLabel.innerHTML = "<h3>Tu turno</h3><p>" + L.challenge + "</p>";
+    sec.appendChild(chLabel);
+
+    const chConsole = makeConsole({
+      label: "tu-consulta › gotham.db",
+      value: "", solution: L.solution, ordered: L.ordered, lessonId: L.id, check: true
+    });
+    sec.appendChild(chConsole.wrap);
+
+    host.appendChild(sec);
+
+    if (done.has(L.id)) {
+      const h = document.getElementById("cap-" + L.id + "-title");
+      const s = document.createElement("span"); s.className = "done"; s.textContent = "✔"; h.appendChild(s);
+    }
+  });
+
+  // consola libre al final
+  const freeHost = document.getElementById("consola-libre");
+  const free = makeConsole({ label: "libre › gotham.db", value: "SELECT *\nFROM heists\nORDER BY take_estimate DESC;", check: false });
+  freeHost.appendChild(free.wrap);
+
+  // ── arranque del motor ─────────────────────────────────────────────────────
+  const boot = document.getElementById("boot");
+  function fail(msg) {
+    boot.innerHTML = '<div class="mono" style="color:var(--bad);max-width:40ch">No se pudo cargar el motor SQLite.<br>' + msg + '<br><br>Probá recargar la página.</div>';
+  }
+  if (typeof initSqlJs !== "function") {
+    fail("No cargó la librería sql.js (¿bloqueó la red el CDN?).");
+    return;
+  }
+  initSqlJs({ locateFile: function (f) { return f; } })
+    .then(function (SQL) {
+      return fetch("catwoman_seed.sql").then(function (r) {
+        if (!r.ok) throw new Error("seed HTTP " + r.status);
+        return r.text();
+      }).then(function (seed) {
+        db = new SQL.Database();
+        db.run(seed);
+        boot.hidden = true;
+        // correr los dos primeros ejemplos para que la página abra "con vida"
+        try { document.querySelectorAll(".lesson")[0].querySelector(".run-btn").click(); } catch (e) {}
+      });
+    })
+    .catch(function (e) { fail(String(e.message || e)); });
+})();
+</script>
+</body>
+</html>
