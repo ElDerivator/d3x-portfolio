@@ -17,6 +17,13 @@
   a.btn:hover { filter:brightness(1.07); }
   code { background:rgba(127,127,127,.14); padding:2px 6px; border-radius:6px; font-size:13px; }
   .meta { margin-top:16px; font-size:12px; color:var(--mut); }
+  .sep { margin:22px 0 14px; border:0; border-top:1px solid var(--bd); }
+  h2 { font-size:14px; margin:0 0 10px; }
+  a.doc { display:flex; justify-content:space-between; align-items:center; gap:12px;
+    text-decoration:none; color:var(--fg); background:rgba(127,127,127,.08);
+    border:1px solid var(--bd); border-radius:9px; padding:11px 14px; margin-bottom:8px; font-size:14px; }
+  a.doc:hover { border-color:var(--pri); filter:brightness(1.03); }
+  a.doc .sz { color:var(--mut); font-size:12px; white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -25,6 +32,11 @@
     <p>Descarga del <code>.msapp</code> para importar en Power Apps (<em>Import canvas app</em>).</p>
     <a class="btn" href="./Colo2B_v15_12_r48.msapp" download>⬇ Descargar build r48 — PRODUCCIÓN (.msapp)</a>
     <div class="meta">Archivo: <code>Colo2B_v15_12_r48.msapp</code> · ~485 KB. <strong>Build de producción.</strong> Encadenamiento completo + Energizar/Liberar en el popup (gated a calidad) + AWP auto por GC + retrasos en Plan del Día y Gantt + fotos (16 col). <strong>ANTES de importar:</strong> provisionar <code>OD_Phases.Proyecto</code> + <code>OD_Lines.Gc</code> y las 12 <code>EvidenceB64_5…_16</code>, <strong>Data row limit = 2000</strong>, y <strong>refrescar</strong> los orígenes en Studio.</div>
+    <hr class="sep">
+    <h2>Documentación de producción</h2>
+    <a class="doc" href="./docs/Handoff_Colo2B.docx" download><span>📘 Handoff técnico (.docx)</span><span class="sz">19 KB</span></a>
+    <a class="doc" href="./docs/Manual_Uso_Colo2B.docx" download><span>📗 Manual de uso / capacitación (.docx)</span><span class="sz">23 KB</span></a>
+    <a class="doc" href="./docs/Changelog_Colo2B.xlsx" download><span>📙 Changelog — 51 versiones (.xlsx)</span><span class="sz">13 KB</span></a>
   </div>
 </body>
 </html>
