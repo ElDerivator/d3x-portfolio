@@ -23,8 +23,8 @@
   <div class="card">
     <h1>Paquete de aplicación</h1>
     <p>Descarga del <code>.msapp</code> para importar en Power Apps (<em>Import canvas app</em>).</p>
-    <a class="btn" href="./Colo2B_v15_12_r43.msapp" download>⬇ Descargar build r43 (.msapp)</a>
-    <div class="meta">Archivo: <code>Colo2B_v15_12_r43.msapp</code> · ~484 KB. <strong>Build de diagnóstico de foto</strong> (incluye el fix de cámara r42). Al tomar una foto, el texto bajo "Agregar foto" muestra <code>len</code>+prefijo del base64; al reportar sale un aviso de 60 s <code>DIAG FOTO → … | guardadoSP=…</code>. Para que la evidencia guarde, las 4 columnas <code>EvidenceB64</code>/<code>_2</code>/<code>_3</code>/<code>_4</code> deben ser <strong>Plain text</strong> + <strong>Append = No</strong>, y <strong>refrescar</strong> el origen <code>OD_ProgressSubmissions</code> en Studio.</div>
+    <a class="btn" href="./Colo2B_v15_12_r44.msapp" download>⬇ Descargar build r44 (.msapp)</a>
+    <div class="meta">Archivo: <code>Colo2B_v15_12_r44.msapp</code> · ~484 KB. <strong>Build que guarda la foto</strong> (PNG de cámara ~682k → 16 columnas, tope 960k) + visor encima del pop-up. <strong>ANTES de probar:</strong> provisionar 12 columnas <code>EvidenceB64_5…_16</code> (Multiple lines of text, <strong>Plain text</strong>, Append=No) en <code>OD_ProgressSubmissions</code> y <strong>refrescar</strong> el origen en Studio. Sigue activo el diagnóstico: el aviso debe pasar de <code>guardadoSP=0</code> a <code>≈682k</code>.</div>
   </div>
 </body>
 </html>
