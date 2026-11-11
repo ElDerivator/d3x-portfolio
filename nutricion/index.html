@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Nutrición 3B — plan de recomposición bueno, bonito, barato y saludable, basado en evidencia.">
+<meta name="theme-color" content="#0a8f8a">
+<title>D3X · Nutrición 3B</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23121418'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial' font-size='20' font-weight='800' fill='%230a8f8a'%3ED3X%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  (function(){try{var t=localStorage.getItem("d3x-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){}})();
+</script>
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#121418; --muted:#66717d; --line:#d7e3e0; --paper:#eef5f2; --panel:#ffffff; --panel-2:#f3f8f6;
+    --teal:#0a8f8a; --green:#26a269; --blue:#2f5f8f; --red:#a84f49; --gold:#b9832f; --violet:#596173;
+    --shadow:0 14px 34px rgba(22,27,34,.075); --soft:0 4px 14px rgba(22,27,34,.05);
+    --mono:'JetBrains Mono',ui-monospace,monospace; --sans:Inter,system-ui,Arial,sans-serif;
+    --grid:rgba(10,143,138,.045);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --ink:#e6edf0; --muted:#8a97a0; --line:#263238; --paper:#0d1316; --panel:#141c20; --panel-2:#101619;
+    --teal:#1bbbb2; --green:#3fb27a; --blue:#5b8fc7; --red:#d57b74; --gold:#d6a24a; --violet:#8089a0;
+    --shadow:0 14px 34px rgba(0,0,0,.45); --soft:0 4px 14px rgba(0,0,0,.35);
+    --grid:rgba(27,187,178,.06);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ink:#e6edf0; --muted:#8a97a0; --line:#263238; --paper:#0d1316; --panel:#141c20; --panel-2:#101619;
+    --teal:#1bbbb2; --green:#3fb27a; --blue:#5b8fc7; --red:#d57b74; --gold:#d6a24a; --violet:#8089a0;
+    --shadow:0 14px 34px rgba(0,0,0,.45); --soft:0 4px 14px rgba(0,0,0,.35);
+    --grid:rgba(27,187,178,.06);
+  }}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);color:var(--ink);line-height:1.6;
+    background:linear-gradient(90deg,var(--grid) 1px,transparent 1px),linear-gradient(180deg,var(--grid) 1px,transparent 1px),var(--paper);
+    background-size:34px 34px;}
+  a{color:var(--teal)}
+  .wrap{max-width:1060px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+  h1,h2,h3{line-height:1.12;text-wrap:balance}
+  .mono{font-family:var(--mono)}
+
+  .bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;align-items:center;gap:14px;height:58px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800}
+  .brand b{font-family:var(--mono);background:var(--ink);color:var(--paper);padding:3px 7px;border-radius:6px;font-size:.85rem;letter-spacing:.02em}
+  .brand span{font-size:.82rem;color:var(--muted);font-weight:600}
+  .bar nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+  .bar nav a{font-family:var(--mono);font-size:.78rem;font-weight:600;text-decoration:none;color:var(--muted);padding:7px 10px;border-radius:7px}
+  .bar nav a.on{color:var(--teal);background:var(--panel-2)}
+  .bar nav a:hover{color:var(--ink)}
+  .tgl{font-family:var(--mono);font-size:.72rem;font-weight:700;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:7px 9px}
+
+  header.hero{padding:52px 0 30px}
+  .ey{font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;font-size:.72rem;font-weight:700;color:var(--teal)}
+  header.hero h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:800;margin:.35em 0 .25em;letter-spacing:-.02em}
+  header.hero .thesis{font-size:clamp(1.05rem,2.4vw,1.3rem);color:var(--muted);max-width:66ch;margin:0}
+  header.hero .thesis b{color:var(--ink)}
+  .b3{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+  .b3 span{font-family:var(--mono);font-size:.78rem;font-weight:700;padding:.4em .8em;border-radius:999px;background:var(--panel);border:1px solid color-mix(in srgb,var(--teal) 38%,transparent);color:var(--teal);box-shadow:var(--soft)}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--soft);min-width:130px}
+  .stat .v{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--teal)}
+  .stat .k{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700}
+  section h2{font-size:clamp(1.4rem,3.6vw,2rem);font-weight:800;margin:.2em 0 .1em;letter-spacing:-.01em}
+  .lede{color:var(--muted);max-width:72ch;margin:.3em 0 1.3em}
+
+  .ev{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.03em;padding:.12em .42em;border-radius:4px;white-space:nowrap;vertical-align:middle;border:1px solid transparent}
+  .ev.f{background:rgba(38,162,105,.14);color:var(--green);border-color:rgba(38,162,105,.3)}
+  .ev.m{background:rgba(47,95,143,.14);color:var(--blue);border-color:rgba(47,95,143,.3)}
+  .ev.d{background:rgba(185,131,47,.16);color:var(--gold);border-color:rgba(185,131,47,.32)}
+  .ev.i{background:rgba(89,97,115,.14);color:var(--violet);border-color:rgba(89,97,115,.3)}
+
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;box-shadow:var(--soft)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem;background:var(--panel)}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--panel-2);font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700}
+  tbody tr:last-child td{border-bottom:none}
+  td .ph{font-family:var(--mono);font-weight:700;color:var(--teal);white-space:nowrap}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .big{font-family:var(--mono);font-weight:700;color:var(--teal)}
+
+  .cards{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--soft);min-width:0}
+  .card h3{margin:0 0 .5em;font-size:1.08rem}
+  .card ul{margin:.3em 0 0;padding-left:1.1em}
+  .card li{margin:.32em 0}
+
+  .call{border-radius:14px;padding:18px 20px;border:1px solid}
+  .call.teal{background:color-mix(in srgb,var(--teal) 9%,var(--panel));border-color:color-mix(in srgb,var(--teal) 34%,transparent);border-left-width:4px}
+  .call.gold{background:color-mix(in srgb,var(--gold) 12%,var(--panel));border-color:color-mix(in srgb,var(--gold) 40%,transparent);border-left-width:4px}
+  .call h3{margin:0 0 .4em;font-size:1.05rem}
+  .call ul{margin:0;padding-left:1.15em}.call li{margin:.34em 0}
+
+  .rank{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:.82rem;margin:.4em 0 0}
+  .rank .chip{padding:.35em .7em;border-radius:8px;background:var(--panel);border:1px solid var(--line);font-weight:600}
+  .rank .chip.cheap{border-color:color-mix(in srgb,var(--green) 45%,transparent);color:var(--green)}
+  .rank .chip.mid{border-color:color-mix(in srgb,var(--gold) 45%,transparent);color:var(--gold)}
+  .rank .chip.exp{border-color:color-mix(in srgb,var(--red) 45%,transparent);color:var(--red)}
+  .rank .arw{color:var(--muted);font-weight:700}
+
+  .hier{counter-reset:h;display:grid;gap:8px;margin:.4em 0 0}
+  .hier .it{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+  .hier .it::before{counter-increment:h;content:counter(h);font-family:var(--mono);font-weight:700;color:var(--paper);background:var(--teal);min-width:24px;height:24px;display:grid;place-items:center;border-radius:6px;font-size:.8rem}
+  .hier .it p{margin:0;font-size:.92rem}.hier .it p b{color:var(--ink)}
+  .hier .it.mut::before{background:var(--muted)}
+
+  .note{font-size:.84rem;color:var(--muted);margin-top:1em}
+  footer.pg{padding:34px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+  footer.pg .src{display:flex;flex-wrap:wrap;gap:8px 16px;margin:.8em 0}
+  footer.pg .src a{font-family:var(--mono);font-size:.76rem}
+  @media(max-width:560px){.bar .brand span{display:none}}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <a class="brand" href="/"><b>D3X</b><span>Data · Automation · Operations</span></a>
+  <nav>
+    <a href="/guerra/">Guerra</a>
+    <a href="/nutricion/" class="on">Nutrición</a>
+    <button class="tgl" id="tgl" type="button" aria-label="Cambiar tema">◐ tema</button>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="ey">Recomposición · 1.83 m / ~87 kg</div>
+  <h1>Nutrición 3B</h1>
+  <p class="thesis">No necesitas pasar hambre ni comer caro para recomponer. Estás en el <b>escenario ideal</b> —desentrenado, de vuelta— para <b>bajar grasa y recuperar músculo a la vez</b>. Comida barata mexicana cubre todo; solo tres suplementos valen el dinero.</p>
+  <div class="b3"><span>✓ Bueno</span><span>✓ Bonito</span><span>✓ Barato</span><span>✓ Saludable</span></div>
+  <div class="stats">
+    <div class="stat"><div class="v">2,500–2,800</div><div class="k">kcal / día</div></div>
+    <div class="stat"><div class="v">180 g</div><div class="k">proteína / día</div></div>
+    <div class="stat"><div class="v">~0.5 kg</div><div class="k">pérdida / semana</div></div>
+    <div class="stat"><div class="v">4</div><div class="k">comidas / día</div></div>
+  </div>
+</div></header>
+
+<section id="macros"><div class="wrap">
+  <div class="kicker">El objetivo diario</div>
+  <h2>Déficit modesto, proteína alta</h2>
+  <p class="lede">Mantenimiento estimado ~2,900-3,225 kcal (Mifflin-St Jeor + actividad). Objetivo <b>~2,500-2,800 kcal</b> → ~0.5-0.65 kg/sem, zona segura. La jerarquía: fija <b>proteína</b>, pon un <b>piso de grasa</b>, rellena con <b>carbos</b> alrededor del entreno. <span class="ev f">FUERTE</span> en proteína · <span class="ev i">INFERENCIA</span> en kcal (dependen de tu edad y % grasa).</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Macro</th><th>Objetivo</th><th>g/kg</th><th>kcal</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ph">Proteína</span></td><td class="big">180 g <span style="color:var(--muted);font-weight:400">(160-190)</span></td><td class="num">~2.1</td><td class="num">720</td><td>En 4 tomas de ~40-45 g. El total diario es lo que manda; el "timing" fino importa poco.</td></tr>
+        <tr><td><span class="ph">Grasa</span></td><td class="big">70 g <span style="color:var(--muted);font-weight:400">(piso ~45)</span></td><td class="num">~0.8</td><td class="num">630</td><td>Piso por hormonas, saciedad y vitaminas liposolubles. No subir testosterona — solo evitar que caiga.</td></tr>
+        <tr><td><span class="ph">Carbos</span></td><td class="big">~290 g <span style="color:var(--muted);font-weight:400">(320 si comes 2,700)</span></td><td class="num">~3.3</td><td class="num">1,160</td><td>El combustible del grappling. La mayoría cerca de la fuerza y el tatami.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call teal" style="margin-top:14px">
+    <h3>No persigas la báscula</h3>
+    <p style="margin:.2em 0 0">Mide cintura, fotos, fuerza y rendimiento; calibra cada 2-3 semanas. Si no baja grasa → recorta 150-200 kcal. Si el sueño o el entreno se desploman → sube. Ritmo &gt;1%/sem varias semanas seguidas = <b>sube calorías</b> (pierdes músculo).</p>
+  </div>
+</div></section>
+
+<section id="comidas"><div class="wrap">
+  <div class="kicker">3B en la práctica · México</div>
+  <h2>Un día barato, repetible y nutritivo</h2>
+  <p class="lede">La comida sosa no es problema para ti, así que <b>repetir las mismas 3-4 comidas sin culpa es la estrategia ganadora</b>. Combinar leguminosa + cereal (frijol + tortilla/arroz) completa el perfil de aminoácidos. <span class="ev f">bioquímica establecida</span></p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Comida</th><th>Ejemplo</th><th>Proteína aprox.</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ph">Desayuno</span></td><td>3-4 huevos + 80 g avena seca + 1 taza leche</td><td class="num">~40 g + carbos</td></tr>
+        <tr><td><span class="ph">Comida</span><br><span style="font-size:.74rem;color:var(--muted)">post-fuerza</span></td><td>150-200 g muslo/pechuga de pollo + 1 taza arroz + 1 taza frijol + verdura</td><td class="num">~45-50 g</td></tr>
+        <tr><td><span class="ph">Pre/post-tatami</span><br><span style="font-size:.74rem;color:var(--muted)">portátil</span></td><td>2 latas de atún en agua + 3-4 tortillas + salsa</td><td class="num">~40-45 g</td></tr>
+        <tr><td><span class="ph">Cena</span></td><td>huevo o frijol/lenteja + tortilla + 1 taza leche (o sobras del lote)</td><td class="num">~35-40 g</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cards g2" style="margin-top:14px">
+    <div class="card">
+      <h3>Meal-prep en lote</h3>
+      <ul>
+        <li>Cocina 1-2 kg de pollo + una olla de frijol/lenteja + arroz (rinde 2-3 días)</li>
+        <li>Hierve una docena de huevos</li>
+        <li>Estira proteína barata moliendo <b>soya texturizada</b> en los guisos</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Ranking costo por gramo de proteína</h3>
+      <div class="rank">
+        <span class="chip cheap">leguminosas + soya texturizada</span><span class="arw">→</span>
+        <span class="chip mid">huevo · muslo pollo · atún</span><span class="arw">→</span>
+        <span class="chip mid">pechuga · leche</span><span class="arw">→</span>
+        <span class="chip exp">whey</span>
+      </div>
+      <p class="note" style="margin-top:.8em">La <b>soya texturizada (TVP)</b> es la proteína más barata por peso (~50 g/100 g seco). El <b>whey no supera a la comida real</b> — es solo comodín de conveniencia.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="suplementos"><div class="wrap">
+  <div class="kicker">Hidratación + lo que vale el dinero</div>
+  <h2>Tres suplementos, no más</h2>
+  <p class="lede">Entrena euhidratado y no pierdas más del <b>2% del peso (~1.7 kg)</b> en agua por sesión; la orina clara-pálida es tu semáforo. Para rolls largos y calurosos, <b>agua con una pizca de sal + algo de carbo</b> le gana a las bebidas de marca.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Suplemento</th><th>Dosis</th><th>Veredicto</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ph">Creatina</span><br><span style="font-size:.74rem;color:var(--muted)">monohidrato</span></td><td class="num">3-5 g/día</td><td>Lo más costo-efectivo; seguridad "indiscutible". Satura en ~3-4 sem, la carga es opcional. <span class="ev f">FUERTE</span></td></tr>
+        <tr><td><span class="ph">Cafeína</span></td><td class="num">3-6 mg/kg (~260-520 mg), 60 min antes</td><td>Café simple sirve. ≥9 mg/kg solo añade efectos adversos. <span class="ev f">FUERTE</span></td></tr>
+        <tr><td><span class="ph">Vitamina D</span></td><td class="num">1,000 IU/día</td><td><b>Solo si</b> un análisis muestra déficit (&gt;50% de atletas insuficientes). <span class="ev m">MODERADA</span></td></tr>
+        <tr><td><span class="ph">Whey</span></td><td>comodín</td><td>Solo si una toma sólida no es práctica. No mágico. <span class="ev f">FUERTE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call gold" style="margin-top:14px">
+    <h3>Tira el dinero si compras</h3>
+    <p style="margin:.2em 0 0">Quemadores de grasa, <i>test boosters</i>, BCAA/EAA sueltos (redundantes si ya llegas a ~180 g proteína), glutamina, cetonas. Beta-alanina y bicarbonato son "nice to have" para rounds, pero secundarios mientras arreglas lo básico.</p>
+  </div>
+</div></section>
+
+<section id="jerarquia"><div class="wrap">
+  <div class="kicker">Si solo recuerdas una cosa</div>
+  <h2>Jerarquía de impacto</h2>
+  <p class="lede">Deja de optimizar lo que no mueve la aguja. Protege obsesivamente lo de arriba; lo de abajo es ruido.</p>
+  <div class="hier">
+    <div class="it"><p><b>Acertar calorías + proteína.</b> Lo demás no importa si esto falla.</p></div>
+    <div class="it"><p><b>Fuerza progresiva.</b> El estímulo que convierte el déficit en recomposición.</p></div>
+    <div class="it"><p><b>Sueño ≥8 h.</b> Recuperación y menos lesión.</p></div>
+    <div class="it"><p><b>Proteína en 4 tomas + carbos cerca del entreno.</b></p></div>
+    <div class="it"><p><b>Creatina + cafeína.</b> Los únicos suplementos costo-efectivos.</p></div>
+    <div class="it mut"><p>Todo lo demás (timing fino, BCAA, foam rolling como "cura") es ruido.</p></div>
+  </div>
+</div></section>
+
+<footer class="pg"><div class="wrap">
+  <p><b style="color:var(--ink)">Aviso de vacíos (léelo antes de tomarte las kcal como ley):</b> no se usó tu <b>edad</b> real (placeholder de 30 años; el BMR cambia ~±50 kcal por década) ni tu <b>% de grasa</b> — por eso los objetivos van en rango. Los <b>precios en pesos MXN</b> no salen de una fuente citable: el ranking de costo traslada a México, pero los valores exactos confírmalos en tu súper. No se inventaron precios.</p>
+  <p class="note">Basado en investigación con fuentes citadas. Fuentes clave:</p>
+  <div class="src">
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11894756/" target="_blank" rel="noopener">ISSN deportes de combate 2025</a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener">Morton 2018 · proteína</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4033492" target="_blank" rel="noopener">Helms 2014 · déficit</a>
+    <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z" target="_blank" rel="noopener">ISSN creatina 2017</a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/26024494/" target="_blank" rel="noopener">Schoenfeld 2015 · frecuencia</a>
+  </div>
+  <p class="note">No es consejo nutricional médico. → <a href="/guerra/">Ver Protocolo Guerra (entrenamiento, movilidad, recuperación)</a></p>
+</div></footer>
+
+<script>
+  (function(){
+    var b=document.getElementById('tgl');
+    function cur(){return document.documentElement.dataset.theme||'light'}
+    b.addEventListener('click',function(){
+      var n=cur()==='dark'?'light':'dark';
+      document.documentElement.dataset.theme=n;
+      try{localStorage.setItem('d3x-theme',n)}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>

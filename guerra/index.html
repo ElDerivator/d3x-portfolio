@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Protocolo Guerra — plan de reconstrucción física basado en evidencia para volver a BJJ/MMA sin lesionarte.">
+<meta name="theme-color" content="#0a8f8a">
+<title>D3X · Protocolo Guerra</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23121418'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial' font-size='20' font-weight='800' fill='%230a8f8a'%3ED3X%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  (function(){try{var t=localStorage.getItem("d3x-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";document.documentElement.dataset.theme=t;}catch(e){}})();
+</script>
+<style>
+  :root{
+    color-scheme:light;
+    --ink:#121418; --muted:#66717d; --line:#d7e3e0; --paper:#eef5f2; --panel:#ffffff; --panel-2:#f3f8f6;
+    --teal:#0a8f8a; --green:#26a269; --blue:#2f5f8f; --red:#a84f49; --gold:#b9832f; --violet:#596173;
+    --shadow:0 14px 34px rgba(22,27,34,.075); --soft:0 4px 14px rgba(22,27,34,.05);
+    --mono:'JetBrains Mono',ui-monospace,monospace; --sans:Inter,system-ui,Arial,sans-serif;
+    --grid:rgba(10,143,138,.045);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --ink:#e6edf0; --muted:#8a97a0; --line:#263238; --paper:#0d1316; --panel:#141c20; --panel-2:#101619;
+    --teal:#1bbbb2; --green:#3fb27a; --blue:#5b8fc7; --red:#d57b74; --gold:#d6a24a; --violet:#8089a0;
+    --shadow:0 14px 34px rgba(0,0,0,.45); --soft:0 4px 14px rgba(0,0,0,.35);
+    --grid:rgba(27,187,178,.06);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ink:#e6edf0; --muted:#8a97a0; --line:#263238; --paper:#0d1316; --panel:#141c20; --panel-2:#101619;
+    --teal:#1bbbb2; --green:#3fb27a; --blue:#5b8fc7; --red:#d57b74; --gold:#d6a24a; --violet:#8089a0;
+    --shadow:0 14px 34px rgba(0,0,0,.45); --soft:0 4px 14px rgba(0,0,0,.35);
+    --grid:rgba(27,187,178,.06);
+  }}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);color:var(--ink);line-height:1.6;
+    background:linear-gradient(90deg,var(--grid) 1px,transparent 1px),linear-gradient(180deg,var(--grid) 1px,transparent 1px),var(--paper);
+    background-size:34px 34px;}
+  a{color:var(--teal)}
+  .wrap{max-width:1060px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+  h1,h2,h3{line-height:1.12;text-wrap:balance}
+  .mono{font-family:var(--mono)}
+
+  /* top bar */
+  .bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;align-items:center;gap:14px;height:58px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800}
+  .brand b{font-family:var(--mono);background:var(--ink);color:var(--paper);padding:3px 7px;border-radius:6px;font-size:.85rem;letter-spacing:.02em}
+  .brand span{font-size:.82rem;color:var(--muted);font-weight:600}
+  .bar nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+  .bar nav a{font-family:var(--mono);font-size:.78rem;font-weight:600;text-decoration:none;color:var(--muted);padding:7px 10px;border-radius:7px}
+  .bar nav a.on{color:var(--teal);background:var(--panel-2)}
+  .bar nav a:hover{color:var(--ink)}
+  .tgl{font-family:var(--mono);font-size:.72rem;font-weight:700;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:7px 9px}
+
+  /* hero */
+  header.hero{padding:52px 0 30px}
+  .ey{font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;font-size:.72rem;font-weight:700;color:var(--teal)}
+  header.hero h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:800;margin:.35em 0 .25em;letter-spacing:-.02em}
+  header.hero .thesis{font-size:clamp(1.05rem,2.4vw,1.3rem);color:var(--muted);max-width:66ch;margin:0}
+  header.hero .thesis b{color:var(--ink)}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--soft);min-width:120px}
+  .stat .v{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--teal)}
+  .stat .k{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700}
+  section h2{font-size:clamp(1.4rem,3.6vw,2rem);font-weight:800;margin:.2em 0 .1em;letter-spacing:-.01em}
+  .lede{color:var(--muted);max-width:72ch;margin:.3em 0 1.3em}
+
+  /* evidence badges */
+  .ev{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.03em;padding:.12em .42em;border-radius:4px;white-space:nowrap;vertical-align:middle;border:1px solid transparent}
+  .ev.f{background:rgba(38,162,105,.14);color:var(--green);border-color:rgba(38,162,105,.3)}
+  .ev.m{background:rgba(47,95,143,.14);color:var(--blue);border-color:rgba(47,95,143,.3)}
+  .ev.d{background:rgba(185,131,47,.16);color:var(--gold);border-color:rgba(185,131,47,.32)}
+  .ev.i{background:rgba(89,97,115,.14);color:var(--violet);border-color:rgba(89,97,115,.3)}
+
+  .cards{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--soft);min-width:0}
+  .card h3{margin:0 0 .5em;font-size:1.08rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tag{font-family:var(--mono);font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.2em .55em;border-radius:999px;background:var(--panel-2);color:var(--muted);border:1px solid var(--line)}
+  .tag.teal{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 40%,transparent)}
+  .card ul{margin:.3em 0 0;padding-left:1.1em}
+  .card li{margin:.32em 0}
+  .card .foot{margin-top:.8em;padding-top:.7em;border-top:1px dashed var(--line);font-size:.84rem;color:var(--muted)}
+  .card .foot b{color:var(--ink)}
+
+  /* callout */
+  .call{border-radius:14px;padding:18px 20px;border:1px solid;margin:0}
+  .call.teal{background:color-mix(in srgb,var(--teal) 9%,var(--panel));border-color:color-mix(in srgb,var(--teal) 34%,transparent);border-left-width:4px}
+  .call.red{background:color-mix(in srgb,var(--red) 10%,var(--panel));border-color:color-mix(in srgb,var(--red) 36%,transparent);border-left-width:4px}
+  .call h3{margin:0 0 .4em;font-size:1.05rem}
+  .call ul{margin:0;padding-left:1.15em}
+  .call li{margin:.34em 0}
+
+  /* tables */
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;box-shadow:var(--soft)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem;background:var(--panel)}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--panel-2);font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;position:sticky;top:0}
+  tbody tr:last-child td{border-bottom:none}
+  td .ph{font-family:var(--mono);font-weight:700;color:var(--teal);white-space:nowrap}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* RAMP warmup */
+  .ramp{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .ramp .blk{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--soft);border-top:4px solid var(--teal)}
+  .ramp .blk .lab{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:.4em}
+  .ramp .blk .lab b{font-family:var(--mono);font-size:1rem}
+  .ramp .blk .lab .t{font-family:var(--mono);font-size:.72rem;color:var(--teal);font-weight:700}
+  .ramp .blk p{margin:0;font-size:.9rem;color:var(--muted)}
+
+  .myth{display:grid;gap:8px}
+  .myth .row{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+  .myth .row .x{color:var(--red);font-weight:800;font-family:var(--mono)}
+  .myth .row p{margin:0;font-size:.9rem}
+  .myth .row p b{color:var(--ink)}
+
+  .note{font-size:.84rem;color:var(--muted);margin-top:1em}
+  footer.pg{padding:34px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+  footer.pg .src{display:flex;flex-wrap:wrap;gap:8px 16px;margin:.8em 0}
+  footer.pg .src a{font-family:var(--mono);font-size:.76rem}
+  .pill-leg{display:flex;flex-wrap:wrap;gap:8px;margin:.5em 0 0}
+  @media(max-width:560px){.bar .brand span{display:none}}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <a class="brand" href="/"><b>D3X</b><span>Data · Automation · Operations</span></a>
+  <nav>
+    <a href="/guerra/" class="on">Guerra</a>
+    <a href="/nutricion/">Nutrición</a>
+    <button class="tgl" id="tgl" type="button" aria-label="Cambiar tema">◐ tema</button>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="ey">Protocolo de regreso · BJJ / MMA</div>
+  <h1>Protocolo Guerra</h1>
+  <p class="thesis">Tu límite real no es el músculo ni las ganas —esas vuelven rápido por memoria neuromuscular—. Es el <b>tendón</b>, que tarda <b>12-26 semanas</b> en adaptarse. Por eso este plan arranca deliberadamente lento y mete el impacto tarde: <b>progresa como lo pide el tendón, no como lo pide el músculo.</b></p>
+  <div class="stats">
+    <div class="stat"><div class="v">1.83 m</div><div class="k">estatura</div></div>
+    <div class="stat"><div class="v">~87 kg</div><div class="k">peso actual</div></div>
+    <div class="stat"><div class="v">Recomp</div><div class="k">bajar grasa + músculo</div></div>
+    <div class="stat"><div class="v">~0.5 kg</div><div class="k">pérdida / semana</div></div>
+    <div class="stat"><div class="v">8–18 sem</div><div class="k">reset → base → build</div></div>
+  </div>
+  <div class="pill-leg">
+    <span class="ev f">FUERTE</span><span class="ev m">MODERADA</span><span class="ev d">DÉBIL</span><span class="ev i">INFERENCIA</span>
+    <span class="note" style="margin:0">— grado de evidencia de cada recomendación</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <div class="kicker">Antes de nada · las 4 palancas</div>
+  <h2>No te rompas en la vuelta</h2>
+  <p class="lede">El research es claro: casi todo el riesgo de lesión vive en el <b>sparring (77-78% de las lesiones de BJJ)</b>, y las decisiones de mayor impacto no son un ejercicio, son conducta. Esto no se negocia las primeras 8 semanas.</p>
+  <div class="cards g2">
+    <div class="call teal">
+      <h3>Las 4 palancas que mueven la aguja</h3>
+      <ul>
+        <li><b>Come</b> en déficit modesto con proteína alta <span class="ev f">FUERTE</span></li>
+        <li><b>Levanta</b> progresivo y lento, en 3 fases <span class="ev m">MODERADA</span></li>
+        <li><b>Acondiciona</b> con base aeróbica + rounds emulados <span class="ev f">FUERTE</span></li>
+        <li><b>No te lesiones</b>: dormir, tapear, higiene <span class="ev m">MODERADA</span></li>
+      </ul>
+    </div>
+    <div class="call red">
+      <h3>Reglas duras de regreso</h3>
+      <ul>
+        <li><b>Tapea temprano y seguido.</b> Los <b>leg locks</b> son el mayor peligro del returner — el riesgo está en la velocidad, no en la técnica.</li>
+        <li><b>Dolor articular agudo = PARA.</b> Dolor muscular difuso = normal.</li>
+        <li><b>Progresa lento</b>: sube carga <i>o</i> series, nunca las dos a la vez, y solo si la sesión previa fue limpia.</li>
+        <li><b>Duerme ≥8 h.</b> Dormir &lt;8 h ≈ <b>1.7× más riesgo de lesión</b>.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="fases"><div class="wrap">
+  <div class="kicker">El mapa · periodización por bloques</div>
+  <h2>Reconstruye en 3 fases</h2>
+  <p class="lede">Cada fase prepara a la siguiente. No saltes el Reset aunque te sientas bien el día 3: el tendón todavía no está listo, y 4 semanas no bastan para cambiarlo. <span class="ev i">INFERENCIA</span> estructurada sobre bases moderadas — no existe un protocolo validado de return-to-sport para BJJ.</p>
+  <div class="cards g3">
+    <div class="card">
+      <h3><span class="tag teal">Fase 1</span> Reset</h3>
+      <div class="mono" style="color:var(--teal);font-weight:700;font-size:.85rem">Semanas 1–3</div>
+      <ul>
+        <li><b>Fuerza:</b> 2-3 full-body/sem · 8-12 reps · RPE 6-7</li>
+        <li><b>Volumen:</b> ~6 series/músculo/sem</li>
+        <li><b>Tendón:</b> isométricos largos + tempo. <b>Sin saltos.</b></li>
+        <li><b>Tatami:</b> técnico, drilling, positional, flow 50-60%, tapear al instante</li>
+      </ul>
+      <div class="foot"><b>Meta:</b> tolerancia de tejido y patrón. Si dudas, haz menos.</div>
+    </div>
+    <div class="card">
+      <h3><span class="tag teal">Fase 2</span> Base</h3>
+      <div class="mono" style="color:var(--teal);font-weight:700;font-size:.85rem">Semanas 4–8/9</div>
+      <ul>
+        <li><b>Fuerza:</b> cada patrón 2× · 6-12 reps · RPE 7-8</li>
+        <li><b>Volumen:</b> subir a ~8-12 series/músculo/sem</li>
+        <li><b>Tendón:</b> heavy-slow resistance 70-85% MVC; al final, aterrizajes/pogos bajos</li>
+        <li><b>Tatami:</b> rounds vivos controlados con gente de confianza</li>
+      </ul>
+      <div class="foot"><b>Meta:</b> fuerza base + motor aeróbico. Dura ≥6-8 sem antes de picos.</div>
+    </div>
+    <div class="card">
+      <h3><span class="tag teal">Fase 3</span> Build · Guerra</h3>
+      <div class="mono" style="color:var(--teal);font-weight:700;font-size:.85rem">Semanas 9–18</div>
+      <ul>
+        <li><b>Fuerza:</b> básicos pesados 3-6 reps + accesorios 6-15</li>
+        <li><b>Volumen:</b> tope ~10-15 series/músculo/sem según recuperación</li>
+        <li><b>Potencia:</b> introduce pliometría de bajo volumen (saltos bajos, med-ball, levantamientos rápidos ligeros)</li>
+        <li><b>Tatami:</b> reintroduce intensidad competitiva, selectiva</li>
+      </ul>
+      <div class="foot"><b>Meta:</b> potencia, capacidad anaeróbica, pico de condición.</div>
+    </div>
+  </div>
+  <p class="note">Lo que cambia entre fases: la intensidad sube (RPE 6-7 → 7-8 → incluye 3-6RM), las reps bajan en los básicos, y el estímulo del tendón pasa de isométrico suave → pesado-lento → reactivo.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="kicker">La sala de pesas</div>
+  <h2>Levantamientos núcleo + trabajo de grappler</h2>
+  <p class="lede">Cubre estos patrones 2×/semana. Dosis con mejor evidencia: <b>~10 series/músculo/semana</b> (rendimientos decrecientes &gt;12-20), <b>2-4 RIR</b> la mayor parte del tiempo, descansos 2-3 min en básicos. <span class="ev m">MODERADA</span></p>
+  <div class="cards g3">
+    <div class="card">
+      <h3>Patrones compuestos</h3>
+      <ul>
+        <li>Sentadilla (rodilla-dominante)</li>
+        <li>Bisagra / peso muerto (cadera-dominante)</li>
+        <li>Empuje horizontal + vertical</li>
+        <li>Tracción horizontal + vertical</li>
+        <li>Loaded carries</li>
+        <li>Core anti-extensión / anti-rotación</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Específico de grappler</h3>
+      <ul>
+        <li><b>Cuello 2×/sem</b>, empezando por isométricos</li>
+        <li><b>Agarre</b> — pero NO dupliques lo que el tatami ya sobrecarga (agarre, cuello, columna) o te sobreentrenas</li>
+      </ul>
+      <div class="foot"><b>Protocolo tendón</b> (desde fase base): pesado-lento <b>85-90% MVC</b>, ~3 s de strain alto por rep. Ejemplo: <b>5×4</b> a 85-90% isométrico. Rodilla, Aquiles, isquios, patelar.</div>
+    </div>
+    <div class="card">
+      <h3>Pliometría — cuándo entra</h3>
+      <ul>
+        <li><b>Nunca en reset.</b></li>
+        <li>Entra en <b>build (sem 6-9+)</b>, tras semanas de carga tendinosa</li>
+        <li>Empieza por mecánica de aterrizaje y saltos bajos → med-ball → levantamientos rápidos ligeros</li>
+        <li>Límite: <b>≤80-100 contactos/sesión, 1-2×/sem, 48-72 h aparte</b> (descuenta el impacto del sparring)</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="kicker">El motor · sistemas de energía</div>
+  <h2>Acondicionamiento: base + rounds</h2>
+  <p class="lede">El grappling es intermitente: un <b>sistema aeróbico fuerte alimenta la recuperación entre ráfagas anaeróbicas</b>. El HIIT sube el VO₂máx de forma fiable en atletas de combate <span class="ev f">FUERTE</span>. Regla de oro: <b>pocas sesiones duras, separadas del tatami</b>, y 4-8 semanas de zona-2 antes de meter HIIT verdadero.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Modalidad</th><th>Prescripción</th><th>Dosis/sem</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ph">Base zona-2</span></td><td>60-70% FC máx, ritmo conversacional (nasal). 30-45 min</td><td class="num">2-3×</td><td>Bici / remo / ski-erg / nado. Flow rolling ligero cuenta doble.</td></tr>
+        <tr><td><span class="ph">HIIT rounds</span></td><td>5-6 × 5-min "rounds", 1-min descanso (work:rest ≈ 5:1)</td><td class="num">1×</td><td>Replica la FC casi-máxima y el lactato real del deporte.</td></tr>
+        <tr><td><span class="ph">Glucolítico</span></td><td>6-10 × 60-90 s fuerte / 60-120 s fácil</td><td class="num">alterna</td><td>Para los scrambles de 20-120 s.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="call teal" style="margin-top:14px">
+    <h3>Secuenciación concurrente (evita el efecto interferencia) <span class="ev m">MODERADA</span></h3>
+    <ul>
+      <li>Separa <b>fuerza y tatami duro ≥6 h, ideal 24 h</b>.</li>
+      <li>Si van el mismo día: en día de fuerza, <b>fuerza primero</b>; en día de tatami de calidad, <b>rola primero</b> y mete fuerza ligera después.</li>
+      <li>Prefiere <b>bici/remo sobre carrera</b> para el cardio dedicado.</li>
+      <li>Nunca pongas la fuerza justo después del sparring más intenso.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="semana"><div class="wrap">
+  <div class="kicker">Plantilla · fase base/build</div>
+  <h2>Semana tipo</h2>
+  <p class="lede"><span class="ev i">INFERENCIA</span> — ajústala a 4-6 sesiones reales. Si el tatami sube, baja el gimnasio y viceversa. Lo que vigilas es la <b>carga crónica total</b> (mat + fuerza + cardio), no cada sesión aislada.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Día</th><th>Sesión</th><th>Detalle</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ph">Lun</span></td><td>Fuerza A (full-body)</td><td>Patrones pesados-lentos + tendón; zona-2 corta opcional</td></tr>
+        <tr><td><span class="ph">Mar</span></td><td>Tatami</td><td>Técnica / positional</td></tr>
+        <tr><td><span class="ph">Mié</span></td><td>Zona-2</td><td>Bici/remo 30-45 min conversacional (o descanso activo)</td></tr>
+        <tr><td><span class="ph">Jue</span></td><td>Fuerza B (full-body)</td><td>Complementa patrones; accesorios de cuello/core</td></tr>
+        <tr><td><span class="ph">Vie</span></td><td>Tatami</td><td>Sparring controlado</td></tr>
+        <tr><td><span class="ph">Sáb</span></td><td>Tatami + HIIT</td><td>Rolar + 5-6 rounds de 5 min (o HIIT en sesión aparte)</td></tr>
+        <tr><td><span class="ph">Dom</span></td><td>Descanso / movilidad</td><td>Rutina diaria de movilidad, dormir</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<section id="calentamiento"><div class="wrap">
+  <div class="kicker">No llegues frío · ~18-20 min</div>
+  <h2>Calentamiento RAMP pre-clase</h2>
+  <p class="lede">Dinámico antes, estático después. El déficit del estiramiento estático es real pero pequeño y dosis-dependiente; el <b>calentamiento dinámico RAMP superó al estático y al control</b> en rendimiento agudo. <span class="ev m">MODERADA</span> Foam rolling opcional 2-3 min antes del bloque 1 (zonas tensas 60-90 s).</p>
+  <div class="ramp">
+    <div class="blk"><div class="lab"><b>Raise</b><span class="t">4-5 min</span></div><p>Subir temperatura y FC: trote/skipping, jumping jacks, shrimps y rolls suaves, sit-outs.</p></div>
+    <div class="blk"><div class="lab"><b>Activate</b><span class="t">4-5 min</span></div><p>Glute bridges, bird-dogs, band pull-aparts, dead bugs, isométricos ligeros de cuello.</p></div>
+    <div class="blk"><div class="lab"><b>Mobilize</b><span class="t">5-6 min</span></div><p>Leg swings, 90/90 dinámico, spiderman lunge + rotación torácica, inchworms, hip airplanes, cossack dinámico, wrist rocks.</p></div>
+    <div class="blk"><div class="lab"><b>Potentiate</b><span class="t">3-4 min</span></div><p>Sprawls, penetraciones (shots), puentes explosivos, 2-3 esprints cortos o drilling acercándose a intensidad de rolado.</p></div>
+  </div>
+</div></section>
+
+<section id="movilidad"><div class="wrap">
+  <div class="kicker">Movilidad usable · ~10-12 min diarios</div>
+  <h2>Rutina diaria de movilidad</h2>
+  <p class="lede">La clave del research: <b>la fuerza en rango completo iguala al estiramiento para ganar ROM</b>, y los excéntricos en rango largo dan movilidad <i>usable</i> —la que resiste bajo una guardia o un kimura—, no flexibilidad pasiva. <b>La consistencia importa más que los holds largos</b>: ~60 s totales por articulación, 5-6 días/sem. <span class="ev f">ALTA</span></p>
+  <div class="cards g2">
+    <div class="card">
+      <ul>
+        <li><b>Cadera</b> (prioridad): 90/90 con transiciones lentas 60-90 s/lado + cossack squat lento cargado 6-8/lado + PAILs/RAILs en rango final</li>
+        <li><b>Torácica:</b> open-book + quadruped rotation 8/lado + extensión sobre foam roller 60 s</li>
+        <li><b>Hombro:</b> sleeper/cross-body 2×30 s/lado + rotación externa cargada con banda</li>
+      </ul>
+    </div>
+    <div class="card">
+      <ul>
+        <li><b>Tobillo:</b> knee-to-wall con banda 2×30 s/lado (la movilización articular &gt; estirar pantorrilla)</li>
+        <li><b>Cuello:</b> isométricos multidireccionales muy ligeros → banda</li>
+        <li><b>Muñecas:</b> circunducciones + holds cargando peso en cuadrupedia</li>
+      </ul>
+      <div class="foot">Ganancias visibles en 3-6 semanas; mantén ≥2×/sem o el ROM se pierde en 2-6 semanas.</div>
+    </div>
+  </div>
+  <h3 style="margin:1.4em 0 .5em;font-size:1.05rem">Mitos a enterrar</h3>
+  <div class="myth">
+    <div class="row"><span class="x">✕</span><p><b>"Estirar estático antes arruina el rendimiento"</b> → Exagerado; trivial salvo holds &gt;60 s justo antes de potencia máxima. <span class="ev f">ALTA</span></p></div>
+    <div class="row"><span class="x">✕</span><p><b>"Estirar previene lesiones"</b> → No demostrado para estiramiento aislado (OR 0.93). <span class="ev m">MOD-ALTA</span></p></div>
+    <div class="row"><span class="x">✕</span><p><b>"Estirar reduce el DOMS"</b> → Falso, efecto clínicamente nulo (Cochrane). <span class="ev f">ALTA</span></p></div>
+    <div class="row"><span class="x">✕</span><p><b>"El foam rolling rompe fascia"</b> → El mecanismo es neural; sí da ROM agudo, no deshace "nudos". <span class="ev m">MODERADA</span></p></div>
+  </div>
+</div></section>
+
+<section id="recuperacion"><div class="wrap">
+  <div class="kicker">Lo incómodo · no lesionarte es conducta</div>
+  <h2>Prevención &amp; recuperación</h2>
+  <p class="lede">La evidencia de que fortalecer cuello/dedos reduce lesiones es plausible pero <b>empíricamente débil</b>. Las palancas reales son conductuales e higiénicas.</p>
+  <div class="cards g2" style="margin-bottom:14px">
+    <div class="call teal">
+      <h3>Palanca #1 — Sueño <span class="ev m">MODERADA</span></h3>
+      <p style="margin:.2em 0 0">Objetivo <b>8-9 h/noche, piso duro 8 h</b>, horario consistente. Dormir &lt;8 h ≈ 1.7× más riesgo; ≥8 h se asoció a <b>61% menos</b> probabilidad de lesionarse. Probablemente tu intervención de mayor retorno.</p>
+    </div>
+    <div class="call teal">
+      <h3>DOMS vs. lesión</h3>
+      <p style="margin:.2em 0 0"><b>DOMS:</b> difuso, bilateral, 12-72 h, mejora con movimiento. <b>Lesión:</b> agudo, súbito, unilateral, en articulación/tendón, empeora al cargar, con hinchazón. Nunca empujes a través de dolor agudo; dolor &gt;72 h-1 sem apunta a lesión.</p>
+    </div>
+  </div>
+  <div class="call red" style="margin-bottom:16px">
+    <h3>Deload — no pares del todo <span class="ev m">MODERADA</span></h3>
+    <p style="margin:.2em 0 0">Un cese completo <b>costó fuerza</b>. Usa deloads de <b>volumen reducido (~40-60% menos series, manteniendo intensidad) cada ~4-6 semanas</b>, o autorregula: alinéalos con las semanas de tatami más duro y con marcadores derivando a la vez (dolor persistente, peor sueño, rendimiento plano, FC matinal elevada).</p>
+  </div>
+  <h3 style="margin:0 0 .6em;font-size:1.05rem">Higiene de tatami y cuidados puntuales (lo más barato y seguro)</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Riesgo</th><th>Protocolo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ph">Infección de piel</span></td><td>Dúchate <b>inmediatamente</b> post-entreno, lava el gi cada sesión, cubre cortes, nada de pies descalzos en el mat, no compartas toallas. (HSV-1 = &gt;40% de infecciones en lucha universitaria.)</td></tr>
+        <tr><td><span class="ph">Oreja coliflor</span></td><td><b>Drena pronto (&lt;7 días)</b> cualquier hematoma; luego vendaje a presión. El <b>headgear previene</b> la lesión.</td></tr>
+        <tr><td><span class="ph">Cuello</span></td><td>Isométricos / banda. <b>Evita bridging cargado</b> y rotaciones cargadas (compresión + cizalla).</td></tr>
+        <tr><td><span class="ph">Dedos</span></td><td>Buddy-taping al vecino, disciplina de agarre (saber cuándo soltar), calentar las manos. Clínico si hay deformidad o hinchazón persistente.</td></tr>
+        <tr><td><span class="ph">Rodilla</span></td><td>Fuerza lateral de cadera, isquios/glúteo, control de knee-tracking, sentadilla a una pierna, Nordic curl.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<footer class="pg"><div class="wrap">
+  <p><b style="color:var(--ink)">El plan en una frase:</b> tu cuerpo recupera fuerza más rápido de lo que tu tejido conectivo tolera, así que la <b style="color:var(--ink)">disciplina —no el esfuerzo— es lo que te mantiene en el tatami.</b> Ejecuta las primeras 8 semanas más conservador de lo que te sientas capaz. Calibra con <b style="color:var(--ink)">cintura, fuerza y rendimiento</b>, no con la fe en una fórmula.</p>
+  <p class="note">Basado en investigación con fuentes citadas (ISSN position stands, metaanálisis de PubMed, ACSM, revisiones Cochrane). Fuentes clave:</p>
+  <div class="src">
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11894756/" target="_blank" rel="noopener">ISSN deportes de combate 2025</a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/28698222/" target="_blank" rel="noopener">Morton 2018 · proteína</a>
+    <a href="https://www.frontiersin.org/articles/10.3389/fphys.2017.00987/pdf" target="_blank" rel="noopener">Mersmann 2017 · tendón</a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/31904713/" target="_blank" rel="noopener">Vasconcelos 2020 · HIIT combate</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6895680/" target="_blank" rel="noopener">Chaabene 2019 · estiramiento</a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8721390" target="_blank" rel="noopener">Hinz 2021 · lesiones BJJ</a>
+  </div>
+  <p class="note">No es consejo médico. Los números de calorías dependen de edad y % de grasa (no provistos) → trátalos como hipótesis de arranque. → <a href="/nutricion/">Ver plan de nutrición 3B</a></p>
+</div></footer>
+
+<script>
+  (function(){
+    var b=document.getElementById('tgl');
+    function cur(){return document.documentElement.dataset.theme||'light'}
+    b.addEventListener('click',function(){
+      var n=cur()==='dark'?'light':'dark';
+      document.documentElement.dataset.theme=n;
+      try{localStorage.setItem('d3x-theme',n)}catch(e){}
+    });
+  })();
+</script>
+</body>
+</html>
