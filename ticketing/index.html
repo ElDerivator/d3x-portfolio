@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Build · descarga</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f6f7f9; --fg:#1b1f24; --mut:#5b636e; --card:#ffffff; --pri:#1f6feb; --bd:#d8dee6; --warn:#9a6700; }
+  @media (prefers-color-scheme: dark){ :root { --bg:#0d1117; --fg:#e6edf3; --mut:#9aa4b2; --card:#161b22; --pri:#388bfd; --bd:#30363d; --warn:#d29922; } }
+  * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; display:grid; place-items:center; min-height:100vh; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--bd); border-radius:14px; padding:28px; max-width:460px; width:100%; }
+  h1 { font-size:18px; margin:0 0 4px; } p { color:var(--mut); margin:4px 0 20px; font-size:14px; }
+  a.btn { display:block; text-align:center; background:var(--pri); color:#fff; text-decoration:none;
+    padding:14px 18px; border-radius:10px; font-weight:600; }
+  a.btn:hover { filter:brightness(1.07); }
+  code { background:rgba(127,127,127,.14); padding:2px 6px; border-radius:6px; font-size:13px; }
+  .meta { margin-top:16px; font-size:12px; color:var(--mut); }
+  .warn { margin-top:12px; font-size:12px; color:var(--warn); }
+  .sep { margin:22px 0 14px; border:0; border-top:1px solid var(--bd); }
+  h2 { font-size:14px; margin:0 0 10px; }
+  a.doc { display:flex; justify-content:space-between; align-items:center; gap:12px;
+    text-decoration:none; color:var(--fg); background:rgba(127,127,127,.08);
+    border:1px solid var(--bd); border-radius:9px; padding:11px 14px; margin-bottom:8px; font-size:14px; }
+  a.doc:hover { border-color:var(--pri); filter:brightness(1.03); }
+  a.doc .sz { color:var(--mut); font-size:12px; white-space:nowrap; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Data &amp; Technology Ticketing System</h1>
+    <p>Mesa de ayuda del equipo D&amp;T: los tickets entran por correo (Power Automate) a listas de SharePoint y el equipo los clasifica, asigna y resuelve con SLA desde una app canvas.</p>
+    <a class="btn" href="./DT_Ticketing_v1_0_r3.msapp" download>⬇ Descargar build v1.0 r3 (.msapp)</a>
+    <div class="meta">Archivo: <code>DT_Ticketing_v1_0_r3.msapp</code> · ~212 KB · 7 pantallas, 327 controles. Generado y validado: 0 errores, 86/86 pruebas, y flujos ejecutados en simulador con 30 escenarios.</div>
+    <div class="warn"><strong>Primera versión, todavía sin validar en Studio.</strong> Se empacó sobre una app en blanco, así que no trae conexiones. <strong>Antes de usarla:</strong> provisionar las listas (script del kit), importar el <code>.msapp</code>, <strong>conectar las 8 listas <code>DT_*</code></strong>, poner <strong>Data row limit = 2000</strong>, activar Named formulas / User-defined functions si el tenant lo pide y pasar el App Checker. Después del primer import bueno, exportar la app y usarla como carrier de las siguientes versiones.</div>
+    <hr class="sep">
+    <h2>Kit de instalación</h2>
+    <a class="doc" href="./DT_Ticketing_v1_0_r3_kit.zip" download><span>🧰 Provisión de SharePoint, lockdown, los 3 flujos, runbook y pruebas de aceptación (.zip)</span><span class="sz">34 KB</span></a>
+  </div>
+</body>
+</html>
